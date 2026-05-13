@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/crm-dashboard/src/pages/index.html",
+      "permanent": false
+    }
+  ]
+}

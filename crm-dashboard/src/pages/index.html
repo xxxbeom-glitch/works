@@ -3,9 +3,1309 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRM Dashboard</title>
+  <title>신한라이프 AI 상담지원</title>
   <link rel="stylesheet" href="../styles/tokens.css">
+  <style>
+    /* 레이아웃·타이포·색·간격: docs/design-tokens.md, colors.md, typography.md, spacing.md + tokens.css */
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-normal);
+      color: var(--color-gray-900);
+      background: var(--color-gray-50);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .console {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      min-height: 0;
+    }
+
+    /* —— Top Header —— */
+    .topbar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      height: var(--header-height);
+      padding: 0 var(--content-padding);
+      background: var(--color-surface-base);
+      border-bottom: 1px solid var(--color-border-subtle);
+      box-shadow: none;
+    }
+
+    .topbar__left {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+      flex-shrink: 0;
+    }
+
+    .topbar__title {
+      margin: 0;
+      font-size: var(--text-xl);
+      font-weight: var(--font-weight-bold);
+      line-height: var(--leading-tight);
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-gray-900);
+    }
+
+    .topbar__ver {
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-snug);
+      color: var(--color-gray-500);
+    }
+
+    .topbar__center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-subtle);
+      background: var(--color-gray-50);
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+      white-space: nowrap;
+    }
+
+    .pill--live {
+      background: var(--color-danger-bg);
+      color: var(--color-danger);
+      border-color: var(--color-border-subtle);
+    }
+
+    .pill--live::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: var(--radius-full);
+      background: var(--color-danger);
+    }
+
+    .pill--mode {
+      background: var(--color-surface-base);
+      color: var(--color-gray-700);
+    }
+
+    .pill--mode.is-on {
+      background: var(--color-gray-100);
+      color: var(--color-gray-900);
+      border-color: var(--color-border-subtle);
+    }
+
+    .topbar__right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .topbar__link {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-normal);
+      color: var(--color-gray-700);
+    }
+
+    .topbar__link strong {
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-success);
+    }
+
+    .icon-btn {
+      width: var(--input-height-sm);
+      height: var(--input-height-sm);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      background: var(--color-surface-base);
+      color: var(--color-gray-700);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: var(--text-base);
+      transition: background var(--duration-fast) var(--ease-default);
+    }
+
+    .icon-btn:hover {
+      background: var(--color-gray-100);
+    }
+
+    /* —— Main workspace: 좌 55% · 우 45% —— */
+    .workspace {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
+      align-items: stretch;
+      align-content: stretch;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      background: var(--color-gray-50);
+    }
+
+    .workspace__col {
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .workspace__col--main {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+    }
+
+    .workspace__col--aux {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+    }
+
+    .main-split {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: var(--space-3);
+      align-items: stretch;
+    }
+
+    .main-split__stt {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-split__side {
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+      display: grid;
+      grid-template-rows: minmax(0, 17fr) minmax(0, 8fr);
+      gap: var(--space-3);
+      align-content: stretch;
+    }
+
+    .insight-panel {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: var(--color-surface-base);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .insight-panel__head {
+      flex-shrink: 0;
+    }
+
+    .stt-panel__head,
+    .insight-panel__head {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      min-height: calc(var(--btn-height-md) + var(--space-2));
+      padding: var(--space-2) var(--space-3);
+      background: var(--color-surface-base);
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .stt-panel__col-head {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      min-height: calc(var(--btn-height-md) + var(--space-2));
+      padding: var(--space-2) var(--space-3);
+      background: var(--color-surface-base);
+      border-bottom: none;
+      justify-content: flex-start;
+    }
+
+    .stt-panel__head {
+      justify-content: space-between;
+    }
+
+    .insight-panel__head {
+      justify-content: flex-start;
+    }
+
+    .customer-card__tablist,
+    .insight-panel__tablist {
+      display: flex;
+      align-items: flex-end;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      gap: var(--space-1);
+      min-height: calc(var(--btn-height-md) + var(--space-2));
+      padding: var(--space-2) var(--space-3) 0;
+      background: var(--color-surface-base);
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .insight-panel .stt-panel__col-head-title {
+      margin: 0;
+      font-size: var(--text-md);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .customer-card {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: var(--color-surface-base);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .customer-card__sr,
+    .insight-panel__sr {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      margin: 0;
+      pointer-events: none;
+    }
+
+    .customer-card__tab,
+    .insight-panel__tab {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0 -1px;
+      padding: var(--space-2) var(--space-3) calc(var(--space-2) + 1px);
+      border: none;
+      border-radius: 0;
+      border-bottom: 2px solid transparent;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-gray-500);
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .customer-card__tab:hover,
+    .insight-panel__tab:hover {
+      color: var(--color-gray-700);
+      background: transparent;
+    }
+
+    #cust-tab-1:checked ~ .customer-card__tablist label[for="cust-tab-1"],
+    #cust-tab-2:checked ~ .customer-card__tablist label[for="cust-tab-2"],
+    #cust-tab-3:checked ~ .customer-card__tablist label[for="cust-tab-3"],
+    #cust-tab-4:checked ~ .customer-card__tablist label[for="cust-tab-4"],
+    #insight-tab-1:checked ~ .insight-panel__tablist label[for="insight-tab-1"],
+    #insight-tab-2:checked ~ .insight-panel__tablist label[for="insight-tab-2"],
+    #insight-tab-3:checked ~ .insight-panel__tablist label[for="insight-tab-3"],
+    #insight-tab-4:checked ~ .insight-panel__tablist label[for="insight-tab-4"] {
+      color: var(--color-gray-900);
+      font-weight: var(--font-weight-bold);
+      background: transparent;
+      border-bottom-color: var(--color-gray-900);
+    }
+
+    .customer-card__panels,
+    .insight-panel__panels {
+      flex: 1 1 auto;
+      min-height: 0;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .customer-card__panel,
+    .insight-panel__panel {
+      display: none;
+      padding: var(--space-2) var(--space-3);
+      overflow-x: hidden;
+      overflow-y: auto;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-normal);
+      color: var(--color-gray-700);
+    }
+
+    #cust-tab-1:checked ~ .customer-card__panels .customer-card__panel--1,
+    #cust-tab-2:checked ~ .customer-card__panels .customer-card__panel--2,
+    #cust-tab-3:checked ~ .customer-card__panels .customer-card__panel--3,
+    #cust-tab-4:checked ~ .customer-card__panels .customer-card__panel--4,
+    #insight-tab-1:checked ~ .insight-panel__panels .insight-panel__panel--1,
+    #insight-tab-2:checked ~ .insight-panel__panels .insight-panel__panel--2,
+    #insight-tab-3:checked ~ .insight-panel__panels .insight-panel__panel--3,
+    #insight-tab-4:checked ~ .insight-panel__panels .insight-panel__panel--4 {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .customer-card__dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--space-1) var(--space-3);
+      align-items: baseline;
+    }
+
+    .customer-card__dt {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-gray-500);
+    }
+
+    .customer-card__dd {
+      margin: 0;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      color: var(--color-gray-900);
+    }
+
+    .customer-card__placeholder {
+      margin: 0;
+      color: var(--color-gray-500);
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-normal);
+    }
+
+    .customer-card__stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .customer-card__meta-line {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-snug);
+      color: var(--color-gray-500);
+    }
+
+    .customer-card__chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1);
+    }
+
+    .customer-card__chip {
+      display: inline-flex;
+      align-items: center;
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-subtle);
+      font-size: var(--text-xs);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+    }
+
+    .customer-card__chip--neutral {
+      background: var(--color-gray-50);
+      color: var(--color-gray-700);
+    }
+
+    .customer-card__chip--warn {
+      background: var(--color-warning-bg);
+      color: var(--color-warning);
+      border-color: var(--color-border-subtle);
+    }
+
+    .customer-card__notice {
+      margin: 0;
+      padding: var(--space-2);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-subtle);
+      background: var(--color-gray-50);
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-snug);
+      color: var(--color-gray-700);
+    }
+
+    .customer-card__list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .customer-card__list-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .customer-card__list-date {
+      font-size: var(--text-xs);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-gray-500);
+    }
+
+    .customer-card__list-desc {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      color: var(--color-gray-900);
+    }
+
+    .customer-card__more {
+      display: block;
+      margin-top: auto;
+      padding-top: var(--space-2);
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      color: var(--color-gray-700);
+    }
+
+    .customer-card__contracts {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .customer-card__contract {
+      padding: var(--space-2);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-subtle);
+      background: var(--color-surface-base);
+    }
+
+    .customer-card__contract--selected {
+      background: var(--color-gray-100);
+      border-color: var(--color-border-subtle);
+    }
+
+    .customer-card__contract-title {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      color: var(--color-gray-900);
+    }
+
+    .customer-card__contract-meta {
+      margin: var(--space-1) 0 0;
+      font-size: var(--text-xs);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-snug);
+      color: var(--color-gray-500);
+    }
+
+    .customer-card__guide-head {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .customer-card__guide-title {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-gray-900);
+    }
+
+    .customer-card__guide-sub {
+      margin: 0;
+      font-size: var(--text-xs);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-snug);
+      color: var(--color-gray-500);
+    }
+
+    .customer-card__progress {
+      height: var(--space-2);
+      border-radius: var(--radius-full);
+      background: var(--color-gray-200);
+      overflow: hidden;
+    }
+
+    .customer-card__progress-bar {
+      height: 100%;
+      width: 60%;
+      border-radius: var(--radius-full);
+      background: var(--color-gray-700);
+    }
+
+    .customer-card__checklist {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .customer-card__check-item {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+      font-size: var(--text-xs);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-snug);
+      color: var(--color-gray-500);
+    }
+
+    .customer-card__check-item.is-done {
+      color: var(--color-gray-900);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .customer-card__check-mark {
+      flex-shrink: 0;
+      font-size: var(--text-xs);
+      line-height: 1;
+      color: var(--color-gray-400);
+    }
+
+    .customer-card__check-item.is-done .customer-card__check-mark {
+      color: var(--color-gray-700);
+    }
+
+    .aux-placeholder {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      text-align: center;
+      background: var(--color-gray-100);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: none;
+      overflow: auto;
+    }
+
+    .aux-placeholder p {
+      margin: 0;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-relaxed);
+      color: var(--color-gray-500);
+    }
+
+    /* STT: 헤더 전체폭 + 본문 대화 로그 단일 영역 */
+    .stt-panel {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--color-surface-base);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .stt-panel__body {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .stt-panel__col--log {
+      flex: 1 1 auto;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      border-right: none;
+      background: var(--color-surface-base);
+    }
+
+    .stt-panel__col-head-title {
+      margin: 0;
+      font-size: var(--text-md);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-gray-900);
+    }
+
+    .stt-panel__col--log .stt-panel__col-head-title {
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-gray-700);
+    }
+
+    .stt-panel__head-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+
+    .stt-panel__title {
+      margin: 0;
+      font-size: var(--text-md);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-gray-900);
+    }
+
+    .stt-panel__head-right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .stt-panel__head-status {
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-gray-700);
+      text-align: right;
+    }
+
+    .stt-panel__log {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding: var(--space-2) var(--space-3);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      background: var(--color-surface-base);
+    }
+
+    .stt-msg {
+      max-width: 92%;
+      padding: var(--space-3);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-subtle);
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-normal);
+      color: var(--color-gray-900);
+    }
+
+    .stt-msg--cust {
+      align-self: flex-start;
+      background: var(--color-gray-50);
+      border-color: var(--color-border-subtle);
+    }
+
+    .stt-msg--agent {
+      align-self: flex-end;
+      background: var(--color-gray-100);
+      border-color: var(--color-border-subtle);
+    }
+
+    .stt-msg__meta {
+      display: block;
+      margin-bottom: var(--space-1);
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-gray-500);
+    }
+
+    .stt-msg__body {
+      margin: 0;
+    }
+
+    .stt-inline-kw {
+      display: inline;
+      padding: 1px var(--space-1);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border-subtle);
+      background: var(--color-gray-100);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-gray-900);
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    .stt-msg-stack {
+      align-self: flex-start;
+      max-width: 92%;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      min-width: 0;
+    }
+
+    .stt-msg-stack .stt-msg {
+      max-width: 100%;
+    }
+
+    .stt-msg__shortcuts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1);
+      align-items: flex-start;
+    }
+
+    .stt-shortcut-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-1);
+      height: auto;
+      min-height: 0;
+      border-radius: var(--radius-full);
+      padding: var(--space-1) var(--space-2);
+      border: 1px solid var(--color-border-subtle);
+      background: var(--color-gray-50);
+      color: var(--color-gray-700);
+      font-family: inherit;
+      font-size: var(--text-xs);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-snug);
+      white-space: normal;
+      text-align: center;
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-default),
+        border-color var(--duration-fast) var(--ease-default);
+    }
+
+    .stt-shortcut-btn:hover {
+      background: var(--color-gray-100);
+      border-color: var(--color-gray-300);
+    }
+
+    .stt-shortcut-btn:active {
+      background: var(--color-gray-200);
+      border-color: var(--color-gray-300);
+    }
+
+    .stt-shortcut-btn__ico {
+      flex-shrink: 0;
+      font-size: var(--text-xs);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-gray-500);
+    }
+
+    /* —— 상담 내용 분석 (insight-panel) —— */
+    .insight-panel__body {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .insight-stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .insight-stack--gap {
+      gap: var(--space-2);
+    }
+
+    .insight-divider {
+      margin: var(--space-2) 0;
+      border: 0;
+      border-top: 1px solid var(--color-border-subtle);
+    }
+
+    .insight-block__title {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-gray-700);
+    }
+
+    .insight-field__label {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-gray-700);
+    }
+
+    .insight-highlight {
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-normal);
+      color: var(--color-gray-900);
+    }
+
+    .insight-meta-inline {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-snug);
+      color: var(--color-gray-700);
+    }
+
+    .insight-action-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1);
+    }
+
+    .ex-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-subtle);
+      background: var(--color-surface-base);
+      color: var(--color-gray-700);
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+    }
+
+    .ex-pill--warn {
+      background: var(--color-surface-base);
+      color: var(--color-warning);
+      border-color: var(--color-border-subtle);
+    }
+
+    @media (max-width: 900px) {
+      .workspace {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+
+      .workspace__col--main {
+        min-height: 0;
+      }
+
+      .workspace__col--aux {
+        min-height: calc(6 * var(--space-8));
+        max-height: calc(12 * var(--space-8));
+      }
+
+      .main-split {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+
+      .main-split__side {
+        grid-template-rows: minmax(0, 17fr) minmax(0, 8fr);
+      }
+
+      .stt-panel {
+        height: 100%;
+        min-height: calc(8 * var(--space-8));
+      }
+    }
+
+    /* —— Bottom Status Bar —— */
+    .statusbar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      min-height: var(--btn-height-md);
+      padding: var(--space-3) var(--content-padding);
+      background: var(--color-gray-900);
+      color: var(--color-gray-300);
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-normal);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .statusbar__cluster {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    .statusbar__item {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .statusbar__item strong {
+      color: var(--color-gray-100);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--color-success);
+      flex-shrink: 0;
+    }
+
+    .statusbar__keys {
+      margin-left: auto;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-gray-400);
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: var(--header-height);
+        padding-top: var(--space-2);
+        padding-bottom: var(--space-2);
+      }
+
+      .topbar__center {
+        order: 3;
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .statusbar__keys {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="console">
+    <header class="topbar">
+      <div class="topbar__left">
+        <h1 class="topbar__title">신한라이프 AI 상담지원</h1>
+        <span class="topbar__ver" aria-hidden="true">v1.0</span>
+      </div>
+      <div class="topbar__center">
+        <span class="pill pill--live">상담 모드 (통화 중)</span>
+        <span class="pill pill--mode is-on" title="현재 모드">조회</span>
+        <span class="pill pill--mode" title="전환 가능">학습</span>
+      </div>
+      <div class="topbar__right">
+        <span class="topbar__link"><strong>연동 OK</strong> · 상담사 김민지 · Tele-Pro</span>
+        <button type="button" class="icon-btn" aria-label="설정">⚙</button>
+      </div>
+    </header>
+
+    <main class="workspace" aria-label="워크스페이스">
+      <div class="workspace__col workspace__col--main">
+        <div class="main-split">
+          <div class="main-split__stt">
+            <section class="stt-panel" aria-labelledby="stt-panel-title">
+              <header class="stt-panel__head">
+                <div class="stt-panel__head-left">
+                  <h2 id="stt-panel-title" class="stt-panel__title">STT 실시간 대화</h2>
+                </div>
+                <div class="stt-panel__head-right">
+                  <span class="stt-panel__head-status">통화 내용 분석 중 · 문의 유형 자동 구분</span>
+                </div>
+              </header>
+
+              <div class="stt-panel__body">
+                <div class="stt-panel__col stt-panel__col--log">
+                  <div class="stt-panel__col-head">
+                    <span class="stt-panel__col-head-title">실시간 대화</span>
+                  </div>
+                  <div class="stt-panel__log">
+                    <div class="stt-msg-stack">
+                      <article class="stt-msg stt-msg--cust">
+                        <span class="stt-msg__meta">고객 · 14:23:05</span>
+                        <p class="stt-msg__body"><span class="stt-inline-kw">보험금 청구</span> 어떻게 하나요? <span class="stt-inline-kw">서류</span>는 뭐가 필요해요?</p>
+                      </article>
+                      <div class="stt-msg__shortcuts" role="group" aria-label="연관 메뉴">
+                        <button type="button" class="stt-shortcut-btn">보험금 청구 접수 화면<span class="stt-shortcut-btn__ico" aria-hidden="true">↗</span></button>
+                        <button type="button" class="stt-shortcut-btn">필요 서류 안내<span class="stt-shortcut-btn__ico" aria-hidden="true">↗</span></button>
+                        <button type="button" class="stt-shortcut-btn">지급 기간 FAQ<span class="stt-shortcut-btn__ico" aria-hidden="true">↗</span></button>
+                      </div>
+                    </div>
+
+                    <article class="stt-msg stt-msg--agent">
+                      <span class="stt-msg__meta">상담사 · 14:23:18</span>
+                      <p class="stt-msg__body">네 고객님, 청구하시려는 상품을 먼저 확인해드릴게요.</p>
+                    </article>
+
+                    <div class="stt-msg-stack">
+                      <article class="stt-msg stt-msg--cust">
+                        <span class="stt-msg__meta">고객 · 14:24:01</span>
+                        <p class="stt-msg__body">아 그리고 <span class="stt-inline-kw">자동이체</span> <span class="stt-inline-kw">계좌</span>도 바꾸고 싶어요. 그건 어떻게 해요?</p>
+                      </article>
+                      <div class="stt-msg__shortcuts" role="group" aria-label="연관 메뉴">
+                        <button type="button" class="stt-shortcut-btn">자동이체 변경 화면<span class="stt-shortcut-btn__ico" aria-hidden="true">↗</span></button>
+                        <button type="button" class="stt-shortcut-btn">본인확인 절차<span class="stt-shortcut-btn__ico" aria-hidden="true">↗</span></button>
+                        <button type="button" class="stt-shortcut-btn">납입일 변경 가능 여부<span class="stt-shortcut-btn__ico" aria-hidden="true">↗</span></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="main-split__side">
+            <section class="insight-panel" aria-labelledby="stt-ai-title">
+              <header class="insight-panel__head">
+                <h3 id="stt-ai-title" class="stt-panel__col-head-title">상담 내용 분석</h3>
+              </header>
+              <div class="insight-panel__body" role="region" aria-labelledby="stt-ai-title">
+                <input type="radio" name="insight-tabs" id="insight-tab-1" class="insight-panel__sr" checked>
+                <input type="radio" name="insight-tabs" id="insight-tab-2" class="insight-panel__sr">
+                <input type="radio" name="insight-tabs" id="insight-tab-3" class="insight-panel__sr">
+                <input type="radio" name="insight-tabs" id="insight-tab-4" class="insight-panel__sr">
+
+                <div class="insight-panel__tablist" role="tablist" aria-label="상담 내용 분석 탭">
+                  <label class="insight-panel__tab" for="insight-tab-1" id="insight-tab-1-label" role="tab">요약</label>
+                  <label class="insight-panel__tab" for="insight-tab-2" id="insight-tab-2-label" role="tab">계약</label>
+                  <label class="insight-panel__tab" for="insight-tab-3" id="insight-tab-3-label" role="tab">처리</label>
+                  <label class="insight-panel__tab" for="insight-tab-4" id="insight-tab-4-label" role="tab">FAQ</label>
+                </div>
+
+                <div class="insight-panel__panels">
+                  <div class="insight-panel__panel insight-panel__panel--1" role="tabpanel" aria-labelledby="insight-tab-1-label">
+                    <div class="insight-stack insight-stack--gap">
+                      <div class="insight-stack">
+                        <h4 class="insight-field__label">현재 문의 요약</h4>
+                        <p class="insight-highlight">보험금 청구·구비서류 문의와 자동이체·계좌·납입일 변경 문의가 함께 진행 중입니다.</p>
+                      </div>
+                      <hr class="insight-divider" aria-hidden="true">
+                      <div class="insight-stack">
+                        <p class="insight-meta-inline">다건 문의 감지됨</p>
+                        <p class="insight-meta-inline">현재 2개 문의 동시 진행 중</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="insight-panel__panel insight-panel__panel--2" role="tabpanel" aria-labelledby="insight-tab-2-label">
+                    <div class="insight-stack insight-stack--gap">
+                      <h4 class="insight-field__label">현재 선택 계약</h4>
+                      <dl class="customer-card__dl">
+                        <dt class="customer-card__dt">계약명</dt>
+                        <dd class="customer-card__dd">[종신] 무배당 신한 더드림</dd>
+                        <dt class="customer-card__dt">계약번호</dt>
+                        <dd class="customer-card__dd">1234-5678</dd>
+                        <dt class="customer-card__dt">월 보험료</dt>
+                        <dd class="customer-card__dd">월 120,000원</dd>
+                        <dt class="customer-card__dt">가입금액</dt>
+                        <dd class="customer-card__dd">1억원</dd>
+                        <dt class="customer-card__dt">해약환급금</dt>
+                        <dd class="customer-card__dd">8,420,000원</dd>
+                      </dl>
+                    </div>
+                  </div>
+
+                  <div class="insight-panel__panel insight-panel__panel--3" role="tabpanel" aria-labelledby="insight-tab-3-label">
+                    <div class="insight-stack insight-stack--gap">
+                      <div class="insight-stack">
+                        <h4 class="insight-block__title">처리 가능 업무</h4>
+                        <div class="insight-action-chips">
+                          <span class="ex-pill ex-pill--warn">보험금 청구</span>
+                          <span class="ex-pill ex-pill--warn">자동이체 변경</span>
+                          <span class="ex-pill ex-pill--warn">계좌변경</span>
+                        </div>
+                      </div>
+                      <hr class="insight-divider" aria-hidden="true">
+                      <div class="insight-stack">
+                        <h4 class="insight-block__title">현재 처리 상태</h4>
+                        <div class="insight-action-chips">
+                          <span class="ex-pill">자동이체 납입 중</span>
+                          <span class="ex-pill">보험금 접수 중</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="insight-panel__panel insight-panel__panel--4" role="tabpanel" aria-labelledby="insight-tab-4-label">
+                    <div class="insight-stack insight-stack--gap">
+                      <h4 class="insight-field__label">자주 묻는 질문</h4>
+                      <div class="insight-action-chips">
+                        <span class="ex-pill">청구 후 지급 기간은?</span>
+                        <span class="ex-pill">계약 상태 조회 방법</span>
+                        <span class="ex-pill">자동이체 변경 가능 시점</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="customer-card" aria-label="고객 정보">
+              <input type="radio" name="cust-tabs" id="cust-tab-1" class="customer-card__sr" checked>
+              <input type="radio" name="cust-tabs" id="cust-tab-2" class="customer-card__sr">
+              <input type="radio" name="cust-tabs" id="cust-tab-3" class="customer-card__sr">
+              <input type="radio" name="cust-tabs" id="cust-tab-4" class="customer-card__sr">
+
+              <div class="customer-card__tablist" role="tablist" aria-label="고객 관련 탭">
+                <label class="customer-card__tab" for="cust-tab-1" id="cust-tab-1-label">고객정보</label>
+                <label class="customer-card__tab" for="cust-tab-2" id="cust-tab-2-label">상담이력</label>
+                <label class="customer-card__tab" for="cust-tab-3" id="cust-tab-3-label">계약</label>
+                <label class="customer-card__tab" for="cust-tab-4" id="cust-tab-4-label">가이드</label>
+              </div>
+
+              <div class="customer-card__panels">
+                <div class="customer-card__panel customer-card__panel--1" id="cust-panel-1" role="tabpanel" aria-labelledby="cust-tab-1-label">
+                  <div class="customer-card__stack">
+                    <dl class="customer-card__dl">
+                      <dt class="customer-card__dt">고객명</dt>
+                      <dd class="customer-card__dd">홍길동 (M / 58세)</dd>
+                    </dl>
+                    <p class="customer-card__meta-line">고객번호 1234-5678 / VIP</p>
+                    <div class="customer-card__chips">
+                      <span class="customer-card__chip customer-card__chip--warn">실효 3건</span>
+                      <span class="customer-card__chip customer-card__chip--neutral">갱신안내장</span>
+                      <span class="customer-card__chip customer-card__chip--warn">지급정지</span>
+                    </div>
+                    <p class="customer-card__notice">발신번호 불일치 — 본인확인 스크립트 우선</p>
+                  </div>
+                </div>
+                <div class="customer-card__panel customer-card__panel--2" id="cust-panel-2" role="tabpanel" aria-labelledby="cust-tab-2-label">
+                  <ul class="customer-card__list">
+                    <li class="customer-card__list-item">
+                      <span class="customer-card__list-date">2026-05-10</span>
+                      <p class="customer-card__list-desc">보험금 청구 문의</p>
+                    </li>
+                    <li class="customer-card__list-item">
+                      <span class="customer-card__list-date">2026-05-03</span>
+                      <p class="customer-card__list-desc">자동이체 변경</p>
+                    </li>
+                    <li class="customer-card__list-item">
+                      <span class="customer-card__list-date">2026-04-21</span>
+                      <p class="customer-card__list-desc">계약 관계자 변경</p>
+                    </li>
+                  </ul>
+                  <span class="customer-card__more">자세히 보기 ↗</span>
+                </div>
+                <div class="customer-card__panel customer-card__panel--3" id="cust-panel-3" role="tabpanel" aria-labelledby="cust-tab-3-label">
+                  <div class="customer-card__contracts" role="list">
+                    <div class="customer-card__contract customer-card__contract--selected" role="listitem">
+                      <p class="customer-card__contract-title">[종신] 무배당 신한 더드림</p>
+                      <p class="customer-card__contract-meta">계약 2018.03 / 월 12만원</p>
+                    </div>
+                    <div class="customer-card__contract" role="listitem">
+                      <p class="customer-card__contract-title">[연금] 신한 라이프 플랜</p>
+                    </div>
+                    <div class="customer-card__contract" role="listitem">
+                      <p class="customer-card__contract-title">[변액] 신한 인베스트</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="customer-card__panel customer-card__panel--4" id="cust-panel-4" role="tabpanel" aria-labelledby="cust-tab-4-label">
+                  <div class="customer-card__stack">
+                    <div class="customer-card__guide-head">
+                      <p class="customer-card__guide-title">[자동안내] 보험금 청구 스크립트</p>
+                      <p class="customer-card__guide-sub">필수 안내 5건 중 3건 완료</p>
+                    </div>
+                    <div class="customer-card__progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="필수 안내 진행률">
+                      <div class="customer-card__progress-bar"></div>
+                    </div>
+                    <ul class="customer-card__checklist">
+                      <li class="customer-card__check-item is-done"><span class="customer-card__check-mark" aria-hidden="true">✓</span>본인확인</li>
+                      <li class="customer-card__check-item is-done"><span class="customer-card__check-mark" aria-hidden="true">✓</span>청구 사유</li>
+                      <li class="customer-card__check-item is-done"><span class="customer-card__check-mark" aria-hidden="true">✓</span>구비서류</li>
+                      <li class="customer-card__check-item"><span class="customer-card__check-mark" aria-hidden="true">○</span>처리기간</li>
+                      <li class="customer-card__check-item"><span class="customer-card__check-mark" aria-hidden="true">○</span>마무리</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <aside class="workspace__col workspace__col--aux" aria-label="보조 패널">
+        <div class="aux-placeholder">
+          <p>보조 패널 — 다음 단계에서 기능을 추가합니다.</p>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="statusbar">
+      <div class="statusbar__cluster">
+        <span class="statusbar__item">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span><strong>통화 중</strong> · 14:25 (00:02:15)</span>
+        </span>
+        <span class="statusbar__item">TTFT <strong>1.8s</strong></span>
+        <span class="statusbar__item">Agent <strong>상담지원 · 요약 · 검수</strong> · 3 active</span>
+        <span class="statusbar__item">LLM <strong>GPT-4o</strong> · Latency 1.2s · Token 1,240</span>
+        <span class="statusbar__item">Tele-Pro 연동 <strong>✓</strong> · SOK 연동 <strong>✓</strong></span>
+      </div>
+      <span class="statusbar__keys" role="note">F1 도움말 / F2 접수 / F5 새로고침</span>
+    </footer>
+  </div>
 </body>
 </html>

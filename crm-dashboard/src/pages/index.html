@@ -15,6 +15,30 @@
 
     *, *::before, *::after { box-sizing: border-box; }
 
+    /* 대시보드 공통 스크롤바 — overflow 스크롤 영역에 .scroll-area 병행 */
+    .scroll-area {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.28) transparent;
+    }
+
+    .scroll-area::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .scroll-area::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .scroll-area::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.28);
+      border-radius: 999px;
+    }
+
+    .scroll-area::-webkit-scrollbar-thumb:hover {
+      background: rgba(100, 116, 139, 0.42);
+    }
+
     body {
       margin: 0;
       height: 100vh;
@@ -212,17 +236,169 @@
       background: var(--surface-hover);
     }
 
-    /* —— Main workspace: 좌 50% 실시간상담(STT+정보) · 우 50% 패널 2열 —— */
+    /* —— Main workspace: main-workspace · support-workspace · ai-assistant-panel (3열, AI 열림/닫힘) —— */
     .workspace {
       flex: 1;
       min-height: 0;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       align-items: stretch;
       align-content: stretch;
       gap: var(--space-5);
       padding: var(--space-6) var(--page-padding-x);
       background: var(--bg-panel);
+    }
+
+    @media (min-width: 901px) {
+      .workspace {
+        grid-template-columns: minmax(620px, 1.3fr) minmax(420px, 0.9fr) 96px;
+        transition: grid-template-columns 280ms ease;
+      }
+
+      .workspace.workspace--ai-panel-open {
+        grid-template-columns: minmax(520px, 1.1fr) minmax(360px, 0.8fr) 460px;
+      }
+    }
+
+    .support-workspace {
+      min-width: min(100%, 340px);
+      min-height: 0;
+    }
+
+    .support-workspace > .workspace__panels-stack {
+      flex: 1 1 auto;
+      min-height: 0;
+      min-width: 0;
+    }
+
+    /* —— AI 패널: 레이아웃(열림/닫힘)만 —— 본문 UI는 아래 "AI 상담 도우미 UI" 블록 —— */
+    .ai-assistant-panel.live-outer.ai-assistant-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      min-width: 0;
+      overflow: hidden;
+      background: var(--bg-card);
+      transition: padding 280ms ease;
+    }
+
+    .workspace:not(.workspace--ai-panel-open) > .ai-assistant-panel.live-outer.ai-assistant-card {
+      padding: 10px 6px 10px;
+    }
+
+    .workspace.workspace--ai-panel-open > .ai-assistant-panel.live-outer.ai-assistant-card {
+      padding: 18px 9px 9px;
+    }
+
+    .ai-assistant-card__handle {
+      display: none;
+      flex: 1 1 auto;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 0;
+      margin: 0;
+      padding: 10px 4px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font: inherit;
+      color: var(--text-strong);
+      background: rgba(255, 255, 255, 0.55);
+      transition: background var(--duration-fast) var(--ease-default);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .ai-assistant-card__handle:hover {
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .workspace:not(.workspace--ai-panel-open) > .ai-assistant-panel .ai-assistant-card__handle {
+      display: flex;
+    }
+
+    .ai-assistant-card__handle-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      min-height: 36px;
+      border-radius: 6px;
+      background: #dcebff;
+      color: #005bac;
+      flex-shrink: 0;
+    }
+
+    .ai-assistant-card__handle-label {
+      font-size: 11px;
+      font-weight: var(--font-semibold);
+      letter-spacing: 0.08em;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      line-height: 1.2;
+      color: var(--text-muted);
+    }
+
+    .ai-assistant-card__main {
+      display: none;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .workspace.workspace--ai-panel-open > .ai-assistant-panel .ai-assistant-card__main {
+      display: flex;
+    }
+
+    .ai-assistant-card__collapse {
+      display: none;
+      box-sizing: border-box;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 8px;
+      flex-shrink: 0;
+      cursor: pointer;
+      color: var(--text-muted);
+      background: transparent;
+      transition: background var(--duration-fast) var(--ease-default), color var(--duration-fast) var(--ease-default);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .workspace.workspace--ai-panel-open > .ai-assistant-panel .ai-assistant-card__main .ai-assistant-card__collapse {
+      display: inline-flex;
+    }
+
+    .ai-assistant-card__collapse:hover {
+      background: var(--surface-hover);
+      color: var(--text-strong);
+    }
+
+    .ai-assistant-card__collapse-svg {
+      display: block;
+      width: 18px;
+      height: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .ai-assistant-card__handle-label {
+        writing-mode: horizontal-tb;
+        text-orientation: initial;
+      }
+
+      .workspace:not(.workspace--ai-panel-open) > .ai-assistant-panel .ai-assistant-card__handle {
+        flex-direction: row;
+        gap: 12px;
+      }
     }
 
     .workspace__col {
@@ -234,25 +410,6 @@
     .workspace__col--panels {
       display: flex;
       flex-direction: column;
-      min-width: 0;
-      min-height: 0;
-      height: 100%;
-    }
-
-    .workspace__panels-grid {
-      flex: 1 1 auto;
-      min-width: 0;
-      min-height: 0;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      align-items: stretch;
-      align-content: stretch;
-      gap: var(--space-5);
-      box-sizing: border-box;
-    }
-
-    .workspace__panels-grid > .workspace__panels-stack,
-    .workspace__panels-grid > .live-outer {
       min-width: 0;
       min-height: 0;
       height: 100%;
@@ -301,22 +458,328 @@
       overflow-x: hidden;
       padding-right: 4px;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(100, 116, 139, 0.28) transparent;
       box-sizing: border-box;
     }
 
-    .workspace__panels-stack .guide-card .guide-scroll-area::-webkit-scrollbar {
-      width: 5px;
+    /* === AI 상담 도우미 UI (열림 시에만 표시되는 본문 — 레이아웃 토글과 분리) === */
+    .ai-assistant-panel.ai-assistant-card .card-header-title {
+      flex: 1 1 auto;
+      min-width: 0;
     }
 
-    .workspace__panels-stack .guide-card .guide-scroll-area::-webkit-scrollbar-track {
-      background: transparent;
+    .ai-assistant-panel.ai-assistant-card .ai-assistant-card__status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      margin-left: auto;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      line-height: var(--leading-snug);
+      color: #12a150;
+      white-space: nowrap;
     }
 
-    .workspace__panels-stack .guide-card .guide-scroll-area::-webkit-scrollbar-thumb {
-      background-color: rgba(100, 116, 139, 0.28);
+    .ai-assistant-panel.ai-assistant-card .ai-assistant-card__status-dot {
+      width: 6px;
+      height: 6px;
       border-radius: var(--radius-full);
+      background: #12a150;
+      flex-shrink: 0;
+    }
+
+    .ai-assistant-panel.ai-assistant-card .card-header {
+      gap: var(--space-2);
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assistant-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 4px;
+      -webkit-overflow-scrolling: touch;
+      box-sizing: border-box;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-msg {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-msg--user {
+      align-self: flex-end;
+      align-items: flex-end;
+      max-width: 80%;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-msg--ai {
+      align-self: flex-start;
+      align-items: flex-start;
+      max-width: 80%;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble {
+      box-sizing: border-box;
+      width: max-content;
+      max-width: 100%;
+      min-width: 0;
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble--user {
+      align-self: flex-end;
+      background: #eaf2ff;
+      color: #26364d;
+      border-radius: 16px 16px 4px 16px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble--ai {
+      align-self: flex-start;
+      background: #ffffff;
+      color: #26364d;
+      border-radius: 16px 16px 16px 4px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble__text {
+      margin: 0;
+      font-size: var(--text-md);
+      font-weight: var(--font-medium);
+      line-height: var(--line-relaxed);
+      color: inherit;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble__lead {
+      margin: 0;
+      font-size: var(--text-md);
+      font-weight: var(--font-semibold);
+      line-height: var(--leading-snug);
+      color: #26364d;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble__sub {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      line-height: var(--leading-snug);
+      color: #26364d;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble__sources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-source-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: var(--font-semibold);
+      line-height: 1.25;
+      color: #005bac;
+      background: #dcebff;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-msg__time {
+      margin-top: 6px;
+      font-size: 11px;
+      font-weight: var(--font-medium);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.2;
+      color: #98a2b3;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-chip {
+      margin: 0;
+      padding: 8px 12px;
+      border: none;
+      border-radius: var(--radius-full);
+      background: #eaf2ff;
+      color: #26364d;
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      line-height: var(--leading-snug);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-default);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-chip:hover {
+      background: #dcebff;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-footer {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      margin-top: var(--space-3);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--divider-soft);
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      min-height: 84px;
+      padding: 12px;
+      border-radius: 18px;
+      background: #ffffff;
+      border: none;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__input {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 40px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      color: #26364d;
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      line-height: 1.45;
+      resize: none;
+      outline: none;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__input::placeholder {
+      color: #98a2b3;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      flex-shrink: 0;
+      gap: var(--space-2);
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__bar-left,
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__bar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round {
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      flex-shrink: 0;
+      color: #64748b;
+      background: #f1f5f9;
+      transition: background var(--duration-fast) var(--ease-default), color var(--duration-fast) var(--ease-default);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round:hover {
+      background: #e8eef6;
+      color: #26364d;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round--sm {
+      width: 28px;
+      height: 28px;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round--ghost {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round--ghost:hover {
+      background: #e8eef6;
+      color: #475569;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round--send {
+      width: 32px;
+      height: 32px;
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round--send:hover {
+      filter: brightness(1.05);
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__svg {
+      display: block;
+      width: 16px;
+      height: 16px;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round--send .ai-assist-composer__svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__search {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0;
+      padding: 4px 6px;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: var(--font-medium);
+      line-height: 1;
+      color: #64748b;
+      background: transparent;
+      cursor: pointer;
+      transition: color var(--duration-fast) var(--ease-default), background var(--duration-fast) var(--ease-default);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__search:hover {
+      color: #26364d;
+      background: #f1f5f9;
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round:focus-visible,
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__search:focus-visible,
+    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__input:focus-visible {
+      outline: 2px solid rgba(37, 99, 235, 0.45);
+      outline-offset: 2px;
     }
 
     .workspace__panels-stack .live-outer .panel-muted {
@@ -338,22 +801,7 @@
       overflow-y: auto;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(100, 116, 139, 0.28) transparent;
       box-sizing: border-box;
-    }
-
-    .workspace__panels-stack > .live-outer:first-child .panel-list-scroll::-webkit-scrollbar {
-      width: 5px;
-    }
-
-    .workspace__panels-stack > .live-outer:first-child .panel-list-scroll::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .workspace__panels-stack > .live-outer:first-child .panel-list-scroll::-webkit-scrollbar-thumb {
-      background-color: rgba(100, 116, 139, 0.28);
-      border-radius: var(--radius-full);
     }
 
     .workspace__panels-stack > .live-outer:first-child .panel-list {
@@ -421,7 +869,7 @@
       gap: 10px;
       padding: 10px 12px;
       border: none;
-      border-radius: var(--radius-md);
+      border-radius: 10px;
       background: transparent;
       color: var(--text-default);
       text-align: start;
@@ -438,8 +886,11 @@
     }
 
     .workspace__panels-stack .live-outer .contract-list__item.is-selected {
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
       background: #eaf2ff;
-      box-shadow: inset 4px 0 0 #2563eb;
+      color: #26364d;
     }
 
     .workspace__panels-stack .live-outer .contract-list__item.is-selected:hover {
@@ -465,7 +916,7 @@
       font-size: var(--text-md);
       font-weight: var(--font-bold);
       line-height: var(--leading-snug);
-      color: var(--text-strong);
+      color: #26364d;
     }
 
     .workspace__panels-stack .live-outer .contract-list__meta {
@@ -553,12 +1004,12 @@
       color: var(--text-muted);
     }
 
-    .workspace__col--live > .live-composite {
+    .main-workspace > .live-composite {
       flex: 1 1 auto;
       min-height: 0;
       min-width: 0;
       display: grid;
-      grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
+      grid-template-columns: minmax(360px, 1.6fr) minmax(280px, 1fr);
       grid-template-rows: minmax(0, 1fr);
       align-items: stretch;
       align-content: stretch;
@@ -568,7 +1019,8 @@
       border: none;
       border-radius: 0;
       box-shadow: none;
-      column-gap: 14px;
+      column-gap: 16px;
+      transition: grid-template-columns 280ms ease, column-gap 280ms ease;
     }
 
     .live-composite__stt {
@@ -591,7 +1043,7 @@
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
       min-width: 0;
       min-height: 0;
       overflow: hidden;
@@ -601,7 +1053,7 @@
 
     /* outer: 섹션 그룹 · 상단 헤더 여유 위주 패딩 */
     .live-composite .live-outer,
-    .workspace__panels-grid > .live-outer,
+    .ai-assistant-panel.live-outer,
     .workspace__panels-stack > .live-outer {
       box-sizing: border-box;
       display: flex;
@@ -629,7 +1081,7 @@
 
     /* inner: 실제 컨텐츠 박스 — 고객/계약/STT/지식 공통 토큰 */
     .live-composite .live-inner,
-    .workspace__panels-grid > .live-outer > .live-inner,
+    .ai-assistant-panel .ai-assistant-card__main > .live-inner,
     .workspace__panels-stack > .live-outer > .live-inner {
       box-sizing: border-box;
       min-width: 0;
@@ -645,6 +1097,14 @@
     .workspace__panels-stack > .live-outer > .live-inner {
       padding: var(--space-4);
       gap: var(--space-3);
+    }
+
+    .ai-assistant-panel .ai-assistant-card__main > .live-inner {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
     }
 
     /* STT 내부 컨텐츠 카드: 다른 카드 inner와 동일 토큰 · Siri 보더 없음 */
@@ -666,7 +1126,6 @@
     }
 
     .live-composite .live-outer--know > .live-inner,
-    .workspace__panels-grid > .live-outer > .live-inner,
     .workspace__panels-stack > .live-outer > .live-inner {
       flex: 1 1 auto;
       display: flex;
@@ -677,7 +1136,8 @@
 
     /* 카드 헤더 공통: STT · 고객/계약 아코디언 · 추천 지식 */
     .live-composite .card-header,
-    .workspace__panels-grid .card-header {
+    .support-workspace .card-header,
+    .ai-assistant-panel .card-header {
       box-sizing: border-box;
       margin: 0 0 9px;
       padding: 6px 16px;
@@ -689,7 +1149,8 @@
     }
 
     .live-composite header.card-header,
-    .workspace__panels-grid header.card-header {
+    .support-workspace header.card-header,
+    .ai-assistant-panel header.card-header {
       justify-content: flex-start;
     }
 
@@ -706,7 +1167,8 @@
     }
 
     .live-composite .card-header-icon,
-    .workspace__panels-grid .card-header-icon {
+    .support-workspace .card-header-icon,
+    .ai-assistant-panel .card-header-icon {
       box-sizing: border-box;
       display: inline-flex;
       align-items: center;
@@ -727,7 +1189,8 @@
     }
 
     .live-composite .card-header-icon-svg,
-    .workspace__panels-grid .card-header-icon-svg {
+    .support-workspace .card-header-icon-svg,
+    .ai-assistant-panel .card-header-icon-svg {
       display: block;
       width: 22px;
       height: 22px;
@@ -735,7 +1198,8 @@
     }
 
     .live-composite .card-header-title,
-    .workspace__panels-grid .card-header-title {
+    .support-workspace .card-header-title,
+    .ai-assistant-panel .card-header-title {
       margin: 0;
       padding: 0;
       min-width: 0;
@@ -1301,9 +1765,17 @@
     @media (max-width: 900px) {
       .workspace {
         grid-template-columns: 1fr;
-        grid-template-rows: minmax(0, 1.1fr) minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1.05fr) minmax(0, 0.95fr) auto;
         gap: var(--space-5);
         padding: var(--space-5) var(--page-padding-x);
+      }
+
+      .workspace:not(.workspace--ai-panel-open) {
+        grid-template-rows: minmax(0, 1.05fr) minmax(0, 0.95fr) minmax(96px, auto);
+      }
+
+      .workspace.workspace--ai-panel-open {
+        grid-template-rows: minmax(0, 1fr) minmax(0, 0.85fr) minmax(260px, 44vh);
       }
 
       .workspace__col--live,
@@ -1311,7 +1783,7 @@
         min-height: calc(8 * var(--space-8));
       }
 
-      .workspace__col--live > .live-composite {
+      .main-workspace > .live-composite {
         grid-template-columns: 1fr;
         grid-template-rows: minmax(0, 1.05fr) minmax(0, 1fr);
         row-gap: 12px;
@@ -1332,12 +1804,6 @@
         min-height: 0;
         overflow: auto;
         padding: 0;
-      }
-
-      .workspace__panels-grid {
-        grid-template-columns: 1fr;
-        grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
-        min-height: calc(14 * var(--space-8));
       }
     }
 
@@ -1445,7 +1911,7 @@
     </header>
 
     <main class="workspace" aria-label="워크스페이스">
-      <div class="workspace__col workspace__col--live">
+      <div class="workspace__col workspace__col--live main-workspace">
         <div class="live-composite" aria-label="실시간 상담 영역">
           <div class="live-composite__stt">
             <div class="live-outer live-outer--stt">
@@ -1463,7 +1929,7 @@
             </header>
             <div class="live-inner stt-content-card">
             <div class="stt-card__log" role="region" aria-label="실시간 대화 로그">
-              <div class="chat-scroll-area">
+              <div class="chat-scroll-area scroll-area">
               <div class="stt-chat" role="log" aria-live="polite" aria-relevant="additions text">
                   <article class="stt-chat__msg stt-chat__msg--customer">
                     <div class="stt-chat__avatar" role="img" aria-label="고객 프로필">
@@ -1571,7 +2037,7 @@
             </div>
             </div>
           </div>
-          <div class="live-composite__rail">
+          <div class="live-composite__rail scroll-area">
             <details
               class="live-outer live-outer--accordion live-sect--customer"
               aria-labelledby="live-sect-title-customer"
@@ -1676,7 +2142,7 @@
                 <h3 class="card-header-title live-sect__title" id="live-sect-title-know">추천 지식 답변</h3>
               </header>
               <div class="live-inner">
-                <div class="know-card__body">
+                <div class="know-card__body scroll-area">
                   <div class="know-card__block">
                     <span class="know-card__label">추천 답변</span>
                     <p class="know-card__answer">
@@ -1705,16 +2171,41 @@
         </div>
       </div>
 
-      <div class="workspace__col workspace__col--panels">
-        <div class="workspace__panels-grid" aria-label="보조 패널">
+      <div class="workspace__col workspace__col--panels support-workspace" aria-label="보조 업무 패널">
           <div class="workspace__panels-stack">
             <section class="live-outer" aria-labelledby="dash-card-history-title">
               <header class="card-header live-sect__head">
-                <span class="card-header-icon" aria-hidden="true"></span>
+                <span class="card-header-icon" aria-hidden="true">
+                  <svg
+                    class="card-header-icon-svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    focusable="false"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M11.3164 7.35107V11.7808H14.8722"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.9984 18.2447V20.487C10.9984 20.7987 11.2852 21.033 11.5884 20.9542C15.7884 19.8634 19.4868 16.1392 19.9608 11.708C20.0164 11.1878 20.0071 10.6831 19.9686 10.1635C19.5483 6.15509 16.141 3.03027 11.9999 3.03027C7.85891 3.03027 4.45162 6.15509 4.03125 10.1635C3.9927 10.6834 3.98248 11.1878 4.04323 11.708C4.45879 15.2666 7.17636 18.0562 10.9984 18.2447Z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
                 <h3 class="card-header-title live-sect__title" id="dash-card-history-title">최근 상담 이력 요약</h3>
               </header>
               <div class="live-inner">
-                <div class="panel-list-scroll" tabindex="0" role="region" aria-label="최근 상담 내역 목록">
+                <div class="panel-list-scroll scroll-area" tabindex="0" role="region" aria-label="최근 상담 내역 목록">
                   <ul class="panel-list">
                     <li>
                       <button type="button" class="history-item">
@@ -1764,7 +2255,49 @@
             </section>
             <section class="live-outer" aria-labelledby="dash-card-contract-title">
               <header class="card-header live-sect__head">
-                <span class="card-header-icon" aria-hidden="true"></span>
+                <span class="card-header-icon" aria-hidden="true">
+                  <svg
+                    class="card-header-icon-svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    focusable="false"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M14.3233 6.28561H9.67659C8.92742 6.28561 8.32031 5.67849 8.32031 4.92933V4.35627C8.32031 3.60711 8.92742 3 9.67659 3H14.3233C15.0725 3 15.6796 3.60711 15.6796 4.35627V4.92933C15.6796 5.67849 15.0725 6.28561 14.3233 6.28561Z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M15.6803 4.59375C17.7536 4.59375 19.4348 6.27498 19.4348 8.34831V17.2458C19.4348 19.3191 17.7536 21.0004 15.6803 21.0004H8.32097C6.24764 21.0004 4.56641 19.3191 4.56641 17.2458V8.34831C4.56641 6.27498 6.24764 4.59375 8.32097 4.59375"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.4837 11H15.4707M8.52734 11H8.80852"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.4837 15.8203H15.4707M8.52734 15.8203H8.80852"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
                 <h3 class="card-header-title live-sect__title" id="dash-card-contract-title">계약 리스트 (3건)</h3>
               </header>
               <div class="live-inner">
@@ -1799,11 +2332,37 @@
             </section>
             <section class="live-outer guide-card" aria-labelledby="dash-card-guide-title">
               <header class="card-header live-sect__head">
-                <span class="card-header-icon" aria-hidden="true"></span>
+                <span class="card-header-icon" aria-hidden="true">
+                  <svg
+                    class="card-header-icon-svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    focusable="false"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M7.78216 3H16.2169C19.165 3 21 5.08119 21 8.02638V15.9736C21 18.9188 19.165 21 16.2159 21H7.78216C4.83405 21 3 18.9188 3 15.9736V8.02638C3 5.08119 4.84281 3 7.78216 3Z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.9941 15.8917V11.9998M11.9941 8.35426V8.29102"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
                 <h3 class="card-header-title live-sect__title" id="dash-card-guide-title">상담 안내 가이드</h3>
               </header>
               <div class="live-inner card-content">
-                <div class="guide-scroll-area" tabindex="0" role="region" aria-label="상담 안내 상세">
+                <div class="guide-scroll-area scroll-area" tabindex="0" role="region" aria-label="상담 안내 상세">
                   <div class="guide-script-card">
                     <p class="guide-script-card__title">[자동안내] 보험금 청구 스크립트</p>
                   </div>
@@ -1844,15 +2403,123 @@
               </div>
             </section>
           </div>
-          <section class="live-outer" aria-labelledby="dash-panel-title-2">
-            <header class="card-header live-sect__head">
-              <span class="card-header-icon" aria-hidden="true"></span>
-              <h3 class="card-header-title live-sect__title" id="dash-panel-title-2">타이틀</h3>
-            </header>
-            <div class="live-inner"></div>
-          </section>
-        </div>
       </div>
+          <section
+            class="live-outer ai-assistant-card ai-assistant-panel"
+            id="ai-assistant-panel"
+            aria-expanded="false"
+            aria-labelledby="ai-assistant-title"
+            aria-label="AI 상담 도우미"
+          >
+            <button
+              type="button"
+              class="ai-assistant-card__handle"
+              id="ai-assistant-expand"
+              aria-controls="ai-assistant-main"
+              aria-expanded="false"
+              aria-label="AI 상담 도우미 패널 열기"
+            >
+              <span class="ai-assistant-card__handle-icon" aria-hidden="true"></span>
+              <span class="ai-assistant-card__handle-label">AI</span>
+            </button>
+            <div class="ai-assistant-card__main" id="ai-assistant-main">
+              <header class="card-header live-sect__head">
+              <span class="card-header-icon" aria-hidden="true"></span>
+              <h3 class="card-header-title live-sect__title" id="ai-assistant-title">AI 상담 도우미</h3>
+              <span class="ai-assistant-card__status" aria-live="polite">
+                <span class="ai-assistant-card__status-dot" aria-hidden="true"></span>
+                실시간 분석 중
+              </span>
+              <button
+                type="button"
+                class="ai-assistant-card__collapse"
+                id="ai-assistant-collapse"
+                aria-controls="ai-assistant-main"
+                aria-label="AI 패널 접기"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+                <svg
+                  class="ai-assistant-card__collapse-svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+            </header>
+              <div class="live-inner">
+              <div class="ai-assistant-scroll scroll-area" tabindex="0">
+                <div class="ai-assist-msg ai-assist-msg--user">
+                  <div class="ai-assist-bubble ai-assist-bubble--user">
+                    <p class="ai-assist-bubble__text">암보험 면책기간 어떻게 돼?</p>
+                  </div>
+                  <span class="ai-assist-msg__time">14:25:10</span>
+                </div>
+                <div class="ai-assist-msg ai-assist-msg--ai">
+                  <div class="ai-assist-bubble ai-assist-bubble--ai">
+                    <p class="ai-assist-bubble__lead">암 보장 개시일은 보통 계약일로부터 90일 이후입니다.</p>
+                    <p class="ai-assist-bubble__sub">상품/특약에 따라 예외가 있을 수 있어 약관 확인이 필요합니다.</p>
+                    <div class="ai-assist-bubble__sources">
+                      <span class="ai-assist-source-chip">SOK#3201 약관 612</span>
+                      <span class="ai-assist-source-chip">FAQ #87</span>
+                    </div>
+                  </div>
+                  <span class="ai-assist-msg__time">14:25:11</span>
+                </div>
+                <div class="ai-assist-chips" role="group" aria-label="추천 질문">
+                  <button type="button" class="ai-assist-chip">갱신형 vs 비갱신형 차이</button>
+                  <button type="button" class="ai-assist-chip">보험금 지급 기준</button>
+                  <button type="button" class="ai-assist-chip">면책기간 예외</button>
+                </div>
+              </div>
+              <div class="ai-assist-footer">
+                <div class="ai-assist-composer" role="region" aria-label="AI 질문 입력">
+                  <textarea
+                    class="ai-assist-composer__input scroll-area"
+                    rows="2"
+                    placeholder="AI에게 추가 질문하기..."
+                    aria-label="AI에게 추가 질문하기"
+                  ></textarea>
+                  <div class="ai-assist-composer__bar">
+                    <div class="ai-assist-composer__bar-left">
+                      <button type="button" class="ai-assist-composer__round ai-assist-composer__round--sm" aria-label="추가">
+                        <svg class="ai-assist-composer__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                          <path d="M12 5v14M5 12h14" />
+                        </svg>
+                      </button>
+                      <button type="button" class="ai-assist-composer__search" aria-label="검색">
+                        <svg class="ai-assist-composer__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <circle cx="11" cy="11" r="7" />
+                          <path d="M21 21l-4.3-4.3" />
+                        </svg>
+                        <span>Search</span>
+                      </button>
+                    </div>
+                    <div class="ai-assist-composer__bar-right">
+                      <button type="button" class="ai-assist-composer__round ai-assist-composer__round--sm ai-assist-composer__round--ghost" aria-label="음성 입력">
+                        <svg class="ai-assist-composer__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M12 14a3 3 0 0 0 3-3V7a3 3 0 0 0-6 0v4a3 3 0 0 0 3 3z" />
+                          <path d="M19 11a7 7 0 0 1-14 0" />
+                          <path d="M12 18v3M9 21h6" />
+                        </svg>
+                      </button>
+                      <button type="button" class="ai-assist-composer__round ai-assist-composer__round--send" aria-label="전송">
+                        <svg class="ai-assist-composer__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M12 19V5M5 12l7-7 7 7" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
     </main>
 
     <footer class="statusbar">
@@ -1910,6 +2577,44 @@
           btn.addEventListener("click", function () {
             activate(btn);
           });
+        });
+      })();
+
+      (function () {
+        var workspace = document.querySelector(".workspace");
+        var panel = document.getElementById("ai-assistant-panel");
+        var expandBtn = document.getElementById("ai-assistant-expand");
+        var collapseBtn = document.getElementById("ai-assistant-collapse");
+        var mainEl = document.getElementById("ai-assistant-main");
+        if (!workspace || !panel || !expandBtn || !collapseBtn || !mainEl) return;
+
+        function setOpen(open) {
+          workspace.classList.toggle("workspace--ai-panel-open", open);
+          panel.setAttribute("aria-expanded", open ? "true" : "false");
+          expandBtn.setAttribute("aria-expanded", open ? "true" : "false");
+          expandBtn.setAttribute("aria-hidden", open ? "true" : "false");
+          expandBtn.tabIndex = open ? -1 : 0;
+          collapseBtn.setAttribute("aria-hidden", open ? "false" : "true");
+          collapseBtn.tabIndex = open ? 0 : -1;
+          if (open) {
+            var ta = mainEl.querySelector(".ai-assist-composer__input");
+            if (ta) ta.focus();
+          }
+        }
+
+        expandBtn.addEventListener("click", function () {
+          setOpen(true);
+        });
+
+        collapseBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          setOpen(false);
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && workspace.classList.contains("workspace--ai-panel-open")) {
+            setOpen(false);
+          }
         });
       })();
     </script>

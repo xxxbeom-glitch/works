@@ -106,44 +106,50 @@
       min-width: 0;
     }
 
-    .pill {
+    .topbar__center .mode-segmented {
+      display: inline-grid;
+      grid-template-columns: minmax(96px, 1fr) minmax(96px, 1fr);
+      align-items: center;
+      column-gap: 2px;
+      padding: 4px;
+      background: #eef3f8;
+      border: none;
+      border-radius: 999px;
+      box-sizing: border-box;
+    }
+
+    .topbar__center .mode-segmented__btn {
       display: inline-flex;
       align-items: center;
-      gap: var(--space-1);
-      padding: var(--space-1) var(--space-3);
-      border-radius: var(--radius-md);
+      justify-content: center;
+      width: 100%;
+      min-width: 0;
+      height: 30px;
+      padding: 0 12px;
       border: none;
-      background: var(--bg-content);
-      font-size: var(--text-sm);
-      font-weight: var(--font-semibold);
-      line-height: var(--leading-snug);
-      letter-spacing: var(--tracking-wide);
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: var(--tracking-wide, 0.02em);
+      color: #64748b;
+      background: transparent;
+      cursor: pointer;
+      box-sizing: border-box;
       white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .pill--live {
-      background: var(--danger-soft);
-      color: var(--danger);
-      border: none;
+    .topbar__center .mode-segmented__btn.is-active {
+      background: #dcebff;
+      color: #005bac;
+      font-weight: 700;
     }
 
-    .pill--live::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: var(--radius-full);
-      background: var(--danger);
-    }
-
-    .pill--mode {
-      background: var(--bg-content);
-      color: var(--text-default);
-    }
-
-    .pill--mode.is-on {
-      background: var(--surface-selected);
-      color: var(--text-strong);
-      border: none;
+    .topbar__center .mode-segmented__btn:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
     }
 
     .topbar__right {
@@ -156,15 +162,36 @@
     }
 
     .topbar__link {
-      font-size: var(--text-base);
-      font-weight: var(--font-medium);
-      line-height: var(--line-normal);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      font-size: var(--text-md, 13px);
+      font-weight: 600;
+      line-height: 1;
       color: var(--text-default);
     }
 
-    .topbar__link strong {
-      font-weight: var(--font-semibold);
-      color: var(--success);
+    .topbar__avatar-placeholder {
+      box-sizing: border-box;
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      border-radius: 999px;
+      background: #d7e3ef;
+    }
+
+    .topbar__link-line {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      min-width: 0;
+      white-space: nowrap;
+    }
+
+    .topbar__link-tele {
+      color: #12a150;
+      font-weight: 600;
     }
 
     .icon-btn {
@@ -268,11 +295,6 @@
       border-radius: 16px;
       padding: 18px 9px 9px;
       box-shadow: none;
-      transition: background-color var(--duration-fast) var(--ease-default);
-    }
-
-    .live-composite .live-outer:hover {
-      background: var(--bg-card-hover);
     }
 
     .live-composite .live-outer--stt {
@@ -288,24 +310,27 @@
       padding: 17px 9px 9px;
     }
 
-    /* inner: 실제 컨텐츠 박스 — --bg-content (카드 면) */
+    /* inner: 실제 컨텐츠 박스 — 고객/계약/STT/지식 공통 토큰 */
     .live-composite .live-inner {
       box-sizing: border-box;
       min-width: 0;
       min-height: 0;
-      background: var(--bg-content);
+      background: var(--bg-inner-content);
       border: none;
-      border-radius: 12px;
-      padding: 18px;
-      box-shadow: none;
+      border-radius: var(--radius-inner-content);
+      padding: var(--padding-inner-content);
+      box-shadow: var(--shadow-inner-content);
+      overflow: hidden;
     }
 
-    /* STT 내부 컨텐츠 카드: 카드 면(--bg-content), Siri/컬러 테두리 없음 */
+    /* STT 내부 컨텐츠 카드: 다른 카드 inner와 동일 토큰 · Siri 보더 없음 */
     .live-composite .stt-content-card {
-      background: var(--bg-content);
-      box-sizing: border-box;
-      overflow: visible;
+      background: var(--bg-inner-content);
+      border-radius: var(--radius-inner-content);
+      box-shadow: var(--shadow-inner-content);
       border: none;
+      overflow: hidden;
+      box-sizing: border-box;
     }
 
     .live-composite .live-outer--stt > .live-inner.stt-content-card {
@@ -314,7 +339,6 @@
       display: flex;
       flex-direction: column;
       outline: none;
-      box-shadow: none;
     }
 
     .live-composite .live-outer--know > .live-inner {
@@ -367,24 +391,17 @@
       margin-inline-end: 12px;
       padding: 0;
       border-radius: 6px;
-      background: var(--bg-card-icon);
+      background: #dcebff;
       border: none;
+      /* 인라인 SVG stroke="currentColor" — 하이라이트 키워드 텍스트 컬러 */
+      color: #005bac;
     }
 
-    .live-composite .card-header-icon-img {
+    .live-composite .card-header-icon-svg {
       display: block;
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       flex-shrink: 0;
-      background-color: var(--text-muted);
-      -webkit-mask-image: var(--card-header-icon-src);
-      mask-image: var(--card-header-icon-src);
-      -webkit-mask-size: contain;
-      mask-size: contain;
-      -webkit-mask-repeat: no-repeat;
-      mask-repeat: no-repeat;
-      -webkit-mask-position: center;
-      mask-position: center;
     }
 
     .live-composite .card-header-title {
@@ -430,11 +447,6 @@
       border-radius: var(--radius-md);
       box-shadow: none;
       overflow: hidden;
-      transition: background-color var(--duration-fast) var(--ease-default);
-    }
-
-    .dashboard-card:hover {
-      background: var(--bg-card-hover);
     }
 
     .live-composite details.live-outer.live-outer--accordion {
@@ -489,7 +501,7 @@
       padding: 0;
       gap: var(--space-3);
       overflow: auto;
-      background: var(--bg-content);
+      background: transparent;
       border: none;
       box-shadow: none;
       border-radius: 0;
@@ -647,277 +659,223 @@
       flex-direction: column;
       padding: 0;
       margin: 0;
-      background: var(--bg-content);
+      background: transparent;
+      /* floating-control-group 높이 근사값 — chat-scroll-area 하단 여백 계산에 사용 */
+      --stt-floating-control-est-h: 136px;
     }
 
-    /* STT 카드 하단 · 플로팅 웨이브 (Siri 스타일 blur glow는 .floating-wave-bar에만) */
+    /* 플로팅 웨이브 + 시간(상) / 안내(하) — 스크롤 영역 밖 하단 고정 (카드 flex 슬롯) */
+    .live-composite .stt-card__log > .floating-control-group {
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      box-sizing: border-box;
+      width: 100%;
+      margin-top: 26px;
+      padding: 0 0 16px;
+      pointer-events: none;
+    }
+
+    .live-composite .stt-card__log > .floating-control-group > .floating-control-group__elapsed {
+      margin: 0 0 8px;
+      padding: 0;
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-muted);
+      font-style: normal;
+    }
+
+    .live-composite .stt-card__log > .floating-control-group > .floating-control-group__caption {
+      margin: 6px 0 0;
+      padding: 0;
+      width: 100%;
+      max-width: min(320px, 100%);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.35;
+      color: var(--text-soft);
+    }
+
+    /* STT 카드 하단 · 플로팅 웨이브 (화이트 글래스 · bar 크기 고정 · 내부만 wave 100%) */
     .live-composite .stt-wave-float {
-      position: absolute;
-      left: 50%;
-      bottom: 24px;
-      z-index: 2;
       box-sizing: border-box;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 0;
       height: 52px;
-      width: min(200px, calc(100% - 16px));
-      min-width: min(160px, calc(100% - 16px));
-      max-width: 200px;
-      padding: 0 12px;
-      transform: translateX(-50%);
       border-radius: 999px;
-      pointer-events: none;
     }
 
-    /*
-     * 레이아웃은 absolute 유지. 음수 z-index glow는 isolation + 투명 셸에서 ::before 면뒤에 깔림.
-     * (요청의 position:relative 역할과 동일한 쌓임 맥락)
-     */
     .live-composite .stt-wave-float.floating-wave-bar {
-      position: absolute;
-      overflow: visible;
-      isolation: isolate;
-      background: transparent;
-    }
-
-    /* 바깥으로 번지는 몽환적 그라데이션 glow */
-    .live-composite .stt-wave-float.floating-wave-bar::after {
-      content: "";
-      position: absolute;
-      inset: -8px;
-      border-radius: inherit;
-      pointer-events: none;
-      z-index: 0;
-      background: linear-gradient(
-        120deg,
-        rgba(143, 179, 255, 0.55),
-        rgba(184, 167, 255, 0.48),
-        rgba(139, 224, 198, 0.44),
-        rgba(160, 178, 255, 0.5),
-        rgba(143, 179, 255, 0.55)
-      );
-      background-size: 300% 300%;
-      filter: blur(12px);
-      opacity: 0.65;
-      animation: siriFlow 7s linear infinite;
-    }
-
-    /* 바 면 + 3~4px inset 라인(날카롭게 유지) */
-    .live-composite .stt-wave-float.floating-wave-bar::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      pointer-events: none;
-      z-index: 1;
-      background: rgba(71, 82, 102, 0.92);
+      width: min(240px, calc(100% - 16px));
+      min-width: min(220px, calc(100% - 16px));
+      max-width: 240px;
+      overflow: hidden;
+      padding: 0 16px;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      box-shadow:
-        inset 0 0 0 3px rgba(143, 179, 255, 0.38),
-        inset 0 0 0 4px rgba(184, 167, 255, 0.12),
-        inset 0 0 14px rgba(184, 167, 255, 0.18),
-        0 10px 28px rgba(15, 23, 42, 0.18);
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.1);
     }
 
-    .live-composite .stt-wave-float.floating-wave-bar > * {
-      position: relative;
-      z-index: 2;
-    }
-
-    @keyframes siriFlow {
-      0% {
-        background-position: 0% 45%;
-      }
-
-      50% {
-        background-position: 100% 55%;
-      }
-
-      100% {
-        background-position: 0% 45%;
-      }
-    }
-
-    .live-composite .stt-wave-float__orb {
-      flex-shrink: 0;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 32% 28%, #ffffff 0%, #8fb3ff 42%, #5b7fd4 100%);
-      box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.12),
-        0 0 10px rgba(143, 179, 255, 0.42);
-    }
-
-    .live-composite .stt-wave-float__wave {
+    .live-composite .stt-wave-float__wave,
+    .live-composite .stt-wave-float .waveform {
       flex: 1 1 auto;
-      min-width: 0;
-      height: 24px;
-      position: relative;
-    }
-
-    .live-composite .stt-wave-float__wave-viewport {
-      position: relative;
+      align-self: center;
       width: 100%;
-      height: 100%;
+      max-width: 100%;
+      min-width: 0;
+      height: 22px;
+      display: block;
+      opacity: 1;
+      color: #2563eb;
+      fill: #2563eb;
+      stroke: #2563eb;
+      position: relative;
+      --wave-pattern-w: 286px;
+      --wave-pattern-gap: 2px;
+      --wave-marquee-shift: calc(var(--wave-pattern-w) + var(--wave-pattern-gap));
+      /* 플로팅 웨이브 흐름 속도: 숫자 ↑ = 더 느림 (한 패턴 폭만큼 이동하는 데 걸리는 시간) */
+      --wave-marquee-duration: 20s;
+    }
+
+    .live-composite .stt-wave-float__wave-viewport,
+    .live-composite .stt-wave-float .wave-viewport {
+      position: relative;
+      z-index: 1;
+      box-sizing: border-box;
+      width: 100%;
+      height: 22px;
+      min-width: 0;
       overflow: hidden;
+      border-radius: 4px;
+      mask-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        black 12%,
+        black 88%,
+        transparent 100%
+      );
+      mask-repeat: no-repeat;
+      mask-size: 100% 100%;
+      -webkit-mask-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        black 12%,
+        black 88%,
+        transparent 100%
+      );
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-size: 100% 100%;
     }
 
-    .live-composite .stt-wave-float__wave-mover {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      display: flex;
-      flex-direction: row;
-      width: max-content;
-      height: 100%;
-      align-items: flex-end;
-      animation: stt-wave-drift 2.8s linear infinite;
-      will-change: transform;
-    }
-
-    .live-composite .stt-wave-float__wave-white-clip {
+    .live-composite .stt-wave-float__wave-track {
       position: absolute;
       left: 0;
       top: 0;
       z-index: 2;
-      width: 50%;
-      height: 100%;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .live-composite .stt-wave-float__wave-group {
       display: flex;
-      align-items: flex-end;
-      justify-content: flex-start;
-      gap: 2px;
-      height: 100%;
-      flex-shrink: 0;
-      padding: 0 1px;
-      box-sizing: border-box;
+      flex-direction: row;
+      align-items: center;
+      width: max-content;
+      height: 22px;
+      min-height: 22px;
+      gap: var(--wave-pattern-gap, 2px);
+      animation: waveMarquee var(--wave-marquee-duration, 20s) linear infinite;
+      will-change: transform;
     }
 
-    @keyframes stt-wave-drift {
+    /* SVG를 배경으로 그림 (외부 SVG + CSS mask luminance 이슈 회피) */
+    .live-composite .stt-wave-float__wave-mask {
+      flex-shrink: 0;
+      display: block;
+      box-sizing: border-box;
+      width: var(--wave-pattern-w, 286px);
+      height: 22px;
+      min-height: 22px;
+      margin: 0;
+      opacity: 1;
+      pointer-events: none;
+      background-color: transparent;
+      background-image: url("../assets/waveform.svg");
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      background-position: center;
+    }
+
+    .live-composite .stt-wave-float__wave-mask--active {
+      opacity: 1;
+    }
+
+    @keyframes waveMarquee {
       from {
-        transform: translateX(-50%);
+        transform: translateX(0);
       }
 
       to {
-        transform: translateX(0);
+        transform: translateX(calc(-1 * var(--wave-marquee-shift, 288px)));
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .live-composite .stt-wave-float__wave-mover {
+      .live-composite .stt-wave-float__wave-track {
         animation: none;
         transform: translateX(0);
       }
-
-      .live-composite .stt-wave-float.floating-wave-bar::after {
-        animation: none;
-      }
     }
 
-    .live-composite .stt-wave-float__wave-vline {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      z-index: 3;
-      width: 1px;
-      height: 18px;
-      transform: translate(-50%, -50%);
-      border-radius: 0;
-      background: rgba(255, 255, 255, 0.45);
-      pointer-events: none;
-    }
-
-    .live-composite .stt-wave-float__tick {
-      flex: 1 1 0;
+    .live-composite .stt-card__log > .chat-scroll-area {
+      flex: 1 1 auto;
       min-width: 0;
-      max-width: 3px;
-      align-self: flex-end;
-      border-radius: 999px;
-      transform-origin: center bottom;
-      animation: stt-float-wave-tick 1.05s ease-in-out infinite;
-    }
-
-    .live-composite .stt-wave-float__tick--grad {
-      background: linear-gradient(90deg, #8fb3ff 0%, #2563eb 100%);
-    }
-
-    .live-composite .stt-wave-float__tick--white {
-      background: rgba(255, 255, 255, 0.9);
-    }
-
-    .live-composite .stt-wave-float__wave-group .stt-wave-float__tick:nth-child(5n + 1) {
-      height: 38%;
-      animation-delay: 0s;
-    }
-
-    .live-composite .stt-wave-float__wave-group .stt-wave-float__tick:nth-child(5n + 2) {
-      height: 62%;
-      animation-delay: 0.06s;
-    }
-
-    .live-composite .stt-wave-float__wave-group .stt-wave-float__tick:nth-child(5n + 3) {
-      height: 88%;
-      animation-delay: 0.12s;
-    }
-
-    .live-composite .stt-wave-float__wave-group .stt-wave-float__tick:nth-child(5n + 4) {
-      height: 52%;
-      animation-delay: 0.18s;
-    }
-
-    .live-composite .stt-wave-float__wave-group .stt-wave-float__tick:nth-child(5n) {
-      height: 72%;
-      animation-delay: 0.24s;
-    }
-
-    @keyframes stt-float-wave-tick {
-      0%,
-      100% {
-        transform: scaleY(0.78);
-        opacity: 0.88;
-      }
-
-      50% {
-        transform: scaleY(1);
-        opacity: 1;
-      }
-    }
-
-    .live-composite .stt-wave-float__time {
-      flex-shrink: 0;
-      margin: 0;
-      padding: 0;
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: 0.01em;
-      font-variant-numeric: tabular-nums;
-      color: #ffffff;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background: transparent;
+      -webkit-overflow-scrolling: touch;
+      mask-image: linear-gradient(
+        180deg,
+        transparent 0%,
+        black 8%,
+        black 100%
+      );
+      mask-repeat: no-repeat;
+      mask-size: 100% 100%;
+      -webkit-mask-image: linear-gradient(
+        180deg,
+        transparent 0%,
+        black 8%,
+        black 100%
+      );
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-size: 100% 100%;
+      padding-bottom: calc(var(--stt-floating-control-est-h, 136px) + 48px);
     }
 
     .live-composite .stt-card__log .stt-chat {
       display: flex;
       flex-direction: column;
-      gap: 11px;
+      gap: 23px;
       min-width: 0;
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow: auto;
-      padding-bottom: calc(24px + 52px + 16px);
-      background: var(--bg-stt-chat);
+      padding-bottom: 0;
+      background: transparent;
     }
 
     .live-composite .stt-card__log .stt-chat__msg {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
       max-width: 75%;
       min-width: 0;
     }
@@ -933,9 +891,39 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 5px;
+      gap: 4px;
       min-width: 0;
       flex: 1 1 auto;
+    }
+
+    .live-composite .stt-card__log .stt-chat__sender {
+      margin: 0;
+      padding: 0;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-wide);
+      color: #64748b;
+    }
+
+    .live-composite .stt-card__log .stt-chat__time {
+      margin: 0;
+      padding: 0;
+      display: block;
+      width: 100%;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: var(--leading-snug);
+      font-variant-numeric: tabular-nums;
+      color: #a0aec0;
+    }
+
+    .live-composite .stt-card__log .stt-chat__msg--customer .stt-chat__time {
+      text-align: left;
+    }
+
+    .live-composite .stt-card__log .stt-chat__msg--agent .stt-chat__time {
+      text-align: right;
     }
 
     .live-composite .stt-card__log .stt-chat__avatar {
@@ -975,34 +963,6 @@
       align-items: flex-end;
     }
 
-    .live-composite .stt-card__log .stt-chat__meta {
-      display: inline-flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-      max-width: 100%;
-    }
-
-    .live-composite .stt-card__log .stt-chat__msg--agent .stt-chat__meta {
-      justify-content: flex-end;
-    }
-
-    .live-composite .stt-card__log .stt-chat__role {
-      font-size: var(--text-xs);
-      font-weight: var(--font-semibold);
-      line-height: var(--leading-snug);
-      letter-spacing: var(--tracking-wide);
-      color: var(--text-muted);
-    }
-
-    .live-composite .stt-card__log .stt-chat__time {
-      font-size: var(--text-xs);
-      font-weight: var(--font-medium);
-      line-height: var(--leading-snug);
-      font-variant-numeric: tabular-nums;
-      color: var(--text-soft);
-    }
-
     .live-composite .stt-card__log .stt-chat__bubble {
       margin: 0;
       padding: 10px 14px;
@@ -1012,30 +972,49 @@
       font-size: var(--text-md);
       font-weight: var(--font-medium);
       line-height: var(--line-relaxed);
-      color: var(--text-default);
+      color: #26364d;
       word-break: keep-all;
       border: none;
     }
 
+    /* 고객(receive): 분석 대상 · 배경을 한 단계 더 진하게 */
     .live-composite .stt-card__log .stt-chat__msg--customer .stt-chat__bubble {
-      background: var(--bg-content-soft);
+      background: #eef4fa;
+      color: #26364d;
     }
 
+    /* 상담사(send): 보조 톤 · 더 연한 블루 화이트 */
     .live-composite .stt-card__log .stt-chat__msg--agent .stt-chat__bubble {
-      background: var(--primary-soft);
+      background: #f3f7ff;
+      color: #26364d;
     }
 
-    .live-composite .stt-card__log .stt-chat__msg--customer .stt-chat__bubble .stt-chat__kw {
-      display: inline;
-      padding: 1px 4px;
-      border-radius: 6px;
-      font-weight: 600;
+    .live-composite .stt-card__log .stt-chat__msg--customer .stt-chat__bubble .highlight-keyword {
+      display: inline-block;
+      vertical-align: baseline;
+      padding: 2px 4px;
+      border-radius: 5px;
+      font-weight: 700;
       font-size: inherit;
       line-height: inherit;
-      color: #2563eb;
-      background-color: #eaf2ff;
+      color: #005bac;
+      background-color: #dcebff;
       box-decoration-break: clone;
       -webkit-box-decoration-break: clone;
+    }
+
+    .live-composite .stt-card__log .stt-chat__msg--agent .stt-chat__bubble .highlight-keyword {
+      display: inline;
+      padding: 0;
+      border-radius: 0;
+      font-weight: inherit;
+      font-size: inherit;
+      line-height: inherit;
+      color: inherit;
+      background: transparent;
+      background-color: transparent;
+      box-decoration-break: unset;
+      -webkit-box-decoration-break: unset;
     }
 
     @media (max-width: 900px) {
@@ -1167,12 +1146,18 @@
         </div>
       </div>
       <div class="topbar__center">
-        <span class="pill pill--live">상담 모드 (통화 중)</span>
-        <span class="pill pill--mode is-on" title="현재 모드">조회</span>
-        <span class="pill pill--mode" title="전환 가능">학습</span>
+        <div class="mode-segmented" role="group" aria-label="화면 모드">
+          <button type="button" class="mode-segmented__btn is-active" aria-pressed="true">상담모드</button>
+          <button type="button" class="mode-segmented__btn" aria-pressed="false">학습 · 조회모드</button>
+        </div>
       </div>
       <div class="topbar__right">
-        <span class="topbar__link"><strong>연동 OK</strong> · 상담사 김민지 · Tele-Pro</span>
+        <div class="topbar__link" role="group" aria-label="상담사 김상담, Tele-Pro 연동">
+          <span class="topbar__avatar-placeholder" aria-hidden="true"></span>
+          <span class="topbar__link-line">
+            <span class="topbar__link-name">김상담</span><span class="topbar__link-sep" aria-hidden="true"> | </span><span class="topbar__link-tele">Tele-Pro 연동</span>
+          </span>
+        </div>
         <button type="button" class="icon-btn" aria-label="설정">⚙</button>
       </div>
     </header>
@@ -1184,15 +1169,19 @@
             <div class="live-outer live-outer--stt">
             <header class="card-header live-sect__head">
               <span class="card-header-icon" aria-hidden="true">
-                <span
-                  class="card-header-icon-img"
-                  style="--card-header-icon-src: url('../imgs/icons/ico_stt.svg')"
-                ></span>
+                <svg class="card-header-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                  <path d="M3.65313 10.9119C3.6434 14.9009 6.86942 18.1425 10.8595 18.1522C13.4583 18.1459 15.7339 16.7679 17.0017 14.7051" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.8601 21.0002V18.1523" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.8592 3C8.83843 3 7.19999 4.63844 7.19999 6.65926V10.8818C7.1961 12.9075 8.83357 14.5528 10.8592 14.5567H10.8612C12.469 14.5528 13.8326 13.5145 14.3236 12.0732" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14.8616 8.19897L14.7606 7.9256C14.3798 6.8948 13.5682 6.08208 12.5389 5.70065L12.266 5.5995L12.5389 5.49834C13.5682 5.11691 14.3798 4.30419 14.7606 3.27339L14.8616 2.99999L14.9627 3.27339C15.3435 4.30419 16.155 5.11691 17.1844 5.49834L17.4574 5.5995L17.1844 5.70065C16.155 6.08208 15.3435 6.8948 14.9627 7.9256L14.8616 8.19897Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M19.1702 10.7131C18.9986 10.1485 18.5574 9.70655 17.9936 9.53469C18.5574 9.36282 18.9986 8.9209 19.1702 8.35624C19.3418 8.9209 19.7831 9.36282 20.3469 9.53469C19.7831 9.70655 19.3418 10.1485 19.1702 10.7131Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </span>
               <h3 class="card-header-title live-sect__title">STT 실시간 로그</h3>
             </header>
             <div class="live-inner stt-content-card">
             <div class="stt-card__log" role="region" aria-label="실시간 대화 로그">
+              <div class="chat-scroll-area">
               <div class="stt-chat" role="log" aria-live="polite" aria-relevant="additions text">
                   <article class="stt-chat__msg stt-chat__msg--customer">
                     <div class="stt-chat__avatar" role="img" aria-label="고객 프로필">
@@ -1205,114 +1194,96 @@
                       />
                     </div>
                     <div class="stt-chat__stack">
-                      <div class="stt-chat__meta">
-                        <span class="stt-chat__role">고객</span>
-                        <time class="stt-chat__time" datetime="2026-05-13T14:23:08">14:23:08</time>
-                      </div>
+                      <div class="stt-chat__sender">홍길동 고객님</div>
                       <p class="stt-chat__bubble">보험금 청구하려면 어떤 서류가 필요한가요?</p>
+                      <time class="stt-chat__time" datetime="2026-05-13T14:23:08">14:23:08</time>
                     </div>
                   </article>
                   <article class="stt-chat__msg stt-chat__msg--agent">
-                    <div class="stt-chat__meta">
-                      <span class="stt-chat__role">상담사</span>
-                      <time class="stt-chat__time" datetime="2026-05-13T14:23:12">14:23:12</time>
-                    </div>
                     <p class="stt-chat__bubble">네, 사고 유형에 따라 필요한 서류가 조금 다릅니다.</p>
+                    <time class="stt-chat__time" datetime="2026-05-13T14:23:12">14:23:12</time>
                   </article>
                   <article class="stt-chat__msg stt-chat__msg--customer">
                     <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
                     <div class="stt-chat__stack">
-                      <div class="stt-chat__meta">
-                        <span class="stt-chat__role">고객</span>
-                        <time class="stt-chat__time" datetime="2026-05-13T14:23:20">14:23:20</time>
-                      </div>
+                      <div class="stt-chat__sender">홍길동 고객님</div>
                       <p class="stt-chat__bubble">
-                        <span class="stt-chat__kw">자동이체</span> <span class="stt-chat__kw">계좌변경</span> 하고 싶어요.
+                        <span class="highlight-keyword">자동이체</span> <span class="highlight-keyword">계좌변경</span> 하고 싶어요.
                       </p>
+                      <time class="stt-chat__time" datetime="2026-05-13T14:23:20">14:23:20</time>
                     </div>
                   </article>
                   <article class="stt-chat__msg stt-chat__msg--agent">
-                    <div class="stt-chat__meta">
-                      <span class="stt-chat__role">상담사</span>
-                      <time class="stt-chat__time" datetime="2026-05-13T14:23:24">14:23:24</time>
-                    </div>
                     <p class="stt-chat__bubble">네, 자동이체 계좌변경 화면으로 안내드리겠습니다.</p>
+                    <time class="stt-chat__time" datetime="2026-05-13T14:23:24">14:23:24</time>
+                  </article>
+                  <article class="stt-chat__msg stt-chat__msg--customer">
+                    <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
+                    <div class="stt-chat__stack">
+                      <div class="stt-chat__sender">홍길동 고객님</div>
+                      <p class="stt-chat__bubble">
+                        지금 등록된 <span class="highlight-keyword">계좌</span>를 다른 은행 계좌로 바꾸고 싶어요.
+                      </p>
+                      <time class="stt-chat__time" datetime="2026-05-13T14:23:26">14:23:26</time>
+                    </div>
+                  </article>
+                  <article class="stt-chat__msg stt-chat__msg--agent">
+                    <p class="stt-chat__bubble">네, 본인 명의 계좌라면 변경 가능합니다.</p>
+                    <time class="stt-chat__time" datetime="2026-05-13T14:23:28">14:23:28</time>
+                  </article>
+                  <article class="stt-chat__msg stt-chat__msg--customer">
+                    <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
+                    <div class="stt-chat__stack">
+                      <div class="stt-chat__sender">홍길동 고객님</div>
+                      <p class="stt-chat__bubble"><span class="highlight-keyword">신분증</span>도 필요한가요?</p>
+                      <time class="stt-chat__time" datetime="2026-05-13T14:23:32">14:23:32</time>
+                    </div>
+                  </article>
+                  <article class="stt-chat__msg stt-chat__msg--agent">
+                    <p class="stt-chat__bubble">네, 본인확인을 위해 신분증 인증이 필요합니다.</p>
+                    <time class="stt-chat__time" datetime="2026-05-13T14:23:35">14:23:35</time>
+                  </article>
+                  <article class="stt-chat__msg stt-chat__msg--customer">
+                    <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
+                    <div class="stt-chat__stack">
+                      <div class="stt-chat__sender">홍길동 고객님</div>
+                      <p class="stt-chat__bubble">변경하면 바로 적용되나요?</p>
+                      <time class="stt-chat__time" datetime="2026-05-13T14:23:40">14:23:40</time>
+                    </div>
+                  </article>
+                  <article class="stt-chat__msg stt-chat__msg--agent">
+                    <p class="stt-chat__bubble">보통 변경 신청 후 다음 납입일부터 적용됩니다.</p>
+                    <time class="stt-chat__time" datetime="2026-05-13T14:23:44">14:23:44</time>
+                  </article>
+                  <article class="stt-chat__msg stt-chat__msg--customer">
+                    <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
+                    <div class="stt-chat__stack">
+                      <div class="stt-chat__sender">홍길동 고객님</div>
+                      <p class="stt-chat__bubble">
+                        그럼 이번 달 <span class="highlight-keyword">보험료</span>는 기존 계좌에서 나가나요?
+                      </p>
+                      <time class="stt-chat__time" datetime="2026-05-13T14:23:48">14:23:48</time>
+                    </div>
+                  </article>
+                  <article class="stt-chat__msg stt-chat__msg--agent">
+                    <p class="stt-chat__bubble">납입일 기준에 따라 달라질 수 있어 확인 후 안내드리겠습니다.</p>
+                    <time class="stt-chat__time" datetime="2026-05-13T14:23:52">14:23:52</time>
                   </article>
                 </div>
-              <div class="stt-wave-float floating-wave-bar" role="status" aria-label="통화 진행 중 · AI 음성 분석">
-                <span class="stt-wave-float__orb" aria-hidden="true"></span>
-                <div class="stt-wave-float__wave" aria-hidden="true">
-                  <div class="stt-wave-float__wave-viewport">
-                    <div class="stt-wave-float__wave-mover stt-wave-float__wave-mover--grad">
-                      <div class="stt-wave-float__wave-group">
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                      </div>
-                      <div class="stt-wave-float__wave-group">
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
-                        <span class="stt-wave-float__tick stt-wave-float__tick--grad"></span>
+              </div>
+              <div class="floating-control-group" role="group" aria-label="AI 음성 분석 및 통화 경과 시간">
+                <time class="floating-control-group__elapsed" datetime="PT0S">00:00</time>
+                <div class="stt-wave-float floating-wave-bar" role="status" aria-label="통화 진행 중 · AI 음성 분석">
+                  <div class="stt-wave-float__wave waveform" aria-hidden="true">
+                    <div class="stt-wave-float__wave-viewport wave-viewport">
+                      <div class="stt-wave-float__wave-track">
+                        <div class="stt-wave-float__wave-mask" aria-hidden="true"></div>
+                        <div class="stt-wave-float__wave-mask stt-wave-float__wave-mask--active" aria-hidden="true"></div>
                       </div>
                     </div>
-                    <div class="stt-wave-float__wave-white-clip">
-                      <div class="stt-wave-float__wave-mover stt-wave-float__wave-mover--white">
-                        <div class="stt-wave-float__wave-group">
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                        </div>
-                        <div class="stt-wave-float__wave-group">
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                          <span class="stt-wave-float__tick stt-wave-float__tick--white"></span>
-                        </div>
-                      </div>
-                    </div>
-                    <span class="stt-wave-float__wave-vline"></span>
                   </div>
                 </div>
-                <time class="stt-wave-float__time" datetime="PT39S">0:39</time>
+                <p class="floating-control-group__caption">AI가 실시간으로 대화내용을 분석하고 있습니다</p>
               </div>
               </div>
             </div>
@@ -1321,15 +1292,16 @@
           <div class="live-composite__rail">
             <details
               class="live-outer live-outer--accordion live-sect--customer"
-              open
               aria-labelledby="live-sect-title-customer"
             >
               <summary class="card-header live-sect__accordion-summary">
                   <span class="card-header-icon" aria-hidden="true">
-                    <span
-                      class="card-header-icon-img"
-                      style="--card-header-icon-src: url('../imgs/icons/ico_customer.svg')"
-                    ></span>
+                    <svg class="card-header-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                      <circle cx="10.4654" cy="8.14212" r="4.70071" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M4.05002 19.468C3.93917 18.8298 3.98496 18.1684 3.98496 17.5238C3.98496 15.0944 5.95436 13.125 8.38374 13.125H12.6671C12.9936 13.125 13.3117 13.1606 13.6179 13.228" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M18.7233 20.5532H16.1026C15.3837 20.5532 14.8018 19.9712 14.8018 19.2523V17.7813C14.8018 17.0634 15.3837 16.4805 16.1026 16.4805H18.7233C19.4412 16.4805 20.0241 17.0634 20.0241 17.7813V19.2523C20.0241 19.9712 19.4412 20.5532 18.7233 20.5532Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M18.9771 16.5055V15.5375C18.9666 14.6731 18.2573 13.9818 17.3929 13.9923C16.5475 14.0028 15.8629 14.6846 15.8486 15.5309V16.5055" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                   </span>
                   <h3 class="card-header-title live-sect__title" id="live-sect-title-customer">고객정보</h3>
               </summary>
@@ -1362,15 +1334,15 @@
             </details>
             <details
               class="live-outer live-outer--accordion live-sect--contract"
-              open
               aria-labelledby="live-sect-title-contract"
             >
               <summary class="card-header live-sect__accordion-summary">
                   <span class="card-header-icon" aria-hidden="true">
-                    <span
-                      class="card-header-icon-img"
-                      style="--card-header-icon-src: url('../imgs/icons/ico_document.svg')"
-                    ></span>
+                    <svg class="card-header-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                      <path d="M8.04403 20.999C5.9716 20.9533 4.32825 19.236 4.37398 17.1636V6.65646C4.42263 4.61711 6.09419 2.99128 8.13451 3.00004H13.7855C14.344 3.00004 14.8782 3.22674 15.2644 3.62955L19.0561 7.57884C19.4219 7.96121 19.6272 8.47008 19.6272 8.9984V17.1636C19.6409 19.2185 18.0238 20.9163 15.9698 21M8.04403 20.999C8.07419 20.999 8.10435 21 8.13451 21H15.9698M8.04403 20.999C8.07419 20.999 15.9698 21 15.9698 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M14.2695 3.0625V5.95514C14.2686 7.36692 15.4118 8.51211 16.8236 8.51503H19.5625" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M8.51562 16.4818H12.9748M8.51562 13.0612H15.2427M8.51562 9.64062H11.4579" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                   </span>
                   <h3 class="card-header-title live-sect__title" id="live-sect-title-contract">계약정보</h3>
               </summary>
@@ -1412,10 +1384,12 @@
             <section class="live-outer live-outer--know live-sect--know" aria-labelledby="live-sect-title-know">
               <header class="card-header live-sect__head">
                 <span class="card-header-icon" aria-hidden="true">
-                  <span
-                    class="card-header-icon-img"
-                    style="--card-header-icon-src: url('../imgs/icons/ico_answer.svg')"
-                  ></span>
+                  <svg class="card-header-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                    <path d="M5.17459 18.3741C7.55059 18.5454 9.61913 19.5174 10.8383 20.2238C11.5592 20.6412 12.4408 20.6412 13.1617 20.2238C14.3809 19.5174 16.4494 18.5454 18.8254 18.3741C20.0406 18.2866 21 17.3136 21 16.0954V5.75371C21 4.38182 19.7994 3.33004 18.4362 3.4789C16.2246 3.72117 14.3137 4.62507 13.1617 5.2935C12.4408 5.7109 11.5592 5.7109 10.8383 5.2935C9.68627 4.62507 7.77535 3.72117 5.56378 3.4789C4.19968 3.33004 3 4.38182 3 5.75371V16.0954C3 17.3136 3.95935 18.2866 5.17459 18.3741Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 15.9297L12 20.4804" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9.56783 13.3402L9.46681 13.0668C9.08595 12.036 8.27443 11.2233 7.2451 10.8419L6.97217 10.7407L7.2451 10.6396C8.27443 10.2581 9.08595 9.44542 9.46681 8.41463L9.56783 8.14122L9.66885 8.41463C10.0497 9.44542 10.8612 10.2581 11.8906 10.6396L12.1636 10.7407L11.8906 10.8419C10.8612 11.2233 10.0497 12.036 9.66885 13.0668L9.56783 13.3402Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.8785 14.5823C14.7069 14.0176 14.2657 13.5757 13.7019 13.4038C14.2657 13.232 14.7069 12.79 14.8785 12.2254C15.0502 12.79 15.4914 13.232 16.0552 13.4038C15.4914 13.5757 15.0502 14.0176 14.8785 14.5823Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </span>
                 <h3 class="card-header-title live-sect__title" id="live-sect-title-know">추천 지식 답변</h3>
               </header>
@@ -1475,6 +1449,51 @@
       </div>
       <span class="statusbar__keys" role="note">F1 도움말 / F2 접수 / F5 새로고침</span>
     </footer>
+    <script>
+      (function () {
+        var el = document.querySelector(".floating-control-group__elapsed");
+        if (!el) return;
+
+        function pad2(n) {
+          return String(n).padStart(2, "0");
+        }
+
+        var totalSec = 0;
+
+        function render() {
+          var m = Math.floor(totalSec / 60);
+          var s = totalSec % 60;
+          el.textContent = pad2(m) + ":" + pad2(s);
+          el.setAttribute("datetime", "PT" + totalSec + "S");
+        }
+
+        render();
+        window.setInterval(function () {
+          totalSec += 1;
+          render();
+        }, 1000);
+      })();
+
+      (function () {
+        var root = document.querySelector(".mode-segmented");
+        if (!root) return;
+        var buttons = root.querySelectorAll(".mode-segmented__btn");
+
+        function activate(target) {
+          buttons.forEach(function (btn) {
+            var on = btn === target;
+            btn.classList.toggle("is-active", on);
+            btn.setAttribute("aria-pressed", on ? "true" : "false");
+          });
+        }
+
+        buttons.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            activate(btn);
+          });
+        });
+      })();
+    </script>
   </div>
 </body>
 </html>

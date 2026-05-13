@@ -82,6 +82,8 @@
   --text-xl: 18px;
   /* 카드 헤더 타이틀: 기존 제목 크기(--text-md) + 2px */
   --text-card-title: calc(var(--text-md) + 2px);
+  /* 섹션 소제목(카드 타이틀보다 한 단계 작게) */
+  --text-section-title: var(--text-base);
 
   /* —— Type: line height —— */
   --line-tight: 1.25;
@@ -89,6 +91,7 @@
   --line-relaxed: 1.6;
   /* 카드 헤더 타이틀 한 줄 행간 (1.25~1.3대) */
   --line-card-title: 1.28;
+  --line-section-title: var(--leading-snug);
 
   /* —— Legacy aliases (기존 컴포넌트·문서 호환) —— */
   --font-weight-medium: var(--font-medium);

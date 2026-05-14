@@ -236,13 +236,14 @@
       background: var(--surface-hover);
     }
 
-    /* —— Main workspace: main-workspace · support-workspace · ai-assistant-panel (3열, AI 열림/닫힘) —— */
+    /* —— Main workspace: 3열(고객·계약 정보 · STT+이력 · 추천 지식) —— */
     .workspace {
       flex: 1;
       min-height: 0;
       display: grid;
       align-items: stretch;
       align-content: stretch;
+      grid-template-rows: minmax(0, 1fr);
       gap: var(--space-5);
       padding: var(--space-6) var(--page-padding-x);
       background: var(--bg-panel);
@@ -250,155 +251,47 @@
 
     @media (min-width: 901px) {
       .workspace {
-        grid-template-columns: minmax(620px, 1.3fr) minmax(420px, 0.9fr) 96px;
-        transition: grid-template-columns 280ms ease;
-      }
-
-      .workspace.workspace--ai-panel-open {
-        grid-template-columns: minmax(520px, 1.1fr) minmax(360px, 0.8fr) 460px;
+        /* 1열(보조) < 2열(STT+이력) < 3열(지식) — 약 26% / 34% / 40% */
+        grid-template-columns: minmax(0, 26fr) minmax(0, 34fr) minmax(0, 40fr);
       }
     }
 
-    .support-workspace {
-      min-width: min(100%, 340px);
-      min-height: 0;
-    }
-
-    .support-workspace > .workspace__panels-stack {
-      flex: 1 1 auto;
-      min-height: 0;
+    .workspace__col--info {
       min-width: 0;
-    }
-
-    /* —— AI 패널: 레이아웃(열림/닫힘)만 —— 본문 UI는 아래 "AI 상담 도우미 UI" 블록 —— */
-    .ai-assistant-panel.live-outer.ai-assistant-card {
+      min-height: 0;
+      height: 100%;
+      max-height: 100%;
       display: flex;
       flex-direction: column;
-      min-height: 0;
-      min-width: 0;
-      overflow: hidden;
-      background: var(--bg-card);
-      transition: padding 280ms ease;
-    }
-
-    .workspace:not(.workspace--ai-panel-open) > .ai-assistant-panel.live-outer.ai-assistant-card {
-      padding: 10px 6px 10px;
-    }
-
-    .workspace.workspace--ai-panel-open > .ai-assistant-panel.live-outer.ai-assistant-card {
-      padding: 18px 9px 9px;
-    }
-
-    .ai-assistant-card__handle {
-      display: none;
-      flex: 1 1 auto;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      min-height: 0;
-      margin: 0;
-      padding: 10px 4px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      font: inherit;
-      color: var(--text-strong);
-      background: rgba(255, 255, 255, 0.55);
-      transition: background var(--duration-fast) var(--ease-default);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .ai-assistant-card__handle:hover {
-      background: rgba(255, 255, 255, 0.88);
-    }
-
-    .workspace:not(.workspace--ai-panel-open) > .ai-assistant-panel .ai-assistant-card__handle {
-      display: flex;
-    }
-
-    .ai-assistant-card__handle-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      min-width: 36px;
-      min-height: 36px;
-      border-radius: 6px;
-      background: #dcebff;
-      color: #005bac;
-      flex-shrink: 0;
-    }
-
-    .ai-assistant-card__handle-label {
-      font-size: 11px;
-      font-weight: var(--font-semibold);
-      letter-spacing: 0.08em;
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      line-height: 1.2;
-      color: var(--text-muted);
-    }
-
-    .ai-assistant-card__main {
-      display: none;
-      flex-direction: column;
-      flex: 1 1 auto;
-      min-height: 0;
-      min-width: 0;
       overflow: hidden;
     }
 
-    .workspace.workspace--ai-panel-open > .ai-assistant-panel .ai-assistant-card__main {
+    .workspace__panels-stack--info {
       display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+      min-width: 0;
+      min-height: 0;
+      flex: 1 1 auto;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .ai-assistant-card__collapse {
-      display: none;
-      box-sizing: border-box;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      margin: 0;
-      padding: 0;
-      border: none;
-      border-radius: 8px;
-      flex-shrink: 0;
-      cursor: pointer;
-      color: var(--text-muted);
-      background: transparent;
-      transition: background var(--duration-fast) var(--ease-default), color var(--duration-fast) var(--ease-default);
-      -webkit-tap-highlight-color: transparent;
+    .workspace__col--know {
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
 
-    .workspace.workspace--ai-panel-open > .ai-assistant-panel .ai-assistant-card__main .ai-assistant-card__collapse {
-      display: inline-flex;
-    }
-
-    .ai-assistant-card__collapse:hover {
-      background: var(--surface-hover);
-      color: var(--text-strong);
-    }
-
-    .ai-assistant-card__collapse-svg {
-      display: block;
-      width: 18px;
-      height: 18px;
-    }
-
-    @media (max-width: 900px) {
-      .ai-assistant-card__handle-label {
-        writing-mode: horizontal-tb;
-        text-orientation: initial;
-      }
-
-      .workspace:not(.workspace--ai-panel-open) > .ai-assistant-panel .ai-assistant-card__handle {
-        flex-direction: row;
-        gap: 12px;
-      }
+    .workspace__col--know .live-composite--know-only {
+      flex: 1 1 auto;
+      min-height: 0;
+      min-width: 0;
     }
 
     .workspace__col {
@@ -406,19 +299,25 @@
       min-height: 0;
     }
 
-    .workspace__col--live,
-    .workspace__col--panels {
+    .main-workspace {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    .workspace__col--live {
       display: flex;
       flex-direction: column;
       min-width: 0;
       min-height: 0;
       height: 100%;
+      max-height: 100%;
+      overflow: hidden;
     }
 
     .workspace__panels-stack {
       display: flex;
       flex-direction: column;
-      gap: var(--space-4);
+      gap: var(--space-5);
       min-width: 0;
       min-height: 0;
       height: 100%;
@@ -429,21 +328,33 @@
       min-height: 0;
     }
 
-    .workspace__panels-stack > .live-outer.guide-card {
-      flex: 1 1 auto;
+    .workspace__panels-stack--info > details.live-outer.guide-card {
+      flex: 0 0 auto;
       min-height: 0;
       overflow: hidden;
+    }
+
+    .workspace__panels-stack--info details.live-outer > .info-accordion__panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 200ms cubic-bezier(0.33, 1, 0.68, 1);
+    }
+
+    .workspace__panels-stack--info details.live-outer[open] > .info-accordion__panel {
+      grid-template-rows: 1fr;
     }
 
     .workspace__panels-stack .guide-card {
       min-height: 0;
     }
 
-    .workspace__panels-stack .guide-card > .live-inner.card-content {
+    .workspace__panels-stack details.guide-card > .info-accordion__panel > .live-inner.card-content {
       flex: 1 1 auto;
       min-height: 0;
       overflow: hidden;
       gap: 0;
+      display: flex;
+      flex-direction: column;
     }
 
     .workspace__panels-stack .guide-card .guide-scroll-area {
@@ -461,327 +372,6 @@
       box-sizing: border-box;
     }
 
-    /* === AI 상담 도우미 UI (열림 시에만 표시되는 본문 — 레이아웃 토글과 분리) === */
-    .ai-assistant-panel.ai-assistant-card .card-header-title {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
-
-    .ai-assistant-panel.ai-assistant-card .ai-assistant-card__status {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      flex-shrink: 0;
-      margin-left: auto;
-      font-size: var(--text-sm);
-      font-weight: var(--font-medium);
-      line-height: var(--leading-snug);
-      color: #12a150;
-      white-space: nowrap;
-    }
-
-    .ai-assistant-panel.ai-assistant-card .ai-assistant-card__status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: var(--radius-full);
-      background: #12a150;
-      flex-shrink: 0;
-    }
-
-    .ai-assistant-panel.ai-assistant-card .card-header {
-      gap: var(--space-2);
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assistant-scroll {
-      flex: 1 1 auto;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding-right: 4px;
-      -webkit-overflow-scrolling: touch;
-      box-sizing: border-box;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-msg {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      min-width: 0;
-      box-sizing: border-box;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-msg--user {
-      align-self: flex-end;
-      align-items: flex-end;
-      max-width: 80%;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-msg--ai {
-      align-self: flex-start;
-      align-items: flex-start;
-      max-width: 80%;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble {
-      box-sizing: border-box;
-      width: max-content;
-      max-width: 100%;
-      min-width: 0;
-      padding: var(--space-3) var(--space-4);
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble--user {
-      align-self: flex-end;
-      background: #eaf2ff;
-      color: #26364d;
-      border-radius: 16px 16px 4px 16px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.04);
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble--ai {
-      align-self: flex-start;
-      background: #ffffff;
-      color: #26364d;
-      border-radius: 16px 16px 16px 4px;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.04);
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble__text {
-      margin: 0;
-      font-size: var(--text-md);
-      font-weight: var(--font-medium);
-      line-height: var(--line-relaxed);
-      color: inherit;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble__lead {
-      margin: 0;
-      font-size: var(--text-md);
-      font-weight: var(--font-semibold);
-      line-height: var(--leading-snug);
-      color: #26364d;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble__sub {
-      margin: 0;
-      font-size: var(--text-sm);
-      font-weight: var(--font-medium);
-      line-height: var(--leading-snug);
-      color: #26364d;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-bubble__sources {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 2px;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-source-chip {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 8px;
-      border-radius: var(--radius-full);
-      font-size: 11px;
-      font-weight: var(--font-semibold);
-      line-height: 1.25;
-      color: #005bac;
-      background: #dcebff;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-msg__time {
-      margin-top: 6px;
-      font-size: 11px;
-      font-weight: var(--font-medium);
-      font-variant-numeric: tabular-nums;
-      line-height: 1.2;
-      color: #98a2b3;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-chip {
-      margin: 0;
-      padding: 8px 12px;
-      border: none;
-      border-radius: var(--radius-full);
-      background: #eaf2ff;
-      color: #26364d;
-      font-family: inherit;
-      font-size: var(--text-sm);
-      font-weight: var(--font-medium);
-      line-height: var(--leading-snug);
-      cursor: pointer;
-      transition: background var(--duration-fast) var(--ease-default);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-chip:hover {
-      background: #dcebff;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-footer {
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      margin-top: var(--space-3);
-      padding-top: var(--space-3);
-      border-top: 1px solid var(--divider-soft);
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer {
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      min-height: 84px;
-      padding: 12px;
-      border-radius: 18px;
-      background: #ffffff;
-      border: none;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.06);
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__input {
-      box-sizing: border-box;
-      width: 100%;
-      min-height: 40px;
-      margin: 0;
-      padding: 0;
-      border: none;
-      border-radius: 0;
-      background: transparent;
-      color: #26364d;
-      font-family: inherit;
-      font-size: var(--text-sm);
-      font-weight: var(--font-medium);
-      line-height: 1.45;
-      resize: none;
-      outline: none;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__input::placeholder {
-      color: #98a2b3;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 12px;
-      flex-shrink: 0;
-      gap: var(--space-2);
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__bar-left,
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__bar-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 0;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round {
-      box-sizing: border-box;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-      padding: 0;
-      border: none;
-      border-radius: 999px;
-      cursor: pointer;
-      flex-shrink: 0;
-      color: #64748b;
-      background: #f1f5f9;
-      transition: background var(--duration-fast) var(--ease-default), color var(--duration-fast) var(--ease-default);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round:hover {
-      background: #e8eef6;
-      color: #26364d;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round--sm {
-      width: 28px;
-      height: 28px;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round--ghost {
-      background: #f1f5f9;
-      color: #64748b;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round--ghost:hover {
-      background: #e8eef6;
-      color: #475569;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round--send {
-      width: 32px;
-      height: 32px;
-      background: #2563eb;
-      color: #ffffff;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round--send:hover {
-      filter: brightness(1.05);
-      background: #2563eb;
-      color: #ffffff;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__svg {
-      display: block;
-      width: 16px;
-      height: 16px;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round--send .ai-assist-composer__svg {
-      width: 17px;
-      height: 17px;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__search {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin: 0;
-      padding: 4px 6px;
-      border: none;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: var(--font-medium);
-      line-height: 1;
-      color: #64748b;
-      background: transparent;
-      cursor: pointer;
-      transition: color var(--duration-fast) var(--ease-default), background var(--duration-fast) var(--ease-default);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__search:hover {
-      color: #26364d;
-      background: #f1f5f9;
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__round:focus-visible,
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__search:focus-visible,
-    .ai-assistant-panel .ai-assistant-card__main .ai-assist-composer__input:focus-visible {
-      outline: 2px solid rgba(37, 99, 235, 0.45);
-      outline-offset: 2px;
-    }
-
     .workspace__panels-stack .live-outer .panel-muted {
       margin: 0;
       font-size: var(--text-sm);
@@ -791,12 +381,13 @@
     }
 
     /* 최근 상담 이력: 리스트 영역만 스크롤 */
-    .workspace__panels-stack > .live-outer:first-child > .live-inner {
+    .dash-card-history > .live-inner {
       gap: 0;
     }
 
-    .workspace__panels-stack > .live-outer:first-child .panel-list-scroll {
-      max-height: 200px;
+    .dash-card-history .panel-list-scroll {
+      flex: 1 1 auto;
+      max-height: none;
       min-height: 0;
       overflow-y: auto;
       overflow-x: hidden;
@@ -804,7 +395,7 @@
       box-sizing: border-box;
     }
 
-    .workspace__panels-stack > .live-outer:first-child .panel-list {
+    .dash-card-history .panel-list {
       margin: 0;
       padding: 0;
       list-style: none;
@@ -813,7 +404,7 @@
       gap: 4px;
     }
 
-    .workspace__panels-stack > .live-outer:first-child button.history-item {
+    .dash-card-history button.history-item {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -833,11 +424,11 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    .workspace__panels-stack > .live-outer:first-child button.history-item:hover {
+    .dash-card-history button.history-item:hover {
       background: #eaf2ff;
     }
 
-    .workspace__panels-stack > .live-outer:first-child .history-item__date {
+    .dash-card-history .history-item__date {
       font-size: var(--text-xs);
       font-weight: var(--font-medium);
       font-variant-numeric: tabular-nums;
@@ -845,7 +436,7 @@
       color: var(--text-soft);
     }
 
-    .workspace__panels-stack > .live-outer:first-child .history-item__title {
+    .dash-card-history .history-item__title {
       margin: 0;
       font-size: var(--text-md);
       font-weight: var(--font-semibold);
@@ -1004,28 +595,47 @@
       color: var(--text-muted);
     }
 
-    .main-workspace > .live-composite {
+    .main-workspace > .live-composite.live-composite--stack {
       flex: 1 1 auto;
+      height: 100%;
       min-height: 0;
       min-width: 0;
-      display: grid;
-      grid-template-columns: minmax(360px, 1.6fr) minmax(280px, 1fr);
-      grid-template-rows: minmax(0, 1fr);
+      display: flex;
+      flex-direction: column;
       align-items: stretch;
-      align-content: stretch;
+      gap: var(--space-5);
       overflow: hidden;
       box-sizing: border-box;
       background: transparent;
       border: none;
       border-radius: 0;
       box-shadow: none;
-      column-gap: 16px;
-      transition: grid-template-columns 280ms ease, column-gap 280ms ease;
+    }
+
+    .live-composite--know-only {
+      flex: 1 1 auto;
+      height: 100%;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .live-composite--know-only .live-outer--know {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .live-composite__stt {
-      grid-column: 1;
-      grid-row: 1;
+      flex: 1 1 0;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
@@ -1033,28 +643,35 @@
       min-height: 0;
       overflow: hidden;
       padding: 0;
-      border-right: none;
+      background: transparent;
+    }
+
+    /* 2열: STT(상) + 이력(하) 합산 높이 = 그리드 행(3열 풀카드와 동일) */
+    .live-composite__history {
+      flex: 0 0 34%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 120px;
+      max-height: 42%;
+      overflow: hidden;
+      padding: 0;
       background: transparent;
     }
 
-    .live-composite__rail {
-      grid-column: 2;
-      grid-row: 1;
-      box-sizing: border-box;
+    .live-composite__history .dash-card-history {
+      flex: 1 1 auto;
+      min-height: 0;
+      max-height: 100%;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      min-width: 0;
-      min-height: 0;
       overflow: hidden;
-      padding: 0;
-      background: transparent;
     }
 
     /* outer: 섹션 그룹 · 상단 헤더 여유 위주 패딩 */
     .live-composite .live-outer,
-    .ai-assistant-panel.live-outer,
-    .workspace__panels-stack > .live-outer {
+    .workspace__panels-stack--info details.live-outer {
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
@@ -1080,9 +697,7 @@
     }
 
     /* inner: 실제 컨텐츠 박스 — 고객/계약/STT/지식 공통 토큰 */
-    .live-composite .live-inner,
-    .ai-assistant-panel .ai-assistant-card__main > .live-inner,
-    .workspace__panels-stack > .live-outer > .live-inner {
+    .live-composite .live-inner {
       box-sizing: border-box;
       min-width: 0;
       min-height: 0;
@@ -1094,17 +709,20 @@
       overflow: hidden;
     }
 
-    .workspace__panels-stack > .live-outer > .live-inner {
+    .workspace__panels-stack--info details.live-outer > .info-accordion__panel > .live-inner {
+      box-sizing: border-box;
+      min-width: 0;
+      min-height: 0;
+      background: var(--bg-inner-content);
+      border: none;
+      border-radius: var(--radius-inner-content);
       padding: var(--space-4);
       gap: var(--space-3);
-    }
-
-    .ai-assistant-panel .ai-assistant-card__main > .live-inner {
-      flex: 1 1 auto;
+      box-shadow: var(--shadow-inner-content);
+      overflow: hidden;
+      flex: 0 1 auto;
       display: flex;
       flex-direction: column;
-      min-height: 0;
-      overflow: hidden;
     }
 
     /* STT 내부 컨텐츠 카드: 다른 카드 inner와 동일 토큰 · Siri 보더 없음 */
@@ -1125,8 +743,7 @@
       outline: none;
     }
 
-    .live-composite .live-outer--know > .live-inner,
-    .workspace__panels-stack > .live-outer > .live-inner {
+    .live-composite .live-outer--know > .live-inner {
       flex: 1 1 auto;
       display: flex;
       flex-direction: column;
@@ -1136,8 +753,7 @@
 
     /* 카드 헤더 공통: STT · 고객/계약 아코디언 · 추천 지식 */
     .live-composite .card-header,
-    .support-workspace .card-header,
-    .ai-assistant-panel .card-header {
+    .workspace__panels-stack--info .card-header {
       box-sizing: border-box;
       margin: 0 0 9px;
       padding: 6px 16px;
@@ -1149,26 +765,26 @@
     }
 
     .live-composite header.card-header,
-    .support-workspace header.card-header,
-    .ai-assistant-panel header.card-header {
+    .workspace__panels-stack--info summary.card-header {
       justify-content: flex-start;
     }
 
-    .live-composite summary.card-header {
+    .live-composite summary.card-header,
+    .workspace__panels-stack--info summary.card-header {
       list-style: none;
       justify-content: flex-start;
       cursor: pointer;
       user-select: none;
     }
 
-    .live-composite summary.card-header .card-header-title {
+    .live-composite summary.card-header .card-header-title,
+    .workspace__panels-stack--info summary.card-header .card-header-title {
       margin: 0;
       margin-inline-end: auto;
     }
 
     .live-composite .card-header-icon,
-    .support-workspace .card-header-icon,
-    .ai-assistant-panel .card-header-icon {
+    .workspace__panels-stack--info .card-header-icon {
       box-sizing: border-box;
       display: inline-flex;
       align-items: center;
@@ -1189,8 +805,7 @@
     }
 
     .live-composite .card-header-icon-svg,
-    .support-workspace .card-header-icon-svg,
-    .ai-assistant-panel .card-header-icon-svg {
+    .workspace__panels-stack--info .card-header-icon-svg {
       display: block;
       width: 22px;
       height: 22px;
@@ -1198,8 +813,7 @@
     }
 
     .live-composite .card-header-title,
-    .support-workspace .card-header-title,
-    .ai-assistant-panel .card-header-title {
+    .workspace__panels-stack--info .card-header-title {
       margin: 0;
       padding: 0;
       min-width: 0;
@@ -1210,16 +824,16 @@
       color: var(--text-strong);
     }
 
-    .live-composite details.live-outer.live-outer--accordion {
+    .workspace__panels-stack--info details.live-outer.live-outer--accordion {
       flex-shrink: 0;
       overflow: hidden;
     }
 
-    .live-composite details.live-outer > .card-header::-webkit-details-marker {
+    .workspace__panels-stack--info details.live-outer > summary.card-header::-webkit-details-marker {
       display: none;
     }
 
-    .live-composite details.live-outer > .card-header::after {
+    .workspace__panels-stack--info details.live-outer > summary.card-header::after {
       content: "";
       width: 7px;
       height: 7px;
@@ -1228,28 +842,29 @@
       transform: rotate(45deg);
       flex-shrink: 0;
       align-self: center;
-      transition: transform var(--duration-fast) var(--ease-default);
+      transition: transform 200ms cubic-bezier(0.33, 1, 0.68, 1);
     }
 
-    .live-composite details.live-outer.live-outer--accordion[open] > .card-header::after {
+    .workspace__panels-stack--info details.live-outer.live-outer--accordion[open] > summary.card-header::after {
       transform: rotate(-135deg);
     }
 
-    .live-composite details.live-outer > .card-header:focus-visible {
+    .workspace__panels-stack--info details.live-outer > summary.card-header:focus-visible {
       outline: 2px solid var(--primary);
       outline-offset: -2px;
     }
 
-    .live-composite .live-inner .live-sect__body {
+    .workspace__panels-stack--info details.live-outer.live-sect--customer,
+    .workspace__panels-stack--info details.live-outer.live-sect--contract {
+      flex-shrink: 0;
+    }
+
+    .live-composite .live-inner .live-sect__body,
+    .workspace__panels-stack--info .live-inner .live-sect__body {
       margin: 0;
       padding: 0;
       min-width: 0;
       min-height: 0;
-    }
-
-    .live-composite details.live-outer.live-sect--customer,
-    .live-composite details.live-outer.live-sect--contract {
-      flex-shrink: 0;
     }
 
     .live-composite .live-outer--know > .live-inner > .know-card__body {
@@ -1259,16 +874,21 @@
       height: auto;
       display: flex;
       flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
       padding: 0;
       gap: var(--space-3);
-      overflow: auto;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       background: transparent;
       border: none;
       box-shadow: none;
       border-radius: 0;
     }
 
-    .live-composite .left-accordion__dl {
+    .live-composite .left-accordion__dl,
+    .workspace__panels-stack--info .left-accordion__dl {
       margin: 0;
       padding: 0;
       display: flex;
@@ -1277,7 +897,8 @@
       min-width: 0;
     }
 
-    .live-composite .left-accordion__pair {
+    .live-composite .left-accordion__pair,
+    .workspace__panels-stack--info .left-accordion__pair {
       display: grid;
       grid-template-columns: 72px minmax(0, 1fr);
       column-gap: var(--space-2);
@@ -1285,7 +906,8 @@
       min-width: 0;
     }
 
-    .live-composite .left-accordion__pair dt {
+    .live-composite .left-accordion__pair dt,
+    .workspace__panels-stack--info .left-accordion__pair dt {
       margin: 0;
       font-size: var(--text-sm);
       font-weight: var(--font-medium);
@@ -1295,7 +917,8 @@
       overflow-wrap: break-word;
     }
 
-    .live-composite .left-accordion__pair dd {
+    .live-composite .left-accordion__pair dd,
+    .workspace__panels-stack--info .left-accordion__pair dd {
       margin: 0;
       font-size: var(--text-md);
       font-weight: var(--font-semibold);
@@ -1304,7 +927,8 @@
       word-break: keep-all;
     }
 
-    .live-composite .left-accordion__dd--tags {
+    .live-composite .left-accordion__dd--tags,
+    .workspace__panels-stack--info .left-accordion__dd--tags {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -1312,7 +936,8 @@
       min-width: 0;
     }
 
-    .live-composite .status-pill {
+    .live-composite .status-pill,
+    .workspace__panels-stack--info .status-pill {
       display: inline-flex;
       align-items: center;
       box-sizing: border-box;
@@ -1765,45 +1390,30 @@
     @media (max-width: 900px) {
       .workspace {
         grid-template-columns: 1fr;
-        grid-template-rows: minmax(0, 1.05fr) minmax(0, 0.95fr) auto;
+        grid-auto-rows: minmax(0, auto);
         gap: var(--space-5);
         padding: var(--space-5) var(--page-padding-x);
       }
 
-      .workspace:not(.workspace--ai-panel-open) {
-        grid-template-rows: minmax(0, 1.05fr) minmax(0, 0.95fr) minmax(96px, auto);
-      }
-
-      .workspace.workspace--ai-panel-open {
-        grid-template-rows: minmax(0, 1fr) minmax(0, 0.85fr) minmax(260px, 44vh);
-      }
-
+      .workspace__col--info,
       .workspace__col--live,
-      .workspace__col--panels {
-        min-height: calc(8 * var(--space-8));
+      .workspace__col--know {
+        min-height: min(60vh, calc(10 * var(--space-8)));
       }
 
-      .main-workspace > .live-composite {
-        grid-template-columns: 1fr;
-        grid-template-rows: minmax(0, 1.05fr) minmax(0, 1fr);
-        row-gap: 12px;
-        column-gap: 0;
+      .main-workspace > .live-composite.live-composite--stack {
+        min-height: min(72vh, 640px);
       }
 
       .live-composite__stt {
-        grid-column: 1;
-        grid-row: 1;
-        border-right: none;
-        border-bottom: none;
-        padding: 0;
+        flex: 1 1 0;
+        min-height: 200px;
       }
 
-      .live-composite__rail {
-        grid-column: 1;
-        grid-row: 2;
-        min-height: 0;
-        overflow: auto;
-        padding: 0;
+      .live-composite__history {
+        flex: 0 0 auto;
+        max-height: min(280px, 42vh);
+        min-height: 120px;
       }
     }
 
@@ -1911,8 +1521,255 @@
     </header>
 
     <main class="workspace" aria-label="워크스페이스">
-      <div class="workspace__col workspace__col--live main-workspace">
-        <div class="live-composite" aria-label="실시간 상담 영역">
+      <div class="workspace__col workspace__col--info" aria-label="고객 및 계약 정보">
+        <div class="workspace__panels-stack workspace__panels-stack--info scroll-area">
+            <details class="live-outer live-outer--accordion live-sect--customer" open aria-labelledby="live-sect-title-customer">
+              <summary class="card-header live-sect__head live-sect__accordion-summary">
+                  <span class="card-header-icon" aria-hidden="true">
+                    <svg class="card-header-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                      <circle cx="10.4654" cy="8.14212" r="4.70071" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M4.05002 19.468C3.93917 18.8298 3.98496 18.1684 3.98496 17.5238C3.98496 15.0944 5.95436 13.125 8.38374 13.125H12.6671C12.9936 13.125 13.3117 13.1606 13.6179 13.228" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M18.7233 20.5532H16.1026C15.3837 20.5532 14.8018 19.9712 14.8018 19.2523V17.7813C14.8018 17.0634 15.3837 16.4805 16.1026 16.4805H18.7233C19.4412 16.4805 20.0241 17.0634 20.0241 17.7813V19.2523C20.0241 19.9712 19.4412 20.5532 18.7233 20.5532Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M18.9771 16.5055V15.5375C18.9666 14.6731 18.2573 13.9818 17.3929 13.9923C16.5475 14.0028 15.8629 14.6846 15.8486 15.5309V16.5055" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                  <h3 class="card-header-title live-sect__title" id="live-sect-title-customer">고객정보</h3>
+              </summary>
+              <div class="info-accordion__panel">
+              <div class="live-inner">
+              <div class="live-sect__body">
+                <dl class="left-accordion__dl">
+                  <div class="left-accordion__pair">
+                    <dt>고객명</dt>
+                    <dd>홍길동 (M / 58세)</dd>
+                  </div>
+                  <div class="left-accordion__pair">
+                    <dt>고객번호</dt>
+                    <dd>1234-5678 / VIP</dd>
+                  </div>
+                  <div class="left-accordion__pair">
+                    <dt>상태</dt>
+                    <dd class="left-accordion__dd--tags">
+                      <span class="status-pill">실효 3건</span>
+                      <span class="status-pill">갱신안내창</span>
+                      <span class="status-pill">지급정지</span>
+                    </dd>
+                  </div>
+                  <div class="left-accordion__pair">
+                    <dt>주의사항</dt>
+                    <dd>실손반송 콜이력 · 본인확인 스크립트 우선</dd>
+                  </div>
+                </dl>
+              </div>
+              </div>
+              </div>
+            </details>
+            <details class="live-outer live-outer--accordion live-sect--contract" open aria-labelledby="live-sect-title-contract">
+              <summary class="card-header live-sect__head live-sect__accordion-summary">
+                  <span class="card-header-icon" aria-hidden="true">
+                    <svg class="card-header-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                      <path d="M8.04403 20.999C5.9716 20.9533 4.32825 19.236 4.37398 17.1636V6.65646C4.42263 4.61711 6.09419 2.99128 8.13451 3.00004H13.7855C14.344 3.00004 14.8782 3.22674 15.2644 3.62955L19.0561 7.57884C19.4219 7.96121 19.6272 8.47008 19.6272 8.9984V17.1636C19.6409 19.2185 18.0238 20.9163 15.9698 21M8.04403 20.999C8.07419 20.999 8.10435 21 8.13451 21H15.9698M8.04403 20.999C8.07419 20.999 15.9698 21 15.9698 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M14.2695 3.0625V5.95514C14.2686 7.36692 15.4118 8.51211 16.8236 8.51503H19.5625" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M8.51562 16.4818H12.9748M8.51562 13.0612H15.2427M8.51562 9.64062H11.4579" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                  <h3 class="card-header-title live-sect__title" id="live-sect-title-contract">계약정보</h3>
+              </summary>
+              <div class="info-accordion__panel">
+              <div class="live-inner">
+              <div class="live-sect__body">
+                <dl class="left-accordion__dl">
+                  <div class="left-accordion__pair">
+                    <dt>계약명</dt>
+                    <dd>[종신] 무배당 신한 더드림</dd>
+                  </div>
+                  <div class="left-accordion__pair">
+                    <dt>계약번호</dt>
+                    <dd>1234-5678</dd>
+                  </div>
+                  <div class="left-accordion__pair">
+                    <dt>처리 가능 여부</dt>
+                    <dd>보험금 청구 가능 / 서비스 정지 불가 / 자동이체 변경 가능</dd>
+                  </div>
+                  <div class="left-accordion__pair">
+                    <dt>월 보험료</dt>
+                    <dd>120,000원</dd>
+                  </div>
+                  <div class="left-accordion__pair">
+                    <dt>가입금액</dt>
+                    <dd>1억원</dd>
+                  </div>
+                  <div class="left-accordion__pair">
+                    <dt>해약환급금</dt>
+                    <dd>8,420,000원</dd>
+                  </div>
+                  <div class="left-accordion__pair">
+                    <dt>면책</dt>
+                    <dd>N/A</dd>
+                  </div>
+                </dl>
+              </div>
+              </div>
+              </div>
+            </details>
+            <details class="live-outer live-outer--accordion" aria-labelledby="dash-card-contract-title">
+              <summary class="card-header live-sect__head live-sect__accordion-summary">
+                <span class="card-header-icon" aria-hidden="true">
+                  <svg
+                    class="card-header-icon-svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    focusable="false"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M14.3233 6.28561H9.67659C8.92742 6.28561 8.32031 5.67849 8.32031 4.92933V4.35627C8.32031 3.60711 8.92742 3 9.67659 3H14.3233C15.0725 3 15.6796 3.60711 15.6796 4.35627V4.92933C15.6796 5.67849 15.0725 6.28561 14.3233 6.28561Z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M15.6803 4.59375C17.7536 4.59375 19.4348 6.27498 19.4348 8.34831V17.2458C19.4348 19.3191 17.7536 21.0004 15.6803 21.0004H8.32097C6.24764 21.0004 4.56641 19.3191 4.56641 17.2458V8.34831C4.56641 6.27498 6.24764 4.59375 8.32097 4.59375"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.4837 11H15.4707M8.52734 11H8.80852"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.4837 15.8203H15.4707M8.52734 15.8203H8.80852"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <h3 class="card-header-title live-sect__title" id="dash-card-contract-title">계약 리스트 (3건)</h3>
+              </summary>
+              <div class="info-accordion__panel">
+              <div class="live-inner">
+                <ul class="contract-list" role="list">
+                  <li>
+                    <button type="button" class="contract-list__item is-selected" aria-pressed="true">
+                      <span class="contract-list__check" aria-hidden="true">✓</span>
+                      <span>
+                        <p class="contract-list__title">[종신] 무배당 신한 더드림</p>
+                        <p class="contract-list__meta">계약 2018.03 / 월 120,000원</p>
+                      </span>
+                    </button>
+                  </li>
+                  <li>
+                    <button type="button" class="contract-list__item" aria-pressed="false">
+                      <span class="contract-list__check" aria-hidden="true">✓</span>
+                      <span>
+                        <p class="contract-list__title">[연금] 신한 라이프 플랜</p>
+                      </span>
+                    </button>
+                  </li>
+                  <li>
+                    <button type="button" class="contract-list__item" aria-pressed="false">
+                      <span class="contract-list__check" aria-hidden="true">✓</span>
+                      <span>
+                        <p class="contract-list__title">[변액] 신한 인베스트</p>
+                      </span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              </div>
+            </details>
+            <details class="live-outer live-outer--accordion guide-card" aria-labelledby="dash-card-guide-title">
+              <summary class="card-header live-sect__head live-sect__accordion-summary">
+                <span class="card-header-icon" aria-hidden="true">
+                  <svg
+                    class="card-header-icon-svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    focusable="false"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M7.78216 3H16.2169C19.165 3 21 5.08119 21 8.02638V15.9736C21 18.9188 19.165 21 16.2159 21H7.78216C4.83405 21 3 18.9188 3 15.9736V8.02638C3 5.08119 4.84281 3 7.78216 3Z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.9941 15.8917V11.9998M11.9941 8.35426V8.29102"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <h3 class="card-header-title live-sect__title" id="dash-card-guide-title">상담 안내 가이드</h3>
+              </summary>
+              <div class="info-accordion__panel">
+              <div class="live-inner card-content">
+                <div class="guide-scroll-area scroll-area" tabindex="0" role="region" aria-label="상담 안내 상세">
+                  <div class="guide-script-card">
+                    <p class="guide-script-card__title">[자동안내] 보험금 청구 스크립트</p>
+                  </div>
+                  <p class="panel-muted">필수 안내 5건 중 3건 완료</p>
+                  <div
+                    class="guide-progress"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="60"
+                    aria-label="필수 안내 진행률 60%"
+                  >
+                    <div class="guide-progress__fill"></div>
+                  </div>
+                  <ul class="guide-checklist">
+                    <li class="guide-checklist__item is-done">
+                      <span class="guide-checklist__icon" aria-hidden="true">✓</span>
+                      <span class="guide-checklist__label">본인확인</span>
+                    </li>
+                    <li class="guide-checklist__item is-done">
+                      <span class="guide-checklist__icon" aria-hidden="true">✓</span>
+                      <span class="guide-checklist__label">청구 사유</span>
+                    </li>
+                    <li class="guide-checklist__item is-done">
+                      <span class="guide-checklist__icon" aria-hidden="true">✓</span>
+                      <span class="guide-checklist__label">구비서류</span>
+                    </li>
+                    <li class="guide-checklist__item">
+                      <span class="guide-checklist__icon" aria-hidden="true">☐</span>
+                      <span class="guide-checklist__label">처리기간</span>
+                    </li>
+                    <li class="guide-checklist__item">
+                      <span class="guide-checklist__icon" aria-hidden="true">☐</span>
+                      <span class="guide-checklist__label">마무리</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              </div>
+            </details>
+        </div>
+      </div>
+
+      <div class="workspace__col workspace__col--live main-workspace" aria-label="실시간 상담 및 이력">
+        <div class="live-composite live-composite--stack" aria-label="실시간 상담 영역">
           <div class="live-composite__stt">
             <div class="live-outer live-outer--stt">
             <header class="card-header live-sect__head">
@@ -2019,9 +1876,9 @@
                   </article>
                 </div>
               </div>
-              <div class="floating-control-group" role="group" aria-label="AI 음성 분석 및 통화 경과 시간">
+              <div class="floating-control-group" role="group" aria-label="통화 경과 시간 및 음성 활동 표시">
                 <time class="floating-control-group__elapsed" datetime="PT0S">00:00</time>
-                <div class="stt-wave-float floating-wave-bar" role="status" aria-label="통화 진행 중 · AI 음성 분석">
+                <div class="stt-wave-float floating-wave-bar" role="status" aria-label="통화 진행 중 · 음성 활동">
                   <div class="stt-wave-float__wave waveform" aria-hidden="true">
                     <div class="stt-wave-float__wave-viewport wave-viewport">
                       <div class="stt-wave-float__wave-track">
@@ -2031,149 +1888,14 @@
                     </div>
                   </div>
                 </div>
-                <p class="floating-control-group__caption">AI가 실시간으로 대화내용을 분석하고 있습니다</p>
+                <p class="floating-control-group__caption">실시간으로 통화 내용이 기록됩니다</p>
               </div>
               </div>
             </div>
             </div>
           </div>
-          <div class="live-composite__rail scroll-area">
-            <details
-              class="live-outer live-outer--accordion live-sect--customer"
-              aria-labelledby="live-sect-title-customer"
-            >
-              <summary class="card-header live-sect__accordion-summary">
-                  <span class="card-header-icon" aria-hidden="true">
-                    <svg class="card-header-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                      <circle cx="10.4654" cy="8.14212" r="4.70071" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M4.05002 19.468C3.93917 18.8298 3.98496 18.1684 3.98496 17.5238C3.98496 15.0944 5.95436 13.125 8.38374 13.125H12.6671C12.9936 13.125 13.3117 13.1606 13.6179 13.228" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M18.7233 20.5532H16.1026C15.3837 20.5532 14.8018 19.9712 14.8018 19.2523V17.7813C14.8018 17.0634 15.3837 16.4805 16.1026 16.4805H18.7233C19.4412 16.4805 20.0241 17.0634 20.0241 17.7813V19.2523C20.0241 19.9712 19.4412 20.5532 18.7233 20.5532Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M18.9771 16.5055V15.5375C18.9666 14.6731 18.2573 13.9818 17.3929 13.9923C16.5475 14.0028 15.8629 14.6846 15.8486 15.5309V16.5055" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </span>
-                  <h3 class="card-header-title live-sect__title" id="live-sect-title-customer">고객정보</h3>
-              </summary>
-              <div class="live-inner">
-              <div class="live-sect__body">
-                <dl class="left-accordion__dl">
-                  <div class="left-accordion__pair">
-                    <dt>고객명</dt>
-                    <dd>홍길동 (M / 58세)</dd>
-                  </div>
-                  <div class="left-accordion__pair">
-                    <dt>고객번호</dt>
-                    <dd>1234-5678 / VIP</dd>
-                  </div>
-                  <div class="left-accordion__pair">
-                    <dt>상태</dt>
-                    <dd class="left-accordion__dd--tags">
-                      <span class="status-pill">실효 3건</span>
-                      <span class="status-pill">갱신안내창</span>
-                      <span class="status-pill">지급정지</span>
-                    </dd>
-                  </div>
-                  <div class="left-accordion__pair">
-                    <dt>주의사항</dt>
-                    <dd>실손반송 콜이력 · 본인확인 스크립트 우선</dd>
-                  </div>
-                </dl>
-              </div>
-              </div>
-            </details>
-            <details
-              class="live-outer live-outer--accordion live-sect--contract"
-              aria-labelledby="live-sect-title-contract"
-            >
-              <summary class="card-header live-sect__accordion-summary">
-                  <span class="card-header-icon" aria-hidden="true">
-                    <svg class="card-header-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                      <path d="M8.04403 20.999C5.9716 20.9533 4.32825 19.236 4.37398 17.1636V6.65646C4.42263 4.61711 6.09419 2.99128 8.13451 3.00004H13.7855C14.344 3.00004 14.8782 3.22674 15.2644 3.62955L19.0561 7.57884C19.4219 7.96121 19.6272 8.47008 19.6272 8.9984V17.1636C19.6409 19.2185 18.0238 20.9163 15.9698 21M8.04403 20.999C8.07419 20.999 8.10435 21 8.13451 21H15.9698M8.04403 20.999C8.07419 20.999 15.9698 21 15.9698 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M14.2695 3.0625V5.95514C14.2686 7.36692 15.4118 8.51211 16.8236 8.51503H19.5625" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M8.51562 16.4818H12.9748M8.51562 13.0612H15.2427M8.51562 9.64062H11.4579" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </span>
-                  <h3 class="card-header-title live-sect__title" id="live-sect-title-contract">계약정보</h3>
-              </summary>
-              <div class="live-inner">
-              <div class="live-sect__body">
-                <dl class="left-accordion__dl">
-                  <div class="left-accordion__pair">
-                    <dt>계약명</dt>
-                    <dd>[종신] 무배당 신한 더드림</dd>
-                  </div>
-                  <div class="left-accordion__pair">
-                    <dt>계약번호</dt>
-                    <dd>1234-5678</dd>
-                  </div>
-                  <div class="left-accordion__pair">
-                    <dt>처리 가능 여부</dt>
-                    <dd>보험금 청구 가능 / 서비스 정지 불가 / 자동이체 변경 가능</dd>
-                  </div>
-                  <div class="left-accordion__pair">
-                    <dt>월 보험료</dt>
-                    <dd>120,000원</dd>
-                  </div>
-                  <div class="left-accordion__pair">
-                    <dt>가입금액</dt>
-                    <dd>1억원</dd>
-                  </div>
-                  <div class="left-accordion__pair">
-                    <dt>해약환급금</dt>
-                    <dd>8,420,000원</dd>
-                  </div>
-                  <div class="left-accordion__pair">
-                    <dt>면책</dt>
-                    <dd>N/A</dd>
-                  </div>
-                </dl>
-              </div>
-              </div>
-            </details>
-            <section class="live-outer live-outer--know live-sect--know" aria-labelledby="live-sect-title-know">
-              <header class="card-header live-sect__head">
-                <span class="card-header-icon" aria-hidden="true">
-                  <svg class="card-header-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                    <path d="M5.17459 18.3741C7.55059 18.5454 9.61913 19.5174 10.8383 20.2238C11.5592 20.6412 12.4408 20.6412 13.1617 20.2238C14.3809 19.5174 16.4494 18.5454 18.8254 18.3741C20.0406 18.2866 21 17.3136 21 16.0954V5.75371C21 4.38182 19.7994 3.33004 18.4362 3.4789C16.2246 3.72117 14.3137 4.62507 13.1617 5.2935C12.4408 5.7109 11.5592 5.7109 10.8383 5.2935C9.68627 4.62507 7.77535 3.72117 5.56378 3.4789C4.19968 3.33004 3 4.38182 3 5.75371V16.0954C3 17.3136 3.95935 18.2866 5.17459 18.3741Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12 15.9297L12 20.4804" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M9.56783 13.3402L9.46681 13.0668C9.08595 12.036 8.27443 11.2233 7.2451 10.8419L6.97217 10.7407L7.2451 10.6396C8.27443 10.2581 9.08595 9.44542 9.46681 8.41463L9.56783 8.14122L9.66885 8.41463C10.0497 9.44542 10.8612 10.2581 11.8906 10.6396L12.1636 10.7407L11.8906 10.8419C10.8612 11.2233 10.0497 12.036 9.66885 13.0668L9.56783 13.3402Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14.8785 14.5823C14.7069 14.0176 14.2657 13.5757 13.7019 13.4038C14.2657 13.232 14.7069 12.79 14.8785 12.2254C15.0502 12.79 15.4914 13.232 16.0552 13.4038C15.4914 13.5757 15.0502 14.0176 14.8785 14.5823Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <h3 class="card-header-title live-sect__title" id="live-sect-title-know">추천 지식 답변</h3>
-              </header>
-              <div class="live-inner">
-                <div class="know-card__body scroll-area">
-                  <div class="know-card__block">
-                    <span class="know-card__label">추천 답변</span>
-                    <p class="know-card__answer">
-                      청구 서류는 사고 유형에 따라 달라지며, 접수 후 심사까지 통상 7~14영업일이 소요될 수 있습니다.
-                      필요 시 추가 서류를 요청드릴 수 있으니, 고객 안내 시 약관상 면책·지급 제한 여부를 함께 확인해 주세요.
-                    </p>
-                  </div>
-                  <div class="know-card__block">
-                    <span class="know-card__label">관련 FAQ</span>
-                    <div class="know-card__btn-row" role="group" aria-label="관련 FAQ">
-                      <button type="button" class="know-card__btn knowledge-chip">청구 후 지급 기간은?</button>
-                      <button type="button" class="know-card__btn knowledge-chip">필요 서류는 무엇인가요?</button>
-                    </div>
-                  </div>
-                  <div class="know-card__block">
-                    <span class="know-card__label">추천 다음 화면</span>
-                    <div class="know-card__btn-row" role="group" aria-label="추천 다음 화면">
-                      <button type="button" class="know-card__btn knowledge-chip">보험금 청구 접수 화면</button>
-                      <button type="button" class="know-card__btn knowledge-chip">자동이체 변경 화면</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-      </div>
-
-      <div class="workspace__col workspace__col--panels support-workspace" aria-label="보조 업무 패널">
-          <div class="workspace__panels-stack">
-            <section class="live-outer" aria-labelledby="dash-card-history-title">
+          <div class="live-composite__history">
+            <section class="live-outer dash-card-history" aria-labelledby="dash-card-history-title">
               <header class="card-header live-sect__head">
                 <span class="card-header-icon" aria-hidden="true">
                   <svg
@@ -2253,273 +1975,52 @@
                 </div>
               </div>
             </section>
-            <section class="live-outer" aria-labelledby="dash-card-contract-title">
-              <header class="card-header live-sect__head">
-                <span class="card-header-icon" aria-hidden="true">
-                  <svg
-                    class="card-header-icon-svg"
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    focusable="false"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M14.3233 6.28561H9.67659C8.92742 6.28561 8.32031 5.67849 8.32031 4.92933V4.35627C8.32031 3.60711 8.92742 3 9.67659 3H14.3233C15.0725 3 15.6796 3.60711 15.6796 4.35627V4.92933C15.6796 5.67849 15.0725 6.28561 14.3233 6.28561Z"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M15.6803 4.59375C17.7536 4.59375 19.4348 6.27498 19.4348 8.34831V17.2458C19.4348 19.3191 17.7536 21.0004 15.6803 21.0004H8.32097C6.24764 21.0004 4.56641 19.3191 4.56641 17.2458V8.34831C4.56641 6.27498 6.24764 4.59375 8.32097 4.59375"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M11.4837 11H15.4707M8.52734 11H8.80852"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M11.4837 15.8203H15.4707M8.52734 15.8203H8.80852"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </span>
-                <h3 class="card-header-title live-sect__title" id="dash-card-contract-title">계약 리스트 (3건)</h3>
-              </header>
-              <div class="live-inner">
-                <ul class="contract-list" role="list">
-                  <li>
-                    <button type="button" class="contract-list__item is-selected" aria-pressed="true">
-                      <span class="contract-list__check" aria-hidden="true">✓</span>
-                      <span>
-                        <p class="contract-list__title">[종신] 무배당 신한 더드림</p>
-                        <p class="contract-list__meta">계약 2018.03 / 월 120,000원</p>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button type="button" class="contract-list__item" aria-pressed="false">
-                      <span class="contract-list__check" aria-hidden="true">✓</span>
-                      <span>
-                        <p class="contract-list__title">[연금] 신한 라이프 플랜</p>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button type="button" class="contract-list__item" aria-pressed="false">
-                      <span class="contract-list__check" aria-hidden="true">✓</span>
-                      <span>
-                        <p class="contract-list__title">[변액] 신한 인베스트</p>
-                      </span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </section>
-            <section class="live-outer guide-card" aria-labelledby="dash-card-guide-title">
-              <header class="card-header live-sect__head">
-                <span class="card-header-icon" aria-hidden="true">
-                  <svg
-                    class="card-header-icon-svg"
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    focusable="false"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M7.78216 3H16.2169C19.165 3 21 5.08119 21 8.02638V15.9736C21 18.9188 19.165 21 16.2159 21H7.78216C4.83405 21 3 18.9188 3 15.9736V8.02638C3 5.08119 4.84281 3 7.78216 3Z"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M11.9941 15.8917V11.9998M11.9941 8.35426V8.29102"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </span>
-                <h3 class="card-header-title live-sect__title" id="dash-card-guide-title">상담 안내 가이드</h3>
-              </header>
-              <div class="live-inner card-content">
-                <div class="guide-scroll-area scroll-area" tabindex="0" role="region" aria-label="상담 안내 상세">
-                  <div class="guide-script-card">
-                    <p class="guide-script-card__title">[자동안내] 보험금 청구 스크립트</p>
-                  </div>
-                  <p class="panel-muted">필수 안내 5건 중 3건 완료</p>
-                  <div
-                    class="guide-progress"
-                    role="progressbar"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow="60"
-                    aria-label="필수 안내 진행률 60%"
-                  >
-                    <div class="guide-progress__fill"></div>
-                  </div>
-                  <ul class="guide-checklist">
-                    <li class="guide-checklist__item is-done">
-                      <span class="guide-checklist__icon" aria-hidden="true">✓</span>
-                      <span class="guide-checklist__label">본인확인</span>
-                    </li>
-                    <li class="guide-checklist__item is-done">
-                      <span class="guide-checklist__icon" aria-hidden="true">✓</span>
-                      <span class="guide-checklist__label">청구 사유</span>
-                    </li>
-                    <li class="guide-checklist__item is-done">
-                      <span class="guide-checklist__icon" aria-hidden="true">✓</span>
-                      <span class="guide-checklist__label">구비서류</span>
-                    </li>
-                    <li class="guide-checklist__item">
-                      <span class="guide-checklist__icon" aria-hidden="true">☐</span>
-                      <span class="guide-checklist__label">처리기간</span>
-                    </li>
-                    <li class="guide-checklist__item">
-                      <span class="guide-checklist__icon" aria-hidden="true">☐</span>
-                      <span class="guide-checklist__label">마무리</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </section>
           </div>
+        </div>
       </div>
-          <section
-            class="live-outer ai-assistant-card ai-assistant-panel"
-            id="ai-assistant-panel"
-            aria-expanded="false"
-            aria-labelledby="ai-assistant-title"
-            aria-label="AI 상담 도우미"
-          >
-            <button
-              type="button"
-              class="ai-assistant-card__handle"
-              id="ai-assistant-expand"
-              aria-controls="ai-assistant-main"
-              aria-expanded="false"
-              aria-label="AI 상담 도우미 패널 열기"
-            >
-              <span class="ai-assistant-card__handle-icon" aria-hidden="true"></span>
-              <span class="ai-assistant-card__handle-label">AI</span>
-            </button>
-            <div class="ai-assistant-card__main" id="ai-assistant-main">
+
+      <div class="workspace__col workspace__col--know" aria-label="추천 지식">
+        <div class="live-composite live-composite--know-only" aria-label="추천 지식 답변">
+            <section class="live-outer live-outer--know live-sect--know" aria-labelledby="live-sect-title-know">
               <header class="card-header live-sect__head">
-              <span class="card-header-icon" aria-hidden="true"></span>
-              <h3 class="card-header-title live-sect__title" id="ai-assistant-title">AI 상담 도우미</h3>
-              <span class="ai-assistant-card__status" aria-live="polite">
-                <span class="ai-assistant-card__status-dot" aria-hidden="true"></span>
-                실시간 분석 중
-              </span>
-              <button
-                type="button"
-                class="ai-assistant-card__collapse"
-                id="ai-assistant-collapse"
-                aria-controls="ai-assistant-main"
-                aria-label="AI 패널 접기"
-                aria-hidden="true"
-                tabindex="-1"
-              >
-                <svg
-                  class="ai-assistant-card__collapse-svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </button>
-            </header>
+                <span class="card-header-icon" aria-hidden="true">
+                  <svg class="card-header-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                    <path d="M5.17459 18.3741C7.55059 18.5454 9.61913 19.5174 10.8383 20.2238C11.5592 20.6412 12.4408 20.6412 13.1617 20.2238C14.3809 19.5174 16.4494 18.5454 18.8254 18.3741C20.0406 18.2866 21 17.3136 21 16.0954V5.75371C21 4.38182 19.7994 3.33004 18.4362 3.4789C16.2246 3.72117 14.3137 4.62507 13.1617 5.2935C12.4408 5.7109 11.5592 5.7109 10.8383 5.2935C9.68627 4.62507 7.77535 3.72117 5.56378 3.4789C4.19968 3.33004 3 4.38182 3 5.75371V16.0954C3 17.3136 3.95935 18.2866 5.17459 18.3741Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 15.9297L12 20.4804" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9.56783 13.3402L9.46681 13.0668C9.08595 12.036 8.27443 11.2233 7.2451 10.8419L6.97217 10.7407L7.2451 10.6396C8.27443 10.2581 9.08595 9.44542 9.46681 8.41463L9.56783 8.14122L9.66885 8.41463C10.0497 9.44542 10.8612 10.2581 11.8906 10.6396L12.1636 10.7407L11.8906 10.8419C10.8612 11.2233 10.0497 12.036 9.66885 13.0668L9.56783 13.3402Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.8785 14.5823C14.7069 14.0176 14.2657 13.5757 13.7019 13.4038C14.2657 13.232 14.7069 12.79 14.8785 12.2254C15.0502 12.79 15.4914 13.232 16.0552 13.4038C15.4914 13.5757 15.0502 14.0176 14.8785 14.5823Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <h3 class="card-header-title live-sect__title" id="live-sect-title-know">추천 지식 답변</h3>
+              </header>
               <div class="live-inner">
-              <div class="ai-assistant-scroll scroll-area" tabindex="0">
-                <div class="ai-assist-msg ai-assist-msg--user">
-                  <div class="ai-assist-bubble ai-assist-bubble--user">
-                    <p class="ai-assist-bubble__text">암보험 면책기간 어떻게 돼?</p>
+                <div class="know-card__body scroll-area">
+                  <div class="know-card__block">
+                    <span class="know-card__label">추천 답변</span>
+                    <p class="know-card__answer">
+                      청구 서류는 사고 유형에 따라 달라지며, 접수 후 심사까지 통상 7~14영업일이 소요될 수 있습니다.
+                      필요 시 추가 서류를 요청드릴 수 있으니, 고객 안내 시 약관상 면책·지급 제한 여부를 함께 확인해 주세요.
+                    </p>
                   </div>
-                  <span class="ai-assist-msg__time">14:25:10</span>
-                </div>
-                <div class="ai-assist-msg ai-assist-msg--ai">
-                  <div class="ai-assist-bubble ai-assist-bubble--ai">
-                    <p class="ai-assist-bubble__lead">암 보장 개시일은 보통 계약일로부터 90일 이후입니다.</p>
-                    <p class="ai-assist-bubble__sub">상품/특약에 따라 예외가 있을 수 있어 약관 확인이 필요합니다.</p>
-                    <div class="ai-assist-bubble__sources">
-                      <span class="ai-assist-source-chip">SOK#3201 약관 612</span>
-                      <span class="ai-assist-source-chip">FAQ #87</span>
+                  <div class="know-card__block">
+                    <span class="know-card__label">관련 FAQ</span>
+                    <div class="know-card__btn-row" role="group" aria-label="관련 FAQ">
+                      <button type="button" class="know-card__btn knowledge-chip">청구 후 지급 기간은?</button>
+                      <button type="button" class="know-card__btn knowledge-chip">필요 서류는 무엇인가요?</button>
                     </div>
                   </div>
-                  <span class="ai-assist-msg__time">14:25:11</span>
-                </div>
-                <div class="ai-assist-chips" role="group" aria-label="추천 질문">
-                  <button type="button" class="ai-assist-chip">갱신형 vs 비갱신형 차이</button>
-                  <button type="button" class="ai-assist-chip">보험금 지급 기준</button>
-                  <button type="button" class="ai-assist-chip">면책기간 예외</button>
-                </div>
-              </div>
-              <div class="ai-assist-footer">
-                <div class="ai-assist-composer" role="region" aria-label="AI 질문 입력">
-                  <textarea
-                    class="ai-assist-composer__input scroll-area"
-                    rows="2"
-                    placeholder="AI에게 추가 질문하기..."
-                    aria-label="AI에게 추가 질문하기"
-                  ></textarea>
-                  <div class="ai-assist-composer__bar">
-                    <div class="ai-assist-composer__bar-left">
-                      <button type="button" class="ai-assist-composer__round ai-assist-composer__round--sm" aria-label="추가">
-                        <svg class="ai-assist-composer__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-                          <path d="M12 5v14M5 12h14" />
-                        </svg>
-                      </button>
-                      <button type="button" class="ai-assist-composer__search" aria-label="검색">
-                        <svg class="ai-assist-composer__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                          <circle cx="11" cy="11" r="7" />
-                          <path d="M21 21l-4.3-4.3" />
-                        </svg>
-                        <span>Search</span>
-                      </button>
-                    </div>
-                    <div class="ai-assist-composer__bar-right">
-                      <button type="button" class="ai-assist-composer__round ai-assist-composer__round--sm ai-assist-composer__round--ghost" aria-label="음성 입력">
-                        <svg class="ai-assist-composer__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                          <path d="M12 14a3 3 0 0 0 3-3V7a3 3 0 0 0-6 0v4a3 3 0 0 0 3 3z" />
-                          <path d="M19 11a7 7 0 0 1-14 0" />
-                          <path d="M12 18v3M9 21h6" />
-                        </svg>
-                      </button>
-                      <button type="button" class="ai-assist-composer__round ai-assist-composer__round--send" aria-label="전송">
-                        <svg class="ai-assist-composer__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                          <path d="M12 19V5M5 12l7-7 7 7" />
-                        </svg>
-                      </button>
+                  <div class="know-card__block">
+                    <span class="know-card__label">추천 다음 화면</span>
+                    <div class="know-card__btn-row" role="group" aria-label="추천 다음 화면">
+                      <button type="button" class="know-card__btn knowledge-chip">보험금 청구 접수 화면</button>
+                      <button type="button" class="know-card__btn knowledge-chip">자동이체 변경 화면</button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+        </div>
+      </div>
     </main>
 
     <footer class="statusbar">
@@ -2580,43 +2081,6 @@
         });
       })();
 
-      (function () {
-        var workspace = document.querySelector(".workspace");
-        var panel = document.getElementById("ai-assistant-panel");
-        var expandBtn = document.getElementById("ai-assistant-expand");
-        var collapseBtn = document.getElementById("ai-assistant-collapse");
-        var mainEl = document.getElementById("ai-assistant-main");
-        if (!workspace || !panel || !expandBtn || !collapseBtn || !mainEl) return;
-
-        function setOpen(open) {
-          workspace.classList.toggle("workspace--ai-panel-open", open);
-          panel.setAttribute("aria-expanded", open ? "true" : "false");
-          expandBtn.setAttribute("aria-expanded", open ? "true" : "false");
-          expandBtn.setAttribute("aria-hidden", open ? "true" : "false");
-          expandBtn.tabIndex = open ? -1 : 0;
-          collapseBtn.setAttribute("aria-hidden", open ? "false" : "true");
-          collapseBtn.tabIndex = open ? 0 : -1;
-          if (open) {
-            var ta = mainEl.querySelector(".ai-assist-composer__input");
-            if (ta) ta.focus();
-          }
-        }
-
-        expandBtn.addEventListener("click", function () {
-          setOpen(true);
-        });
-
-        collapseBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          setOpen(false);
-        });
-
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape" && workspace.classList.contains("workspace--ai-panel-open")) {
-            setOpen(false);
-          }
-        });
-      })();
     </script>
   </div>
 </body>

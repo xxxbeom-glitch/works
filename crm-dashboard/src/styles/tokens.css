@@ -8,14 +8,17 @@
   /* —— Color: background layers —— */
   --bg-app: #eef2f9;
   --bg-panel: #eef2f9;
-  --bg-card: #f8fafd;
+  /* 워크스페이스 메인 카드(1·2·3열 outer) 공통 면 */
+  --bg-card: #f8fafc;
+  --radius-workspace-card: 16px;
+  --shadow-workspace-card: var(--shadow-sm);
   --bg-card-hover: var(--bg-card);
-  --bg-content: #f8fafd;
-  --bg-content-soft: #f8fafd;
-  /* 라이브 카드 내부 흰 컨텐츠 박스(STT·고객·계약·지식 공통) */
+  --bg-content: #f8fafc;
+  --bg-content-soft: #f8fafc;
+  /* 라이브 카드 내부 흰 컨텐츠 박스(STT·고객·계약·지식·이력 공통) */
   --bg-inner-content: #ffffff;
   --radius-inner-content: 18px;
-  --shadow-inner-content: 0 0 8px rgba(0, 0, 0, 0.06);
+  --shadow-inner-content: var(--shadow-sm);
   --padding-inner-content: 18px;
   --bg-card-icon: #e0e8f5;
   /* 레거시 호환: 예전 --bg-card-soft 사용처 → 컨텐츠 소프트 톤 */

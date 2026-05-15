@@ -353,7 +353,7 @@
       background: var(--surface-hover);
     }
 
-    /* —— Main workspace: adaptive 3열 —— */
+    /* —— Main workspace: 1열 정보 + 2열(3행) + 3열 AI —— */
     .workspace,
     .main-grid {
       flex: 1 1 auto;
@@ -384,16 +384,32 @@
     }
 
     .main-grid__col--2,
-    .workspace__col--live {
+    .workspace__col--live-stack {
       grid-column: 2;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
     }
 
     .main-grid__col--3,
-    .workspace__col--know {
+    .workspace__col--ai {
       grid-column: 3;
       display: flex;
       flex-direction: column;
       min-width: 0;
+      min-height: 0;
+      height: 100%;
+      max-height: 100%;
+      overflow: hidden;
+    }
+
+    .workspace__col--ai .live-outer--ai {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
 
     .workspace__col {
@@ -429,7 +445,7 @@
         --col-1: 30%;
         --col-2: 30%;
         --col-3: 40%;
-        --grid-gap: 20px;
+        --grid-gap: 16px;
         --card-padding: 18px 9px 9px;
         --inner-padding: 18px;
       }
@@ -453,7 +469,7 @@
         --col-1: 30%;
         --col-2: 35%;
         --col-3: 35%;
-        --grid-gap: 14px;
+        --grid-gap: 16px;
         --card-padding: 12px 8px 8px;
         --inner-padding: 14px;
         --know-acc-padding: 14px;
@@ -506,7 +522,7 @@
         grid-template-columns: minmax(72px, auto) minmax(0, 1fr);
       }
 
-      .workspace__col--know {
+      .workspace__col--ai {
         position: fixed;
         top: var(--header-height);
         right: 0;
@@ -526,7 +542,7 @@
         box-shadow: none;
       }
 
-      .workspace__col--know.is-drawer-open {
+      .workspace__col--ai.is-drawer-open {
         pointer-events: auto;
         transform: translateX(0);
         box-shadow: -8px 0 28px rgba(15, 39, 68, 0.1);
@@ -543,15 +559,16 @@
         display: inline-flex;
       }
 
-      .live-composite--stack .live-composite__stt {
-        flex: 1 1 0;
-        max-height: 68%;
-        min-height: 240px;
+      .live-stack-row--stt {
+        flex: 40 1 0;
       }
 
-      .live-composite__product {
-        flex: 0 1 auto;
-        max-height: 32%;
+      .live-stack-row--know {
+        flex: 34 1 0;
+      }
+
+      .live-stack-row--product {
+        flex: 26 1 0;
       }
     }
 
@@ -782,13 +799,16 @@
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      padding: 4px var(--info-panel-pad-x) 20px;
+      padding: 12px var(--info-panel-pad-x) 20px;
     }
 
-    .live-outer--info .info-panel-card__toggle {
+    .live-outer--info .info-side-expand-btn {
+      display: none;
       flex-shrink: 0;
-      margin: 0 0 0 auto;
-      padding: 4px 2px;
+      box-sizing: border-box;
+      width: 100%;
+      margin: 0;
+      padding: 12px 8px;
       border: none;
       border-radius: 0;
       background: transparent;
@@ -802,40 +822,23 @@
       transition: color 160ms ease;
     }
 
-    .live-outer--info .info-panel-card__toggle:hover {
+    .live-outer--info .info-side-expand-btn:hover {
       color: #64748b;
     }
 
-    .live-outer--info .info-panel-card__toggle:focus-visible {
+    .live-outer--info .info-side-expand-btn:focus-visible {
       outline: 2px solid var(--primary, #005bac);
       outline-offset: 2px;
     }
 
-    /* 접힘: 본문 숨김, 아이콘 + 열기만 */
-    .info-side:not(.is-side-expanded) .live-outer--info .info-panel-card__body,
-    .info-side:not(.is-side-expanded) .live-outer--info #info-panel-main {
+    /* 접힘: 본문 숨김, 열기만 */
+    .info-side:not(.is-side-expanded) .live-outer--info .info-panel-stack {
       display: none !important;
     }
 
-    .info-side:not(.is-side-expanded) .live-outer--info .card-header-title {
-      display: none;
-    }
-
-    .info-side:not(.is-side-expanded) .live-outer--info .card-header {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: auto;
-      padding: 12px 8px;
-    }
-
-    .info-side:not(.is-side-expanded) .live-outer--info .card-header-icon {
-      margin-inline-end: 0;
-    }
-
-    .info-side:not(.is-side-expanded) .live-outer--info .info-panel-card__toggle {
-      margin: 0;
+    .info-side:not(.is-side-expanded) .live-outer--info .info-side-expand-btn {
+      display: block;
+      flex: 1 1 auto;
     }
 
     /* 1열 — 섹션 카드(미니 헤더 + 본문) */
@@ -1180,35 +1183,54 @@
       color: var(--text-muted);
     }
 
-    .workspace__col--know {
+    .workspace__col--live-stack {
       min-width: 0;
       min-height: 0;
       height: 100%;
       max-height: 100%;
-      display: flex;
-      flex-direction: column;
       overflow: hidden;
-      visibility: visible;
     }
 
-    .workspace__col--know .live-composite--know-only {
+    .live-workspace-stack {
       flex: 1 1 auto;
-      min-height: 0;
-      min-width: 0;
-    }
-
-    .main-workspace {
-      flex: 1 1 auto;
-      min-height: 0;
-    }
-
-    .workspace__col--live {
       display: flex;
       flex-direction: column;
+      gap: 16px;
       min-width: 0;
       min-height: 0;
       height: 100%;
       max-height: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .live-stack-row {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .live-stack-row--stt {
+      flex: 42 1 0;
+    }
+
+    .live-stack-row--know {
+      flex: 32 1 0;
+    }
+
+    .live-stack-row--product {
+      flex: 26 1 0;
+    }
+
+    .live-stack-row > .live-outer,
+    .live-stack-row > section.live-outer {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
     }
 
@@ -1754,12 +1776,35 @@
       box-sizing: border-box;
     }
 
-    .live-composite .live-outer--stt > .live-inner.stt-content-card {
+    .live-composite .live-outer--stt > .live-inner.stt-content-card,
+    .live-workspace-stack .live-outer--stt > .live-inner.stt-content-card {
       position: relative;
       flex: 1 1 auto;
       display: flex;
       flex-direction: column;
+      min-height: 0;
       outline: none;
+    }
+
+    .live-workspace-stack .live-outer--stt,
+    .live-workspace-stack .live-outer--know,
+    .live-workspace-stack .live-outer--product {
+      min-height: 0;
+    }
+
+    .live-workspace-stack .live-outer--product > .live-inner.product-info-card {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .live-workspace-stack .stt-card__log,
+    .live-workspace-stack .chat-scroll-area {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
     }
 
     .live-composite .live-outer--know > .live-inner {
@@ -1872,7 +1917,30 @@
       min-width: 0;
     }
 
-    .live-composite .live-outer--know > .live-inner.know-assistant-inner {
+    .live-workspace-stack .know-acc-card {
+      padding: 10px 12px;
+    }
+
+    .live-workspace-stack .know-acc-card.is-expanded .know-acc-card__trigger {
+      margin-bottom: 8px;
+    }
+
+    .live-workspace-stack .know-acc-flow__question {
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .live-workspace-stack .know-acc-flow__answer {
+      font-size: 12px;
+    }
+
+    .live-workspace-stack .know-acc-card__trigger {
+      min-height: 36px;
+      padding: 6px 0;
+    }
+
+    .live-composite .live-outer--know > .live-inner.know-assistant-inner,
+    .live-workspace-stack .live-outer--know > .live-inner.know-assistant-inner {
       display: flex;
       flex-direction: column;
       flex: 1 1 auto;
@@ -2199,36 +2267,39 @@
       font-weight: var(--font-semibold);
     }
 
-    .live-outer--info .info-kv__icon-btn {
+    .live-outer--info .info-kv__save-btn {
       flex-shrink: 0;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 24px;
-      height: 24px;
+      height: 25px;
+      min-height: 24px;
       margin: 0;
-      padding: 0;
-      border: none;
-      border-radius: 6px;
-      background: transparent;
+      padding: 0 10px;
+      border: 1px solid rgba(203, 213, 225, 0.9);
+      border-radius: 8px;
+      background: #ffffff;
       color: var(--text-muted);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: var(--font-medium);
+      line-height: 1.2;
+      white-space: nowrap;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
-      transition: color 160ms ease, background-color 160ms ease;
+      transition:
+        color 160ms ease,
+        border-color 160ms ease,
+        background-color 160ms ease;
     }
 
-    .live-outer--info .info-kv__icon-btn svg {
-      display: block;
-      width: 16px;
-      height: 16px;
+    .live-outer--info .info-kv__save-btn:hover {
+      color: #64748b;
+      border-color: rgba(148, 163, 184, 0.95);
+      background: #f8fafc;
     }
 
-    .live-outer--info .info-kv__icon-btn:hover {
-      color: var(--primary, #005bac);
-      background: rgba(0, 91, 172, 0.08);
-    }
-
-    .live-outer--info .info-kv__icon-btn:focus-visible {
+    .live-outer--info .info-kv__save-btn:focus-visible {
       outline: 2px solid var(--primary, #005bac);
       outline-offset: 2px;
     }
@@ -2802,120 +2873,21 @@
       opacity: 0.85;
     }
 
-    /* —— 상담 어시스턴트 카드 내 AI 질의 · 우측 패널 —— */
-    .know-assistant__query {
-      flex-shrink: 0;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      margin-top: auto;
-      padding-top: 12px;
+    /* —— AI 질의 · 3열 고정 패널 —— */
+    .live-outer--ai .card-header--ai {
+      padding-right: var(--inner-padding, 16px);
     }
 
-    .live-outer--know .ai-agent-fab {
-      position: static;
-      z-index: 2;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      min-height: 44px;
-      padding: 0 18px;
-      border: 1px solid rgba(37, 99, 235, 0.35);
-      border-radius: 999px;
-      background: #ffffff;
-      box-shadow: 0 1px 4px rgba(37, 99, 235, 0.1), 0 1px 2px rgba(15, 39, 68, 0.06);
-      color: #1d4ed8;
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: var(--font-bold);
-      line-height: 1.2;
-      cursor: pointer;
-      transition:
-        background-color 160ms ease,
-        border-color 160ms ease,
-        box-shadow 160ms ease,
-        opacity 160ms ease,
-        transform 160ms ease;
-      -webkit-tap-highlight-color: transparent;
+    .live-outer--ai .card-header--ai .card-header-title {
+      flex: 1 1 auto;
     }
 
-    .live-outer--know .ai-agent-fab:hover {
-      background: #eff6ff;
-      border-color: rgba(37, 99, 235, 0.5);
-    }
-
-    .live-outer--know .ai-agent-fab:focus-visible {
-      outline: 2px solid var(--primary, #005bac);
-      outline-offset: 2px;
-    }
-
-    .live-outer--know .ai-agent-fab[hidden] {
-      display: none;
-    }
-
-    .ai-agent-panel {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 200;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      width: 440px;
-      max-width: calc(100vw - var(--lnb-width, 56px) - 16px);
-      height: 100vh;
-      max-height: 100vh;
-      margin: 0;
-      padding: 0;
-      border: none;
-      border-left: 1px solid rgba(220, 228, 238, 0.85);
-      border-radius: 0;
-      background: var(--bg-card, #f8fafc);
-      box-shadow: -8px 0 32px rgba(15, 39, 68, 0.12), -2px 0 8px rgba(15, 39, 68, 0.06);
-      transform: translateX(100%);
-      visibility: hidden;
-      pointer-events: none;
-      transition:
-        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 280ms;
-    }
-
-    .ai-agent-panel.is-open {
-      transform: translateX(0);
-      visibility: visible;
-      pointer-events: auto;
-      transition:
-        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 0s;
-    }
-
-    .ai-agent-panel__header {
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      min-height: 52px;
-      padding: 12px 14px;
-      border-bottom: 1px solid rgba(15, 39, 68, 0.06);
-      background: var(--bg-card, #f8fafc);
-    }
-
-    .ai-agent-panel__title {
-      margin: 0;
-      font-size: 15px;
-      font-weight: var(--font-bold);
-      line-height: 1.35;
-      color: var(--text-strong);
-    }
-
-    .ai-agent-panel__header-end {
+    .card-header--ai .ai-agent-panel__header-end {
       display: flex;
       align-items: center;
       gap: 8px;
       flex-shrink: 0;
+      margin-left: auto;
     }
 
     .ai-agent-panel__statuses {
@@ -2948,34 +2920,105 @@
       color: #15803d;
     }
 
-    .ai-agent-panel__close {
+    .live-outer--ai > .live-inner.ai-agent-inner {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .product-info-compact {
       flex-shrink: 0;
-      display: inline-flex;
+      display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
+      gap: 8px 12px;
+      padding: 10px var(--inner-padding, 16px);
+      border-bottom: 1px solid rgba(15, 39, 68, 0.06);
+      background: rgba(248, 250, 252, 0.9);
+    }
+
+    .product-info-compact__row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 14px;
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+
+    .product-info-compact__contract {
+      margin: 0;
+      font-size: 12px;
+      font-weight: var(--font-semibold);
+      line-height: 1.35;
+      color: var(--text-strong);
+      white-space: nowrap;
+    }
+
+    .product-info-compact__no {
+      margin-left: 4px;
+      font-weight: var(--font-medium);
+      color: var(--text-muted);
+    }
+
+    .product-info-compact__metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 12px;
       margin: 0;
       padding: 0;
-      border: none;
-      border-radius: 8px;
-      background: transparent;
-      color: #64748b;
-      font-family: inherit;
-      font-size: 20px;
-      line-height: 1;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
+      list-style: none;
     }
 
-    .ai-agent-panel__close:hover {
-      background: rgba(15, 39, 68, 0.05);
-      color: #334155;
+    .product-info-compact__metrics li {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--text-muted);
     }
 
-    .ai-agent-panel__close:focus-visible {
-      outline: 2px solid var(--primary, #005bac);
-      outline-offset: 2px;
+    .product-info-compact__metrics strong {
+      font-size: 11px;
+      font-weight: var(--font-bold);
+      color: var(--text-strong);
+    }
+
+    .product-info-compact__caps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .product-info-compact__cap {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: var(--font-semibold);
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .product-info-compact__cap--ok {
+      background: rgba(240, 253, 244, 0.95);
+      border: 1px solid rgba(34, 197, 94, 0.22);
+      color: #15803d;
+    }
+
+    .product-info-compact__cap--deny {
+      background: rgba(254, 242, 242, 0.95);
+      border: 1px solid rgba(248, 113, 113, 0.22);
+      color: #b91c1c;
     }
 
     .ai-agent-panel__body {
@@ -2997,7 +3040,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      padding: 16px 16px 12px;
+      padding: 12px var(--inner-padding, 16px) 8px;
       display: flex;
       flex-direction: column;
     }
@@ -3005,7 +3048,7 @@
     .ai-agent-chat {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       margin: 0;
       padding: 0;
     }
@@ -3076,8 +3119,8 @@
       flex-shrink: 0;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin: 22px 0 0;
+      gap: 8px;
+      margin: 12px 0 0;
       padding: 0;
     }
 
@@ -3125,12 +3168,9 @@
     }
 
     .ai-agent-composer {
-      position: sticky;
-      bottom: 0;
-      z-index: 3;
       flex-shrink: 0;
       margin: 0;
-      padding: 12px 16px 16px;
+      padding: 10px var(--inner-padding, 16px) 12px;
       border-top: 1px solid rgba(220, 228, 238, 0.65);
       background: var(--bg-card, #f8fafc);
     }
@@ -3139,8 +3179,8 @@
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      min-height: 92px;
+      gap: 6px;
+      min-height: 76px;
       padding: 12px;
       border: 1px solid rgba(37, 99, 235, 0.25);
       border-radius: 20px;
@@ -3304,22 +3344,18 @@
           <div class="info-side__content">
             <div class="info-side__shell">
               <div class="info-side__drawer" id="info-side-drawer">
-                <article class="live-outer live-outer--info workspace-main-card" aria-labelledby="live-sect-title-customer">
-                    <header class="card-header">
-                      <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
-                      <h2 class="card-header-title live-sect__title" id="live-sect-title-customer">고객정보</h2>
-                      <button
-                        type="button"
-                        class="info-panel-card__toggle"
-                        id="info-side-panel-toggle"
-                        aria-expanded="true"
-                        aria-controls="info-side-drawer"
-                        title="정보 패널 접기"
-                        aria-label="정보 패널 접기"
-                      >
-                        닫기
-                      </button>
-                    </header>
+                <article class="live-outer live-outer--info workspace-main-card" aria-label="고객 및 계약 정보">
+                    <button
+                      type="button"
+                      class="info-side-expand-btn"
+                      id="info-side-panel-toggle"
+                      aria-expanded="true"
+                      aria-controls="info-side-drawer"
+                      title="정보 패널 펼치기"
+                      aria-label="정보 패널 펼치기"
+                    >
+                      열기
+                    </button>
                     <div class="info-panel-stack">
                     <div class="info-panel-card__body scroll-area" id="info-panel-main">
                       <section class="info-section info-panel-section info-doc-section live-sect--customer" data-info-section="customer" id="info-acc-customer">
@@ -3353,12 +3389,7 @@
                                 <dd>
                                   <span class="left-accordion__value-row">
                                     <span class="left-accordion__caller-value">010-2231-4567</span>
-                                    <button type="button" class="info-kv__icon-btn" aria-label="변경저장" title="변경저장">
-                                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                        <path d="M4 20h4l10.5-10.5a1.5 1.5 0 0 0 0-2.12L15.62 4.38a1.5 1.5 0 0 0-2.12 0L3 15v5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M13.5 6.5l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                      </svg>
-                                    </button>
+                                    <button type="button" class="info-kv__save-btn">변경저장</button>
                                   </span>
                                 </dd>
                               </div>
@@ -3536,140 +3567,152 @@
         </div>
       </div>
 
-      <div class="workspace__col workspace__col--live main-workspace main-grid__col main-grid__col--2" aria-label="실시간 상담 및 이력">
-        <div class="live-composite live-composite--stack" aria-label="실시간 상담 영역">
-          <div class="live-composite__stt">
+      <div class="workspace__col workspace__col--live-stack main-grid__col main-grid__col--2" id="workspace-col-live-stack" aria-label="상담 워크스페이스">
+        <div class="live-workspace-stack" aria-label="STT · 상담 어시스턴트 · 상품 및 업무정보">
+          <div class="live-stack-row live-stack-row--stt">
             <div class="live-outer live-outer--stt workspace-main-card">
-            <header class="card-header live-sect__head">
-              <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
-              <h3 class="card-header-title live-sect__title">STT 실시간 로그</h3>
-            </header>
-            <div class="live-inner workspace-inner-card stt-content-card">
-            <div class="stt-card__log" role="region" aria-label="실시간 대화 로그">
-              <div class="chat-scroll-area scroll-area" id="stt-chat-scroll">
-              <div class="stt-chat" id="stt-chat" role="log" aria-live="polite" aria-relevant="additions text">
-                  <article class="stt-chat__msg stt-chat__msg--customer">
-                    <div class="stt-chat__avatar" role="img" aria-label="고객 프로필">
-                      <img
-                        class="stt-chat__avatar-img"
-                        alt=""
-                        width="32"
-                        height="32"
-                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23e0e7ff'/%3E%3Cstop offset='1' stop-color='%23c7d2fe'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='32' fill='url(%23a)'/%3E%3Ccircle cx='32' cy='26' r='12' fill='%2394a3b8'/%3E%3Cellipse cx='32' cy='54' rx='18' ry='14' fill='%2394a3b8'/%3E%3C/svg%3E"
-                      />
-                    </div>
-                    <div class="stt-chat__stack">
-                      <div class="stt-chat__sender">홍길동 고객님</div>
-                      <p class="stt-chat__bubble">보험금 청구하려면 어떤 서류가 필요한가요?</p>
-                      <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
-                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 필요 서류 안내">필요 서류 안내</span>
-                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 청구 후 지급 기간">청구 후 지급 기간</span>
-                      </div>
-                      <time class="stt-chat__time" datetime="2026-05-13T14:23:08">14:23:08</time>
-                    </div>
-                  </article>
-                  <article class="stt-chat__msg stt-chat__msg--agent">
-                    <p class="stt-chat__bubble">네, 사고 유형에 따라 필요한 서류가 조금 다릅니다.</p>
-                    <time class="stt-chat__time" datetime="2026-05-13T14:23:12">14:23:12</time>
-                  </article>
-                  <article class="stt-chat__msg stt-chat__msg--customer">
-                    <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
-                    <div class="stt-chat__stack">
-                      <div class="stt-chat__sender">홍길동 고객님</div>
-                      <p class="stt-chat__bubble">자동이체 계좌변경 하고 싶어요.</p>
-                      <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
-                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 자동이체 변경 방법">자동이체 변경 방법</span>
-                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 계좌 변경 가능 조건">계좌 변경 가능 조건</span>
-                      </div>
-                      <time class="stt-chat__time" datetime="2026-05-13T14:23:20">14:23:20</time>
-                    </div>
-                  </article>
-                  <article class="stt-chat__msg stt-chat__msg--agent">
-                    <p class="stt-chat__bubble">네, 자동이체 계좌변경 화면으로 안내드리겠습니다.</p>
-                    <time class="stt-chat__time" datetime="2026-05-13T14:23:24">14:23:24</time>
-                  </article>
-                  <article class="stt-chat__msg stt-chat__msg--customer">
-                    <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
-                    <div class="stt-chat__stack">
-                      <div class="stt-chat__sender">홍길동 고객님</div>
-                      <p class="stt-chat__bubble">지금 등록된 계좌를 다른 은행 계좌로 바꾸고 싶어요.</p>
-                      <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
-                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 계좌 변경 가능 조건">계좌 변경 가능 조건</span>
-                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 타인 계좌 변경 여부">타인 계좌 변경 여부</span>
-                      </div>
-                      <time class="stt-chat__time" datetime="2026-05-13T14:23:26">14:23:26</time>
-                    </div>
-                  </article>
-                  <article class="stt-chat__msg stt-chat__msg--agent">
-                    <p class="stt-chat__bubble">네, 본인 명의 계좌라면 변경 가능합니다.</p>
-                    <time class="stt-chat__time" datetime="2026-05-13T14:23:28">14:23:28</time>
-                  </article>
-                  <article class="stt-chat__msg stt-chat__msg--customer">
-                    <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
-                    <div class="stt-chat__stack">
-                      <div class="stt-chat__sender">홍길동 고객님</div>
-                      <p class="stt-chat__bubble">신분증도 필요한가요?</p>
-                      <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
-                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 본인확인 필요 서류">본인확인 필요 서류</span>
-                      </div>
-                      <time class="stt-chat__time" datetime="2026-05-13T14:23:32">14:23:32</time>
-                    </div>
-                  </article>
-                  <article class="stt-chat__msg stt-chat__msg--agent">
-                    <p class="stt-chat__bubble">네, 본인확인을 위해 신분증 인증이 필요합니다.</p>
-                    <time class="stt-chat__time" datetime="2026-05-13T14:23:35">14:23:35</time>
-                  </article>
-                  <article class="stt-chat__msg stt-chat__msg--customer">
-                    <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
-                    <div class="stt-chat__stack">
-                      <div class="stt-chat__sender">홍길동 고객님</div>
-                      <p class="stt-chat__bubble">변경하면 바로 적용되나요?</p>
-                      <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
-                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 변경 후 적용 시점">변경 후 적용 시점</span>
-                      </div>
-                      <time class="stt-chat__time" datetime="2026-05-13T14:23:40">14:23:40</time>
-                    </div>
-                  </article>
-                  <article class="stt-chat__msg stt-chat__msg--agent">
-                    <p class="stt-chat__bubble">보통 변경 신청 후 다음 납입일부터 적용됩니다.</p>
-                    <time class="stt-chat__time" datetime="2026-05-13T14:23:44">14:23:44</time>
-                  </article>
-                  <article class="stt-chat__msg stt-chat__msg--customer">
-                    <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
-                    <div class="stt-chat__stack">
-                      <div class="stt-chat__sender">홍길동 고객님</div>
-                      <p class="stt-chat__bubble">그럼 이번 달 보험료는 기존 계좌에서 나가나요?</p>
-                      <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
-                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 이번 달 납입 계좌 확인">이번 달 납입 계좌 확인</span>
-                      </div>
-                      <time class="stt-chat__time" datetime="2026-05-13T14:23:48">14:23:48</time>
-                    </div>
-                  </article>
-                  <article class="stt-chat__msg stt-chat__msg--agent">
-                    <p class="stt-chat__bubble">납입일 기준에 따라 달라질 수 있어 확인 후 안내드리겠습니다.</p>
-                    <time class="stt-chat__time" datetime="2026-05-13T14:23:52">14:23:52</time>
-                  </article>
-                </div>
-              </div>
-              <div class="floating-control-group" role="group" aria-label="통화 경과 시간 및 음성 활동 표시">
-                <time class="floating-control-group__elapsed" datetime="PT0S">00:00</time>
-                <div class="stt-wave-float floating-wave-bar" role="status" aria-label="통화 진행 중 · 음성 활동">
-                  <div class="stt-wave-float__wave waveform" aria-hidden="true">
-                    <div class="stt-wave-float__wave-viewport wave-viewport">
-                      <div class="stt-wave-float__wave-track">
-                        <div class="stt-wave-float__wave-mask" aria-hidden="true"></div>
-                        <div class="stt-wave-float__wave-mask stt-wave-float__wave-mask--active" aria-hidden="true"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p class="floating-control-group__caption">실시간으로 통화 내용이 기록됩니다</p>
-              </div>
-              </div>
-            </div>
-            </div>
+                        <header class="card-header live-sect__head">
+                          <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
+                          <h3 class="card-header-title live-sect__title">STT 실시간 로그</h3>
+                        </header>
+                        <div class="live-inner workspace-inner-card stt-content-card">
+                        <div class="stt-card__log" role="region" aria-label="실시간 대화 로그">
+                          <div class="chat-scroll-area scroll-area" id="stt-chat-scroll">
+                          <div class="stt-chat" id="stt-chat" role="log" aria-live="polite" aria-relevant="additions text">
+                              <article class="stt-chat__msg stt-chat__msg--customer">
+                                <div class="stt-chat__avatar" role="img" aria-label="고객 프로필">
+                                  <img
+                                    class="stt-chat__avatar-img"
+                                    alt=""
+                                    width="32"
+                                    height="32"
+                                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23e0e7ff'/%3E%3Cstop offset='1' stop-color='%23c7d2fe'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='32' fill='url(%23a)'/%3E%3Ccircle cx='32' cy='26' r='12' fill='%2394a3b8'/%3E%3Cellipse cx='32' cy='54' rx='18' ry='14' fill='%2394a3b8'/%3E%3C/svg%3E"
+                                  />
+                                </div>
+                                <div class="stt-chat__stack">
+                                  <div class="stt-chat__sender">홍길동 고객님</div>
+                                  <p class="stt-chat__bubble">보험금 청구하려면 어떤 서류가 필요한가요?</p>
+                                  <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
+                                    <span class="stt-faq-link knowledge-chip" aria-label="추천: 필요 서류 안내">필요 서류 안내</span>
+                                    <span class="stt-faq-link knowledge-chip" aria-label="추천: 청구 후 지급 기간">청구 후 지급 기간</span>
+                                  </div>
+                                  <time class="stt-chat__time" datetime="2026-05-13T14:23:08">14:23:08</time>
+                                </div>
+                              </article>
+                              <article class="stt-chat__msg stt-chat__msg--agent">
+                                <p class="stt-chat__bubble">네, 사고 유형에 따라 필요한 서류가 조금 다릅니다.</p>
+                                <time class="stt-chat__time" datetime="2026-05-13T14:23:12">14:23:12</time>
+                              </article>
+                              <article class="stt-chat__msg stt-chat__msg--customer">
+                                <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
+                                <div class="stt-chat__stack">
+                                  <div class="stt-chat__sender">홍길동 고객님</div>
+                                  <p class="stt-chat__bubble">자동이체 계좌변경 하고 싶어요.</p>
+                                  <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
+                                    <span class="stt-faq-link knowledge-chip" aria-label="추천: 자동이체 변경 방법">자동이체 변경 방법</span>
+                                    <span class="stt-faq-link knowledge-chip" aria-label="추천: 계좌 변경 가능 조건">계좌 변경 가능 조건</span>
+                                  </div>
+                                  <time class="stt-chat__time" datetime="2026-05-13T14:23:20">14:23:20</time>
+                                </div>
+                              </article>
+                              <article class="stt-chat__msg stt-chat__msg--agent">
+                                <p class="stt-chat__bubble">네, 자동이체 계좌변경 화면으로 안내드리겠습니다.</p>
+                                <time class="stt-chat__time" datetime="2026-05-13T14:23:24">14:23:24</time>
+                              </article>
+                              <article class="stt-chat__msg stt-chat__msg--customer">
+                                <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
+                                <div class="stt-chat__stack">
+                                  <div class="stt-chat__sender">홍길동 고객님</div>
+                                  <p class="stt-chat__bubble">지금 등록된 계좌를 다른 은행 계좌로 바꾸고 싶어요.</p>
+                                  <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
+                                    <span class="stt-faq-link knowledge-chip" aria-label="추천: 계좌 변경 가능 조건">계좌 변경 가능 조건</span>
+                                    <span class="stt-faq-link knowledge-chip" aria-label="추천: 타인 계좌 변경 여부">타인 계좌 변경 여부</span>
+                                  </div>
+                                  <time class="stt-chat__time" datetime="2026-05-13T14:23:26">14:23:26</time>
+                                </div>
+                              </article>
+                              <article class="stt-chat__msg stt-chat__msg--agent">
+                                <p class="stt-chat__bubble">네, 본인 명의 계좌라면 변경 가능합니다.</p>
+                                <time class="stt-chat__time" datetime="2026-05-13T14:23:28">14:23:28</time>
+                              </article>
+                              <article class="stt-chat__msg stt-chat__msg--customer">
+                                <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
+                                <div class="stt-chat__stack">
+                                  <div class="stt-chat__sender">홍길동 고객님</div>
+                                  <p class="stt-chat__bubble">신분증도 필요한가요?</p>
+                                  <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
+                                    <span class="stt-faq-link knowledge-chip" aria-label="추천: 본인확인 필요 서류">본인확인 필요 서류</span>
+                                  </div>
+                                  <time class="stt-chat__time" datetime="2026-05-13T14:23:32">14:23:32</time>
+                                </div>
+                              </article>
+                              <article class="stt-chat__msg stt-chat__msg--agent">
+                                <p class="stt-chat__bubble">네, 본인확인을 위해 신분증 인증이 필요합니다.</p>
+                                <time class="stt-chat__time" datetime="2026-05-13T14:23:35">14:23:35</time>
+                              </article>
+                              <article class="stt-chat__msg stt-chat__msg--customer">
+                                <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
+                                <div class="stt-chat__stack">
+                                  <div class="stt-chat__sender">홍길동 고객님</div>
+                                  <p class="stt-chat__bubble">변경하면 바로 적용되나요?</p>
+                                  <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
+                                    <span class="stt-faq-link knowledge-chip" aria-label="추천: 변경 후 적용 시점">변경 후 적용 시점</span>
+                                  </div>
+                                  <time class="stt-chat__time" datetime="2026-05-13T14:23:40">14:23:40</time>
+                                </div>
+                              </article>
+                              <article class="stt-chat__msg stt-chat__msg--agent">
+                                <p class="stt-chat__bubble">보통 변경 신청 후 다음 납입일부터 적용됩니다.</p>
+                                <time class="stt-chat__time" datetime="2026-05-13T14:23:44">14:23:44</time>
+                              </article>
+                              <article class="stt-chat__msg stt-chat__msg--customer">
+                                <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
+                                <div class="stt-chat__stack">
+                                  <div class="stt-chat__sender">홍길동 고객님</div>
+                                  <p class="stt-chat__bubble">그럼 이번 달 보험료는 기존 계좌에서 나가나요?</p>
+                                  <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
+                                    <span class="stt-faq-link knowledge-chip" aria-label="추천: 이번 달 납입 계좌 확인">이번 달 납입 계좌 확인</span>
+                                  </div>
+                                  <time class="stt-chat__time" datetime="2026-05-13T14:23:48">14:23:48</time>
+                                </div>
+                              </article>
+                              <article class="stt-chat__msg stt-chat__msg--agent">
+                                <p class="stt-chat__bubble">납입일 기준에 따라 달라질 수 있어 확인 후 안내드리겠습니다.</p>
+                                <time class="stt-chat__time" datetime="2026-05-13T14:23:52">14:23:52</time>
+                              </article>
+                            </div>
+                          </div>
+                          <div class="floating-control-group" role="group" aria-label="통화 경과 시간 및 음성 활동 표시">
+                            <time class="floating-control-group__elapsed" datetime="PT0S">00:00</time>
+                            <div class="stt-wave-float floating-wave-bar" role="status" aria-label="통화 진행 중 · 음성 활동">
+                              <div class="stt-wave-float__wave waveform" aria-hidden="true">
+                                <div class="stt-wave-float__wave-viewport wave-viewport">
+                                  <div class="stt-wave-float__wave-track">
+                                    <div class="stt-wave-float__wave-mask" aria-hidden="true"></div>
+                                    <div class="stt-wave-float__wave-mask stt-wave-float__wave-mask--active" aria-hidden="true"></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <p class="floating-control-group__caption">실시간으로 통화 내용이 기록됩니다</p>
+                          </div>
+                          </div>
+                        </div>
+                        </div>
           </div>
-          <div class="live-composite__product">
+          <div class="live-stack-row live-stack-row--know">
+            <section class="live-outer live-outer--know workspace-main-card live-sect--know" id="know-queue-root" aria-labelledby="live-sect-title-know">
+              <header class="card-header card-header--assistant live-sect__head">
+                <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
+                <h3 class="card-header-title live-sect__title" id="live-sect-title-know">상담 어시스턴트</h3>
+              </header>
+              <div class="live-inner workspace-inner-card know-assistant-inner">
+                <div class="know-accordion scroll-area" id="know-accordion-list" aria-label="상담 요청 목록"></div>
+                <p class="know-assistant__empty" id="know-assistant-empty" hidden>처리할 요청이 없습니다.</p>
+              </div>
+            </section>
+          </div>
+          <div class="live-stack-row live-stack-row--product">
             <div class="live-outer live-outer--product workspace-main-card" id="product-info-root">
               <header class="card-header card-header--product live-sect__head">
                 <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
@@ -3726,33 +3769,73 @@
           </div>
         </div>
       </div>
-
-      <div class="workspace__col workspace__col--know main-grid__col main-grid__col--3" id="workspace-col-know" aria-label="상담 어시스턴트">
-        <div class="live-composite live-composite--know-only" aria-label="상담 어시스턴트">
-            <section class="live-outer live-outer--know workspace-main-card live-sect--know" id="know-queue-root" aria-labelledby="live-sect-title-know">
-              <header class="card-header card-header--assistant live-sect__head">
-                <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
-                <h3 class="card-header-title live-sect__title" id="live-sect-title-know">상담 어시스턴트</h3>
-              </header>
-              <div class="live-inner workspace-inner-card know-assistant-inner">
-                <div class="know-accordion scroll-area" id="know-accordion-list" aria-label="상담 요청 목록"></div>
-                <p class="know-assistant__empty" id="know-assistant-empty" hidden>처리할 요청이 없습니다.</p>
-                <div class="know-assistant__query">
-                  <button
-                    type="button"
-                    class="ai-agent-fab"
-                    id="ai-agent-fab"
-                    aria-expanded="false"
-                    aria-controls="ai-agent-panel"
-                  >
-                    AI 질의
-                  </button>
-                </div>
+      <div class="workspace__col workspace__col--ai main-grid__col main-grid__col--3" id="workspace-col-ai" aria-label="질의 및 에이전트">
+        <section class="live-outer live-outer--ai workspace-main-card" id="ai-agent-panel" aria-labelledby="live-sect-title-ai">
+          <header class="card-header card-header--ai live-sect__head">
+            <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
+            <h3 class="card-header-title live-sect__title" id="live-sect-title-ai">질의 및 에이전트</h3>
+            <div class="ai-agent-panel__header-end">
+              <div class="ai-agent-panel__statuses" aria-label="에이전트 상태">
+                <span class="ai-agent-badge ai-agent-badge--know">지식 ON</span>
+                <span class="ai-agent-badge ai-agent-badge--live">상담 중</span>
               </div>
-            </section>
-        </div>
+            </div>
+          </header>
+          <div class="live-inner workspace-inner-card ai-agent-inner">
+            <div class="ai-agent-panel__body">
+              <div class="ai-agent-panel__scroll scroll-area">
+                <div class="ai-agent-chat" id="ai-agent-chat" aria-live="polite" aria-label="AI 대화">
+                  <article class="ai-agent-turn ai-agent-turn--user">
+                    <p class="ai-agent-bubble">갱신형과 비갱신형 상품 차이가 뭐예요?</p>
+                  </article>
+                  <article class="ai-agent-turn ai-agent-turn--ai">
+                    <p class="ai-agent-bubble">갱신형은 보험기간 종료 시 갱신 여부·보험료가 재산정되며, 비갱신형은 초기 보험료가 만기까지 유지되는 구조입니다. 고객의 나이·건강 상태·상품 유형에 따라 안내 문구를 구분해 주세요.</p>
+                    <div class="ai-agent-meta">
+                      <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">단계</span> 의도분석 → 지식검색 → 답변생성</p>
+                      <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">출처</span> SOK#3202 약관 12-1 / FAQ #87</p>
+                    </div>
+                  </article>
+                </div>
+                <section class="ai-agent-suggest" aria-labelledby="ai-agent-suggest-label">
+                  <h3 class="ai-agent-suggest__label" id="ai-agent-suggest-label">추천 질문</h3>
+                  <div class="ai-agent-suggest__pills" role="group" aria-label="추천 질문 목록">
+                    <button type="button" class="ai-agent-suggest__pill knowledge-chip" data-ai-query="갱신형과 비갱신형 상품의 차이를 알려주세요.">갱신형 vs 비갱신형 차이</button>
+                    <button type="button" class="ai-agent-suggest__pill knowledge-chip" data-ai-query="변액 상품 수익률은 어디서 조회하나요?">변액 상품 수익률 조회</button>
+                    <button type="button" class="ai-agent-suggest__pill knowledge-chip" data-ai-query="청약철회 기간 기준이 어떻게 되나요?">청약철회 기간 기준</button>
+                  </div>
+                </section>
+              </div>
+              <footer class="ai-agent-composer">
+                <div class="ai-agent-composer__box">
+                  <textarea
+                    class="ai-agent-composer__input"
+                    id="ai-agent-input"
+                    rows="2"
+                    placeholder="메시지를 입력하세요."
+                    aria-label="AI 메시지 입력"
+                  ></textarea>
+                  <div class="ai-agent-composer__toolbar">
+                    <div class="ai-agent-composer__actions">
+                      <button type="button" class="ai-agent-tool" id="ai-agent-tool-file" aria-pressed="false">파일</button>
+                      <button type="button" class="ai-agent-tool" id="ai-agent-tool-voice" aria-pressed="false">음성</button>
+                      <button type="button" class="ai-agent-tool ai-agent-tool--know is-on" id="ai-agent-tool-know" aria-pressed="true">지식 ON</button>
+                    </div>
+                    <button type="button" class="ai-agent-composer__send" id="ai-agent-send" aria-label="메시지 전송">
+                      <svg class="ai-agent-composer__send-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 19V5M5 12l7-7 7 7"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
+
+    <button type="button" class="know-drawer-backdrop" id="know-drawer-backdrop" aria-label="질의 및 에이전트 패널 닫기" hidden></button>
+    <button type="button" class="know-drawer-fab" id="know-drawer-fab" aria-expanded="false" aria-controls="workspace-col-ai">질의 및 에이전트</button>
 
     <footer class="statusbar">
       <div class="statusbar__cluster">
@@ -3768,77 +3851,6 @@
       <span class="statusbar__keys" role="note">F1 도움말 / F2 접수 / F5 새로고침</span>
     </footer>
 
-    <button type="button" class="know-drawer-backdrop" id="know-drawer-backdrop" aria-label="상담 어시스턴트 패널 닫기" hidden></button>
-    <button type="button" class="know-drawer-fab" id="know-drawer-fab" aria-expanded="false" aria-controls="workspace-col-know">상담 어시스턴트</button>
-
-    <aside
-      class="ai-agent-panel"
-      id="ai-agent-panel"
-      role="dialog"
-      aria-modal="false"
-      aria-labelledby="ai-agent-panel-title"
-      aria-hidden="true"
-    >
-      <header class="ai-agent-panel__header">
-        <h2 class="ai-agent-panel__title" id="ai-agent-panel-title">질의 및 에이전트</h2>
-        <div class="ai-agent-panel__header-end">
-          <div class="ai-agent-panel__statuses" aria-label="에이전트 상태">
-            <span class="ai-agent-badge ai-agent-badge--know">지식 ON</span>
-            <span class="ai-agent-badge ai-agent-badge--live">상담 중</span>
-          </div>
-          <button type="button" class="ai-agent-panel__close" id="ai-agent-panel-close" aria-label="AI 패널 닫기">×</button>
-        </div>
-      </header>
-      <div class="ai-agent-panel__body">
-        <div class="ai-agent-panel__scroll scroll-area">
-          <div class="ai-agent-chat" id="ai-agent-chat" aria-live="polite" aria-label="AI 대화">
-            <article class="ai-agent-turn ai-agent-turn--user">
-              <p class="ai-agent-bubble">갱신형과 비갱신형 상품 차이가 뭐예요?</p>
-            </article>
-            <article class="ai-agent-turn ai-agent-turn--ai">
-              <p class="ai-agent-bubble">갱신형은 보험기간 종료 시 갱신 여부·보험료가 재산정되며, 비갱신형은 초기 보험료가 만기까지 유지되는 구조입니다. 고객의 나이·건강 상태·상품 유형에 따라 안내 문구를 구분해 주세요.</p>
-              <div class="ai-agent-meta">
-                <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">단계</span> 의도분석 → 지식검색 → 답변생성</p>
-                <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">출처</span> SOK#3202 약관 12-1 / FAQ #87</p>
-              </div>
-            </article>
-          </div>
-          <section class="ai-agent-suggest" aria-labelledby="ai-agent-suggest-label">
-            <h3 class="ai-agent-suggest__label" id="ai-agent-suggest-label">추천 질문</h3>
-            <div class="ai-agent-suggest__pills" role="group" aria-label="추천 질문 목록">
-              <button type="button" class="ai-agent-suggest__pill knowledge-chip" data-ai-query="갱신형과 비갱신형 상품의 차이를 알려주세요.">갱신형 vs 비갱신형 차이</button>
-              <button type="button" class="ai-agent-suggest__pill knowledge-chip" data-ai-query="변액 상품 수익률은 어디서 조회하나요?">변액 상품 수익률 조회</button>
-              <button type="button" class="ai-agent-suggest__pill knowledge-chip" data-ai-query="청약철회 기간 기준이 어떻게 되나요?">청약철회 기간 기준</button>
-            </div>
-          </section>
-        </div>
-        <footer class="ai-agent-composer">
-          <div class="ai-agent-composer__box">
-            <textarea
-              class="ai-agent-composer__input"
-              id="ai-agent-input"
-              rows="2"
-              placeholder="메시지를 입력하세요."
-              aria-label="AI 메시지 입력"
-            ></textarea>
-            <div class="ai-agent-composer__toolbar">
-              <div class="ai-agent-composer__actions">
-                <button type="button" class="ai-agent-tool" id="ai-agent-tool-file" aria-pressed="false">파일</button>
-                <button type="button" class="ai-agent-tool" id="ai-agent-tool-voice" aria-pressed="false">음성</button>
-                <button type="button" class="ai-agent-tool ai-agent-tool--know is-on" id="ai-agent-tool-know" aria-pressed="true">지식 ON</button>
-              </div>
-              <button type="button" class="ai-agent-composer__send" id="ai-agent-send" aria-label="메시지 전송">
-                <svg class="ai-agent-composer__send-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M12 19V5M5 12l7-7 7 7"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </footer>
-      </div>
-    </aside>
-
-    </div>
     <script>
       (function () {
         var CHEVRON_SVG =
@@ -4030,18 +4042,15 @@
           if (workspace) workspace.classList.toggle("workspace--info-collapsed", !on);
           if (toggle) {
             toggle.setAttribute("aria-expanded", on ? "true" : "false");
-            toggle.textContent = on ? "닫기" : "열기";
-            toggle.setAttribute("title", on ? "정보 패널 접기" : "정보 패널 펼치기");
-            toggle.setAttribute("aria-label", on ? "정보 패널 접기" : "정보 패널 펼치기");
+            toggle.setAttribute("title", "정보 패널 펼치기");
+            toggle.setAttribute("aria-label", "정보 패널 펼치기");
           }
-          if (drawer) drawer.setAttribute("aria-hidden", "false");
+          if (drawer) drawer.setAttribute("aria-hidden", on ? "false" : "true");
         }
 
         if (toggle) {
           toggle.addEventListener("click", function () {
-            var next = !root.classList.contains("is-side-expanded");
-            setSideExpanded(next);
-            if (!next) toggle.focus();
+            setSideExpanded(true);
           });
         }
 
@@ -4294,22 +4303,14 @@
 
 (function () {
         var panel = document.getElementById("ai-agent-panel");
-        var fab = document.getElementById("ai-agent-fab");
-        var closeBtn = document.getElementById("ai-agent-panel-close");
         var input = document.getElementById("ai-agent-input");
         var sendBtn = document.getElementById("ai-agent-send");
         var chat = document.getElementById("ai-agent-chat");
 
-        if (!panel || !fab) return;
+        if (!panel) return;
 
         function setOpen(on) {
-          panel.classList.toggle("is-open", on);
-          panel.setAttribute("aria-hidden", on ? "false" : "true");
-          fab.setAttribute("aria-expanded", on ? "true" : "false");
-          fab.hidden = on;
-          if (on && input) {
-            input.focus();
-          }
+          if (on && input) input.focus();
         }
 
         function appendUserMessage(text) {
@@ -4351,24 +4352,6 @@
           submit: submitQuery,
         };
 
-        fab.addEventListener("click", function () {
-          setOpen(true);
-        });
-
-        if (closeBtn) {
-          closeBtn.addEventListener("click", function () {
-            setOpen(false);
-            fab.focus();
-          });
-        }
-
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape" && panel.classList.contains("is-open")) {
-            setOpen(false);
-            fab.focus();
-          }
-        });
-
         if (sendBtn && input) {
           sendBtn.addEventListener("click", function () {
             submitQuery();
@@ -4403,7 +4386,7 @@
       (function () {
         var workspace = document.querySelector(".workspace");
         var infoRoot = document.getElementById("workspace-col-info");
-        var knowCol = document.getElementById("workspace-col-know");
+        var knowCol = document.getElementById("workspace-col-ai");
         var knowToggle = document.getElementById("know-drawer-toggle");
         var knowFab = document.getElementById("know-drawer-fab");
         var knowBackdrop = document.getElementById("know-drawer-backdrop");
@@ -4444,9 +4427,8 @@
           if (workspace) workspace.classList.toggle("workspace--info-collapsed", !on);
           if (panelToggle) {
             panelToggle.setAttribute("aria-expanded", on ? "true" : "false");
-            panelToggle.textContent = on ? "닫기" : "열기";
-            panelToggle.setAttribute("title", on ? "정보 패널 접기" : "정보 패널 펼치기");
-            panelToggle.setAttribute("aria-label", on ? "정보 패널 접기" : "정보 패널 펼치기");
+            panelToggle.setAttribute("title", "정보 패널 펼치기");
+            panelToggle.setAttribute("aria-label", "정보 패널 펼치기");
           }
         }
 

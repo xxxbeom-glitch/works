@@ -79,8 +79,7 @@
       border-radius: 8px;
     }
 
-    .info-doc-section__more:hover .icon-chevron,
-    .know-acc-card__trigger:hover .icon-chevron {
+    .info-doc-section__more:hover .icon-chevron {
       color: var(--primary);
     }
 
@@ -158,7 +157,7 @@
       --col-1: 28%;
       --col-2: 32%;
       --col-3: 40%;
-      --grid-gap: 16px;
+      --grid-gap: 14px;
       --card-padding: 18px 9px 9px;
       --inner-padding: 18px;
       --workspace-height: calc(100vh - var(--header-height) - var(--statusbar-height));
@@ -367,7 +366,7 @@
       grid-template-rows: minmax(0, 1fr);
       grid-template-columns: minmax(0, var(--col-1)) minmax(0, var(--col-2)) minmax(0, var(--col-3));
       gap: var(--grid-gap);
-      padding: var(--space-6) var(--page-padding-x);
+      padding: 12px;
       background: var(--bg-panel);
       overflow: hidden;
     }
@@ -445,7 +444,7 @@
         --col-1: 30%;
         --col-2: 30%;
         --col-3: 40%;
-        --grid-gap: 16px;
+        --grid-gap: 14px;
         --card-padding: 18px 9px 9px;
         --inner-padding: 18px;
       }
@@ -457,7 +456,7 @@
         --col-1: 28%;
         --col-2: 32%;
         --col-3: 40%;
-        --grid-gap: 16px;
+        --grid-gap: 14px;
         --card-padding: 14px 8px 8px;
         --inner-padding: 16px;
       }
@@ -469,7 +468,7 @@
         --col-1: 30%;
         --col-2: 35%;
         --col-3: 35%;
-        --grid-gap: 16px;
+        --grid-gap: 14px;
         --card-padding: 12px 8px 8px;
         --inner-padding: 14px;
         --know-acc-padding: 14px;
@@ -479,18 +478,12 @@
         padding: var(--know-acc-padding, 14px);
       }
 
-      .live-composite .know-acc-card.is-expanded .know-acc-card__trigger {
+      .live-composite .know-acc-card__head {
         margin-bottom: 12px;
       }
 
       .live-composite .know-acc-flow__question {
         font-size: 15px;
-        margin-bottom: 8px;
-      }
-
-      .live-composite .know-acc-flow__answer {
-        font-size: 14px;
-        margin-bottom: 14px;
       }
 
       .workspace--layout-laptop #dash-card-history-section .info-section-card__body {
@@ -507,7 +500,7 @@
         --lnb-width: 52px;
         --col-1: 34%;
         --col-2: 66%;
-        --grid-gap: 12px;
+        --grid-gap: 14px;
         --card-padding: 12px 8px 8px;
         --inner-padding: 14px;
         --know-drawer-width: min(420px, calc(100vw - var(--lnb-width) - 24px));
@@ -560,11 +553,11 @@
       }
 
       .live-stack-row--stt {
-        flex: 40 1 0;
+        flex: 34 1 0;
       }
 
       .live-stack-row--know {
-        flex: 34 1 0;
+        flex: 40 1 0;
       }
 
       .live-stack-row--product {
@@ -765,7 +758,7 @@
       pointer-events: auto;
     }
 
-    /* 1열: STT와 동일 workspace-main-card 표면, 내부는 섹션형 본문만 */
+    /* 1열: 2열 stack outer와 동일 --card-padding (내부 섹션 카드 padding은 별도) */
     .live-outer--info.workspace-main-card {
       flex: 1 1 auto;
       min-height: 0;
@@ -776,10 +769,11 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      padding: var(--card-padding, 18px 9px 9px);
     }
 
     .live-outer--info {
-      --info-panel-pad-x: 24px;
+      --info-panel-pad-x: 0;
       --info-section-gap: 16px;
       --info-header-content-gap: 16px;
       --info-content-area-pad: 18px 20px;
@@ -799,7 +793,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      padding: 12px var(--info-panel-pad-x) 20px;
+      padding: 0;
     }
 
     .live-outer--info .info-side-expand-btn {
@@ -1213,11 +1207,11 @@
     }
 
     .live-stack-row--stt {
-      flex: 42 1 0;
+      flex: 32 1 0;
     }
 
     .live-stack-row--know {
-      flex: 32 1 0;
+      flex: 42 1 0;
     }
 
     .live-stack-row--product {
@@ -1232,6 +1226,82 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+    }
+
+    /* —— 2열 3행 스택: 디자인 시스템 연결 + 카드 표면 —— */
+    .main-workspace > .live-composite.live-composite--stack.live-workspace-stack {
+      flex: 1 1 auto;
+      height: 100%;
+      min-height: 0;
+      min-width: 0;
+      gap: 16px;
+    }
+
+    .live-composite--stack.live-workspace-stack > .live-composite__stt,
+    .live-composite--stack.live-workspace-stack > .live-stack-row--stt {
+      flex: 32 1 0;
+      max-height: none;
+    }
+
+    .live-composite--stack.live-workspace-stack > .live-stack-row--know {
+      flex: 42 1 0;
+    }
+
+    .live-composite--stack.live-workspace-stack > .live-composite__product,
+    .live-composite--stack.live-workspace-stack > .live-stack-row--product {
+      flex: 26 1 0;
+    }
+
+    .live-composite--stack.live-workspace-stack .live-outer.workspace-main-card {
+      background: #f8fafc;
+      border: 1px solid rgba(203, 213, 225, 0.55);
+      border-radius: 20px;
+      padding: var(--card-padding, 18px 9px 9px);
+      box-shadow: 0 1px 2px rgba(15, 39, 68, 0.05);
+    }
+
+    .live-composite--stack.live-workspace-stack .live-outer--stt.workspace-main-card,
+    .live-composite .live-outer--stt.workspace-main-card {
+      padding-top: 9px;
+    }
+
+    .live-composite--stack.live-workspace-stack .live-inner.workspace-inner-card {
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 1px 2px rgba(15, 39, 68, 0.04);
+    }
+
+    .live-composite--stack.live-workspace-stack ul,
+    .live-composite--stack.live-workspace-stack ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .live-composite--stack.live-workspace-stack .product-acc-card__metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .live-composite--stack.live-workspace-stack .know-acc-card {
+      padding: 14px 16px;
+    }
+
+    .live-composite--stack.live-workspace-stack .know-acc-card__head {
+      margin-bottom: 12px;
+    }
+
+    .live-composite--stack.live-workspace-stack .know-acc-flow__question {
+      font-size: 15px;
+    }
+
+    .live-composite--stack.live-workspace-stack .know-acc-flow__answer-label {
+      font-size: 14px;
+    }
+
+    .live-composite--stack.live-workspace-stack .know-acc-answer-item__title,
+    .live-composite--stack.live-workspace-stack .know-acc-answer-item__detail li,
+    .live-composite--stack.live-workspace-stack .know-acc-flow__answer-body {
+      font-size: 14px;
     }
 
     /* 최근 상담 · 계약리스트 — row 높이 통일 (2줄 기준) */
@@ -1328,7 +1398,51 @@
       white-space: nowrap;
     }
 
-    /* 계약 리스트 — 정보 표시용 row */
+    /* 03 계약리스트 — 섹션 헤더 accordion + 단순 row */
+    .live-outer--info #info-acc-contracts.info-doc-section--accordion.is-collapsed .info-section-card__body {
+      display: grid;
+    }
+
+    .live-outer--info #info-acc-contracts .info-section-card__body {
+      display: grid;
+      grid-template-rows: 1fr;
+      min-height: 0;
+      opacity: 1;
+      transition:
+        grid-template-rows 200ms ease,
+        opacity 200ms ease;
+    }
+
+    .live-outer--info #info-acc-contracts.is-collapsed .info-section-card__body {
+      grid-template-rows: 0fr;
+      opacity: 0;
+    }
+
+    .live-outer--info #info-acc-contracts .info-section-card__body > .contract-list {
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .live-outer--info #info-acc-contracts .info-sect-mini-head__trigger {
+      max-height: none;
+      min-height: 26px;
+    }
+
+    .live-outer--info #info-acc-contracts .info-sect-mini-head__trail {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .live-outer--info #info-acc-contracts .info-sect-mini-head__chevron.icon-chevron {
+      transform: rotate(0deg);
+      transition: transform 200ms ease;
+    }
+
+    .live-outer--info #info-acc-contracts:not(.is-collapsed) .info-sect-mini-head__chevron.icon-chevron {
+      transform: rotate(180deg);
+    }
+
     .live-outer--info .contract-list {
       margin: 0;
       padding: 0;
@@ -1343,7 +1457,21 @@
       padding: 0;
     }
 
-    .live-outer--info .contract-list__item {
+    .live-outer--info .contract-acc-item {
+      margin: 0;
+      padding: 0;
+      border-radius: 12px;
+      background: transparent;
+      transition: background 140ms ease;
+    }
+
+    .live-outer--info .contract-acc-item.is-expanded {
+      background: #f1f6ff;
+      padding: 14px 16px;
+    }
+
+    .live-outer--info .contract-list__row,
+    .live-outer--info .contract-acc-trigger {
       box-sizing: border-box;
       display: flex;
       align-items: center;
@@ -1356,12 +1484,95 @@
       border-radius: 10px;
       background: transparent;
       color: var(--text-default);
-      text-align: start;
-      cursor: default;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: background 140ms ease;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .live-outer--info .contract-list__item.is-selected {
-      background: rgba(234, 242, 255, 0.22);
+    .live-outer--info .contract-list__row:hover,
+    .live-outer--info .contract-acc-trigger:hover {
+      background: #eef4ff;
+    }
+
+    .live-outer--info .contract-acc-item.is-expanded > .contract-acc-trigger {
+      background: transparent;
+      border-radius: 0;
+      padding: 0 0 12px 0;
+      min-height: auto;
+    }
+
+    .live-outer--info .contract-acc-item.is-expanded > .contract-acc-trigger:hover {
+      background: transparent;
+    }
+
+    .live-outer--info .contract-acc-icon {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      margin-left: 8px;
+      font-size: 18px;
+      font-weight: var(--font-regular);
+      line-height: 1;
+      color: #64748b;
+      transition: color 140ms ease;
+    }
+
+    .live-outer--info .contract-acc-trigger:hover .contract-acc-icon {
+      color: var(--primary, #005bac);
+    }
+
+    .live-outer--info .contract-acc-panel {
+      display: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .live-outer--info .contract-acc-item.is-expanded > .contract-acc-panel {
+      display: block;
+    }
+
+    .live-outer--info .contract-acc-content {
+      padding: 0;
+    }
+
+    .live-outer--info .contract-detail {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .live-outer--info .contract-detail__row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .live-outer--info .contract-detail dt {
+      flex: 0 0 72px;
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      line-height: var(--leading-snug);
+      color: var(--text-muted);
+    }
+
+    .live-outer--info .contract-detail dd {
+      flex: 1 1 auto;
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      line-height: var(--leading-snug);
+      color: var(--text-default);
     }
 
     .live-outer--info .contract-list__text-block {
@@ -1460,6 +1671,7 @@
     }
 
     .live-composite .live-outer--product {
+      position: relative;
       flex: 1 1 auto;
       min-height: 0;
       min-width: 0;
@@ -1468,43 +1680,68 @@
       overflow: hidden;
     }
 
-    .live-composite .live-outer--product > .live-inner.product-info-card {
+    .live-composite .live-outer--product > .live-inner.product-info-card,
+    .live-workspace-stack .live-outer--product > .live-inner.product-info-card {
+      position: relative;
+      z-index: 1;
       flex: 1 1 auto;
       min-height: 0;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      overflow-x: hidden;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      gap: 0;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: var(--padding-inner-content);
     }
 
     .live-composite .live-outer--product.is-collapsed > .live-inner.product-info-card {
       display: none;
     }
 
+    .live-composite .product-accordion {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 2px 0 12px;
+    }
+
     .live-composite .live-outer--product .card-header--product {
+      position: relative;
+      z-index: 2;
+      flex-shrink: 0;
       margin-bottom: 6px;
+      justify-content: space-between;
+      gap: 8px;
     }
 
     .live-composite .live-outer--product .card-header--product .card-header-title {
       flex: 1 1 auto;
+      min-width: 0;
     }
 
     .live-composite .product-info__toggle {
+      position: relative;
+      z-index: 3;
       flex-shrink: 0;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       width: 32px;
       height: 32px;
-      margin: 0 0 0 auto;
+      margin: 0;
       padding: 0;
       border: none;
       border-radius: 8px;
       background: transparent;
       color: #64748b;
       cursor: pointer;
+      pointer-events: auto;
       -webkit-tap-highlight-color: transparent;
       transition: color 160ms ease, background-color 160ms ease;
     }
@@ -1533,122 +1770,242 @@
       transform: rotate(45deg);
     }
 
-    .live-composite .product-info__hero {
+    .live-composite .know-acc-card,
+    .live-composite .product-acc-card {
+      box-sizing: border-box;
+      border-radius: 16px;
+      background: #ffffff;
+      box-shadow: none;
+    }
+
+    .live-composite .know-acc-card {
+      padding: 16px 18px;
+    }
+
+    .live-composite .product-acc-card {
+      padding: 20px;
+    }
+
+    .live-composite .know-acc-card {
+      border: none;
+      overflow: hidden;
+      outline: none;
+    }
+
+    .live-composite .know-acc-card.is-expanded,
+    .live-composite .know-acc-card.is-stt-linked,
+    .live-composite .know-acc-card:focus,
+    .live-composite .know-acc-card:focus-within {
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
+
+    .live-composite .product-acc-card {
+      flex: 0 0 auto;
+      height: auto;
+      max-height: none;
+      overflow: visible;
+      border: 1px solid rgba(37, 99, 235, 0.14);
+      transition: border-color 160ms ease;
+    }
+
+    .live-composite .product-acc-card.is-expanded {
+      border-color: rgba(37, 99, 235, 0.35);
+    }
+
+    .live-composite .product-acc-card__trigger {
       display: flex;
-      flex-direction: column;
-      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      min-height: 26px;
       margin: 0;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(220, 228, 238, 0.75);
-      background: rgba(248, 250, 252, 0.72);
+      padding: 0;
+      border: none;
+      background: transparent;
+      font: inherit;
+      text-align: left;
+      color: inherit;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .live-composite .product-info__contract {
-      margin: 0;
-      font-size: var(--text-sm);
-      font-weight: var(--font-semibold);
-      line-height: var(--leading-snug);
-      color: var(--text-strong);
-      letter-spacing: -0.01em;
+    .live-composite .product-acc-card.is-expanded .product-acc-card__trigger {
+      margin-bottom: 0;
     }
 
-    .live-composite .product-info__contract-no {
-      display: block;
-      margin-top: 2px;
-      font-size: var(--text-xs);
-      font-weight: var(--font-medium);
-      color: var(--text-muted);
+    .live-composite .product-acc-card__trigger:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+      border-radius: 4px;
     }
 
-    .live-composite .product-info__metrics {
+    .live-composite .product-acc-card__lead {
+      flex: 1 1 auto;
+      min-width: 0;
       display: flex;
       flex-wrap: wrap;
       align-items: baseline;
-      gap: 6px 14px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
+      gap: 6px;
     }
 
-    .live-composite .product-info__metric {
-      display: inline-flex;
-      align-items: baseline;
-      gap: 5px;
-      margin: 0;
-      font-size: var(--text-xs);
+    .live-composite .product-acc-card__name {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--text-strong);
+    }
+
+    .live-composite .product-acc-card__sep {
+      font-size: 13px;
       font-weight: var(--font-medium);
-      line-height: 1.3;
-      color: var(--text-muted);
-      white-space: nowrap;
+      color: #cbd5e1;
     }
 
-    .live-composite .product-info__metric strong {
-      font-size: var(--text-sm);
-      font-weight: var(--font-semibold);
-      color: var(--text-default);
+    .live-composite .product-acc-card__contract {
+      font-size: 13px;
+      font-weight: var(--font-medium);
+      line-height: 1.35;
+      color: var(--text-muted);
       font-variant-numeric: tabular-nums;
     }
 
-    .live-composite .product-info__capabilities {
-      display: flex;
-      flex-wrap: wrap;
+    .live-composite .product-acc-card__icon {
+      flex-shrink: 0;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      margin-left: 8px;
+      font-size: 18px;
+      font-weight: var(--font-regular);
+      line-height: 1;
+      color: var(--text-muted);
+      transition: color 140ms ease;
+    }
+
+    .live-composite .product-acc-card__trigger:hover .product-acc-card__icon {
+      color: var(--primary, #005bac);
+    }
+
+    .live-composite .product-acc-card__panel {
+      display: none;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+    }
+
+    .live-composite .product-acc-card.is-expanded .product-acc-card__panel {
+      display: block;
+      height: auto;
+      max-height: none;
+    }
+
+    .live-composite .product-acc-card__content {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 0;
+      padding: 14px 0 16px;
+      overflow: visible;
+    }
+
+    .live-composite .product-acc-card__block {
+      margin: 0;
+      padding: 0;
+    }
+
+    .live-composite .product-acc-card__block-label {
+      margin: 0 0 8px;
+      font-size: 12px;
+      font-weight: var(--font-medium);
+      line-height: 1.3;
+      color: #94a3b8;
+    }
+
+    .live-composite .product-acc-card__metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 12px;
       margin: 0;
       padding: 0;
       list-style: none;
     }
 
-    .live-composite .product-info__cap-pill {
+    .live-composite .product-acc-card__metric {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin: 0;
+      min-width: 0;
+    }
+
+    .live-composite .product-acc-card__metric-label {
+      font-size: 11px;
+      font-weight: var(--font-medium);
+      line-height: 1.3;
+      color: var(--text-muted);
+    }
+
+    .live-composite .product-acc-card__metric-value {
+      font-size: 13px;
+      font-weight: var(--font-bold);
+      line-height: 1.35;
+      color: var(--text-strong);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .live-composite .product-acc-card__capabilities {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .live-composite .product-acc-card__cap-pill {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
       margin: 0;
-      padding: 4px 9px;
+      padding: 4px 10px;
       border-radius: 999px;
       border: 1px solid transparent;
       font-size: var(--text-xs);
-      font-weight: var(--font-medium);
+      font-weight: var(--font-semibold);
       line-height: 1.25;
       white-space: nowrap;
     }
 
-    .live-composite .product-info__cap-label {
-      color: var(--text-default);
+    .live-composite .product-acc-card__cap-pill--ok {
+      background: rgba(236, 253, 245, 0.95);
+      border-color: rgba(134, 239, 172, 0.55);
+      color: #15803d;
     }
 
-    .live-composite .product-info__cap-sep {
-      color: #cbd5e1;
-      font-weight: var(--font-regular);
-    }
-
-    .live-composite .product-info__cap-status {
-      font-weight: var(--font-semibold);
-    }
-
-    .live-composite .product-info__cap-pill--ok {
-      background: rgba(234, 242, 255, 0.95);
-      border-color: rgba(191, 219, 254, 0.9);
-    }
-
-    .live-composite .product-info__cap-pill--ok .product-info__cap-status {
-      color: #1d4ed8;
-    }
-
-    .live-composite .product-info__cap-pill--deny {
-      background: rgba(254, 242, 242, 0.85);
+    .live-composite .product-acc-card__cap-pill--deny {
+      background: rgba(254, 242, 242, 0.9);
       border-color: rgba(254, 202, 202, 0.85);
-    }
-
-    .live-composite .product-info__cap-pill--deny .product-info__cap-status {
       color: #b91c1c;
     }
 
-    .live-composite .product-info__notice {
+    .live-composite .product-acc-card__block--notice {
+      padding-top: 12px;
+      border-top: 1px solid rgba(220, 228, 238, 0.65);
+    }
+
+    .live-composite .product-acc-card__block--notice .product-acc-card__block-label {
+      margin-bottom: 6px;
+    }
+
+    .live-composite .product-acc-card__notice {
       margin: 0;
       padding: 0;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: var(--font-medium);
       line-height: 1.45;
       color: #94a3b8;
@@ -1682,7 +2039,7 @@
       align-items: center;
       gap: 8px;
       margin: 0;
-      padding: 10px var(--info-panel-pad-x, 24px) 12px;
+      padding: 10px var(--info-panel-pad-x, 0) 12px;
       border-bottom: 1px solid rgba(15, 39, 68, 0.08);
     }
 
@@ -1722,7 +2079,7 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      padding: 0 var(--info-panel-pad-x, 24px) 24px;
+      padding: 0 var(--info-panel-pad-x, 0) 16px;
     }
 
     .live-outer--info .history-detail__date {
@@ -1752,7 +2109,10 @@
     .live-composite .live-outer--stt {
       flex: 1 1 auto;
       min-height: 0;
-      overflow: visible;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
     }
 
     .live-composite .live-outer--know {
@@ -1783,7 +2143,46 @@
       display: flex;
       flex-direction: column;
       min-height: 0;
+      margin: 0;
+      padding: var(--padding-inner-content);
       outline: none;
+      box-sizing: border-box;
+    }
+
+    .live-composite .stt-card__expand-btn {
+      position: absolute;
+      top: var(--padding-inner-content);
+      right: var(--padding-inner-content);
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 160ms ease;
+    }
+
+    .live-composite .stt-card__expand-btn:hover {
+      color: var(--primary);
+    }
+
+    .live-composite .stt-card__expand-btn:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+    }
+
+    .live-composite .stt-card__expand-btn__icon {
+      display: block;
+      width: 24px;
+      height: 24px;
     }
 
     .live-workspace-stack .live-outer--stt,
@@ -1795,16 +2194,20 @@
     .live-workspace-stack .live-outer--product > .live-inner.product-info-card {
       flex: 1 1 auto;
       min-height: 0;
-      overflow-x: hidden;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      overflow: hidden;
     }
 
-    .live-workspace-stack .stt-card__log,
-    .live-workspace-stack .chat-scroll-area {
+    .live-workspace-stack .stt-card__log {
       flex: 1 1 auto;
       min-height: 0;
       overflow: hidden;
+    }
+
+    .live-workspace-stack .live-outer--stt .stt-card__log > .chat-scroll-area {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     .live-composite .live-outer--know > .live-inner {
@@ -1830,7 +2233,7 @@
 
     .live-outer--info .card-header {
       margin-bottom: 4px;
-      padding: 6px var(--info-panel-pad-x, 24px) 4px;
+      padding: 6px var(--info-panel-pad-x, 0) 4px;
     }
 
     .live-composite header.card-header,
@@ -1912,31 +2315,16 @@
     }
 
 
-    .live-composite .card-header--assistant .card-header-title {
+    .live-composite .card-header--assistant,
+    .live-composite .card-header--product {
+      min-height: 32px;
+      padding: 6px 16px;
+    }
+
+    .live-composite .card-header--assistant .card-header-title,
+    .live-composite .card-header--product .card-header-title {
       flex: 1 1 auto;
       min-width: 0;
-    }
-
-    .live-workspace-stack .know-acc-card {
-      padding: 10px 12px;
-    }
-
-    .live-workspace-stack .know-acc-card.is-expanded .know-acc-card__trigger {
-      margin-bottom: 8px;
-    }
-
-    .live-workspace-stack .know-acc-flow__question {
-      font-size: 12px;
-      margin-bottom: 4px;
-    }
-
-    .live-workspace-stack .know-acc-flow__answer {
-      font-size: 12px;
-    }
-
-    .live-workspace-stack .know-acc-card__trigger {
-      min-height: 36px;
-      padding: 6px 0;
     }
 
     .live-composite .live-outer--know > .live-inner.know-assistant-inner,
@@ -1951,16 +2339,14 @@
       padding: var(--padding-inner-content);
     }
 
-    .live-composite .know-accordion {
+    .live-composite .know-assistant-content {
       flex: 1 1 auto;
       min-height: 0;
       display: flex;
       flex-direction: column;
-      gap: 8px;
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      padding: 2px 0 8px;
     }
 
     .live-composite .know-assistant__empty {
@@ -1976,73 +2362,19 @@
       display: none;
     }
 
-    .live-composite .know-acc-card {
-      box-sizing: border-box;
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid rgba(37, 99, 235, 0.14);
-      background: #ffffff;
-      box-shadow: none;
-      overflow: hidden;
-      transition: border-color 160ms ease;
-    }
-
-    .live-composite .know-acc-card.is-expanded {
-      border-color: rgba(37, 99, 235, 0.35);
-    }
-
     .live-composite .know-acc-card.is-stt-linked {
-      border-color: rgba(37, 99, 235, 0.5);
-      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+      background: rgba(248, 250, 252, 0.98);
+      border-color: rgba(220, 228, 238, 0.7);
     }
 
     .live-composite .know-acc-card.is-done {
       opacity: 0.92;
     }
 
-    .live-composite .know-acc-card__trigger {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      width: 100%;
-      min-height: 26px;
-      margin: 0;
+    .live-composite .know-acc-card__head {
+      margin: 0 0 18px;
       padding: 0;
-      border: none;
-      background: transparent;
-      font: inherit;
-      text-align: left;
-      color: inherit;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .live-composite .know-acc-card.is-expanded .know-acc-card__trigger {
-      margin-bottom: 18px;
-    }
-
-    .live-composite .know-acc-card__trigger:focus-visible {
-      outline: 2px solid var(--primary, #005bac);
-      outline-offset: 2px;
-      border-radius: 4px;
-    }
-
-    .live-composite .know-acc-card__lead {
-      flex: 1 1 auto;
       min-width: 0;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .live-composite .know-acc-card__num {
-      flex-shrink: 0;
-      font-size: 13px;
-      font-weight: var(--font-bold);
-      font-variant-numeric: tabular-nums;
-      line-height: 1.3;
-      color: #64748b;
     }
 
     .live-composite .know-acc-card__title {
@@ -2053,60 +2385,140 @@
       color: var(--text-strong);
     }
 
-    .live-composite .know-acc-card__meta {
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-    }
-
-    .live-composite .know-acc-card__chevron {
-      flex-shrink: 0;
-    }
-
-
-    .live-composite .know-acc-card__panel {
-      display: none;
-      padding: 0;
+    .live-composite .know-acc-card__body {
       margin: 0;
-    }
-
-    .live-composite .know-acc-card.is-expanded .know-acc-card__panel {
-      display: block;
+      padding: 0;
+      min-width: 0;
     }
 
     .live-composite .know-acc-card__inner {
       display: flex;
       flex-direction: column;
-      gap: 0;
+      gap: 14px;
       margin: 0;
       padding: 0;
       border: none;
     }
 
     .live-composite .know-acc-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       margin: 0;
       padding: 0;
+      border: none;
+    }
+
+    .live-composite .know-acc-answer {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
+
+    .live-composite .know-acc-steps {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .live-composite .know-acc-step {
+      display: inline-flex;
+      align-items: center;
+      margin: 0;
+      padding: 4px 10px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(241, 245, 249, 0.88);
+      font-size: 11px;
+      font-weight: var(--font-medium);
+      line-height: 1.3;
+      color: #94a3b8;
+      white-space: nowrap;
+    }
+
+    .live-composite .know-acc-step.is-done {
+      color: #64748b;
+    }
+
+    .live-composite .know-acc-step.is-active {
+      background: rgba(219, 234, 254, 0.9);
+      color: #1d4ed8;
+      font-weight: var(--font-semibold);
     }
 
     .live-composite .know-acc-flow__question {
-      margin: 0 0 10px;
+      margin: 0;
       font-size: 16px;
       font-weight: 700;
-      line-height: 1.4;
+      line-height: 1.45;
       letter-spacing: -0.02em;
       color: var(--text-strong);
     }
 
-    .live-composite .know-acc-flow__answer {
-      margin: 0 0 10px;
+    .live-composite .know-acc-flow__answer-label {
+      margin: 0;
       font-size: 15px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--text-strong);
+    }
+
+    .live-composite .know-acc-answer-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .live-composite .know-acc-answer-item {
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
+
+    .live-composite .know-acc-answer-item__title {
+      margin: 0 0 6px;
+      font-size: 14px;
+      font-weight: var(--font-bold);
+      line-height: 1.45;
+      color: #26364d;
+    }
+
+    .live-composite .know-acc-answer-item__detail {
+      margin: 0;
+      padding: 0 0 0 1.1em;
+      list-style: disc;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .live-composite .know-acc-answer-item__detail li {
+      font-size: 14px;
+      font-weight: var(--font-normal);
+      line-height: 1.6;
+      color: #26364d;
+    }
+
+    .live-composite .know-acc-flow__answer-body {
+      margin: 0;
+      font-size: 14px;
       font-weight: var(--font-normal);
       line-height: 1.6;
       color: #26364d;
     }
 
     .live-composite .know-acc-source {
-      margin: 0 0 15px;
+      margin: 0;
       font-size: 11px;
       font-weight: var(--font-medium);
       line-height: 1.45;
@@ -2116,9 +2528,10 @@
     .live-composite .know-acc-actions {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 8px;
       margin: 0;
       padding: 0;
+      border: none;
     }
 
     .live-composite .know-acc-chip-group {
@@ -2134,7 +2547,7 @@
       font-size: 12px;
       font-weight: var(--font-medium);
       line-height: 1.3;
-      color: #94a3b8;
+      color: var(--text-muted, #94a3b8);
     }
 
     .live-composite .know-acc-chips {
@@ -2411,186 +2824,12 @@
       position: relative;
       flex: 1 1 auto;
       min-height: 0;
-      overflow: visible;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       padding: 0;
       margin: 0;
       background: transparent;
-      /* floating-control-group 높이 근사값 — chat-scroll-area 하단 여백 계산에 사용 */
-      --stt-floating-control-est-h: 136px;
-    }
-
-    /* 플로팅 웨이브 + 시간(상) / 안내(하) — 스크롤 영역 밖 하단 고정 (카드 flex 슬롯) */
-    .live-composite .stt-card__log > .floating-control-group {
-      flex-shrink: 0;
-      position: relative;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-      box-sizing: border-box;
-      width: 100%;
-      margin-top: 26px;
-      padding: 0 0 16px;
-      pointer-events: none;
-    }
-
-    .live-composite .stt-card__log > .floating-control-group > .floating-control-group__elapsed {
-      margin: 0 0 8px;
-      padding: 0;
-      display: block;
-      width: 100%;
-      text-align: center;
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1;
-      font-variant-numeric: tabular-nums;
-      color: var(--text-muted);
-      font-style: normal;
-    }
-
-    .live-composite .stt-card__log > .floating-control-group > .floating-control-group__caption {
-      margin: 6px 0 0;
-      padding: 0;
-      width: 100%;
-      max-width: min(320px, 100%);
-      text-align: center;
-      font-size: 12px;
-      font-weight: 500;
-      line-height: 1.35;
-      color: var(--text-soft);
-    }
-
-    /* STT 카드 하단 · 플로팅 웨이브 (화이트 글래스 · bar 크기 고정 · 내부만 wave 100%) */
-    .live-composite .stt-wave-float {
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-      gap: 0;
-      height: 52px;
-      border-radius: 999px;
-    }
-
-    .live-composite .stt-wave-float.floating-wave-bar {
-      width: min(240px, calc(100% - 16px));
-      min-width: min(220px, calc(100% - 16px));
-      max-width: 240px;
-      overflow: hidden;
-      padding: 0 16px;
-      border: none;
-      outline: none;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.1);
-    }
-
-    .live-composite .stt-wave-float__wave,
-    .live-composite .stt-wave-float .waveform {
-      flex: 1 1 auto;
-      align-self: center;
-      width: 100%;
-      max-width: 100%;
-      min-width: 0;
-      height: 22px;
-      display: block;
-      opacity: 1;
-      color: #2563eb;
-      fill: #2563eb;
-      stroke: #2563eb;
-      position: relative;
-      --wave-pattern-w: 286px;
-      --wave-pattern-gap: 2px;
-      --wave-marquee-shift: calc(var(--wave-pattern-w) + var(--wave-pattern-gap));
-      /* 플로팅 웨이브 흐름 속도: 숫자 ↑ = 더 느림 (한 패턴 폭만큼 이동하는 데 걸리는 시간) */
-      --wave-marquee-duration: 20s;
-    }
-
-    .live-composite .stt-wave-float__wave-viewport,
-    .live-composite .stt-wave-float .wave-viewport {
-      position: relative;
-      z-index: 1;
-      box-sizing: border-box;
-      width: 100%;
-      height: 22px;
-      min-width: 0;
-      overflow: hidden;
-      border-radius: 4px;
-      mask-image: linear-gradient(
-        90deg,
-        transparent 0%,
-        black 12%,
-        black 88%,
-        transparent 100%
-      );
-      mask-repeat: no-repeat;
-      mask-size: 100% 100%;
-      -webkit-mask-image: linear-gradient(
-        90deg,
-        transparent 0%,
-        black 12%,
-        black 88%,
-        transparent 100%
-      );
-      -webkit-mask-repeat: no-repeat;
-      -webkit-mask-size: 100% 100%;
-    }
-
-    .live-composite .stt-wave-float__wave-track {
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: 2;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      width: max-content;
-      height: 22px;
-      min-height: 22px;
-      gap: var(--wave-pattern-gap, 2px);
-      animation: waveMarquee var(--wave-marquee-duration, 20s) linear infinite;
-      will-change: transform;
-    }
-
-    /* SVG를 배경으로 그림 (외부 SVG + CSS mask luminance 이슈 회피) */
-    .live-composite .stt-wave-float__wave-mask {
-      flex-shrink: 0;
-      display: block;
-      box-sizing: border-box;
-      width: var(--wave-pattern-w, 286px);
-      height: 22px;
-      min-height: 22px;
-      margin: 0;
-      opacity: 1;
-      pointer-events: none;
-      background-color: transparent;
-      background-image: url("../assets/waveform.svg");
-      background-repeat: no-repeat;
-      background-size: auto 100%;
-      background-position: center;
-    }
-
-    .live-composite .stt-wave-float__wave-mask--active {
-      opacity: 1;
-    }
-
-    @keyframes waveMarquee {
-      from {
-        transform: translateX(0);
-      }
-
-      to {
-        transform: translateX(calc(-1 * var(--wave-marquee-shift, 288px)));
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .live-composite .stt-wave-float__wave-track {
-        animation: none;
-        transform: translateX(0);
-      }
     }
 
     .live-composite .stt-card__log > .chat-scroll-area {
@@ -2601,6 +2840,8 @@
       overflow-y: auto;
       background: transparent;
       -webkit-overflow-scrolling: touch;
+      box-sizing: border-box;
+      padding: calc(var(--padding-inner-content) + 14px) 32px 0 0;
       mask-image: linear-gradient(
         180deg,
         transparent 0%,
@@ -2617,7 +2858,6 @@
       );
       -webkit-mask-repeat: no-repeat;
       -webkit-mask-size: 100% 100%;
-      padding-bottom: calc(var(--stt-floating-control-est-h, 136px) + 48px);
     }
 
     .live-composite .stt-card__log .stt-chat {
@@ -2875,11 +3115,14 @@
 
     /* —— AI 질의 · 3열 고정 패널 —— */
     .live-outer--ai .card-header--ai {
-      padding-right: var(--inner-padding, 16px);
+      min-height: 32px;
+      padding: 6px 16px;
+      justify-content: space-between;
     }
 
     .live-outer--ai .card-header--ai .card-header-title {
       flex: 1 1 auto;
+      min-width: 0;
     }
 
     .card-header--ai .ai-agent-panel__header-end {
@@ -2926,7 +3169,7 @@
       display: flex;
       flex-direction: column;
       gap: 0;
-      padding: 0;
+      padding: var(--padding-inner-content);
       overflow: hidden;
     }
 
@@ -3027,11 +3270,7 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      background: var(--bg-card, #f8fafc);
-    }
-
-    .ai-agent-panel__body > .ai-agent-composer {
-      margin-top: auto;
+      background: transparent;
     }
 
     .ai-agent-panel__scroll {
@@ -3040,9 +3279,17 @@
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      padding: 12px var(--inner-padding, 16px) 8px;
+      padding: 12px var(--inner-padding, 16px) 12px;
+    }
+
+    .ai-agent-panel__bottom {
+      flex-shrink: 0;
       display: flex;
       flex-direction: column;
+      gap: 0;
+      padding: 10px var(--inner-padding, 16px) 12px;
+      background: var(--bg-card, #f8fafc);
+      border-top: 1px solid rgba(220, 228, 238, 0.65);
     }
 
     .ai-agent-chat {
@@ -3120,7 +3367,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin: 12px 0 0;
+      margin: 0 0 11px;
       padding: 0;
     }
 
@@ -3129,7 +3376,7 @@
       font-size: 12px;
       font-weight: var(--font-medium);
       line-height: 1.3;
-      color: #94a3b8;
+      color: var(--text-muted, #94a3b8);
     }
 
     .ai-agent-suggest__pills {
@@ -3170,9 +3417,9 @@
     .ai-agent-composer {
       flex-shrink: 0;
       margin: 0;
-      padding: 10px var(--inner-padding, 16px) 12px;
-      border-top: 1px solid rgba(220, 228, 238, 0.65);
-      background: var(--bg-card, #f8fafc);
+      padding: 0;
+      border-top: none;
+      background: transparent;
     }
 
     .ai-agent-composer__box {
@@ -3453,33 +3700,141 @@
                           </div>
                         </div>
                       </section>
-                      <section class="info-section info-panel-section info-doc-section" data-info-section="contracts" id="info-acc-contracts">
+                      <section class="info-section info-panel-section info-doc-section info-doc-section--accordion" data-info-section="contracts" id="info-acc-contracts">
                         <div class="info-section-card live-inner workspace-inner-card info-section__content-area">
-                          <header class="info-sect-mini-head" id="info-sect-contracts-title">
+                          <button
+                            type="button"
+                            class="info-sect-mini-head info-sect-mini-head__trigger"
+                            id="info-sect-contracts-trigger"
+                            aria-expanded="true"
+                            aria-controls="info-acc-contracts-body"
+                          >
                             <span class="info-sect-mini-head__lead">
                               <span class="info-sect-mini-head__num" aria-hidden="true">03</span>
-                              <span class="info-sect-mini-head__title">계약리스트</span>
+                              <span class="info-sect-mini-head__title" id="info-sect-contracts-title">계약리스트</span>
                             </span>
                             <span class="info-sect-mini-head__trail">
                               <span class="info-sect-mini-head__meta">3건</span>
+                              <span class="info-sect-mini-head__chevron icon-chevron icon-chevron--sm" aria-hidden="true"></span>
                             </span>
-                          </header>
+                          </button>
                           <div class="info-section-card__body info-section__content info-section__content--list info-panel-section__content" id="info-acc-contracts-body" role="region" aria-labelledby="info-sect-contracts-title">
-                          <ul class="contract-list" role="list">
-                            <li class="contract-list__item is-selected">
-                              <div class="contract-list__text-block">
-                                <p class="contract-list__title">[종신] 무배당 신한 더드림</p>
-                                <p class="contract-list__meta">계약 2018.03 / 월 120,000원</p>
+                          <ul class="contract-list" role="list" id="contract-acc-list">
+                            <li class="contract-acc-item is-expanded" data-contract-index="0">
+                              <button type="button" class="contract-acc-trigger" aria-expanded="true" aria-controls="contract-panel-0">
+                                <div class="contract-list__text-block">
+                                  <p class="contract-list__title">[종신] 무배당 신한 더드림</p>
+                                  <p class="contract-list__meta">계약 2018.03 / 월 120,000원</p>
+                                </div>
+                                <span class="contract-acc-icon" aria-hidden="true">−</span>
+                              </button>
+                              <div class="contract-acc-panel" id="contract-panel-0">
+                                <div class="contract-acc-content">
+                                  <dl class="contract-detail">
+                                    <div class="contract-detail__row">
+                                      <dt>계약번호</dt>
+                                      <dd>1234-5678-9012</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>월 보험료</dt>
+                                      <dd>120,000원</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>가입금액</dt>
+                                      <dd>1억원</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>해약환급금</dt>
+                                      <dd>8,420,000원</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>면책</dt>
+                                      <dd>N/A</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>처리 가능</dt>
+                                      <dd>보험금 청구, 계좌변경</dd>
+                                    </div>
+                                  </dl>
+                                </div>
                               </div>
                             </li>
-                            <li class="contract-list__item">
-                              <div class="contract-list__text-block">
-                                <p class="contract-list__title">[연금] 신한 라이프 플랜</p>
+                            <li class="contract-acc-item" data-contract-index="1">
+                              <button type="button" class="contract-acc-trigger" aria-expanded="false" aria-controls="contract-panel-1">
+                                <div class="contract-list__text-block">
+                                  <p class="contract-list__title">[연금] 신한 라이프 플랜</p>
+                                  <p class="contract-list__meta">계약 2020.06 / 월 80,000원</p>
+                                </div>
+                                <span class="contract-acc-icon" aria-hidden="true">+</span>
+                              </button>
+                              <div class="contract-acc-panel" id="contract-panel-1">
+                                <div class="contract-acc-content">
+                                  <dl class="contract-detail">
+                                    <div class="contract-detail__row">
+                                      <dt>계약번호</dt>
+                                      <dd>2345-6789-0123</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>월 보험료</dt>
+                                      <dd>80,000원</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>가입금액</dt>
+                                      <dd>5,000만원</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>해약환급금</dt>
+                                      <dd>2,100,000원</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>면책</dt>
+                                      <dd>N/A</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>처리 가능</dt>
+                                      <dd>보험금 청구</dd>
+                                    </div>
+                                  </dl>
+                                </div>
                               </div>
                             </li>
-                            <li class="contract-list__item">
-                              <div class="contract-list__text-block">
-                                <p class="contract-list__title">[변액] 신한 인베스트</p>
+                            <li class="contract-acc-item" data-contract-index="2">
+                              <button type="button" class="contract-acc-trigger" aria-expanded="false" aria-controls="contract-panel-2">
+                                <div class="contract-list__text-block">
+                                  <p class="contract-list__title">[변액] 신한 인베스트</p>
+                                  <p class="contract-list__meta">계약 2021.09 / 월 150,000원</p>
+                                </div>
+                                <span class="contract-acc-icon" aria-hidden="true">+</span>
+                              </button>
+                              <div class="contract-acc-panel" id="contract-panel-2">
+                                <div class="contract-acc-content">
+                                  <dl class="contract-detail">
+                                    <div class="contract-detail__row">
+                                      <dt>계약번호</dt>
+                                      <dd>3456-7890-1234</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>월 보험료</dt>
+                                      <dd>150,000원</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>가입금액</dt>
+                                      <dd>변동 (수익률 연동)</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>해약환급금</dt>
+                                      <dd>5,320,000원</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>면책</dt>
+                                      <dd>N/A</dd>
+                                    </div>
+                                    <div class="contract-detail__row">
+                                      <dt>처리 가능</dt>
+                                      <dd>계좌변경</dd>
+                                    </div>
+                                  </dl>
+                                </div>
                               </div>
                             </li>
                           </ul>
@@ -3567,16 +3922,47 @@
         </div>
       </div>
 
-      <div class="workspace__col workspace__col--live-stack main-grid__col main-grid__col--2" id="workspace-col-live-stack" aria-label="상담 워크스페이스">
-        <div class="live-workspace-stack" aria-label="STT · 상담 어시스턴트 · 상품 및 업무정보">
-          <div class="live-stack-row live-stack-row--stt">
+      <div class="workspace__col workspace__col--live-stack main-workspace main-grid__col main-grid__col--2" id="workspace-col-live-stack" aria-label="상담 워크스페이스">
+        <div class="live-composite live-composite--stack live-workspace-stack" aria-label="상담 어시스턴트 · STT · 상품 및 업무정보">
+          <div class="live-stack-row live-stack-row--know">
+            <section class="live-outer live-outer--know workspace-main-card live-sect--know" id="know-queue-root" aria-labelledby="live-sect-title-know">
+              <header class="card-header card-header--assistant live-sect__head">
+                <h3 class="card-header-title live-sect__title" id="live-sect-title-know">상담 어시스턴트</h3>
+              </header>
+              <div class="live-inner workspace-inner-card know-assistant-inner">
+                <div class="know-assistant-content scroll-area" id="know-assistant-content" aria-label="현재 상담 요청"></div>
+                <p class="know-assistant__empty" id="know-assistant-empty" hidden>처리할 요청이 없습니다.</p>
+              </div>
+            </section>
+          </div>
+          <div class="live-stack-row live-stack-row--stt live-composite__stt">
             <div class="live-outer live-outer--stt workspace-main-card">
-                        <header class="card-header live-sect__head">
-                          <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
-                          <h3 class="card-header-title live-sect__title">STT 실시간 로그</h3>
-                        </header>
-                        <div class="live-inner workspace-inner-card stt-content-card">
-                        <div class="stt-card__log" role="region" aria-label="실시간 대화 로그">
+              <div class="live-inner workspace-inner-card stt-content-card">
+                <button
+                  type="button"
+                  class="stt-card__expand-btn"
+                  id="stt-expand-btn"
+                  aria-label="펼쳐보기"
+                  title="펼쳐보기"
+                >
+                  <svg
+                    class="stt-card__expand-btn__icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path d="M8.67675 18.9919L6.00394 18.9972C5.45003 18.9983 5.00075 18.549 5.00196 17.9951L5.00777 15.3229" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5.49805 18.5L9.00193 14.9961" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5.00972 8.6787L5.00391 6.00608C5.0027 5.4521 5.4521 5.0027 6.00608 5.00391L8.6787 5.00972" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18.9912 15.3242L18.9971 17.9968C18.9983 18.5508 18.5489 19.0002 17.9949 18.999L15.3223 18.9932" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15.3203 5.00937L17.9937 5.00391C18.5477 5.00278 18.997 5.45228 18.9957 6.0063L18.9893 8.67835" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18.5001 5.5L14.9961 9.00396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="stt-card__log" role="region" aria-label="실시간 대화 로그">
                           <div class="chat-scroll-area scroll-area" id="stt-chat-scroll">
                           <div class="stt-chat" id="stt-chat" role="log" aria-live="polite" aria-relevant="additions text">
                               <article class="stt-chat__msg stt-chat__msg--customer">
@@ -3682,40 +4068,13 @@
                               </article>
                             </div>
                           </div>
-                          <div class="floating-control-group" role="group" aria-label="통화 경과 시간 및 음성 활동 표시">
-                            <time class="floating-control-group__elapsed" datetime="PT0S">00:00</time>
-                            <div class="stt-wave-float floating-wave-bar" role="status" aria-label="통화 진행 중 · 음성 활동">
-                              <div class="stt-wave-float__wave waveform" aria-hidden="true">
-                                <div class="stt-wave-float__wave-viewport wave-viewport">
-                                  <div class="stt-wave-float__wave-track">
-                                    <div class="stt-wave-float__wave-mask" aria-hidden="true"></div>
-                                    <div class="stt-wave-float__wave-mask stt-wave-float__wave-mask--active" aria-hidden="true"></div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <p class="floating-control-group__caption">실시간으로 통화 내용이 기록됩니다</p>
-                          </div>
-                          </div>
-                        </div>
-                        </div>
-          </div>
-          <div class="live-stack-row live-stack-row--know">
-            <section class="live-outer live-outer--know workspace-main-card live-sect--know" id="know-queue-root" aria-labelledby="live-sect-title-know">
-              <header class="card-header card-header--assistant live-sect__head">
-                <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
-                <h3 class="card-header-title live-sect__title" id="live-sect-title-know">상담 어시스턴트</h3>
-              </header>
-              <div class="live-inner workspace-inner-card know-assistant-inner">
-                <div class="know-accordion scroll-area" id="know-accordion-list" aria-label="상담 요청 목록"></div>
-                <p class="know-assistant__empty" id="know-assistant-empty" hidden>처리할 요청이 없습니다.</p>
+                </div>
               </div>
-            </section>
+            </div>
           </div>
-          <div class="live-stack-row live-stack-row--product">
+          <div class="live-stack-row live-stack-row--product live-composite__product">
             <div class="live-outer live-outer--product workspace-main-card" id="product-info-root">
               <header class="card-header card-header--product live-sect__head">
-                <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
                 <h3 class="card-header-title live-sect__title" id="live-sect-title-product">상품 및 업무정보</h3>
                 <button
                   type="button"
@@ -3730,40 +4089,115 @@
                 </button>
               </header>
               <div class="live-inner workspace-inner-card product-info-card" id="product-info-body">
-                <div class="product-info__hero">
-                  <p class="product-info__contract">
-                    [종신] 무배당 신한 더드림
-                    <span class="product-info__contract-no">계약 1234-5678</span>
-                  </p>
-                  <ul class="product-info__metrics" aria-label="주요 금액">
-                    <li class="product-info__metric"><span>월 보험료</span><strong>128,000원</strong></li>
-                    <li class="product-info__metric"><span>가입금액</span><strong>1억원</strong></li>
-                    <li class="product-info__metric"><span>해약환급금</span><strong>8,420,000원</strong></li>
-                  </ul>
+                <div class="product-accordion scroll-area" id="product-accordion-list" aria-label="상품 및 계약 목록">
+                  <article class="product-acc-card is-expanded" data-product-index="0">
+                    <button
+                      type="button"
+                      class="product-acc-card__trigger"
+                      id="product-acc-trigger-0"
+                      aria-expanded="true"
+                      aria-controls="product-acc-panel-0"
+                    >
+                      <span class="product-acc-card__lead">
+                        <span class="product-acc-card__name">[종신] 무배당 신한 더드림</span>
+                        <span class="product-acc-card__sep" aria-hidden="true">/</span>
+                        <span class="product-acc-card__contract">계약 1234-5678</span>
+                      </span>
+                      <span class="product-acc-card__icon" aria-hidden="true">−</span>
+                    </button>
+                    <div class="product-acc-card__panel" id="product-acc-panel-0" role="region" aria-labelledby="product-acc-trigger-0">
+                      <div class="product-acc-card__content">
+                        <section class="product-acc-card__block product-acc-card__block--info">
+                          <h4 class="product-acc-card__block-label">주요 정보</h4>
+                          <ul class="product-acc-card__metrics">
+                            <li class="product-acc-card__metric">
+                              <span class="product-acc-card__metric-label">월 보험료</span>
+                              <span class="product-acc-card__metric-value">128,000원</span>
+                            </li>
+                            <li class="product-acc-card__metric">
+                              <span class="product-acc-card__metric-label">가입금액</span>
+                              <span class="product-acc-card__metric-value">1억원</span>
+                            </li>
+                            <li class="product-acc-card__metric">
+                              <span class="product-acc-card__metric-label">해약환급금</span>
+                              <span class="product-acc-card__metric-value">8,420,000원</span>
+                            </li>
+                            <li class="product-acc-card__metric">
+                              <span class="product-acc-card__metric-label">면책</span>
+                              <span class="product-acc-card__metric-value">N/A</span>
+                            </li>
+                          </ul>
+                        </section>
+                        <section class="product-acc-card__block product-acc-card__block--caps">
+                          <h4 class="product-acc-card__block-label">업무 가능 여부</h4>
+                          <ul class="product-acc-card__capabilities">
+                            <li class="product-acc-card__cap-pill product-acc-card__cap-pill--ok">보험금 청구 가능</li>
+                            <li class="product-acc-card__cap-pill product-acc-card__cap-pill--ok">자동이체 계좌변경 가능</li>
+                            <li class="product-acc-card__cap-pill product-acc-card__cap-pill--deny">서비스 정지 불가</li>
+                            <li class="product-acc-card__cap-pill product-acc-card__cap-pill--deny">카드납 변경 불가</li>
+                          </ul>
+                        </section>
+                        <section class="product-acc-card__block product-acc-card__block--notice">
+                          <h4 class="product-acc-card__block-label">업무 안내</h4>
+                          <p class="product-acc-card__notice">△ 자동이체 납입 중, 보험금 접수 중, 계약관계자변경 접수 중</p>
+                        </section>
+                      </div>
+                    </div>
+                  </article>
+                  <article class="product-acc-card" data-product-index="1">
+                    <button
+                      type="button"
+                      class="product-acc-card__trigger"
+                      id="product-acc-trigger-1"
+                      aria-expanded="false"
+                      aria-controls="product-acc-panel-1"
+                    >
+                      <span class="product-acc-card__lead">
+                        <span class="product-acc-card__name">[실손] 건강보험 플러스</span>
+                        <span class="product-acc-card__sep" aria-hidden="true">/</span>
+                        <span class="product-acc-card__contract">계약 9876-5432</span>
+                      </span>
+                      <span class="product-acc-card__icon" aria-hidden="true">+</span>
+                    </button>
+                    <div class="product-acc-card__panel" id="product-acc-panel-1" role="region" aria-labelledby="product-acc-trigger-1">
+                      <div class="product-acc-card__content">
+                        <section class="product-acc-card__block product-acc-card__block--info">
+                          <h4 class="product-acc-card__block-label">주요 정보</h4>
+                          <ul class="product-acc-card__metrics">
+                            <li class="product-acc-card__metric">
+                              <span class="product-acc-card__metric-label">월 보험료</span>
+                              <span class="product-acc-card__metric-value">42,000원</span>
+                            </li>
+                            <li class="product-acc-card__metric">
+                              <span class="product-acc-card__metric-label">가입금액</span>
+                              <span class="product-acc-card__metric-value">5,000만원</span>
+                            </li>
+                            <li class="product-acc-card__metric">
+                              <span class="product-acc-card__metric-label">해약환급금</span>
+                              <span class="product-acc-card__metric-value">—</span>
+                            </li>
+                            <li class="product-acc-card__metric">
+                              <span class="product-acc-card__metric-label">면책</span>
+                              <span class="product-acc-card__metric-value">N/A</span>
+                            </li>
+                          </ul>
+                        </section>
+                        <section class="product-acc-card__block product-acc-card__block--caps">
+                          <h4 class="product-acc-card__block-label">업무 가능 여부</h4>
+                          <ul class="product-acc-card__capabilities">
+                            <li class="product-acc-card__cap-pill product-acc-card__cap-pill--ok">보험금 청구 가능</li>
+                            <li class="product-acc-card__cap-pill product-acc-card__cap-pill--deny">자동이체 계좌변경 불가</li>
+                            <li class="product-acc-card__cap-pill product-acc-card__cap-pill--ok">서비스 정지 가능</li>
+                          </ul>
+                        </section>
+                        <section class="product-acc-card__block product-acc-card__block--notice">
+                          <h4 class="product-acc-card__block-label">업무 안내</h4>
+                          <p class="product-acc-card__notice">△ 실손 갱신 예정 안내 발송 완료</p>
+                        </section>
+                      </div>
+                    </div>
+                  </article>
                 </div>
-                <ul class="product-info__capabilities" aria-label="업무 가능 여부">
-                  <li class="product-info__cap-pill product-info__cap-pill--ok">
-                    <span class="product-info__cap-label">보험금 청구</span>
-                    <span class="product-info__cap-sep" aria-hidden="true">|</span>
-                    <span class="product-info__cap-status">가능</span>
-                  </li>
-                  <li class="product-info__cap-pill product-info__cap-pill--ok">
-                    <span class="product-info__cap-label">자동이체 계좌변경</span>
-                    <span class="product-info__cap-sep" aria-hidden="true">|</span>
-                    <span class="product-info__cap-status">가능</span>
-                  </li>
-                  <li class="product-info__cap-pill product-info__cap-pill--deny">
-                    <span class="product-info__cap-label">서비스 정지</span>
-                    <span class="product-info__cap-sep" aria-hidden="true">|</span>
-                    <span class="product-info__cap-status">불가</span>
-                  </li>
-                  <li class="product-info__cap-pill product-info__cap-pill--deny">
-                    <span class="product-info__cap-label">카드납 변경</span>
-                    <span class="product-info__cap-sep" aria-hidden="true">|</span>
-                    <span class="product-info__cap-status">불가</span>
-                  </li>
-                </ul>
-                <p class="product-info__notice">△ 자동이체 납입 중, 보험금 접수 중, 계약관계자변경 접수 중</p>
               </div>
             </div>
           </div>
@@ -3772,7 +4206,6 @@
       <div class="workspace__col workspace__col--ai main-grid__col main-grid__col--3" id="workspace-col-ai" aria-label="질의 및 에이전트">
         <section class="live-outer live-outer--ai workspace-main-card" id="ai-agent-panel" aria-labelledby="live-sect-title-ai">
           <header class="card-header card-header--ai live-sect__head">
-            <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
             <h3 class="card-header-title live-sect__title" id="live-sect-title-ai">질의 및 에이전트</h3>
             <div class="ai-agent-panel__header-end">
               <div class="ai-agent-panel__statuses" aria-label="에이전트 상태">
@@ -3796,6 +4229,8 @@
                     </div>
                   </article>
                 </div>
+              </div>
+              <div class="ai-agent-panel__bottom">
                 <section class="ai-agent-suggest" aria-labelledby="ai-agent-suggest-label">
                   <h3 class="ai-agent-suggest__label" id="ai-agent-suggest-label">추천 질문</h3>
                   <div class="ai-agent-suggest__pills" role="group" aria-label="추천 질문 목록">
@@ -3804,8 +4239,7 @@
                     <button type="button" class="ai-agent-suggest__pill knowledge-chip" data-ai-query="청약철회 기간 기준이 어떻게 되나요?">청약철회 기간 기준</button>
                   </div>
                 </section>
-              </div>
-              <footer class="ai-agent-composer">
+                <footer class="ai-agent-composer">
                 <div class="ai-agent-composer__box">
                   <textarea
                     class="ai-agent-composer__input"
@@ -3828,6 +4262,7 @@
                   </div>
                 </div>
               </footer>
+              </div>
             </div>
           </div>
         </section>
@@ -3906,37 +4341,62 @@
 
         window.crmHydrateChevrons = hydrateChevrons;
 
+        function initContractsSectionAccordion() {
+          var section = document.getElementById("info-acc-contracts");
+          var trigger = document.getElementById("info-sect-contracts-trigger");
+          if (!section || !trigger) return;
+          hydrateChevrons(section);
+
+          trigger.addEventListener("click", function () {
+            var collapsed = section.classList.toggle("is-collapsed");
+            trigger.setAttribute("aria-expanded", collapsed ? "false" : "true");
+          });
+        }
+
+        function initContractRowAccordion() {
+          var list = document.getElementById("contract-acc-list");
+          if (!list) return;
+
+          var items = list.querySelectorAll(".contract-acc-item");
+          var expandedIndex = 0;
+
+          function updateItem(item, index, expanded) {
+            item.classList.toggle("is-expanded", expanded);
+            var trigger = item.querySelector(".contract-acc-trigger");
+            var icon = item.querySelector(".contract-acc-icon");
+            if (trigger) trigger.setAttribute("aria-expanded", expanded ? "true" : "false");
+            if (icon) icon.textContent = expanded ? "−" : "+";
+          }
+
+          function setExpanded(index) {
+            items.forEach(function (item, i) {
+              updateItem(item, i, i === index);
+            });
+            expandedIndex = index;
+          }
+
+          items.forEach(function (item, index) {
+            var trigger = item.querySelector(".contract-acc-trigger");
+            if (!trigger) return;
+            trigger.addEventListener("click", function () {
+              setExpanded(index);
+            });
+          });
+
+          setExpanded(expandedIndex);
+        }
+
         if (document.readyState === "loading") {
           document.addEventListener("DOMContentLoaded", function () {
             hydrateChevrons();
+            initContractsSectionAccordion();
+            initContractRowAccordion();
           });
         } else {
           hydrateChevrons();
+          initContractsSectionAccordion();
+          initContractRowAccordion();
         }
-      })();
-
-      (function () {
-        var el = document.querySelector(".floating-control-group__elapsed");
-        if (!el) return;
-
-        function pad2(n) {
-          return String(n).padStart(2, "0");
-        }
-
-        var totalSec = 0;
-
-        function render() {
-          var m = Math.floor(totalSec / 60);
-          var s = totalSec % 60;
-          el.textContent = pad2(m) + ":" + pad2(s);
-          el.setAttribute("datetime", "PT" + totalSec + "S");
-        }
-
-        render();
-        window.setInterval(function () {
-          totalSec += 1;
-          render();
-        }, 1000);
       })();
 
       (function () {
@@ -4070,39 +4530,59 @@
         var root = document.getElementById("know-queue-root");
         if (!root) return;
 
+        var KNOW_PIPELINE_STEPS = [
+          { id: 1, label: "의도분석" },
+          { id: 2, label: "지식검색" },
+          { id: 3, label: "답변생성" },
+          { id: 4, label: "검증" },
+        ];
+
+        var KNOW_STEP_MARKS = ["①", "②", "③", "④"];
+
         var KNOW_ITEMS = [
           {
             title: "보험금 청구 서류 안내 요청",
-            question: "보험금 청구하려면 어떤 서류가 필요한가요?",
+            question: "보험금 청구 어떻게 해야되죠? 서류는 뭐가 필요하나요?",
             status: "in_progress",
             priority: "high",
-            answer:
-              "청구 서류는 사고 유형에 따라 달라지며, 접수 후 심사까지 통상 7~14영업일이 소요될 수 있습니다. 필요 시 추가 서류를 요청드릴 수 있으니, 고객 안내 시 약관상 면책·지급 제한 여부를 함께 확인해 주세요.",
-            source: "근거 SOK#3202 약관 12-1 · FAQ #87",
-            faqs: ["청구 후 지급 기간은?", "필요 서류는 무엇인가요?"],
-            screens: ["보험금 청구 접수 화면", "자동이체 변경 화면"],
+            activeStep: 3,
+            answerLabel: "A. 보험금 청구 방법",
+            answerSections: [
+              {
+                index: 1,
+                title: "모바일앱(신한 SOL라이프)",
+                details: [
+                  "신한 SOL라이프 앱 접속 → 본인 인증 → [보험금 청구] 메뉴 → 병원 이용 내역 조회 → 진료 기록 선택 후 청구 완료",
+                  "병원에서 영수증이나 진단서를 따로 뗄 필요가 없음",
+                ],
+              },
+            ],
+            source: "SOK#3202 약관 12-1 · FAQ #87",
+            faqs: ["청구 후 지급 기간은?", "자동이체 변경 가능 시점", "계약 상태 조회 방법"],
           },
           {
             title: "자동이체 계좌 변경 절차 문의",
             question: "자동이체 계좌변경 하고 싶어요.",
             status: "pending",
             priority: "medium",
+            activeStep: 2,
+            answerLabel: "A. 자동이체 계좌 변경",
             answer:
               "자동이체 변경은 본인 명의 계좌로만 가능하며, 변경 신청 후 다음 납입일부터 적용되는 경우가 많습니다. 고객에게 적용 시점과 필요 서류를 안내해 주세요.",
             source: "근거 SOK#2104 업무안내 3-2 · FAQ #52",
             faqs: ["변경 후 적용 시점은?", "타인 계좌로 가능한가요?"],
-            screens: ["자동이체 변경 화면", "고객 기본정보 화면"],
           },
           {
             title: "해약환급금 산출 기준 확인",
             question: "해약환급금이 얼마나 나오는지 확인하고 싶어요.",
             status: "pending",
             priority: "low",
+            activeStep: 2,
+            answerLabel: "A. 해약환급금 안내",
             answer:
               "해약환급금은 납입 보험료, 계약 경과 기간, 특약 여부 등에 따라 산출됩니다. 정확한 금액은 시스템 조회 후 안내하고, 공제 항목이 있을 수 있음을 고지해 주세요.",
             source: "근거 SOK#1890 약관 8-4 · FAQ #61",
             faqs: ["중도해약 시 공제 항목은?", "환급금 지급 방식은?"],
-            screens: ["해약 환급 조회 화면"],
           },
         ];
 
@@ -4113,16 +4593,24 @@
               question: row.question,
               status: row.status,
               priority: row.priority,
-              answer: row.answer,
+              activeStep: row.activeStep || 3,
+              answerLabel: row.answerLabel || "",
+              answer: row.answer || "",
+              answerSections: (row.answerSections || []).map(function (section) {
+                return {
+                  index: section.index,
+                  title: section.title,
+                  details: section.details.slice(),
+                };
+              }),
               source: row.source || "",
               faqs: row.faqs.slice(),
-              screens: row.screens.slice(),
             };
           }),
-          expandedIndex: 0,
+          activeIndex: 0,
         };
 
-        var accordionEl = document.getElementById("know-accordion-list");
+        var contentEl = document.getElementById("know-assistant-content");
         var emptyEl = document.getElementById("know-assistant-empty");
         function fillChips(container, labels) {
           if (!container) return;
@@ -4136,155 +4624,172 @@
           });
         }
 
-        function renderAccordion() {
-          if (!accordionEl) return;
-          accordionEl.textContent = "";
-          var visible = state.items.filter(function (it) {
-            return it.status !== "done";
-          });
-          var showEmpty = visible.length === 0;
-
-          if (emptyEl) emptyEl.hidden = !showEmpty;
-          if (accordionEl) accordionEl.hidden = showEmpty;
-
-          state.items.forEach(function (item, index) {
-            var expanded = index === state.expandedIndex;
-            var card = document.createElement("article");
-            card.className = "know-acc-card";
-            card.classList.toggle("is-expanded", expanded);
-            if (item.status === "done") card.classList.add("is-done");
-            card.setAttribute("data-know-index", String(index));
-
-            var trigger = document.createElement("button");
-            trigger.type = "button";
-            trigger.className = "know-acc-card__trigger";
-            trigger.setAttribute("aria-expanded", expanded ? "true" : "false");
-            trigger.id = "know-acc-trigger-" + index;
-            trigger.setAttribute("aria-controls", "know-acc-panel-" + index);
-
-            var lead = document.createElement("span");
-            lead.className = "know-acc-card__lead";
-            var num = document.createElement("span");
-            num.className = "know-acc-card__num";
-            num.textContent = index + 1 + ".";
-            var title = document.createElement("span");
-            title.className = "know-acc-card__title";
-            title.textContent = item.title;
-            lead.appendChild(num);
-            lead.appendChild(title);
-
-            var meta = document.createElement("span");
-            meta.className = "know-acc-card__meta";
-            var chev = window.crmCreateChevron({
-              expanded: expanded,
-              className: "know-acc-card__chevron",
-            });
-            meta.appendChild(chev);
-
-            trigger.appendChild(lead);
-            trigger.appendChild(meta);
-            trigger.addEventListener("click", function () {
-              state.expandedIndex = index;
-              renderAccordion();
-            });
-
-            var panel = document.createElement("div");
-            panel.className = "know-acc-card__panel";
-            panel.id = "know-acc-panel-" + index;
-            panel.setAttribute("role", "region");
-            panel.setAttribute("aria-labelledby", trigger.id);
-
-            var inner = document.createElement("div");
-            inner.className = "know-acc-card__inner";
-
-            var flow = document.createElement("div");
-            flow.className = "know-acc-flow";
-            var qText = document.createElement("p");
-            qText.className = "know-acc-flow__question";
-            qText.textContent = item.question;
-            var aText = document.createElement("p");
-            aText.className = "know-acc-flow__answer";
-            aText.textContent = item.answer;
-            flow.appendChild(qText);
-            flow.appendChild(aText);
-
-            var sourceText = document.createElement("p");
-            sourceText.className = "know-acc-source";
-            sourceText.textContent = item.source || "";
-
-            var actions = document.createElement("div");
-            actions.className = "know-acc-actions";
-
-            var faqGroup = document.createElement("div");
-            faqGroup.className = "know-acc-chip-group";
-            var faqLabel = document.createElement("p");
-            faqLabel.className = "know-acc-chip-group__label";
-            faqLabel.textContent = "질문 추천";
-            var faqChips = document.createElement("div");
-            faqChips.className = "know-acc-chips";
-            fillChips(faqChips, item.faqs);
-            faqGroup.appendChild(faqLabel);
-            faqGroup.appendChild(faqChips);
-            actions.appendChild(faqGroup);
-
-            if (item.screens && item.screens.length) {
-              var screenGroup = document.createElement("div");
-              screenGroup.className = "know-acc-chip-group";
-              var screenLabel = document.createElement("p");
-              screenLabel.className = "know-acc-chip-group__label";
-              screenLabel.textContent = "관련 화면";
-              var screenChips = document.createElement("div");
-              screenChips.className = "know-acc-chips";
-              item.screens.forEach(function (text) {
-                var btn = document.createElement("button");
-                btn.type = "button";
-                btn.className = "know-card__btn knowledge-chip know-chip--screen";
-                btn.textContent = text;
-                screenChips.appendChild(btn);
-              });
-              screenGroup.appendChild(screenLabel);
-              screenGroup.appendChild(screenChips);
-              actions.appendChild(screenGroup);
-            }
-
-            inner.appendChild(flow);
-            if (item.source) inner.appendChild(sourceText);
-            inner.appendChild(actions);
-            panel.appendChild(inner);
-
-            card.appendChild(trigger);
-            card.appendChild(panel);
-            accordionEl.appendChild(card);
-          });
+        function resolveActiveIndex() {
+          var idx = state.activeIndex;
+          if (idx >= 0 && idx < state.items.length && state.items[idx].status !== "done") {
+            return idx;
+          }
+          for (var i = 0; i < state.items.length; i++) {
+            if (state.items[i].status !== "done") return i;
+          }
+          return -1;
         }
 
-        function renderAll() {
-          renderAccordion();
-          if (window.crmHydrateChevrons && accordionEl) {
-            window.crmHydrateChevrons(accordionEl);
+        function formatSource(source) {
+          if (!source) return "";
+          if (/^근거\s*:/.test(source)) return source;
+          return "근거: " + source;
+        }
+
+        function formatQuestion(text) {
+          if (!text) return "";
+          return /^Q\.\s*/.test(text) ? text : "Q. " + text;
+        }
+
+        function buildSteps(activeStep) {
+          var list = document.createElement("ul");
+          list.className = "know-acc-steps";
+          list.setAttribute("role", "list");
+          KNOW_PIPELINE_STEPS.forEach(function (step, i) {
+            var stepEl = document.createElement("li");
+            stepEl.className = "know-acc-step";
+            if (step.id < activeStep) stepEl.classList.add("is-done");
+            if (step.id === activeStep) stepEl.classList.add("is-active");
+            stepEl.textContent = KNOW_STEP_MARKS[i] + " " + step.label;
+            list.appendChild(stepEl);
+          });
+          return list;
+        }
+
+        function buildAnswerBlock(item) {
+          var wrap = document.createElement("div");
+          wrap.className = "know-acc-answer";
+          if (item.answerLabel) {
+            var label = document.createElement("p");
+            label.className = "know-acc-flow__answer-label";
+            label.textContent = item.answerLabel;
+            wrap.appendChild(label);
           }
+          if (item.answerSections && item.answerSections.length) {
+            var list = document.createElement("ol");
+            list.className = "know-acc-answer-list";
+            item.answerSections.forEach(function (section) {
+              var listItem = document.createElement("li");
+              listItem.className = "know-acc-answer-item";
+              var title = document.createElement("p");
+              title.className = "know-acc-answer-item__title";
+              title.textContent = section.index + ") " + section.title;
+              listItem.appendChild(title);
+              if (section.details && section.details.length) {
+                var detailList = document.createElement("ul");
+                detailList.className = "know-acc-answer-item__detail";
+                section.details.forEach(function (line) {
+                  var detailItem = document.createElement("li");
+                  detailItem.textContent = line;
+                  detailList.appendChild(detailItem);
+                });
+                listItem.appendChild(detailList);
+              }
+              list.appendChild(listItem);
+            });
+            wrap.appendChild(list);
+          } else if (item.answer) {
+            var body = document.createElement("p");
+            body.className = "know-acc-flow__answer-body";
+            body.textContent = item.answer;
+            wrap.appendChild(body);
+          }
+          return wrap;
+        }
+
+        function renderCurrent() {
+          if (!contentEl) return;
+          contentEl.textContent = "";
+          var activeIndex = resolveActiveIndex();
+          var showEmpty = activeIndex < 0;
+
+          if (emptyEl) emptyEl.hidden = !showEmpty;
+          contentEl.hidden = showEmpty;
+          if (showEmpty) return;
+
+          state.activeIndex = activeIndex;
+          var item = state.items[activeIndex];
+
+          var card = document.createElement("article");
+          card.className = "know-acc-card is-expanded";
+          card.setAttribute("data-know-index", String(activeIndex));
+
+          var head = document.createElement("header");
+          head.className = "know-acc-card__head";
+          var title = document.createElement("h4");
+          title.className = "know-acc-card__title";
+          title.id = "know-current-title";
+          title.textContent = item.title;
+          head.appendChild(title);
+
+          var body = document.createElement("div");
+          body.className = "know-acc-card__body";
+          body.setAttribute("role", "region");
+          body.setAttribute("aria-labelledby", "know-current-title");
+
+          var inner = document.createElement("div");
+          inner.className = "know-acc-card__inner";
+
+          var flow = document.createElement("div");
+          flow.className = "know-acc-flow";
+          var qText = document.createElement("p");
+          qText.className = "know-acc-flow__question";
+          qText.textContent = formatQuestion(item.question);
+          flow.appendChild(qText);
+          flow.appendChild(buildSteps(item.activeStep));
+          flow.appendChild(buildAnswerBlock(item));
+
+          var sourceText = document.createElement("p");
+          sourceText.className = "know-acc-source";
+          sourceText.textContent = formatSource(item.source);
+
+          var actions = document.createElement("div");
+          actions.className = "know-acc-actions";
+
+          var faqGroup = document.createElement("div");
+          faqGroup.className = "know-acc-chip-group";
+          var faqLabel = document.createElement("p");
+          faqLabel.className = "know-acc-chip-group__label";
+          faqLabel.textContent = "질문 추천 :";
+          var faqChips = document.createElement("div");
+          faqChips.className = "know-acc-chips";
+          fillChips(faqChips, item.faqs);
+          faqGroup.appendChild(faqLabel);
+          faqGroup.appendChild(faqChips);
+          actions.appendChild(faqGroup);
+
+          inner.appendChild(flow);
+          if (item.source) inner.appendChild(sourceText);
+          inner.appendChild(actions);
+          body.appendChild(inner);
+
+          card.appendChild(head);
+          card.appendChild(body);
+          contentEl.appendChild(card);
         }
 
         var sttLinkTimer = null;
 
         window.crmKnowActivate = function (knowIndex, faqIndex) {
           if (knowIndex < 0 || knowIndex >= state.items.length) return;
-          state.expandedIndex = knowIndex;
-          renderAll();
-          if (!accordionEl) return;
-          accordionEl.querySelectorAll(".know-acc-card").forEach(function (node) {
+          state.activeIndex = knowIndex;
+          renderCurrent();
+          if (!contentEl) return;
+          contentEl.querySelectorAll(".know-acc-card").forEach(function (node) {
             node.classList.remove("is-stt-linked");
           });
-          var card = accordionEl.querySelector('[data-know-index="' + knowIndex + '"]');
+          var card = contentEl.querySelector(".know-acc-card");
           if (card) {
             card.classList.add("is-stt-linked");
             if (sttLinkTimer) clearTimeout(sttLinkTimer);
             sttLinkTimer = setTimeout(function () {
               card.classList.remove("is-stt-linked");
             }, 2200);
-            if (typeof card.scrollIntoView === "function") {
-              card.scrollIntoView({ behavior: "smooth", block: "nearest" });
-            }
           }
           if (faqIndex != null && faqIndex >= 0 && card) {
             var chips = card.querySelectorAll(".know-acc-chips .knowledge-chip:not(.know-chip--screen)");
@@ -4298,7 +4803,7 @@
           }
         };
 
-        renderAll();
+        renderCurrent();
       })();
 
 (function () {
@@ -4486,6 +4991,7 @@
       (function () {
         var root = document.getElementById("product-info-root");
         var toggle = document.getElementById("product-info-toggle");
+        var body = document.getElementById("product-info-body");
         if (!root || !toggle) return;
 
         function setExpanded(on) {
@@ -4493,13 +4999,46 @@
           toggle.setAttribute("aria-expanded", on ? "true" : "false");
           toggle.setAttribute("title", on ? "상품 및 업무정보 접기" : "상품 및 업무정보 펼치기");
           toggle.setAttribute("aria-label", on ? "상품 및 업무정보 접기" : "상품 및 업무정보 펼치기");
+          if (body) body.hidden = !on;
         }
 
-        toggle.addEventListener("click", function () {
+        toggle.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
           setExpanded(root.classList.contains("is-collapsed"));
         });
 
         setExpanded(true);
+      })();
+
+      (function () {
+        var list = document.getElementById("product-accordion-list");
+        if (!list) return;
+
+        var cards = list.querySelectorAll(".product-acc-card");
+        var expandedIndex = 0;
+
+        function renderProductAccordion() {
+          cards.forEach(function (card, index) {
+            var expanded = index === expandedIndex;
+            card.classList.toggle("is-expanded", expanded);
+            var trigger = card.querySelector(".product-acc-card__trigger");
+            var icon = card.querySelector(".product-acc-card__icon");
+            if (trigger) trigger.setAttribute("aria-expanded", expanded ? "true" : "false");
+            if (icon) icon.textContent = expanded ? "−" : "+";
+          });
+        }
+
+        cards.forEach(function (card, index) {
+          var trigger = card.querySelector(".product-acc-card__trigger");
+          if (!trigger) return;
+          trigger.addEventListener("click", function () {
+            expandedIndex = index;
+            renderProductAccordion();
+          });
+        });
+
+        renderProductAccordion();
       })();
 
     </script>

@@ -75,11 +75,93 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .console {
+    .console,
+    .app-shell {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      align-items: stretch;
       height: 100vh;
       min-height: 0;
+    }
+
+    .console__stack {
+      flex: 1 1 auto;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-lnb,
+    .app-shell__lnb {
+      box-sizing: border-box;
+      flex: 0 0 72px;
+      width: 72px;
+      min-width: 72px;
+      max-width: 72px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px 0 12px;
+      gap: 8px;
+      background: #e4eaf2;
+      border-right: 1px solid rgba(148, 163, 184, 0.35);
+      z-index: 5;
+    }
+
+    .app-lnb__brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 8px;
+    }
+
+    .app-lnb__brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--bg-card-icon);
+    }
+
+    .app-lnb__nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 1 1 auto;
+      width: 100%;
+    }
+
+    .app-lnb__btn {
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border: none;
+      border-radius: 12px;
+      background: transparent;
+      color: #64748b;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .app-lnb__btn:hover {
+      background: rgba(219, 234, 254, 0.65);
+      color: #2563eb;
+    }
+
+    .app-lnb__btn.is-active {
+      background: rgba(219, 234, 254, 0.9);
+      color: #2563eb;
+    }
+
+    .app-lnb__icon {
+      width: 22px;
+      height: 22px;
+      display: block;
     }
 
     /* —— Top Header —— */
@@ -259,35 +341,59 @@
       background: var(--surface-hover);
     }
 
-    /* —— Main workspace: 3열(고객·계약 정보 · STT+이력 · 추천 지식) —— */
-    .workspace {
+    /* —— Main workspace: 3열(고객정보 · STT · 상담 어시스턴트) —— */
+    .workspace,
+    .main-grid {
       flex: 1;
       min-height: 0;
+      min-width: 0;
       display: grid;
       align-items: stretch;
       align-content: stretch;
       grid-template-rows: minmax(0, 1fr);
-      gap: var(--space-5);
+      gap: 20px;
       padding: var(--space-6) var(--page-padding-x);
       background: var(--bg-panel);
+      overflow: hidden;
     }
 
     @media (min-width: 901px) {
-      .workspace {
-        /* 1열: 패널(auto) · 2열 고정 · 3열만 가변 */
-        grid-template-columns: auto calc(400px * 1.15) minmax(calc(360px * 1.15), 1fr);
+      .workspace,
+      .main-grid {
+        grid-template-columns: minmax(240px, 3fr) minmax(300px, 3fr) minmax(0, 4fr);
       }
 
+      .workspace.workspace--info-collapsed {
+        grid-template-columns: minmax(88px, auto) minmax(300px, 3fr) minmax(0, 4fr);
+      }
+
+      .main-grid__col--1,
       .workspace__col--info {
-        margin-left: calc(-1 * var(--page-padding-x));
+        grid-column: 1;
+        margin-left: 0;
         z-index: 2;
+      }
+
+      .main-grid__col--2,
+      .workspace__col--live {
+        grid-column: 2;
+      }
+
+      .main-grid__col--3,
+      .workspace__col--know {
+        grid-column: 3;
+        display: flex;
+        flex-direction: column;
+        visibility: visible;
+        width: auto;
+        min-width: 0;
       }
 
       .info-side,
       .info-side__content,
       .info-side__shell,
       .info-side__drawer,
-      .info-panel-card {
+      .live-outer--info {
         max-height: calc(100vh - var(--header-height) - 56px);
       }
     }
@@ -310,8 +416,7 @@
 
     /* —— 1열: 워크스페이스 좌측에 붙는 정보 패널(단일 카드) —— */
     .info-side {
-      --info-drawer-w: clamp(calc(300px * 1.15), calc(31vw * 1.15), calc(340px * 1.15));
-      --info-collapsed-w: 56px;
+      --info-collapsed-w: 88px;
       --info-panel-bg: var(--bg-panel);
       position: relative;
       flex: 1 1 auto;
@@ -349,7 +454,7 @@
     }
 
     .info-side.is-side-expanded {
-      width: auto;
+      width: 100%;
       min-width: 0;
       max-width: 100%;
       background: transparent;
@@ -418,60 +523,47 @@
     }
 
     .info-side.is-side-expanded .info-side__drawer {
-      width: var(--info-drawer-w);
-      min-width: var(--info-drawer-w);
-      max-width: var(--info-drawer-w);
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
       flex: 1 1 auto;
       opacity: 1;
       pointer-events: auto;
     }
 
-    .info-panel-card.workspace-main-card {
+    /* 1열: STT와 동일 workspace-main-card 표면, 내부는 섹션형 본문만 */
+    .live-outer--info.workspace-main-card {
       flex: 1 1 auto;
       min-height: 0;
       min-width: 0;
       width: 100%;
       max-height: 100%;
       height: 100%;
-      padding: 0;
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
     }
 
-    .info-panel-card__inner {
+    .live-outer--info > .info-panel-card__body {
       box-sizing: border-box;
       flex: 1 1 auto;
       min-height: 0;
       min-width: 0;
       display: flex;
       flex-direction: column;
-      height: 100%;
-      padding: 24px;
       gap: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 var(--padding-inner-content) var(--padding-inner-content);
     }
 
-    .info-side:not(.is-side-expanded) .info-panel-card__inner {
-      padding: 14px 8px;
-    }
-
-    .info-panel-card__header {
+    .live-outer--info .info-panel-card__toggle {
       flex-shrink: 0;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-end;
-      margin: 0 0 16px;
-      padding: 0;
-    }
-
-    .info-side:not(.is-side-expanded) .info-panel-card__header {
-      margin-bottom: 0;
-      justify-content: center;
-    }
-
-    .info-panel-card__toggle {
-      margin: 0;
+      margin: 0 0 0 auto;
       padding: 4px 2px;
       border: none;
-      border-radius: 6px;
+      border-radius: 0;
       background: transparent;
       font: inherit;
       font-size: var(--text-sm);
@@ -483,31 +575,118 @@
       transition: color 160ms ease;
     }
 
-    .info-panel-card__toggle:hover {
-      color: #005bac;
+    .live-outer--info .info-panel-card__toggle:hover {
+      color: var(--primary, #005bac);
     }
 
-    .info-panel-card__toggle:focus-visible {
-      outline: 2px solid #005bac;
+    .live-outer--info .info-panel-card__toggle:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
       outline-offset: 2px;
     }
 
-    .info-side:not(.is-side-expanded) .info-panel-card__body {
+    /* 접힘: 본문 숨김, 아이콘 + 열기만 */
+    .info-side:not(.is-side-expanded) .live-outer--info > .info-panel-card__body {
+      display: none !important;
+    }
+
+    .info-side:not(.is-side-expanded) .live-outer--info .card-header-title {
       display: none;
     }
 
-    .info-panel-card__body {
-      box-sizing: border-box;
+    .info-side:not(.is-side-expanded) .live-outer--info .card-header {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: auto;
+      padding: 12px 8px;
+    }
+
+    .info-side:not(.is-side-expanded) .live-outer--info .card-header-icon {
+      margin-inline-end: 0;
+    }
+
+    .info-side:not(.is-side-expanded) .live-outer--info .info-panel-card__toggle {
+      margin: 0;
+    }
+
+    .live-outer--info .info-doc-section + .info-doc-section {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--divider-soft, #e2e8f0);
+    }
+
+    .live-outer--info .info-doc-section__head {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px 10px;
+      width: 100%;
+      margin: 0 0 14px;
+      padding: 0;
+      font: inherit;
+    }
+
+    .live-outer--info .info-doc-section__num {
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: var(--font-semibold);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.06em;
+      line-height: 1.25;
+      color: #64748b;
+    }
+
+    .live-outer--info .info-doc-section__title {
       flex: 1 1 auto;
-      min-height: 0;
       min-width: 0;
+      margin: 0;
+      padding: 0;
+      font-size: 16px;
+      font-weight: var(--font-bold);
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+      color: var(--text-strong);
+    }
+
+    .live-outer--info .info-doc-section__meta {
+      margin-left: auto;
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: var(--font-medium);
+      line-height: 1.25;
+      color: #64748b;
+    }
+
+    .live-outer--info .info-doc-guide {
       display: flex;
       flex-direction: column;
-      gap: 26px;
-      overflow-x: hidden;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      padding-right: 4px;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .live-outer--info .info-doc-guide__lede {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      line-height: 1.55;
+      color: var(--text-default);
+    }
+
+    .live-outer--info .info-doc-guide__progress {
+      height: 6px;
+      border-radius: var(--radius-full, 999px);
+      background: rgba(0, 91, 172, 0.1);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .live-outer--info .info-doc-guide__progress-fill {
+      height: 100%;
+      width: 60%;
+      border-radius: inherit;
+      background: var(--primary, #005bac);
     }
 
     .info-panel-section {
@@ -517,15 +696,6 @@
       min-width: 0;
     }
 
-    .info-panel-section__title {
-      margin: 0 0 12px;
-      padding: 0;
-      font-size: var(--text-card-title);
-      font-weight: var(--font-semibold);
-      line-height: var(--line-card-title);
-      letter-spacing: -0.01em;
-      color: var(--text-strong);
-    }
 
     .info-panel-section__content {
       margin: 0;
@@ -540,7 +710,7 @@
       min-width: 0;
     }
 
-    .info-panel-card .panel-muted {
+    .live-outer--info .panel-muted {
       margin: 0;
       font-size: var(--text-sm);
       font-weight: var(--font-medium);
@@ -556,6 +726,7 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      visibility: visible;
     }
 
     .workspace__col--know .live-composite--know-only {
@@ -899,24 +1070,25 @@
       display: none;
     }
 
-    /* 계약 리스트 */
-    .info-panel-card .contract-list {
+    /* 계약 리스트 — row만 연한 면, chevron */
+    .live-outer--info .contract-list {
       margin: 0;
       padding: 0;
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 11px;
+      gap: 8px;
     }
 
-    .info-panel-card .contract-list__item {
+    .live-outer--info .contract-list__item {
       display: flex;
       align-items: center;
+      justify-content: flex-start;
       gap: 10px;
       padding: 10px 12px;
       border: none;
-      border-radius: 10px;
-      background: transparent;
+      border-radius: 11px;
+      background: rgba(241, 245, 249, 0.75);
       color: var(--text-default);
       text-align: start;
       cursor: pointer;
@@ -927,23 +1099,20 @@
       transition: background var(--duration-fast) var(--ease-default);
     }
 
-    .info-panel-card .contract-list__item:hover {
-      background: var(--surface-hover);
+    .live-outer--info .contract-list__item:hover {
+      background: rgba(226, 232, 240, 0.95);
     }
 
-    .info-panel-card .contract-list__item.is-selected {
-      padding: 10px 12px;
-      border: none;
-      border-radius: 10px;
-      background: #eaf2ff;
-      color: #26364d;
+    .live-outer--info .contract-list__item.is-selected {
+      background: rgba(219, 234, 254, 0.9);
+      color: #0f2744;
     }
 
-    .info-panel-card .contract-list__item.is-selected:hover {
-      background: #eaf2ff;
+    .live-outer--info .contract-list__item.is-selected:hover {
+      background: rgba(219, 234, 254, 0.95);
     }
 
-    .info-panel-card .contract-list__check {
+    .live-outer--info .contract-list__check {
       flex-shrink: 0;
       width: 1.25em;
       margin-top: 0;
@@ -953,11 +1122,20 @@
       color: #2563eb;
     }
 
-    .info-panel-card .contract-list__item:not(.is-selected) .contract-list__check {
+    .live-outer--info .contract-list__item:not(.is-selected) .contract-list__check {
       visibility: hidden;
     }
 
-    .info-panel-card .contract-list__title {
+    .live-outer--info .contract-list__text-block {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 4px;
+    }
+
+    .live-outer--info .contract-list__title {
       margin: 0;
       font-size: var(--text-md);
       font-weight: var(--font-bold);
@@ -965,91 +1143,36 @@
       color: var(--text-default);
     }
 
-    .info-panel-card .contract-list__meta {
-      margin: 4px 0 0;
+    .live-outer--info .contract-list__meta {
+      margin: 0;
       font-size: var(--text-sm);
       font-weight: var(--font-medium);
       line-height: var(--leading-snug);
       color: var(--text-muted);
     }
 
-    /* 상담 안내 가이드 — 1열 패널 내 플랫 블록 */
-    .info-panel-card .guide-script-card {
-      margin: 0 0 4px;
-      padding: 0 0 10px;
-      border-radius: 0;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid var(--divider-soft, #e2e8f0);
-    }
-
-    .info-panel-card .guide-script-card__title {
-      margin: 0;
-      font-size: var(--text-md);
-      font-weight: var(--font-semibold);
-      line-height: var(--leading-snug);
-      color: var(--text-strong);
-    }
-
-    .info-panel-card .guide-progress {
-      height: 6px;
-      border-radius: var(--radius-full);
-      background: var(--primary-soft);
-      overflow: hidden;
+    .live-outer--info .contract-list__chevron {
       flex-shrink: 0;
-    }
-
-    .info-panel-card .guide-progress__fill {
-      height: 100%;
-      width: 60%;
-      border-radius: inherit;
-      background: var(--primary);
-    }
-
-    .info-panel-card .guide-checklist {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-2) var(--space-3);
-    }
-
-    .info-panel-card .guide-checklist__item {
+      margin-left: auto;
       display: flex;
       align-items: center;
-      gap: 6px;
-      min-width: 0;
-      font-size: var(--text-md);
-      line-height: var(--leading-snug);
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: var(--font-semibold);
+      line-height: 1;
+      pointer-events: none;
     }
 
-    .info-panel-card .guide-checklist__icon {
-      flex-shrink: 0;
-      width: 1.1em;
-      text-align: center;
-      font-size: var(--text-sm);
-      line-height: 1.35;
-      font-weight: var(--font-bold);
+    .live-outer--info .contract-list__chevron::before {
+      content: ">";
+      display: block;
     }
 
-    .info-panel-card .guide-checklist__item.is-done .guide-checklist__icon {
-      color: var(--primary);
-    }
-
-    .info-panel-card .guide-checklist__item:not(.is-done) .guide-checklist__icon {
-      color: var(--text-soft);
-      font-weight: var(--font-medium);
-    }
-
-    .info-panel-card .guide-checklist__item.is-done .guide-checklist__label {
-      font-weight: var(--font-bold);
-      color: var(--text-strong);
-    }
-
-    .info-panel-card .guide-checklist__item:not(.is-done) .guide-checklist__label {
-      font-weight: var(--font-medium);
-      color: var(--text-muted);
+    .live-outer--info .contract-list__item:hover .contract-list__chevron {
+      color: #2563eb;
     }
 
     .main-workspace > .live-composite.live-composite--stack {
@@ -1103,27 +1226,42 @@
       background: transparent;
     }
 
-    /* 2열: STT(상) + 이력(하) 합산 높이 = 그리드 행(3열 풀카드와 동일) */
-    .live-composite__history {
-      flex: 0 0 34%;
+    /* 2열: STT(상) + 하단 예약 빈 영역 */
+    .live-composite--stack .live-composite__stt {
+      flex: 0 1 auto;
+      max-height: 58%;
+    }
+
+    .live-composite__reserve {
+      flex: 1 1 auto;
       box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
       min-width: 0;
       min-height: 120px;
-      max-height: 42%;
-      overflow: hidden;
-      padding: 0;
       background: transparent;
     }
 
-    .live-composite__history .dash-card-history {
-      flex: 1 1 auto;
-      min-height: 0;
-      max-height: 100%;
+    .live-outer--info .info-panel-section__content.dash-card-history {
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .live-outer--info .dash-card-history .history-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .live-outer--info .dash-card-history .panel-list-scroll {
+      flex: 1 1 auto;
+      min-height: 120px;
+      max-height: min(36vh, 320px);
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .live-composite .live-outer--stt {
@@ -1169,8 +1307,9 @@
       overflow: hidden;
     }
 
-    /* 카드 헤더 공통: STT · 추천 지식 */
-    .live-composite .card-header {
+    /* 카드 헤더 공통: STT · 1열 정보 · 추천 지식 */
+    .live-composite .card-header,
+    .live-outer--info .card-header {
       box-sizing: border-box;
       margin: 0 0 9px;
       padding: 6px 16px;
@@ -1181,7 +1320,8 @@
       gap: 0;
     }
 
-    .live-composite header.card-header {
+    .live-composite header.card-header,
+    .live-outer--info header.card-header {
       justify-content: flex-start;
     }
 
@@ -1197,7 +1337,8 @@
       margin-inline-end: auto;
     }
 
-    .live-composite .card-header-icon {
+    .live-composite .card-header-icon,
+    .live-outer--info .card-header-icon {
       box-sizing: border-box;
       display: inline-flex;
       align-items: center;
@@ -1225,14 +1366,16 @@
     }
 
     /* 헤더 아이콘 자리: 점선 프레임만 (내부 박스 없음) */
-    .live-composite .card-header-icon--placeholder {
+    .live-composite .card-header-icon--placeholder,
+    .live-outer--info .card-header-icon--placeholder {
       color: transparent;
       background: transparent;
       border: 1px dashed rgba(100, 116, 139, 0.4);
       box-shadow: none;
     }
 
-    .live-composite .card-header-title {
+    .live-composite .card-header-title,
+    .live-outer--info .card-header-title {
       margin: 0;
       padding: 0;
       min-width: 0;
@@ -1243,8 +1386,12 @@
       color: var(--text-strong);
     }
 
+    .live-outer--info .card-header-title {
+      flex: 1 1 auto;
+    }
+
     .live-composite .live-inner .live-sect__body,
-    .info-panel-card .live-sect__body {
+    .live-outer--info .live-sect__body {
       margin: 0;
       padding: 0;
       min-width: 0;
@@ -1560,7 +1707,7 @@
     }
 
     .live-composite .left-accordion__dl,
-    .info-panel-card .left-accordion__dl {
+    .live-outer--info .left-accordion__dl {
       margin: 0;
       padding: 0;
       display: flex;
@@ -1570,7 +1717,7 @@
     }
 
     .live-composite .left-accordion__pair,
-    .info-panel-card .left-accordion__pair {
+    .live-outer--info .left-accordion__pair {
       display: grid;
       grid-template-columns: 72px minmax(0, 1fr);
       column-gap: 12px;
@@ -1579,7 +1726,7 @@
     }
 
     .live-composite .left-accordion__pair dt,
-    .info-panel-card .left-accordion__pair dt {
+    .live-outer--info .left-accordion__pair dt {
       margin: 0;
       width: 72px;
       min-width: 72px;
@@ -1593,7 +1740,7 @@
     }
 
     .live-composite .left-accordion__pair dd,
-    .info-panel-card .left-accordion__pair dd {
+    .live-outer--info .left-accordion__pair dd {
       margin: 0;
       min-width: 0;
       font-size: var(--text-md);
@@ -1603,8 +1750,54 @@
       word-break: keep-all;
     }
 
+    .live-outer--info .left-accordion__value-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .live-outer--info .left-accordion__caller-value {
+      color: #dc2626;
+      font-weight: var(--font-semibold);
+    }
+
+    .live-outer--info .info-kv__icon-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 160ms ease, background-color 160ms ease;
+    }
+
+    .live-outer--info .info-kv__icon-btn svg {
+      display: block;
+      width: 16px;
+      height: 16px;
+    }
+
+    .live-outer--info .info-kv__icon-btn:hover {
+      color: var(--primary, #005bac);
+      background: rgba(0, 91, 172, 0.08);
+    }
+
+    .live-outer--info .info-kv__icon-btn:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+    }
+
     .live-composite .left-accordion__dd--tags,
-    .info-panel-card .left-accordion__dd--tags {
+    .live-outer--info .left-accordion__dd--tags {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -1613,7 +1806,7 @@
     }
 
     .live-composite .status-pill,
-    .info-panel-card .status-pill {
+    .live-outer--info .status-pill {
       display: inline-flex;
       align-items: center;
       box-sizing: border-box;
@@ -2074,7 +2267,24 @@
     }
 
     @media (max-width: 900px) {
-      .workspace {
+      .console,
+      .app-shell {
+        flex-direction: column;
+      }
+
+      .app-lnb,
+      .app-shell__lnb {
+        display: none;
+      }
+
+      .console__stack {
+        flex: 1 1 auto;
+        min-height: 0;
+        min-width: 0;
+      }
+
+      .workspace,
+      .main-grid {
         grid-template-columns: 1fr;
         grid-auto-rows: minmax(0, auto);
         gap: var(--space-5);
@@ -2095,12 +2305,17 @@
         display: none;
       }
 
-      .info-side:not(.is-side-expanded) .info-panel-card__body {
+      .info-side:not(.is-side-expanded) .live-outer--info > .info-panel-card__body {
         display: flex !important;
       }
 
-      .info-side:not(.is-side-expanded) .info-panel-card__inner {
-        padding: 24px;
+      .info-side:not(.is-side-expanded) .live-outer--info .card-header-title {
+        display: block;
+      }
+
+      .info-side:not(.is-side-expanded) .live-outer--info .card-header {
+        flex-direction: row;
+        padding: 6px 16px;
       }
 
       .info-side__shell {
@@ -2131,7 +2346,7 @@
         overflow: visible !important;
       }
 
-      .info-panel-card {
+      .live-outer--info {
         border-radius: 0 0 14px 14px;
       }
 
@@ -2150,10 +2365,12 @@
         min-height: 200px;
       }
 
-      .live-composite__history {
-        flex: 0 0 auto;
-        max-height: min(280px, 42vh);
-        min-height: 120px;
+      .live-composite__reserve {
+        min-height: min(200px, 28vh);
+      }
+
+      .live-outer--info .dash-card-history .panel-list-scroll {
+        max-height: min(32vh, 280px);
       }
     }
 
@@ -2234,7 +2451,26 @@
   </style>
 </head>
 <body>
-  <div class="console">
+  <div class="console app-shell">
+    <aside class="app-lnb app-shell__lnb" aria-label="주 메뉴">
+      <div class="app-lnb__brand" aria-hidden="true" title="신한라이프">
+        <span class="app-lnb__brand-mark"></span>
+      </div>
+      <nav class="app-lnb__nav" aria-label="업무 메뉴">
+        <button type="button" class="app-lnb__btn is-active" aria-current="page" title="고객정보" aria-label="고객정보">
+          <svg class="app-lnb__icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="10.5" cy="8" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M5 19.5c.5-3 3.5-5 7-5s6.5 2 7 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button type="button" class="app-lnb__btn" title="상담" aria-label="상담">
+          <svg class="app-lnb__icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4v8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </nav>
+    </aside>
+    <div class="console__stack">
     <header class="topbar">
       <div class="topbar__left">
         <span class="topbar__brand-mark" aria-hidden="true"></span>
@@ -2260,15 +2496,16 @@
       </div>
     </header>
 
-    <main class="workspace" aria-label="워크스페이스">
-      <div class="workspace__col workspace__col--info" aria-label="고객 및 계약 정보">
+    <main class="workspace main-grid" aria-label="워크스페이스">
+      <div class="workspace__col workspace__col--info main-grid__col main-grid__col--1" aria-label="고객 및 계약 정보">
         <div class="info-side is-side-expanded" id="workspace-col-info">
           <div class="info-side__content">
             <div class="info-side__shell">
               <div class="info-side__drawer" id="info-side-drawer">
-                <div class="info-panel-card workspace-main-card">
-                  <div class="info-panel-card__inner">
-                    <header class="info-panel-card__header">
+                <article class="live-outer live-outer--info workspace-main-card" aria-labelledby="live-sect-title-customer">
+                    <header class="card-header">
+                      <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
+                      <h2 class="card-header-title live-sect__title" id="live-sect-title-customer">고객정보</h2>
                       <button
                         type="button"
                         class="info-panel-card__toggle"
@@ -2282,157 +2519,233 @@
                       </button>
                     </header>
                     <div class="info-panel-card__body scroll-area">
-                      <section class="info-panel-section live-sect--customer" data-info-section="customer" id="info-acc-customer" aria-labelledby="live-sect-title-customer">
-                        <h3 class="info-panel-section__title live-sect__title" id="live-sect-title-customer">고객정보</h3>
+                      <section class="info-panel-section info-doc-section live-sect--customer" data-info-section="customer" id="info-acc-customer" aria-labelledby="info-sect-basic-title">
+                        <h3 class="info-doc-section__head" id="info-sect-basic-title">
+                          <span class="info-doc-section__num">01</span>
+                          <span class="info-doc-section__title">기본정보</span>
+                        </h3>
                         <div class="info-panel-section__content">
-                          <div class="live-sect__body">
-                            <dl class="left-accordion__dl">
+                          <dl class="left-accordion__dl">
                               <div class="left-accordion__pair">
                                 <dt>고객명</dt>
-                                <dd>홍길동 (M / 58세)</dd>
+                                <dd>김신한 (남성, 1970/09 55세)</dd>
                               </div>
                               <div class="left-accordion__pair">
                                 <dt>고객번호</dt>
-                                <dd>1234-5678 / VIP</dd>
+                                <dd>1234-5678 (Family)</dd>
                               </div>
                               <div class="left-accordion__pair">
-                                <dt>상태</dt>
-                                <dd class="left-accordion__dd--tags">
-                                  <span class="status-pill">실효 3건</span>
-                                  <span class="status-pill">갱신안내창</span>
-                                  <span class="status-pill">지급정지</span>
+                                <dt>전화번호</dt>
+                                <dd>010-1234-5678</dd>
+                              </div>
+                              <div class="left-accordion__pair">
+                                <dt>주소</dt>
+                                <dd>서울 종로구 신문로2가 28 5층 503호</dd>
+                              </div>
+                              <div class="left-accordion__pair">
+                                <dt>발신번호</dt>
+                                <dd>
+                                  <span class="left-accordion__value-row">
+                                    <span class="left-accordion__caller-value">010-2231-4567</span>
+                                    <button type="button" class="info-kv__icon-btn" aria-label="변경저장" title="변경저장">
+                                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M4 20h4l10.5-10.5a1.5 1.5 0 0 0 0-2.12L15.62 4.38a1.5 1.5 0 0 0-2.12 0L3 15v5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M13.5 6.5l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      </svg>
+                                    </button>
+                                  </span>
                                 </dd>
                               </div>
-                              <div class="left-accordion__pair">
-                                <dt>주의사항</dt>
-                                <dd>실손반송 콜이력 · 본인확인 스크립트 우선</dd>
-                              </div>
-                            </dl>
-                          </div>
+                          </dl>
                         </div>
                       </section>
-                      <section class="info-panel-section live-sect--contract" data-info-section="contract" id="info-acc-contract" aria-labelledby="live-sect-title-contract">
-                        <h3 class="info-panel-section__title live-sect__title" id="live-sect-title-contract">계약정보</h3>
-                        <div class="info-panel-section__content">
-                          <div class="live-sect__body">
-                            <dl class="left-accordion__dl">
-                              <div class="left-accordion__pair">
-                                <dt>계약명</dt>
-                                <dd>[종신] 무배당 신한 더드림</dd>
-                              </div>
-                              <div class="left-accordion__pair">
-                                <dt>계약번호</dt>
-                                <dd>1234-5678</dd>
-                              </div>
-                              <div class="left-accordion__pair">
-                                <dt>처리 가능 여부</dt>
-                                <dd>보험금 청구 가능 / 서비스 정지 불가 / 자동이체 변경 가능</dd>
-                              </div>
-                              <div class="left-accordion__pair">
-                                <dt>월 보험료</dt>
-                                <dd>120,000원</dd>
-                              </div>
-                              <div class="left-accordion__pair">
-                                <dt>가입금액</dt>
-                                <dd>1억원</dd>
-                              </div>
-                              <div class="left-accordion__pair">
-                                <dt>해약환급금</dt>
-                                <dd>8,420,000원</dd>
-                              </div>
-                              <div class="left-accordion__pair">
-                                <dt>면책</dt>
-                                <dd>N/A</dd>
-                              </div>
-                            </dl>
+                      <section class="info-panel-section info-doc-section" data-info-section="history" id="dash-card-history" aria-labelledby="dash-card-history-title">
+                        <h3 class="info-doc-section__head" id="dash-card-history-title">
+                          <span class="info-doc-section__num">02</span>
+                          <span class="info-doc-section__title">최근 상담</span>
+                        </h3>
+                        <div class="info-panel-section__content dash-card-history">
+                          <div class="history-toolbar">
+                  <div class="history-filter-chips" role="group" aria-label="상담 상태 필터">
+                    <button type="button" class="history-chip is-active" data-history-filter="all" aria-pressed="true">전체</button>
+                    <button type="button" class="history-chip" data-history-filter="in_progress" aria-pressed="false">진행</button>
+                    <button type="button" class="history-chip" data-history-filter="done" aria-pressed="false">완료</button>
+                    <button type="button" class="history-chip" data-history-filter="delayed" aria-pressed="false">지연</button>
+                  </div>
+                  <div class="history-sort">
+                    <select
+                      id="history-sort-select"
+                      class="history-sort__select"
+                      aria-label="정렬 기준"
+                      title="정렬 기준"
+                    >
+                      <option value="date-desc" selected>최신순</option>
+                      <option value="date-asc">오래된순</option>
+                      <option value="status">상태순</option>
+                    </select>
+                  </div>
+                </div>
+                          <div class="panel-list-scroll scroll-area" tabindex="0" role="region" aria-label="최근 상담 내역 목록">
+                  <ul class="panel-list" id="history-panel-list">
+                    <li data-history-status="in_progress">
+                      <button type="button" class="history-item" aria-label="보험금 청구 문의, 2026-05-10, 상세 보기">
+                        <div class="history-item__left">
+                          <time class="history-item__date" datetime="2026-05-10">2026-05-10</time>
+                          <div class="history-item__title-line">
+                            <p class="history-item__title">보험금 청구 문의</p>
+                            <span class="history-item__badge history-item__badge--in_progress">진행</span>
                           </div>
                         </div>
+                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
+                      </button>
+                    </li>
+                    <li data-history-status="done">
+                      <button type="button" class="history-item" aria-label="자동이체 변경, 2026-05-03, 상세 보기">
+                        <div class="history-item__left">
+                          <time class="history-item__date" datetime="2026-05-03">2026-05-03</time>
+                          <div class="history-item__title-line">
+                            <p class="history-item__title">자동이체 변경</p>
+                            <span class="history-item__badge history-item__badge--done">완료</span>
+                          </div>
+                        </div>
+                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
+                      </button>
+                    </li>
+                    <li data-history-status="pending">
+                      <button type="button" class="history-item" aria-label="계약 관계자 변경, 2026-04-21, 상세 보기">
+                        <div class="history-item__left">
+                          <time class="history-item__date" datetime="2026-04-21">2026-04-21</time>
+                          <div class="history-item__title-line">
+                            <p class="history-item__title">계약 관계자 변경</p>
+                            <span class="history-item__badge history-item__badge--pending">대기</span>
+                          </div>
+                        </div>
+                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
+                      </button>
+                    </li>
+                    <li data-history-status="delayed">
+                      <button type="button" class="history-item" aria-label="보험료 납입일 문의, 2026-04-12, 상세 보기">
+                        <div class="history-item__left">
+                          <time class="history-item__date" datetime="2026-04-12">2026-04-12</time>
+                          <div class="history-item__title-line">
+                            <p class="history-item__title">보험료 납입일 문의</p>
+                            <span class="history-item__badge history-item__badge--delayed">지연</span>
+                          </div>
+                        </div>
+                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
+                      </button>
+                    </li>
+                    <li data-history-status="done">
+                      <button type="button" class="history-item" aria-label="해약환급금 확인, 2026-03-28, 상세 보기">
+                        <div class="history-item__left">
+                          <time class="history-item__date" datetime="2026-03-28">2026-03-28</time>
+                          <div class="history-item__title-line">
+                            <p class="history-item__title">해약환급금 확인</p>
+                            <span class="history-item__badge history-item__badge--done">완료</span>
+                          </div>
+                        </div>
+                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
+                      </button>
+                    </li>
+                    <li data-history-status="in_progress">
+                      <button type="button" class="history-item" aria-label="주소지 변경, 2026-03-15, 상세 보기">
+                        <div class="history-item__left">
+                          <time class="history-item__date" datetime="2026-03-15">2026-03-15</time>
+                          <div class="history-item__title-line">
+                            <p class="history-item__title">주소지 변경</p>
+                            <span class="history-item__badge history-item__badge--in_progress">진행</span>
+                          </div>
+                        </div>
+                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
+                      </button>
+                    </li>
+                    <li data-history-status="delayed">
+                      <button type="button" class="history-item" aria-label="증권 재발행 문의, 2026-02-26, 상세 보기">
+                        <div class="history-item__left">
+                          <time class="history-item__date" datetime="2026-02-26">2026-02-26</time>
+                          <div class="history-item__title-line">
+                            <p class="history-item__title">증권 재발행 문의</p>
+                            <span class="history-item__badge history-item__badge--delayed">지연</span>
+                          </div>
+                        </div>
+                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+                        </div>
                       </section>
-                      <section class="info-panel-section" data-info-section="contracts" id="info-acc-contracts" aria-labelledby="dash-card-contract-title">
-                        <h3 class="info-panel-section__title live-sect__title" id="dash-card-contract-title">계약 리스트 (3건)</h3>
+                      <section class="info-panel-section info-doc-section" data-info-section="contracts" id="info-acc-contracts" aria-labelledby="info-sect-contracts-title">
+                        <h3 class="info-doc-section__head" id="info-sect-contracts-title">
+                          <span class="info-doc-section__num" aria-hidden="true">03</span>
+                          <span class="info-doc-section__title">계약리스트</span>
+                          <span class="info-doc-section__meta">3건</span>
+                        </h3>
                         <div class="info-panel-section__content">
                           <ul class="contract-list" role="list">
                             <li>
                               <button type="button" class="contract-list__item is-selected" aria-pressed="true">
                                 <span class="contract-list__check" aria-hidden="true">✓</span>
-                                <span>
+                                <span class="contract-list__text-block">
                                   <p class="contract-list__title">[종신] 무배당 신한 더드림</p>
                                   <p class="contract-list__meta">계약 2018.03 / 월 120,000원</p>
                                 </span>
+                                <span class="contract-list__chevron" aria-hidden="true"></span>
                               </button>
                             </li>
                             <li>
                               <button type="button" class="contract-list__item" aria-pressed="false">
                                 <span class="contract-list__check" aria-hidden="true">✓</span>
-                                <span>
+                                <span class="contract-list__text-block">
                                   <p class="contract-list__title">[연금] 신한 라이프 플랜</p>
                                 </span>
+                                <span class="contract-list__chevron" aria-hidden="true"></span>
                               </button>
                             </li>
                             <li>
                               <button type="button" class="contract-list__item" aria-pressed="false">
                                 <span class="contract-list__check" aria-hidden="true">✓</span>
-                                <span>
+                                <span class="contract-list__text-block">
                                   <p class="contract-list__title">[변액] 신한 인베스트</p>
                                 </span>
+                                <span class="contract-list__chevron" aria-hidden="true"></span>
                               </button>
                             </li>
                           </ul>
                         </div>
                       </section>
-                      <section class="info-panel-section info-panel-section--guide" data-info-section="guide" id="info-acc-guide" aria-labelledby="dash-card-guide-title">
-                        <h3 class="info-panel-section__title live-sect__title" id="dash-card-guide-title">상담 안내 가이드</h3>
-                        <div class="info-panel-section__content info-panel-section__content--guide">
-                          <div class="guide-stack" tabindex="0" role="region" aria-label="상담 안내 상세">
-                            <div class="guide-script-card">
-                              <p class="guide-script-card__title">[자동안내] 보험금 청구 스크립트</p>
-                            </div>
-                            <p class="panel-muted">필수 안내 5건 중 3건 완료</p>
+                      <section class="info-panel-section info-doc-section" data-info-section="guide" id="info-acc-guide" aria-labelledby="info-sect-guide-title">
+                        <h3 class="info-doc-section__head" id="info-sect-guide-title">
+                          <span class="info-doc-section__num" aria-hidden="true">04</span>
+                          <span class="info-doc-section__title">상담안내 가이드</span>
+                        </h3>
+                        <div class="info-panel-section__content">
+                          <div class="info-doc-guide" role="region" aria-label="상담 안내" tabindex="0">
+                            <p class="info-doc-guide__lede">
+                              보험금 청구 필수 안내 5건 중 3건을 완료했습니다. 남은 항목은 처리기간·마무리 안내입니다.
+                            </p>
                             <div
-                              class="guide-progress"
+                              class="info-doc-guide__progress"
                               role="progressbar"
                               aria-valuemin="0"
                               aria-valuemax="100"
                               aria-valuenow="60"
                               aria-label="필수 안내 진행률 60%"
                             >
-                              <div class="guide-progress__fill"></div>
+                              <div class="info-doc-guide__progress-fill"></div>
                             </div>
-                            <ul class="guide-checklist">
-                              <li class="guide-checklist__item is-done">
-                                <span class="guide-checklist__icon" aria-hidden="true">✓</span>
-                                <span class="guide-checklist__label">본인확인</span>
-                              </li>
-                              <li class="guide-checklist__item is-done">
-                                <span class="guide-checklist__icon" aria-hidden="true">✓</span>
-                                <span class="guide-checklist__label">청구 사유</span>
-                              </li>
-                              <li class="guide-checklist__item is-done">
-                                <span class="guide-checklist__icon" aria-hidden="true">✓</span>
-                                <span class="guide-checklist__label">구비서류</span>
-                              </li>
-                              <li class="guide-checklist__item">
-                                <span class="guide-checklist__icon" aria-hidden="true">☐</span>
-                                <span class="guide-checklist__label">처리기간</span>
-                              </li>
-                              <li class="guide-checklist__item">
-                                <span class="guide-checklist__icon" aria-hidden="true">☐</span>
-                                <span class="guide-checklist__label">마무리</span>
-                              </li>
-                            </ul>
                           </div>
                         </div>
                       </section>
                     </div>
-                  </div>
-                </div>
+                </article>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="workspace__col workspace__col--live main-workspace" aria-label="실시간 상담 및 이력">
+      <div class="workspace__col workspace__col--live main-workspace main-grid__col main-grid__col--2" aria-label="실시간 상담 및 이력">
         <div class="live-composite live-composite--stack" aria-label="실시간 상담 영역">
           <div class="live-composite__stt">
             <div class="live-outer live-outer--stt workspace-main-card">
@@ -2550,130 +2863,11 @@
             </div>
             </div>
           </div>
-          <div class="live-composite__history">
-            <section class="live-outer dash-card-history workspace-main-card" id="dash-card-history" aria-labelledby="dash-card-history-title">
-              <header class="card-header live-sect__head">
-                <div class="dash-card-history__header-lead">
-                  <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
-                  <h3 class="card-header-title live-sect__title" id="dash-card-history-title">최근 상담</h3>
-                </div>
-                <div class="history-toolbar">
-                  <div class="history-filter-chips" role="group" aria-label="상담 상태 필터">
-                    <button type="button" class="history-chip is-active" data-history-filter="all" aria-pressed="true">전체</button>
-                    <button type="button" class="history-chip" data-history-filter="in_progress" aria-pressed="false">진행</button>
-                    <button type="button" class="history-chip" data-history-filter="done" aria-pressed="false">완료</button>
-                    <button type="button" class="history-chip" data-history-filter="delayed" aria-pressed="false">지연</button>
-                  </div>
-                  <div class="history-sort">
-                    <select
-                      id="history-sort-select"
-                      class="history-sort__select"
-                      aria-label="정렬 기준"
-                      title="정렬 기준"
-                    >
-                      <option value="date-desc" selected>최신순</option>
-                      <option value="date-asc">오래된순</option>
-                      <option value="status">상태순</option>
-                    </select>
-                  </div>
-                </div>
-              </header>
-              <div class="live-inner workspace-inner-card">
-                <div class="panel-list-scroll scroll-area" tabindex="0" role="region" aria-label="최근 상담 내역 목록">
-                  <ul class="panel-list" id="history-panel-list">
-                    <li data-history-status="in_progress">
-                      <button type="button" class="history-item" aria-label="보험금 청구 문의, 2026-05-10, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-05-10">2026-05-10</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">보험금 청구 문의</p>
-                            <span class="history-item__badge history-item__badge--in_progress">진행</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                    <li data-history-status="done">
-                      <button type="button" class="history-item" aria-label="자동이체 변경, 2026-05-03, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-05-03">2026-05-03</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">자동이체 변경</p>
-                            <span class="history-item__badge history-item__badge--done">완료</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                    <li data-history-status="pending">
-                      <button type="button" class="history-item" aria-label="계약 관계자 변경, 2026-04-21, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-04-21">2026-04-21</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">계약 관계자 변경</p>
-                            <span class="history-item__badge history-item__badge--pending">대기</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                    <li data-history-status="delayed">
-                      <button type="button" class="history-item" aria-label="보험료 납입일 문의, 2026-04-12, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-04-12">2026-04-12</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">보험료 납입일 문의</p>
-                            <span class="history-item__badge history-item__badge--delayed">지연</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                    <li data-history-status="done">
-                      <button type="button" class="history-item" aria-label="해약환급금 확인, 2026-03-28, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-03-28">2026-03-28</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">해약환급금 확인</p>
-                            <span class="history-item__badge history-item__badge--done">완료</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                    <li data-history-status="in_progress">
-                      <button type="button" class="history-item" aria-label="주소지 변경, 2026-03-15, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-03-15">2026-03-15</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">주소지 변경</p>
-                            <span class="history-item__badge history-item__badge--in_progress">진행</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                    <li data-history-status="delayed">
-                      <button type="button" class="history-item" aria-label="증권 재발행 문의, 2026-02-26, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-02-26">2026-02-26</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">증권 재발행 문의</p>
-                            <span class="history-item__badge history-item__badge--delayed">지연</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-          </div>
+          <div class="live-composite__reserve" aria-hidden="true"></div>
         </div>
       </div>
 
-      <div class="workspace__col workspace__col--know" aria-label="추천 지식">
+      <div class="workspace__col workspace__col--know main-grid__col main-grid__col--3" aria-label="상담 어시스턴트">
         <div class="live-composite live-composite--know-only" aria-label="추천 지식 답변">
             <section class="live-outer live-outer--know workspace-main-card live-sect--know" id="know-queue-root" aria-labelledby="live-sect-title-know">
               <header class="card-header live-sect__head">
@@ -2733,6 +2927,7 @@
       </div>
       <span class="statusbar__keys" role="note">F1 도움말 / F2 접수 / F5 새로고침</span>
     </footer>
+    </div>
     <script>
       (function () {
         var el = document.querySelector(".floating-control-group__elapsed");
@@ -2784,9 +2979,11 @@
 
         var toggle = document.getElementById("info-side-panel-toggle");
         var drawer = document.getElementById("info-side-drawer");
+        var workspace = document.querySelector(".workspace");
 
         function setSideExpanded(on) {
           root.classList.toggle("is-side-expanded", on);
+          if (workspace) workspace.classList.toggle("workspace--info-collapsed", !on);
           if (toggle) {
             toggle.setAttribute("aria-expanded", on ? "true" : "false");
             toggle.textContent = on ? "닫기" : "열기";

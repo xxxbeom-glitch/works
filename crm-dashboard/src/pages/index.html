@@ -1462,7 +1462,7 @@
       padding: 0;
       border-radius: 12px;
       background: transparent;
-      transition: background 140ms ease;
+      transition: background 0ms, padding 0ms;
     }
 
     .live-outer--info .contract-acc-item.is-expanded {
@@ -1487,7 +1487,7 @@
       font: inherit;
       text-align: left;
       cursor: pointer;
-      transition: background 140ms ease;
+      transition: background 0ms;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -1519,7 +1519,7 @@
       font-weight: var(--font-regular);
       line-height: 1;
       color: #64748b;
-      transition: color 140ms ease;
+      transition: color 0ms;
     }
 
     .live-outer--info .contract-acc-trigger:hover .contract-acc-icon {
@@ -1743,7 +1743,7 @@
       cursor: pointer;
       pointer-events: auto;
       -webkit-tap-highlight-color: transparent;
-      transition: color 160ms ease, background-color 160ms ease;
+      transition: color 0ms, background-color 0ms;
     }
 
     .live-composite .product-info__toggle:hover {
@@ -1763,30 +1763,19 @@
       border-right: 2px solid currentColor;
       border-bottom: 2px solid currentColor;
       transform: rotate(225deg);
-      transition: transform 160ms ease;
+      transition: transform 0ms;
     }
 
     .live-composite .live-outer--product.is-collapsed .product-info__chevron {
       transform: rotate(45deg);
     }
 
-    .live-composite .know-acc-card,
-    .live-composite .product-acc-card {
+    .live-composite .know-acc-card {
       box-sizing: border-box;
       border-radius: 16px;
       background: #ffffff;
       box-shadow: none;
-    }
-
-    .live-composite .know-acc-card {
       padding: 16px 18px;
-    }
-
-    .live-composite .product-acc-card {
-      padding: 20px;
-    }
-
-    .live-composite .know-acc-card {
       border: none;
       overflow: hidden;
       outline: none;
@@ -1802,16 +1791,23 @@
     }
 
     .live-composite .product-acc-card {
+      box-sizing: border-box;
       flex: 0 0 auto;
       height: auto;
       max-height: none;
+      margin: 0;
+      padding: 0;
+      border-radius: 12px;
+      background: transparent;
+      border: none;
+      box-shadow: none;
       overflow: visible;
-      border: 1px solid rgba(37, 99, 235, 0.14);
-      transition: border-color 160ms ease;
+      transition: background 0ms, padding 0ms;
     }
 
     .live-composite .product-acc-card.is-expanded {
-      border-color: rgba(37, 99, 235, 0.35);
+      background: #f1f6ff;
+      padding: 14px 16px;
     }
 
     .live-composite .product-acc-card__trigger {
@@ -1820,20 +1816,34 @@
       justify-content: space-between;
       gap: 12px;
       width: 100%;
-      min-height: 26px;
+      min-height: var(--info-list-row-min-height, 56px);
       margin: 0;
-      padding: 0;
+      padding: var(--info-list-row-pad, 10px 12px);
       border: none;
+      border-radius: 10px;
       background: transparent;
       font: inherit;
       text-align: left;
       color: inherit;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      transition: background 0ms;
+    }
+
+    .live-composite .product-acc-card__trigger:hover {
+      background: #eef4ff;
     }
 
     .live-composite .product-acc-card.is-expanded .product-acc-card__trigger {
+      background: transparent;
+      border-radius: 0;
+      padding: 0 0 12px 0;
+      min-height: auto;
       margin-bottom: 0;
+    }
+
+    .live-composite .product-acc-card.is-expanded .product-acc-card__trigger:hover {
+      background: transparent;
     }
 
     .live-composite .product-acc-card__trigger:focus-visible {
@@ -1883,8 +1893,8 @@
       font-size: 18px;
       font-weight: var(--font-regular);
       line-height: 1;
-      color: var(--text-muted);
-      transition: color 140ms ease;
+      color: #64748b;
+      transition: color 0ms;
     }
 
     .live-composite .product-acc-card__trigger:hover .product-acc-card__icon {
@@ -1909,7 +1919,7 @@
       flex-direction: column;
       gap: 14px;
       margin: 0;
-      padding: 14px 0 16px;
+      padding: 0;
       overflow: visible;
     }
 
@@ -3069,8 +3079,8 @@
       gap: var(--space-3);
       min-height: var(--btn-height-md);
       padding: var(--space-3) var(--page-padding-x);
-      background: var(--bg-status);
-      color: var(--text-status);
+      background: #475569;
+      color: #E2E8F0;
       font-size: var(--text-sm);
       font-weight: var(--font-semibold);
       line-height: var(--line-normal);
@@ -3091,7 +3101,7 @@
     }
 
     .statusbar__item strong {
-      color: var(--text-inverse);
+      color: #FFFFFF;
       font-weight: var(--font-semibold);
     }
 
@@ -3099,7 +3109,7 @@
       width: 8px;
       height: 8px;
       border-radius: var(--radius-full);
-      background: var(--status-accent);
+      background: #34D399;
       flex-shrink: 0;
     }
 
@@ -3109,8 +3119,8 @@
       font-weight: var(--font-medium);
       line-height: var(--leading-snug);
       letter-spacing: var(--tracking-wide);
-      color: var(--text-status);
-      opacity: 0.85;
+      color: rgba(226, 232, 240, 0.75);
+      opacity: 1;
     }
 
     /* —— AI 질의 · 3열 고정 패널 —— */
@@ -3125,12 +3135,70 @@
       min-width: 0;
     }
 
+    .ai-agent-title {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .ai-agent-title__name {
+      font-weight: var(--font-bold);
+      color: var(--text-strong);
+    }
+
+    .ai-agent-title__status {
+      font-weight: var(--font-medium);
+      color: var(--primary, #005bac);
+    }
+
     .card-header--ai .ai-agent-panel__header-end {
       display: flex;
       align-items: center;
       gap: 8px;
       flex-shrink: 0;
       margin-left: auto;
+    }
+
+    .ai-agent-header-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 28px;
+      padding: 0 12px;
+      margin: 0;
+      border: 1px solid rgba(100, 116, 139, 0.24);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text-default);
+      font-size: 12px;
+      font-weight: var(--font-medium);
+      line-height: 1.3;
+      cursor: pointer;
+      transition: all 140ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .ai-agent-header-btn:hover {
+      border-color: var(--primary, #005bac);
+      background: rgba(0, 91, 172, 0.04);
+      color: var(--primary, #005bac);
+    }
+
+    .ai-agent-header-btn:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+    }
+
+    .ai-agent-header-btn--collapse {
+      min-width: 32px;
+      padding: 0 8px;
+    }
+
+    .ai-agent-collapse-icon {
+      font-size: 14px;
+      font-weight: var(--font-bold);
+      line-height: 1;
     }
 
     .ai-agent-panel__statuses {
@@ -3151,6 +3219,12 @@
       white-space: nowrap;
     }
 
+    .ai-agent-badge--online {
+      border: 1px solid rgba(34, 197, 94, 0.28);
+      background: rgba(240, 253, 244, 0.95);
+      color: #15803d;
+    }
+
     .ai-agent-badge--know {
       border: 1px solid rgba(37, 99, 235, 0.28);
       background: rgba(234, 242, 255, 0.95);
@@ -3158,9 +3232,9 @@
     }
 
     .ai-agent-badge--live {
-      border: 1px solid rgba(34, 197, 94, 0.28);
-      background: rgba(240, 253, 244, 0.95);
-      color: #15803d;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      background: rgba(254, 252, 232, 0.95);
+      color: #b45309;
     }
 
     .live-outer--ai > .live-inner.ai-agent-inner {
@@ -3295,7 +3369,7 @@
     .ai-agent-chat {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
       margin: 0;
       padding: 0;
     }
@@ -3303,20 +3377,29 @@
     .ai-agent-turn {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
       max-width: 100%;
     }
 
     .ai-agent-turn--user {
       align-self: flex-end;
       align-items: flex-end;
-      max-width: 80%;
+      max-width: 75%;
     }
 
     .ai-agent-turn--ai {
       align-self: flex-start;
       align-items: flex-start;
       max-width: 80%;
+    }
+
+    .ai-agent-turn__time {
+      margin: 0 0 2px;
+      padding: 0 4px;
+      font-size: 11px;
+      font-weight: var(--font-medium);
+      line-height: 1.3;
+      color: #94a3b8;
     }
 
     .ai-agent-bubble {
@@ -3331,14 +3414,14 @@
     }
 
     .ai-agent-turn--user .ai-agent-bubble {
-      background: #eaf2ff;
+      background: #eef6ff;
       color: #1e3a5f;
     }
 
     .ai-agent-turn--ai .ai-agent-bubble {
       background: #ffffff;
       color: #334155;
-      box-shadow: 0 1px 2px rgba(15, 39, 68, 0.04);
+      box-shadow: 0 1px 3px rgba(15, 39, 68, 0.06);
     }
 
     .ai-agent-meta {
@@ -4206,12 +4289,15 @@
       <div class="workspace__col workspace__col--ai main-grid__col main-grid__col--3" id="workspace-col-ai" aria-label="질의 및 에이전트">
         <section class="live-outer live-outer--ai workspace-main-card" id="ai-agent-panel" aria-labelledby="live-sect-title-ai">
           <header class="card-header card-header--ai live-sect__head">
-            <h3 class="card-header-title live-sect__title" id="live-sect-title-ai">질의 및 에이전트</h3>
+            <h3 class="card-header-title live-sect__title ai-agent-title" id="live-sect-title-ai">
+              <span class="ai-agent-title__name">SHINDY</span>
+              <span class="ai-agent-title__status">(online)</span>
+            </h3>
             <div class="ai-agent-panel__header-end">
-              <div class="ai-agent-panel__statuses" aria-label="에이전트 상태">
-                <span class="ai-agent-badge ai-agent-badge--know">지식 ON</span>
-                <span class="ai-agent-badge ai-agent-badge--live">상담 중</span>
-              </div>
+              <button type="button" class="ai-agent-header-btn" id="ai-agent-detach-btn" aria-label="분리">분리</button>
+              <button type="button" class="ai-agent-header-btn ai-agent-header-btn--collapse" id="ai-agent-collapse-btn" aria-label="접기" aria-expanded="true">
+                <span class="ai-agent-collapse-icon">&lt;&lt;</span>
+              </button>
             </div>
           </header>
           <div class="live-inner workspace-inner-card ai-agent-inner">
@@ -4219,14 +4305,32 @@
               <div class="ai-agent-panel__scroll scroll-area">
                 <div class="ai-agent-chat" id="ai-agent-chat" aria-live="polite" aria-label="AI 대화">
                   <article class="ai-agent-turn ai-agent-turn--user">
-                    <p class="ai-agent-bubble">갱신형과 비갱신형 상품 차이가 뭐예요?</p>
+                    <div class="ai-agent-turn__time">14:35:28</div>
+                    <p class="ai-agent-bubble">암보험 면책기간이 어떻게 돼?</p>
                   </article>
                   <article class="ai-agent-turn ai-agent-turn--ai">
-                    <p class="ai-agent-bubble">갱신형은 보험기간 종료 시 갱신 여부·보험료가 재산정되며, 비갱신형은 초기 보험료가 만기까지 유지되는 구조입니다. 고객의 나이·건강 상태·상품 유형에 따라 안내 문구를 구분해 주세요.</p>
+                    <div class="ai-agent-turn__time">14:35:30</div>
+                    <p class="ai-agent-bubble">암 보장 개시일은 보장 개시일 또는 계약일로부터 90일이 지난 날의 다음 날부터입니다.</p>
+                    <div class="ai-agent-meta">
+                      <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">단계</span> 의도분석 → 약관검색 → 답변생성</p>
+                      <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">출처</span> SOK#3202 약관 12 / FAQ #87</p>
+                    </div>
+                  </article>
+                  <article class="ai-agent-turn ai-agent-turn--user">
+                    <div class="ai-agent-turn__time">14:35:56</div>
+                    <p class="ai-agent-bubble">예외 사항도 알려줘</p>
+                  </article>
+                  <article class="ai-agent-turn ai-agent-turn--ai">
+                    <div class="ai-agent-turn__time">14:35:58</div>
+                    <p class="ai-agent-bubble">예외 케이스는 2가지가 있습니다.<br>1) 상해로 인한 암 진단<br>2) 갑상선암 등 일부 특약</p>
                     <div class="ai-agent-meta">
                       <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">단계</span> 의도분석 → 지식검색 → 답변생성</p>
-                      <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">출처</span> SOK#3202 약관 12-1 / FAQ #87</p>
+                      <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">출처</span> SOK#3203 약관 12-2 / FAQ #91</p>
                     </div>
+                  </article>
+                  <article class="ai-agent-turn ai-agent-turn--user">
+                    <div class="ai-agent-turn__time">14:36:10</div>
+                    <p class="ai-agent-bubble">일부 특정암 종류를 알려줄래</p>
                   </article>
                 </div>
               </div>
@@ -4370,7 +4474,7 @@
 
           function setExpanded(index) {
             items.forEach(function (item, i) {
-              updateItem(item, i, i === index);
+              updateItem(item, i, i === index && index >= 0);
             });
             expandedIndex = index;
           }
@@ -4378,8 +4482,13 @@
           items.forEach(function (item, index) {
             var trigger = item.querySelector(".contract-acc-trigger");
             if (!trigger) return;
-            trigger.addEventListener("click", function () {
-              setExpanded(index);
+            trigger.addEventListener("click", function (e) {
+              e.stopPropagation();
+              if (expandedIndex === index) {
+                setExpanded(-1);
+              } else {
+                setExpanded(index);
+              }
             });
           });
 
@@ -4822,9 +4931,16 @@
           if (!chat || !text) return;
           var turn = document.createElement("article");
           turn.className = "ai-agent-turn ai-agent-turn--user";
+          var time = document.createElement("div");
+          time.className = "ai-agent-turn__time";
+          var now = new Date();
+          time.textContent = now.getHours().toString().padStart(2, '0') + ':' + 
+                             now.getMinutes().toString().padStart(2, '0') + ':' + 
+                             now.getSeconds().toString().padStart(2, '0');
           var bubble = document.createElement("p");
           bubble.className = "ai-agent-bubble";
           bubble.textContent = text;
+          turn.appendChild(time);
           turn.appendChild(bubble);
           chat.appendChild(turn);
           var scrollRoot = document.querySelector(".ai-agent-panel__scroll");
@@ -5020,7 +5136,7 @@
 
         function renderProductAccordion() {
           cards.forEach(function (card, index) {
-            var expanded = index === expandedIndex;
+            var expanded = index === expandedIndex && expandedIndex >= 0;
             card.classList.toggle("is-expanded", expanded);
             var trigger = card.querySelector(".product-acc-card__trigger");
             var icon = card.querySelector(".product-acc-card__icon");
@@ -5032,8 +5148,13 @@
         cards.forEach(function (card, index) {
           var trigger = card.querySelector(".product-acc-card__trigger");
           if (!trigger) return;
-          trigger.addEventListener("click", function () {
-            expandedIndex = index;
+          trigger.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (expandedIndex === index) {
+              expandedIndex = -1;
+            } else {
+              expandedIndex = index;
+            }
             renderProductAccordion();
           });
         });

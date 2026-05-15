@@ -15,6 +15,75 @@
 
     *, *::before, *::after { box-sizing: border-box; }
 
+    /* 재사용 chevron icon — 접힘: rotate(-90deg), 펼침: rotate(0deg) */
+    .icon-chevron {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      margin: 0;
+      padding: 0;
+      color: var(--text-muted);
+      transform: rotate(-90deg);
+      transition:
+        transform 160ms ease,
+        color 160ms ease;
+    }
+
+    .icon-chevron--expanded {
+      transform: rotate(0deg);
+    }
+
+    .icon-chevron--sm {
+      width: 20px;
+      height: 20px;
+    }
+
+    .icon-chevron--sm .icon-chevron__svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .icon-chevron__svg {
+      display: block;
+      width: 24px;
+      height: 24px;
+    }
+
+    /* 점선 placeholder 아이콘 — 카드 헤더 · topbar · LNB */
+    .ui-icon-placeholder {
+      box-sizing: border-box;
+      display: inline-flex;
+      flex-shrink: 0;
+      color: transparent;
+      background: transparent;
+      border: 1px dashed rgba(100, 116, 139, 0.4);
+      box-shadow: none;
+    }
+
+    .ui-icon-placeholder--28 {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      min-height: 28px;
+      border-radius: 8px;
+    }
+
+    .ui-icon-placeholder--lnb {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      min-height: 36px;
+      border-radius: 8px;
+    }
+
+    .info-doc-section__more:hover .icon-chevron,
+    .know-acc-card__trigger:hover .icon-chevron {
+      color: var(--primary);
+    }
+
     /* 대시보드 공통 스크롤바 — overflow 스크롤 영역에 .scroll-area 병행 */
     .scroll-area {
       scrollbar-width: thin;
@@ -49,7 +118,7 @@
       border: var(--card-border);
       border-radius: var(--radius-workspace-card);
       box-shadow: var(--shadow-workspace-card);
-      padding: 18px 9px 9px;
+      padding: var(--card-padding, 18px 9px 9px);
     }
 
     .workspace-inner-card {
@@ -84,26 +153,41 @@
       min-height: 0;
     }
 
+    .console.app-shell {
+      --lnb-width: 56px;
+      --col-1: 28%;
+      --col-2: 32%;
+      --col-3: 40%;
+      --grid-gap: 16px;
+      --card-padding: 18px 9px 9px;
+      --inner-padding: 18px;
+      --workspace-height: calc(100vh - var(--header-height) - var(--statusbar-height));
+      --know-drawer-width: min(440px, calc(100vw - var(--lnb-width) - 32px));
+      --padding-inner-content: var(--inner-padding, 18px);
+    }
+
     .console__stack {
       flex: 1 1 auto;
       min-width: 0;
       min-height: 0;
       display: flex;
       flex-direction: column;
+      --statusbar-height: calc(var(--btn-height-md) + var(--space-3) * 2);
+      position: relative;
     }
 
     .app-lnb,
     .app-shell__lnb {
       box-sizing: border-box;
-      flex: 0 0 72px;
-      width: 72px;
-      min-width: 72px;
-      max-width: 72px;
+      flex: 0 0 var(--lnb-width);
+      width: var(--lnb-width);
+      min-width: var(--lnb-width);
+      max-width: var(--lnb-width);
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 14px 0 12px;
-      gap: 8px;
+      gap: 0;
       background: #e4eaf2;
       border-right: 1px solid rgba(148, 163, 184, 0.35);
       z-index: 5;
@@ -115,14 +199,17 @@
       justify-content: center;
       width: 48px;
       height: 48px;
-      margin-bottom: 8px;
+      margin: 0 0 22px;
+      padding: 0;
+      border: none;
+      background: transparent;
+      flex-shrink: 0;
     }
 
     .app-lnb__brand-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: var(--bg-card-icon);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .app-lnb__nav {
@@ -164,13 +251,13 @@
       display: block;
     }
 
-    /* —— Top Header —— */
+    /* —— Top Header (SB) —— */
     .topbar {
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: var(--space-3);
+      gap: 16px;
       height: var(--header-height);
       padding: 0 var(--page-padding-x);
       background: var(--bg-content-soft);
@@ -178,64 +265,15 @@
       box-shadow: none;
     }
 
-    .topbar__left {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      flex-shrink: 0;
-      min-width: 0;
-    }
-
-    .topbar__brand-mark {
-      box-sizing: border-box;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      min-width: 36px;
-      min-height: 36px;
-      flex-basis: 36px;
-      flex-shrink: 0;
-      border-radius: 6px;
-      background: var(--bg-card-icon);
-    }
-
-    .topbar__brand-text {
-      display: flex;
-      align-items: baseline;
-      gap: var(--space-2);
-      flex-shrink: 0;
-      min-width: 0;
-    }
-
-    .topbar__title {
-      margin: 0;
-      font-size: var(--text-lg);
-      font-weight: var(--font-bold);
-      line-height: var(--line-tight);
-      letter-spacing: var(--tracking-tight);
-      color: var(--text-strong);
-    }
-
-    .topbar__ver {
-      font-size: var(--text-xs);
-      font-weight: var(--font-medium);
-      line-height: var(--leading-snug);
-      color: var(--text-soft);
-    }
-
-    .topbar__center {
+    .topbar__modes {
+      flex: 1 1 auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-      flex: 1;
       min-width: 0;
     }
 
-    .topbar__center .mode-segmented {
+    .topbar__modes .mode-segmented {
       display: inline-grid;
       grid-template-columns: minmax(96px, 1fr) minmax(96px, 1fr);
       align-items: center;
@@ -247,7 +285,7 @@
       box-sizing: border-box;
     }
 
-    .topbar__center .mode-segmented__btn {
+    .topbar__modes .mode-segmented__btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -270,57 +308,31 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    .topbar__center .mode-segmented__btn.is-active {
+    .topbar__modes .mode-segmented__btn.is-active {
       background: #dcebff;
       color: #005bac;
       font-weight: 700;
     }
 
-    .topbar__center .mode-segmented__btn:focus-visible {
+    .topbar__modes .mode-segmented__btn:focus-visible {
       outline: 2px solid var(--primary, #005bac);
       outline-offset: 2px;
     }
 
-    .topbar__right {
+    .topbar__actions {
       display: flex;
       align-items: center;
-      gap: var(--space-3);
+      gap: 12px;
       flex-shrink: 0;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+      min-width: 0;
     }
 
-    .topbar__link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 0;
-      font-size: var(--text-md, 13px);
-      font-weight: 600;
-      line-height: 1;
+    .topbar__user-name {
+      font-size: 13px;
+      font-weight: var(--font-semibold);
+      line-height: 1.2;
       color: var(--text-default);
-    }
-
-    .topbar__avatar-placeholder {
-      box-sizing: border-box;
-      width: 28px;
-      height: 28px;
-      flex-shrink: 0;
-      border-radius: 999px;
-      background: #d7e3ef;
-    }
-
-    .topbar__link-line {
-      display: inline-flex;
-      align-items: center;
-      flex-wrap: wrap;
-      min-width: 0;
       white-space: nowrap;
-    }
-
-    .topbar__link-tele {
-      color: #12a150;
-      font-weight: 600;
     }
 
     .icon-btn {
@@ -341,52 +353,65 @@
       background: var(--surface-hover);
     }
 
-    /* —— Main workspace: 3열(고객정보 · STT · 상담 어시스턴트) —— */
+    /* —— Main workspace: adaptive 3열 —— */
     .workspace,
     .main-grid {
-      flex: 1;
+      flex: 1 1 auto;
       min-height: 0;
       min-width: 0;
+      height: var(--workspace-height);
+      max-height: var(--workspace-height);
       display: grid;
       align-items: stretch;
       align-content: stretch;
       grid-template-rows: minmax(0, 1fr);
-      gap: 20px;
+      grid-template-columns: minmax(0, var(--col-1)) minmax(0, var(--col-2)) minmax(0, var(--col-3));
+      gap: var(--grid-gap);
       padding: var(--space-6) var(--page-padding-x);
       background: var(--bg-panel);
       overflow: hidden;
     }
 
-    @media (min-width: 901px) {
-      .workspace,
-      .main-grid {
-        grid-template-columns: minmax(240px, 3fr) minmax(300px, 3fr) minmax(0, 4fr);
-      }
+    .workspace.workspace--info-collapsed {
+      grid-template-columns: minmax(var(--info-collapsed-w, 88px), auto) minmax(0, var(--col-2)) minmax(0, var(--col-3));
+    }
 
-      .workspace.workspace--info-collapsed {
-        grid-template-columns: minmax(88px, auto) minmax(300px, 3fr) minmax(0, 4fr);
-      }
+    .main-grid__col--1,
+    .workspace__col--info {
+      grid-column: 1;
+      margin-left: 0;
+      z-index: 2;
+    }
 
-      .main-grid__col--1,
+    .main-grid__col--2,
+    .workspace__col--live {
+      grid-column: 2;
+    }
+
+    .main-grid__col--3,
+    .workspace__col--know {
+      grid-column: 3;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .workspace__col {
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+      max-height: 100%;
+      overflow: hidden;
+    }
+
+    .workspace__col--info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (min-width: 1024px) {
       .workspace__col--info {
-        grid-column: 1;
-        margin-left: 0;
-        z-index: 2;
-      }
-
-      .main-grid__col--2,
-      .workspace__col--live {
-        grid-column: 2;
-      }
-
-      .main-grid__col--3,
-      .workspace__col--know {
-        grid-column: 3;
-        display: flex;
-        flex-direction: column;
-        visibility: visible;
-        width: auto;
-        min-width: 0;
+        overflow: visible;
       }
 
       .info-side,
@@ -394,24 +419,216 @@
       .info-side__shell,
       .info-side__drawer,
       .live-outer--info {
-        max-height: calc(100vh - var(--header-height) - 56px);
+        max-height: var(--workspace-height);
       }
     }
 
-    .workspace__col--info {
-      min-width: 0;
-      min-height: 0;
-      height: 100%;
-      max-height: 100%;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+    @media (min-width: 1600px) {
+      .console.app-shell {
+        --lnb-width: 60px;
+        --col-1: 30%;
+        --col-2: 30%;
+        --col-3: 40%;
+        --grid-gap: 20px;
+        --card-padding: 18px 9px 9px;
+        --inner-padding: 18px;
+      }
     }
 
-    @media (min-width: 901px) {
-      .workspace__col--info {
-        overflow: visible;
+    @media (min-width: 1280px) and (max-width: 1599px) {
+      .console.app-shell {
+        --lnb-width: 56px;
+        --col-1: 28%;
+        --col-2: 32%;
+        --col-3: 40%;
+        --grid-gap: 16px;
+        --card-padding: 14px 8px 8px;
+        --inner-padding: 16px;
       }
+    }
+
+    @media (min-width: 1024px) and (max-width: 1279px) {
+      .console.app-shell {
+        --lnb-width: 52px;
+        --col-1: 30%;
+        --col-2: 35%;
+        --col-3: 35%;
+        --grid-gap: 14px;
+        --card-padding: 12px 8px 8px;
+        --inner-padding: 14px;
+        --know-acc-padding: 14px;
+      }
+
+      .live-composite .know-acc-card {
+        padding: var(--know-acc-padding, 14px);
+      }
+
+      .live-composite .know-acc-card.is-expanded .know-acc-card__trigger {
+        margin-bottom: 12px;
+      }
+
+      .live-composite .know-acc-flow__question {
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+
+      .live-composite .know-acc-flow__answer {
+        font-size: 14px;
+        margin-bottom: 14px;
+      }
+
+      .workspace--layout-laptop #dash-card-history-section .info-section-card__body {
+        display: none;
+      }
+
+      .workspace--layout-laptop #dash-card-history-section.is-section-expanded .info-section-card__body {
+        display: block;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .console.app-shell {
+        --lnb-width: 52px;
+        --col-1: 34%;
+        --col-2: 66%;
+        --grid-gap: 12px;
+        --card-padding: 12px 8px 8px;
+        --inner-padding: 14px;
+        --know-drawer-width: min(420px, calc(100vw - var(--lnb-width) - 24px));
+      }
+
+      .workspace,
+      .main-grid {
+        grid-template-columns: minmax(0, var(--col-1)) minmax(0, var(--col-2));
+      }
+
+      .workspace.workspace--info-collapsed {
+        grid-template-columns: minmax(72px, auto) minmax(0, 1fr);
+      }
+
+      .workspace__col--know {
+        position: fixed;
+        top: var(--header-height);
+        right: 0;
+        bottom: var(--statusbar-height);
+        width: var(--know-drawer-width);
+        max-width: 100%;
+        height: auto;
+        max-height: none;
+        margin: 0;
+        padding: 0;
+        z-index: 130;
+        pointer-events: none;
+        transform: translateX(100%);
+        transition:
+          transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0s linear 280ms;
+        box-shadow: none;
+      }
+
+      .workspace__col--know.is-drawer-open {
+        pointer-events: auto;
+        transform: translateX(0);
+        box-shadow: -8px 0 28px rgba(15, 39, 68, 0.1);
+        transition:
+          transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0s linear 0s;
+      }
+
+      .know-drawer-backdrop.is-visible {
+        display: block;
+      }
+
+      .know-drawer-fab {
+        display: inline-flex;
+      }
+
+      .live-composite--stack .live-composite__stt {
+        flex: 1 1 0;
+        max-height: 68%;
+        min-height: 240px;
+      }
+
+      .live-composite__product {
+        flex: 0 1 auto;
+        max-height: 32%;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .console.app-shell {
+        min-width: 768px;
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+
+      .viewport-min-notice {
+        display: flex;
+      }
+    }
+
+    .viewport-min-notice {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 6px 12px;
+      background: #fff4d8;
+      color: #7a5c00;
+      font-size: 12px;
+      font-weight: var(--font-semibold);
+      line-height: 1.35;
+      border-bottom: 1px solid rgba(217, 144, 0, 0.25);
+    }
+
+    .know-drawer-backdrop {
+      display: none;
+      position: fixed;
+      inset: var(--header-height) 0 var(--statusbar-height) 0;
+      z-index: 125;
+      border: none;
+      margin: 0;
+      padding: 0;
+      background: rgba(15, 39, 68, 0.18);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .know-drawer-backdrop.is-visible {
+      display: block;
+    }
+
+    .know-drawer-fab {
+      display: none;
+      position: fixed;
+      right: 16px;
+      bottom: calc(var(--statusbar-height) + 72px);
+      z-index: 140;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid rgba(37, 99, 235, 0.28);
+      border-radius: 999px;
+      background: #ffffff;
+      color: #1d4ed8;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: var(--font-semibold);
+      line-height: 1.2;
+      white-space: nowrap;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(15, 39, 68, 0.12);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .know-drawer-fab:hover {
+      background: #eaf2ff;
+    }
+
+    .know-drawer-fab:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
     }
 
     /* —— 1열: 워크스페이스 좌측에 붙는 정보 패널(단일 카드) —— */
@@ -544,18 +761,28 @@
       overflow: hidden;
     }
 
-    .live-outer--info > .info-panel-card__body {
+    .live-outer--info {
+      --info-panel-pad-x: 24px;
+      --info-section-gap: 16px;
+      --info-header-content-gap: 16px;
+      --info-content-area-pad: 18px 20px;
+      --info-content-row-gap: 10px;
+      --info-kv-gap: 11px;
+    }
+
+    .live-outer--info .info-panel-card__body,
+    .live-outer--info #info-panel-main {
       box-sizing: border-box;
       flex: 1 1 auto;
       min-height: 0;
       min-width: 0;
       display: flex;
       flex-direction: column;
-      gap: 0;
+      gap: var(--info-section-gap);
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      padding: 0 var(--padding-inner-content) var(--padding-inner-content);
+      padding: 4px var(--info-panel-pad-x) 20px;
     }
 
     .live-outer--info .info-panel-card__toggle {
@@ -569,14 +796,14 @@
       font-size: var(--text-sm);
       font-weight: var(--font-medium);
       line-height: var(--leading-snug);
-      color: var(--text-muted);
+      color: #94a3b8;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       transition: color 160ms ease;
     }
 
     .live-outer--info .info-panel-card__toggle:hover {
-      color: var(--primary, #005bac);
+      color: #64748b;
     }
 
     .live-outer--info .info-panel-card__toggle:focus-visible {
@@ -585,7 +812,8 @@
     }
 
     /* 접힘: 본문 숨김, 아이콘 + 열기만 */
-    .info-side:not(.is-side-expanded) .live-outer--info > .info-panel-card__body {
+    .info-side:not(.is-side-expanded) .live-outer--info .info-panel-card__body,
+    .info-side:not(.is-side-expanded) .live-outer--info #info-panel-main {
       display: none !important;
     }
 
@@ -610,72 +838,255 @@
       margin: 0;
     }
 
-    .live-outer--info .info-doc-section + .info-doc-section {
-      margin-top: 24px;
-      padding-top: 24px;
-      border-top: 1px solid var(--divider-soft, #e2e8f0);
-    }
-
-    .live-outer--info .info-doc-section__head {
-      display: flex;
-      flex-direction: row;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 8px 10px;
-      width: 100%;
-      margin: 0 0 14px;
+    /* 1열 — 섹션 카드(미니 헤더 + 본문) */
+    .live-outer--info .info-section,
+    .live-outer--info .info-doc-section {
+      box-sizing: border-box;
+      margin: 0;
       padding: 0;
-      font: inherit;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      min-width: 0;
     }
 
-    .live-outer--info .info-doc-section__num {
+    .live-outer--info .info-section__content-area,
+    .live-outer--info .info-section__content.workspace-inner-card,
+    .live-outer--info .info-section-card {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      min-width: 0;
+      margin: 0;
+      padding: var(--info-content-area-pad);
+      border: 1px solid rgba(220, 228, 238, 0.7);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .live-outer--info .info-sect-mini-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      min-width: 0;
+      min-height: 26px;
+      max-height: 28px;
       flex-shrink: 0;
-      font-size: 12px;
+    }
+
+    .live-outer--info .info-sect-mini-head__lead {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .live-outer--info .info-sect-mini-head__num {
+      flex-shrink: 0;
+      font-size: 11px;
       font-weight: var(--font-semibold);
       font-variant-numeric: tabular-nums;
       letter-spacing: 0.06em;
       line-height: 1.25;
-      color: #64748b;
+      color: #8b9cb3;
     }
 
-    .live-outer--info .info-doc-section__title {
+    .live-outer--info .info-sect-mini-head__title {
       flex: 1 1 auto;
       min-width: 0;
       margin: 0;
       padding: 0;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: var(--font-bold);
       line-height: 1.35;
       letter-spacing: -0.02em;
       color: var(--text-strong);
     }
 
-    .live-outer--info .info-doc-section__meta {
-      margin-left: auto;
+    .live-outer--info .info-sect-mini-head__trail {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       flex-shrink: 0;
+      margin-left: auto;
+    }
+
+    .live-outer--info .info-sect-mini-head__meta {
       font-size: 12px;
       font-weight: var(--font-medium);
       line-height: 1.25;
-      color: #64748b;
+      color: #94a3b8;
     }
 
-    .live-outer--info .info-doc-guide {
+    .live-outer--info .info-sect-mini-head__trigger {
       display: flex;
-      flex-direction: column;
-      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+      min-height: 26px;
+      max-height: 28px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: transparent;
+      font: inherit;
+      text-align: left;
+      color: inherit;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .live-outer--info .info-sect-mini-head__trigger:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    .live-outer--info .info-sect-mini-head__action,
+    .live-outer--info .info-sect-mini-head .info-doc-section__acc-icon {
+      flex-shrink: 0;
+    }
+
+    .live-outer--info .info-sect-mini-head .info-doc-section__more {
+      width: 24px;
+      height: 24px;
+      color: #94a3b8;
+    }
+
+    .live-outer--info .info-sect-mini-head .info-doc-section__more-icon {
+      flex-shrink: 0;
+    }
+
+    .live-outer--info .info-section-card__body,
+    .live-outer--info .info-section__content,
+    .live-outer--info .info-panel-section__content {
+      margin: 0;
+      padding: 0;
       min-width: 0;
     }
 
-    .live-outer--info .info-doc-guide__lede {
+    .live-outer--info .info-section__content--list .panel-list,
+    .live-outer--info .info-section__content--list .contract-list,
+    .live-outer--info .dash-card-history--preview .panel-list,
+    .live-outer--info #info-acc-contracts-body .contract-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--info-content-row-gap);
       margin: 0;
+      padding: 0;
+    }
+
+    .live-outer--info .info-panel-stack {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+
+    .live-outer--info .info-doc-section__trigger:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    .live-outer--info .info-doc-section--accordion.is-collapsed .info-section-card__body {
+      display: none;
+    }
+
+    .live-outer--info .info-doc-section--accordion.is-collapsed .info-section-card {
+      gap: 0;
+    }
+
+    .live-outer--info .info-doc-section__more {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      font: inherit;
+      color: #94a3b8;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 160ms ease, background-color 160ms ease;
+    }
+
+    .live-outer--info .info-doc-section__more:hover {
+      color: #2563eb;
+      background: rgba(0, 91, 172, 0.06);
+    }
+
+    .live-outer--info .info-doc-section__more:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+    }
+
+    .live-outer--info .info-doc-section__more-icon {
+      display: block;
+      font-size: 15px;
+      font-weight: var(--font-semibold);
+      line-height: 1;
+    }
+
+
+    .live-outer--info .info-doc-guide,
+    .live-outer--info .info-section__content--guide .info-doc-guide {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .live-outer--info .info-doc-guide__head {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .live-outer--info .info-doc-guide__title {
+      margin: 0;
+      padding: 0;
       font-size: var(--text-sm);
+      font-weight: var(--font-bold);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      color: var(--text-strong);
+    }
+
+    .live-outer--info .info-doc-guide__status {
+      margin: 0;
+      padding: 0;
+      font-size: 12px;
       font-weight: var(--font-medium);
-      line-height: 1.55;
-      color: var(--text-default);
+      line-height: 1.35;
+      color: #64748b;
     }
 
     .live-outer--info .info-doc-guide__progress {
       height: 6px;
+      margin: 0 0 6px;
+      padding: 0;
       border-radius: var(--radius-full, 999px);
       background: rgba(0, 91, 172, 0.1);
       overflow: hidden;
@@ -689,18 +1100,69 @@
       background: var(--primary, #005bac);
     }
 
-    .info-panel-section {
+    .live-outer--info .info-doc-guide__checklist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .live-outer--info .info-doc-guide__check-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+      font-size: 12px;
+      font-weight: var(--font-medium);
+      line-height: 1.35;
+      color: #334155;
+    }
+
+    .live-outer--info .info-doc-guide__check {
+      flex-shrink: 0;
+      box-sizing: border-box;
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    .live-outer--info .info-doc-guide__check-item.is-done .info-doc-guide__check {
+      position: relative;
+      border-color: #2563eb;
+      background: #2563eb;
+    }
+
+    .live-outer--info .info-doc-guide__check-item.is-done .info-doc-guide__check::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 2px;
+      width: 5px;
+      height: 8px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .live-outer--info .info-doc-guide__check-item.is-done .info-doc-guide__label {
+      color: var(--text-strong);
+    }
+
+    .live-outer--info .info-doc-guide__check-item:not(.is-done) .info-doc-guide__label {
+      color: #64748b;
+    }
+
+    .live-outer--info .info-panel-section {
       margin: 0;
       padding: 0;
       border: none;
       min-width: 0;
-    }
-
-
-    .info-panel-section__content {
-      margin: 0;
-      padding: 0;
-      min-width: 0;
+      background: transparent;
+      box-shadow: none;
     }
 
     .info-panel-section__content--guide .guide-stack {
@@ -735,11 +1197,6 @@
       min-width: 0;
     }
 
-    .workspace__col {
-      min-width: 0;
-      min-height: 0;
-    }
-
     .main-workspace {
       flex: 1 1 auto;
       min-height: 0;
@@ -755,23 +1212,39 @@
       overflow: hidden;
     }
 
-    /* 최근 상담 이력: 리스트 영역만 스크롤 */
-    .dash-card-history > .live-inner {
-      flex: 1 1 auto;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
+    /* 최근 상담 · 계약리스트 — row 높이 통일 (2줄 기준) */
+    .live-outer--info {
+      --info-list-row-min-height: 56px;
+      --info-list-row-pad: 10px 12px;
+      --info-list-row-content-min-height: 36px;
     }
 
-    .dash-card-history .panel-list-scroll {
-      flex: 1 1 auto;
-      max-height: none;
-      min-height: 0;
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
+    .dash-card-history {
+      --history-list-gap: var(--info-list-gap, 8px);
+    }
+
+    .dash-card-history--preview .panel-list > li:nth-child(n + 4) {
+      display: none;
+    }
+
+    .dash-card-history--full .panel-list-scroll {
       box-sizing: border-box;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148, 163, 184, 0.1) transparent;
+    }
+
+    .dash-card-history--full .panel-list-scroll::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .dash-card-history--full .panel-list-scroll::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.1);
+      border-radius: 999px;
     }
 
     .dash-card-history .panel-list {
@@ -780,58 +1253,35 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: var(--info-content-row-gap, 10px);
     }
 
-    .dash-card-history button.history-item {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      width: 100%;
+    .dash-card-history .panel-list > li {
       margin: 0;
-      padding: 12px 10px 12px 14px;
-      border: none;
-      border-radius: 10px;
-      background: transparent;
+      padding: 0;
+    }
+
+    .dash-card-history .history-item {
       box-sizing: border-box;
-      cursor: pointer;
-      font: inherit;
-      text-align: left;
-      color: inherit;
-      transition:
-        background-color 160ms ease,
-        color 160ms ease;
-      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-width: 0;
+      min-height: var(--info-list-row-min-height, 56px);
+      margin: 0;
+      padding: var(--info-list-row-pad, 10px 12px);
+      cursor: default;
     }
 
-    .dash-card-history button.history-item:hover {
-      background: #eaf2ff;
-    }
-
-    .dash-card-history button.history-item:hover .history-item__chevron {
-      color: #2563eb;
-    }
-
-    /* leftContent: 날짜 → (제목 + 상태) */
     .dash-card-history .history-item__left {
       flex: 1 1 auto;
       min-width: 0;
+      min-height: var(--info-list-row-content-min-height, 36px);
       display: flex;
       flex-direction: column;
       align-items: stretch;
       justify-content: center;
-      gap: 6px;
-    }
-
-    .dash-card-history .history-item__title-line {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      align-items: center;
-      gap: 8px;
-      min-width: 0;
+      gap: 4px;
     }
 
     .dash-card-history .history-item__date {
@@ -845,7 +1295,6 @@
 
     .dash-card-history .history-item__title {
       margin: 0;
-      flex: 0 1 auto;
       min-width: 0;
       max-width: 100%;
       font-size: var(--text-md);
@@ -857,281 +1306,50 @@
       white-space: nowrap;
     }
 
-    /* rightIcon: chevron — 상태 뱃지와 겹치지 않도록 일반 흐름 + 고정 폭 */
-    .dash-card-history .history-item__chevron {
-      flex-shrink: 0;
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      padding: 0;
-      font-size: 15px;
-      font-weight: var(--font-semibold);
-      line-height: 1;
-      color: #94a3b8;
-      transition: color 160ms ease;
-      pointer-events: none;
-    }
-
-    .dash-card-history .history-item__chevron::before {
-      content: ">";
-      display: block;
-    }
-
-    .dash-card-history button.history-item:focus-visible {
-      outline: 2px solid var(--primary, #005bac);
-      outline-offset: 0;
-    }
-
-    .dash-card-history button.history-item:focus-visible:not(:hover) {
-      background: rgba(234, 242, 255, 0.55);
-    }
-
-    .dash-card-history .history-item__badge {
-      position: static;
-      right: auto;
-      top: auto;
-      flex-shrink: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      align-self: center;
-      padding: 2px 7px;
-      border-radius: 999px;
-      font-size: 10px;
-      font-weight: var(--font-semibold);
-      line-height: 1.25;
-      letter-spacing: 0.01em;
-    }
-
-    .live-composite .dash-card-history > header.card-header {
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px 12px;
-      min-height: 48px;
-      margin: 0 0 9px;
-      padding: 8px 14px;
-    }
-
-    .live-composite .dash-card-history .dash-card-history__header-lead {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 12px;
-      flex: 1 1 auto;
-      min-width: 0;
-    }
-
-    .live-composite .dash-card-history .dash-card-history__header-lead .card-header-title {
-      flex: 1 1 auto;
-      min-width: 0;
-      margin: 0;
-    }
-
-    .live-composite .dash-card-history .dash-card-history__header-lead .card-header-icon {
-      margin-inline-end: 0;
-    }
-
-    .dash-card-history .history-toolbar {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 8px;
-      flex: 0 0 auto;
-      max-width: 100%;
-    }
-
-    .dash-card-history .history-filter-chips {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .dash-card-history .history-chip {
-      margin: 0;
-      box-sizing: border-box;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 28px;
-      height: 28px;
-      padding: 0 10px;
-      border: none;
-      border-radius: 999px;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: inherit;
-      font-size: var(--text-xs);
-      font-weight: var(--font-medium);
-      line-height: 1;
-      cursor: pointer;
-      white-space: nowrap;
-      transition:
-        background-color 160ms ease,
-        color 160ms ease,
-        box-shadow 160ms ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .dash-card-history .history-chip:hover {
-      background: rgba(0, 91, 172, 0.06);
-      color: var(--text-default);
-    }
-
-    .dash-card-history .history-chip.is-active {
-      background: #eaf2ff;
-      color: #0f2744;
-      font-weight: var(--font-semibold);
-      box-shadow: inset 0 0 0 1px rgba(0, 91, 172, 0.12);
-    }
-
-    .dash-card-history .history-chip:focus-visible {
-      outline: 2px solid var(--primary, #005bac);
-      outline-offset: 2px;
-    }
-
-    .dash-card-history .history-sort {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .dash-card-history .history-sort__select {
-      box-sizing: border-box;
-      margin: 0;
-      min-width: 0;
-      max-width: 120px;
-      height: 28px;
-      min-height: 28px;
-      padding: 0 22px 0 8px;
-      border: 1px solid rgba(15, 39, 68, 0.1);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.85);
-      color: var(--text-default);
-      font-family: inherit;
-      font-size: var(--text-xs);
-      font-weight: var(--font-medium);
-      line-height: 1;
-      cursor: pointer;
-      transition:
-        border-color 160ms ease,
-        background-color 160ms ease;
-      -webkit-appearance: none;
-      appearance: none;
-      background-image: linear-gradient(45deg, transparent 50%, var(--text-soft) 50%),
-        linear-gradient(135deg, var(--text-soft) 50%, transparent 50%);
-      background-position:
-        calc(100% - 11px) 50%,
-        calc(100% - 7px) 50%;
-      background-size: 4px 4px, 4px 4px;
-      background-repeat: no-repeat;
-    }
-
-    .dash-card-history .history-sort__select:hover {
-      border-color: rgba(0, 91, 172, 0.22);
-      background-color: #fff;
-    }
-
-    .dash-card-history .history-sort__select:focus-visible {
-      outline: 2px solid var(--primary, #005bac);
-      outline-offset: 1px;
-    }
-
-    .dash-card-history .history-item__badge--in_progress {
-      background: #dbeafe;
-      color: #1d4ed8;
-    }
-
-    .dash-card-history .history-item__badge--done {
-      background: #dcfce7;
-      color: #15803d;
-    }
-
-    .dash-card-history .history-item__badge--delayed {
-      background: #ffedd5;
-      color: #c2410c;
-    }
-
-    .dash-card-history .history-item__badge--pending {
-      background: #f1f5f9;
-      color: #64748b;
-    }
-
-    .dash-card-history .panel-list > li.is-filtered-out {
-      display: none;
-    }
-
-    /* 계약 리스트 — row만 연한 면, chevron */
+    /* 계약 리스트 — 정보 표시용 row */
     .live-outer--info .contract-list {
       margin: 0;
       padding: 0;
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: var(--info-list-gap, 8px);
+    }
+
+    .live-outer--info .contract-list > li {
+      margin: 0;
+      padding: 0;
     }
 
     .live-outer--info .contract-list__item {
+      box-sizing: border-box;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      gap: 10px;
-      padding: 10px 12px;
-      border: none;
-      border-radius: 11px;
-      background: rgba(241, 245, 249, 0.75);
-      color: var(--text-default);
-      text-align: start;
-      cursor: pointer;
-      font: inherit;
-      box-sizing: border-box;
       width: 100%;
       min-width: 0;
-      transition: background var(--duration-fast) var(--ease-default);
-    }
-
-    .live-outer--info .contract-list__item:hover {
-      background: rgba(226, 232, 240, 0.95);
+      min-height: var(--info-list-row-min-height, 56px);
+      margin: 0;
+      padding: var(--info-list-row-pad, 10px 12px);
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-default);
+      text-align: start;
+      cursor: default;
     }
 
     .live-outer--info .contract-list__item.is-selected {
-      background: rgba(219, 234, 254, 0.9);
-      color: #0f2744;
-    }
-
-    .live-outer--info .contract-list__item.is-selected:hover {
-      background: rgba(219, 234, 254, 0.95);
-    }
-
-    .live-outer--info .contract-list__check {
-      flex-shrink: 0;
-      width: 1.25em;
-      margin-top: 0;
-      font-size: var(--text-md);
-      font-weight: var(--font-bold);
-      line-height: 1;
-      color: #2563eb;
-    }
-
-    .live-outer--info .contract-list__item:not(.is-selected) .contract-list__check {
-      visibility: hidden;
+      background: rgba(234, 242, 255, 0.22);
     }
 
     .live-outer--info .contract-list__text-block {
       flex: 1 1 auto;
       min-width: 0;
+      min-height: var(--info-list-row-content-min-height, 36px);
       display: flex;
       flex-direction: column;
       align-items: stretch;
+      justify-content: center;
       gap: 4px;
     }
 
@@ -1149,30 +1367,6 @@
       font-weight: var(--font-medium);
       line-height: var(--leading-snug);
       color: var(--text-muted);
-    }
-
-    .live-outer--info .contract-list__chevron {
-      flex-shrink: 0;
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      color: #94a3b8;
-      font-size: 11px;
-      font-weight: var(--font-semibold);
-      line-height: 1;
-      pointer-events: none;
-    }
-
-    .live-outer--info .contract-list__chevron::before {
-      content: ">";
-      display: block;
-    }
-
-    .live-outer--info .contract-list__item:hover .contract-list__chevron {
-      color: #2563eb;
     }
 
     .main-workspace > .live-composite.live-composite--stack {
@@ -1226,42 +1420,311 @@
       background: transparent;
     }
 
-    /* 2열: STT(상) + 하단 예약 빈 영역 */
+    /* 2열: STT(상) + 상품 및 업무정보(하) */
     .live-composite--stack .live-composite__stt {
       flex: 0 1 auto;
       max-height: 58%;
     }
 
-    .live-composite__reserve {
+    .live-composite__product {
       flex: 1 1 auto;
       box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
       min-width: 0;
-      min-height: 120px;
+      min-height: 0;
+      overflow: hidden;
       background: transparent;
     }
 
-    .live-outer--info .info-panel-section__content.dash-card-history {
+    .live-composite .live-outer--product {
+      flex: 1 1 auto;
+      min-height: 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .live-composite .live-outer--product > .live-inner.product-info-card {
+      flex: 1 1 auto;
+      min-height: 0;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .live-outer--info .dash-card-history .history-toolbar {
+    .live-composite .live-outer--product.is-collapsed > .live-inner.product-info-card {
+      display: none;
+    }
+
+    .live-composite .live-outer--product .card-header--product {
+      margin-bottom: 6px;
+    }
+
+    .live-composite .live-outer--product .card-header--product .card-header-title {
+      flex: 1 1 auto;
+    }
+
+    .live-composite .product-info__toggle {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      margin: 0 0 0 auto;
+      padding: 0;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: #64748b;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 160ms ease, background-color 160ms ease;
+    }
+
+    .live-composite .product-info__toggle:hover {
+      color: var(--primary, #005bac);
+      background: rgba(0, 91, 172, 0.06);
+    }
+
+    .live-composite .product-info__toggle:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+    }
+
+    .live-composite .product-info__chevron {
+      display: block;
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(225deg);
+      transition: transform 160ms ease;
+    }
+
+    .live-composite .live-outer--product.is-collapsed .product-info__chevron {
+      transform: rotate(45deg);
+    }
+
+    .live-composite .product-info__hero {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(220, 228, 238, 0.75);
+      background: rgba(248, 250, 252, 0.72);
+    }
+
+    .live-composite .product-info__contract {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      line-height: var(--leading-snug);
+      color: var(--text-strong);
+      letter-spacing: -0.01em;
+    }
+
+    .live-composite .product-info__contract-no {
+      display: block;
+      margin-top: 2px;
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+      color: var(--text-muted);
+    }
+
+    .live-composite .product-info__metrics {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px 14px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .live-composite .product-info__metric {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 5px;
+      margin: 0;
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+      line-height: 1.3;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .live-composite .product-info__metric strong {
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      color: var(--text-default);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .live-composite .product-info__capabilities {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      flex-shrink: 0;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
     }
 
-    .live-outer--info .dash-card-history .panel-list-scroll {
+    .live-composite .product-info__cap-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin: 0;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+      line-height: 1.25;
+      white-space: nowrap;
+    }
+
+    .live-composite .product-info__cap-label {
+      color: var(--text-default);
+    }
+
+    .live-composite .product-info__cap-sep {
+      color: #cbd5e1;
+      font-weight: var(--font-regular);
+    }
+
+    .live-composite .product-info__cap-status {
+      font-weight: var(--font-semibold);
+    }
+
+    .live-composite .product-info__cap-pill--ok {
+      background: rgba(234, 242, 255, 0.95);
+      border-color: rgba(191, 219, 254, 0.9);
+    }
+
+    .live-composite .product-info__cap-pill--ok .product-info__cap-status {
+      color: #1d4ed8;
+    }
+
+    .live-composite .product-info__cap-pill--deny {
+      background: rgba(254, 242, 242, 0.85);
+      border-color: rgba(254, 202, 202, 0.85);
+    }
+
+    .live-composite .product-info__cap-pill--deny .product-info__cap-status {
+      color: #b91c1c;
+    }
+
+    .live-composite .product-info__notice {
+      margin: 0;
+      padding: 0;
+      font-size: 11px;
+      font-weight: var(--font-medium);
+      line-height: 1.45;
+      color: #94a3b8;
+    }
+
+    .live-outer--info .info-panel-section__content.dash-card-history {
+      display: block;
+      min-height: 0;
+    }
+
+    .live-outer--info .info-subpanel {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      min-width: 0;
+      overflow: hidden;
+      background: var(--bg-inner-content, #fff);
+      border-radius: var(--radius-inner-content);
+    }
+
+    .live-outer--info .info-subpanel[hidden] {
+      display: none !important;
+    }
+
+    .live-outer--info .info-subpanel__head {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      padding: 10px var(--info-panel-pad-x, 24px) 12px;
+      border-bottom: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    .live-outer--info .info-subpanel__back {
+      flex-shrink: 0;
+      margin: 0;
+      padding: 4px 8px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      font: inherit;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      color: #64748b;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .live-outer--info .info-subpanel__back:hover {
+      color: var(--primary, #005bac);
+      background: rgba(0, 91, 172, 0.06);
+    }
+
+    .live-outer--info .info-subpanel__title {
+      margin: 0;
       flex: 1 1 auto;
-      min-height: 120px;
-      max-height: min(36vh, 320px);
-      overflow-y: auto;
-      overflow-x: hidden;
+      min-width: 0;
+      font-size: var(--text-md);
+      font-weight: var(--font-semibold);
+      line-height: var(--leading-snug);
+      color: var(--text-strong);
+    }
+
+    .live-outer--info .info-subpanel__body {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 0 var(--info-panel-pad-x, 24px) 24px;
+    }
+
+    .live-outer--info .history-detail__date {
+      margin: 0 0 8px;
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+      font-variant-numeric: tabular-nums;
+      color: var(--text-muted);
+    }
+
+    .live-outer--info .history-detail__heading {
+      margin: 0 0 12px;
+      font-size: var(--text-md);
+      font-weight: var(--font-semibold);
+      line-height: var(--leading-snug);
+      color: var(--text-strong);
+    }
+
+    .live-outer--info .history-detail__summary {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      line-height: 1.55;
+      color: var(--text-default);
     }
 
     .live-composite .live-outer--stt {
@@ -1307,7 +1770,7 @@
       overflow: hidden;
     }
 
-    /* 카드 헤더 공통: STT · 1열 정보 · 추천 지식 */
+    /* 카드 헤더 공통: STT · 1열 정보 · 상담 어시스턴트 */
     .live-composite .card-header,
     .live-outer--info .card-header {
       box-sizing: border-box;
@@ -1318,6 +1781,11 @@
       align-items: center;
       flex-shrink: 0;
       gap: 0;
+    }
+
+    .live-outer--info .card-header {
+      margin-bottom: 4px;
+      padding: 6px var(--info-panel-pad-x, 24px) 4px;
     }
 
     .live-composite header.card-header,
@@ -1398,7 +1866,54 @@
       min-height: 0;
     }
 
-    .live-composite .live-outer--know > .live-inner.know-stack-inner {
+
+    .live-composite .card-header--assistant .card-header-title {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .live-composite .assistant-sort {
+      flex-shrink: 0;
+      margin-left: auto;
+    }
+
+    .live-composite .assistant-sort__select {
+      box-sizing: border-box;
+      margin: 0;
+      min-width: 0;
+      max-width: 120px;
+      height: 28px;
+      min-height: 28px;
+      padding: 0 22px 0 10px;
+      border: 1px solid rgba(15, 39, 68, 0.1);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-default);
+      font-family: inherit;
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+      line-height: 1;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--text-soft) 50%),
+        linear-gradient(135deg, var(--text-soft) 50%, transparent 50%);
+      background-position: calc(100% - 11px) 50%, calc(100% - 7px) 50%;
+      background-size: 4px 4px, 4px 4px;
+      background-repeat: no-repeat;
+    }
+
+    .live-composite .assistant-sort__select:hover {
+      border-color: rgba(0, 91, 172, 0.22);
+      background-color: #fff;
+    }
+
+    .live-composite .assistant-sort__select:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+    }
+
+    .live-composite .live-outer--know > .live-inner.know-assistant-inner {
       display: flex;
       flex-direction: column;
       flex: 1 1 auto;
@@ -1409,117 +1924,218 @@
       padding: var(--padding-inner-content);
     }
 
-    .live-composite .know-stack-section {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
-
-    .live-composite .know-stack-section--queue {
-      flex-shrink: 0;
-      gap: 0;
-    }
-
-    .live-composite .know-queue-panel {
-      box-sizing: border-box;
-      min-width: 0;
-      padding: 14px;
-      border-radius: 14px;
-      background: var(--surface-hover);
-      border: 1px solid var(--divider-soft);
-      box-shadow: none;
-    }
-
-    .live-composite .know-queue__list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      max-height: min(220px, 34vh);
+    .live-composite .know-accordion {
+      flex: 1 1 auto;
       min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      box-sizing: border-box;
+      padding: 2px 0 8px;
     }
 
-    .live-composite .know-queue__list > li + li {
-      border-top: 1px solid rgba(15, 39, 68, 0.07);
-    }
-
-    .live-composite .know-queue__item {
-      box-sizing: border-box;
-      width: 100%;
+    .live-composite .know-assistant__empty {
       margin: 0;
-      min-height: 44px;
-      padding: 10px 4px;
-      border: none;
-      border-radius: 0;
-      background: transparent;
-      color: inherit;
-      font: inherit;
-      text-align: left;
-      cursor: pointer;
-      transition: background-color 160ms ease;
-      -webkit-tap-highlight-color: transparent;
-      display: flex;
-      align-items: center;
+      padding: 12px 4px;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      line-height: 1.55;
+      color: var(--text-muted);
     }
 
-    .live-composite .know-queue__item:hover {
-      background: var(--surface-active);
+    .live-composite .know-assistant__empty[hidden] {
+      display: none;
     }
 
-    .live-composite .know-queue__item.is-selected {
-      background: var(--surface-selected);
+    .live-composite .know-acc-card {
+      box-sizing: border-box;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(37, 99, 235, 0.14);
+      background: #ffffff;
       box-shadow: none;
+      overflow: hidden;
+      transition: border-color 160ms ease;
     }
 
-    .live-composite .know-queue__item:focus-visible {
-      outline: 2px solid var(--primary, #005bac);
-      outline-offset: 1px;
+    .live-composite .know-acc-card.is-expanded {
+      border-color: rgba(37, 99, 235, 0.35);
     }
 
-    .live-composite .know-queue__item.is-done {
-      opacity: 0.88;
+    .live-composite .know-acc-card.is-stt-linked {
+      border-color: rgba(37, 99, 235, 0.5);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
     }
 
-    .live-composite .know-queue__item-main {
+    .live-composite .know-acc-card.is-done {
+      opacity: 0.92;
+    }
+
+    .live-composite .know-acc-card__trigger {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 12px;
       width: 100%;
-      min-width: 0;
+      min-height: 26px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: transparent;
+      font: inherit;
+      text-align: left;
+      color: inherit;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .live-composite .know-queue__title {
+    .live-composite .know-acc-card.is-expanded .know-acc-card__trigger {
+      margin-bottom: 18px;
+    }
+
+    .live-composite .know-acc-card__trigger:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    .live-composite .know-acc-card__lead {
       flex: 1 1 auto;
       min-width: 0;
-      margin: 0;
-      font-size: var(--text-sm);
-      font-weight: var(--font-semibold);
-      line-height: 1.35;
-      color: var(--text-default);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .live-composite .know-queue__badges {
       display: flex;
-      flex-wrap: nowrap;
       align-items: center;
-      justify-content: flex-end;
       gap: 6px;
-      flex-shrink: 0;
-      margin-left: auto;
     }
 
-    .live-composite .know-queue__badge {
+    .live-composite .know-acc-card__num {
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: var(--font-bold);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.3;
+      color: #64748b;
+    }
+
+    .live-composite .know-acc-card__title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--text-strong);
+    }
+
+    .live-composite .know-acc-card__meta {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .live-composite .know-acc-card__chevron {
+      flex-shrink: 0;
+    }
+
+
+    .live-composite .know-acc-card__panel {
+      display: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .live-composite .know-acc-card.is-expanded .know-acc-card__panel {
+      display: block;
+    }
+
+    .live-composite .know-acc-card__inner {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
+
+    .live-composite .know-acc-flow {
+      margin: 0;
+      padding: 0;
+    }
+
+    .live-composite .know-acc-flow__question {
+      margin: 0 0 10px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.4;
+      letter-spacing: -0.02em;
+      color: var(--text-strong);
+    }
+
+    .live-composite .know-acc-flow__answer {
+      margin: 0 0 10px;
+      font-size: 15px;
+      font-weight: var(--font-normal);
+      line-height: 1.6;
+      color: #26364d;
+    }
+
+    .live-composite .know-acc-source {
+      margin: 0 0 15px;
+      font-size: 11px;
+      font-weight: var(--font-medium);
+      line-height: 1.45;
+      color: #94a3b8;
+    }
+
+    .live-composite .know-acc-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .live-composite .know-acc-chip-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .live-composite .know-acc-chip-group__label {
+      margin: 0;
+      font-size: 12px;
+      font-weight: var(--font-medium);
+      line-height: 1.3;
+      color: #94a3b8;
+    }
+
+    .live-composite .know-acc-chips {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .live-composite .know-acc-card .know-acc-chips .know-card__btn.knowledge-chip {
+      margin: 0;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: var(--font-medium);
+      line-height: 1.3;
+    }
+
+    .live-composite .know-acc-card .know-acc-chips .know-chip--screen {
+      background: rgba(241, 245, 249, 0.95);
+      border-color: rgba(203, 213, 225, 0.9);
+      color: #475569;
+    }
+
+    .live-composite .know-queue__badge,
+    .live-composite .know-acc-badge {
       display: inline-flex;
       align-items: center;
       padding: 2px 7px;
@@ -1531,188 +2147,50 @@
       white-space: nowrap;
     }
 
-    .live-composite .know-queue__badge--in_progress {
+    .live-composite .know-queue__badge--in_progress,
+    .live-composite .know-acc-badge--in_progress {
       background: #dbeafe;
       color: #1d4ed8;
     }
 
-    .live-composite .know-queue__badge--pending {
+    .live-composite .know-queue__badge--pending,
+    .live-composite .know-acc-badge--pending {
       background: #f1f5f9;
       color: #64748b;
     }
 
-    .live-composite .know-queue__badge--done {
+    .live-composite .know-queue__badge--done,
+    .live-composite .know-acc-badge--done {
       background: #dcfce7;
       color: #15803d;
     }
 
-    .live-composite .know-queue__badge--prio-high {
+    .live-composite .know-queue__badge--prio-high,
+    .live-composite .know-acc-badge--prio-high {
       background: #ffedd5;
       color: #c2410c;
     }
 
-    .live-composite .know-queue__badge--prio-medium {
+    .live-composite .know-queue__badge--prio-medium,
+    .live-composite .know-acc-badge--prio-medium {
       background: #e0e7ff;
       color: #4338ca;
     }
 
-    .live-composite .know-queue__badge--prio-low {
+    .live-composite .know-queue__badge--prio-low,
+    .live-composite .know-acc-badge--prio-low {
       background: #f1f5f9;
       color: #64748b;
     }
 
-    .live-composite .know-stack-split {
-      flex-shrink: 0;
-      margin-top: 16px;
-      padding: 0;
-      border-top: 1px solid rgba(15, 39, 68, 0.12);
-    }
-
-    .live-composite .know-stack-section--detail {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-      min-height: 0;
-      min-width: 0;
-      gap: 0;
-    }
-
-    .live-composite .know-detail__headline:empty {
-      display: none;
-    }
-
-    .live-composite .know-detail {
-      flex: 1 1 auto;
-      min-width: 0;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      justify-content: flex-start;
-      gap: 14px;
-      overflow-x: hidden;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      padding: 0;
-      margin-top: 0;
-      background: transparent;
-      border: none;
-      box-shadow: none;
-    }
-
-    .live-composite .know-detail__headline {
-      margin: 0;
-      padding: 0;
-      font-size: 18px;
-      font-weight: var(--font-bold);
-      line-height: 1.35;
-      color: var(--text-strong);
-      letter-spacing: -0.02em;
-    }
-
-    .live-composite .know-detail__body {
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-      min-width: 0;
-      padding: 0;
-      background: transparent;
-      border: none;
-      box-shadow: none;
-    }
-
-    .live-composite .know-detail__body.is-hidden {
-      display: none;
-    }
-
-    .live-composite .know-detail__empty {
-      display: none;
-      margin: 0;
-      padding: 8px 0 12px;
-      font-size: 15px;
-      font-weight: var(--font-medium);
-      line-height: 1.6;
-      color: var(--text-muted);
-    }
-
-    .live-composite .know-detail__empty.is-visible {
-      display: block;
-    }
-
-    .live-composite .know-actions {
-      flex-shrink: 0;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-      padding-top: 16px;
-      margin-top: auto;
-      border-top: 1px solid rgba(15, 39, 68, 0.08);
-    }
-
-    .live-composite .know-actions__btn {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 9px 14px;
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: var(--text-sm);
-      font-weight: var(--font-semibold);
-      line-height: var(--leading-snug);
-      cursor: pointer;
-      transition:
-        background-color 160ms ease,
-        border-color 160ms ease,
-        opacity 160ms ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .live-composite .know-actions__btn:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-
-    .live-composite .know-actions__btn--primary {
-      border: none;
-      background: #005bac;
-      color: #fff;
-      box-shadow: 0 1px 2px rgba(0, 45, 90, 0.12);
-    }
-
-    .live-composite .know-actions__btn--primary:hover:not(:disabled) {
-      background: #004a8f;
-    }
-
-    .live-composite .know-actions__btn--secondary {
-      border: 1px solid rgba(0, 91, 172, 0.22);
-      background: rgba(255, 255, 255, 0.9);
-      color: #0f2744;
-    }
-
-    .live-composite .know-actions__btn--secondary:hover:not(:disabled) {
-      background: #eaf2ff;
-      border-color: rgba(0, 91, 172, 0.35);
-    }
-
-    .live-composite .know-actions__btn:focus-visible {
-      outline: 2px solid var(--primary, #005bac);
-      outline-offset: 2px;
-    }
-
-    .live-composite .live-outer--know > .live-inner.know-stack-inner .know-detail {
-      flex: 1 1 auto;
-      min-width: 0;
-      min-height: 0;
-      height: auto;
-    }
-
     .live-composite .left-accordion__dl,
-    .live-outer--info .left-accordion__dl {
+    .live-outer--info .left-accordion__dl,
+    .live-outer--info .info-section__content--kv .left-accordion__dl {
       margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 11px;
+      gap: var(--info-kv-gap);
       min-width: 0;
     }
 
@@ -2238,139 +2716,76 @@
       color: #26364d;
     }
 
-    .live-composite .stt-card__log .stt-chat__msg--customer .stt-chat__bubble .highlight-keyword {
+    .live-composite .stt-card__log .stt-chat__faq-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin: 7px 0 0;
+      max-width: 100%;
+    }
+
+    .live-composite .stt-faq-link.knowledge-chip {
       display: inline-block;
-      vertical-align: baseline;
-      padding: 2px 4px;
-      border-radius: 5px;
-      font-weight: 700;
-      font-size: inherit;
-      line-height: inherit;
-      color: #005bac;
-      background-color: #dcebff;
-      box-decoration-break: clone;
-      -webkit-box-decoration-break: clone;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #eaf2ff;
+      border: 1px solid #d6e4f8;
+      color: #26364d;
+      font-family: inherit;
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+      line-height: var(--leading-snug);
+      white-space: nowrap;
+      cursor: help;
+      pointer-events: auto;
+      transition:
+        background var(--duration-fast) var(--ease-default),
+        border-color var(--duration-fast) var(--ease-default);
     }
 
-    .live-composite .stt-card__log .stt-chat__msg--agent .stt-chat__bubble .highlight-keyword {
-      display: inline;
-      padding: 0;
-      border-radius: 0;
-      font-weight: inherit;
-      font-size: inherit;
-      line-height: inherit;
-      color: inherit;
-      background: transparent;
-      background-color: transparent;
-      box-decoration-break: unset;
-      -webkit-box-decoration-break: unset;
+    .live-composite .stt-faq-link.knowledge-chip:hover {
+      background: #e8f0fc;
+      border-color: #c9daf5;
     }
 
-    @media (max-width: 900px) {
-      .console,
-      .app-shell {
-        flex-direction: column;
-      }
+    .live-composite .know-card__btn.knowledge-chip.is-active {
+      background: #d6e8ff;
+      border-color: #94b8e8;
+      color: #0f2744;
+      font-weight: var(--font-semibold);
+    }
 
-      .app-lnb,
-      .app-shell__lnb {
-        display: none;
-      }
-
+    @media (max-width: 767px) {
       .console__stack {
-        flex: 1 1 auto;
-        min-height: 0;
-        min-width: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
       }
 
-      .workspace,
-      .main-grid {
-        grid-template-columns: 1fr;
-        grid-auto-rows: minmax(0, auto);
-        gap: var(--space-5);
-        padding: var(--space-5) var(--page-padding-x);
+      .topbar {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: var(--header-height);
+        padding-top: var(--space-2);
+        padding-bottom: var(--space-2);
       }
 
-      .workspace__col--info {
+      .topbar__modes {
+        order: 3;
+        flex: 1 1 100%;
+        justify-content: flex-start;
+      }
+
+      .topbar__actions {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .statusbar__keys {
+        width: 100%;
         margin-left: 0;
-      }
-
-      .info-side__content {
-        width: 100%;
-        max-width: 100%;
-        flex: 1 1 auto;
-      }
-
-      .info-panel-card__toggle {
-        display: none;
-      }
-
-      .info-side:not(.is-side-expanded) .live-outer--info > .info-panel-card__body {
-        display: flex !important;
-      }
-
-      .info-side:not(.is-side-expanded) .live-outer--info .card-header-title {
-        display: block;
-      }
-
-      .info-side:not(.is-side-expanded) .live-outer--info .card-header {
-        flex-direction: row;
-        padding: 6px 16px;
-      }
-
-      .info-side__shell {
-        flex-direction: column;
-        width: 100%;
-        max-width: 100%;
-        border-radius: 16px;
-        border: none;
-        outline: none;
-        box-shadow: none;
-      }
-
-      .info-side:not(.is-side-expanded),
-      .info-side.is-side-expanded {
-        width: 100%;
-        min-width: 0;
-        max-width: 100%;
-      }
-
-      .info-side .info-side__drawer {
-        flex: 1 1 auto !important;
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: none !important;
-        min-height: min(48vh, 420px);
-        opacity: 1 !important;
-        pointer-events: auto !important;
-        overflow: visible !important;
-      }
-
-      .live-outer--info {
-        border-radius: 0 0 14px 14px;
-      }
-
-      .workspace__col--info,
-      .workspace__col--live,
-      .workspace__col--know {
-        min-height: min(60vh, calc(10 * var(--space-8)));
-      }
-
-      .main-workspace > .live-composite.live-composite--stack {
-        min-height: min(72vh, 640px);
-      }
-
-      .live-composite__stt {
-        flex: 1 1 0;
-        min-height: 200px;
-      }
-
-      .live-composite__reserve {
-        min-height: min(200px, 28vh);
-      }
-
-      .live-outer--info .dash-card-history .panel-list-scroll {
-        max-height: min(32vh, 280px);
       }
     }
 
@@ -2428,33 +2843,470 @@
       opacity: 0.85;
     }
 
-    @media (max-width: 900px) {
-      .topbar {
-        flex-wrap: wrap;
-        height: auto;
-        min-height: var(--header-height);
-        padding-top: var(--space-2);
-        padding-bottom: var(--space-2);
-      }
+    /* —— 상담 어시스턴트 카드 내 AI 질의 · 우측 패널 —— */
+    .know-assistant__query {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 12px;
+    }
 
-      .topbar__center {
-        order: 3;
-        width: 100%;
-        justify-content: flex-start;
-      }
+    .live-outer--know .ai-agent-fab {
+      position: static;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid rgba(37, 99, 235, 0.35);
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: 0 1px 4px rgba(37, 99, 235, 0.1), 0 1px 2px rgba(15, 39, 68, 0.06);
+      color: #1d4ed8;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: var(--font-bold);
+      line-height: 1.2;
+      cursor: pointer;
+      transition:
+        background-color 160ms ease,
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        opacity 160ms ease,
+        transform 160ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-      .statusbar__keys {
-        width: 100%;
-        margin-left: 0;
-      }
+    .live-outer--know .ai-agent-fab:hover {
+      background: #eff6ff;
+      border-color: rgba(37, 99, 235, 0.5);
+    }
+
+    .live-outer--know .ai-agent-fab:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+    }
+
+    .live-outer--know .ai-agent-fab[hidden] {
+      display: none;
+    }
+
+    .ai-agent-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 200;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      width: 440px;
+      max-width: calc(100vw - var(--lnb-width, 56px) - 16px);
+      height: 100vh;
+      max-height: 100vh;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-left: 1px solid rgba(220, 228, 238, 0.85);
+      border-radius: 0;
+      background: var(--bg-card, #f8fafc);
+      box-shadow: -8px 0 32px rgba(15, 39, 68, 0.12), -2px 0 8px rgba(15, 39, 68, 0.06);
+      transform: translateX(100%);
+      visibility: hidden;
+      pointer-events: none;
+      transition:
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 280ms;
+    }
+
+    .ai-agent-panel.is-open {
+      transform: translateX(0);
+      visibility: visible;
+      pointer-events: auto;
+      transition:
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 0s;
+    }
+
+    .ai-agent-panel__header {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 52px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(15, 39, 68, 0.06);
+      background: var(--bg-card, #f8fafc);
+    }
+
+    .ai-agent-panel__title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: var(--font-bold);
+      line-height: 1.35;
+      color: var(--text-strong);
+    }
+
+    .ai-agent-panel__header-end {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .ai-agent-panel__statuses {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ai-agent-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: var(--font-semibold);
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .ai-agent-badge--know {
+      border: 1px solid rgba(37, 99, 235, 0.28);
+      background: rgba(234, 242, 255, 0.95);
+      color: #1d4ed8;
+    }
+
+    .ai-agent-badge--live {
+      border: 1px solid rgba(34, 197, 94, 0.28);
+      background: rgba(240, 253, 244, 0.95);
+      color: #15803d;
+    }
+
+    .ai-agent-panel__close {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: #64748b;
+      font-family: inherit;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .ai-agent-panel__close:hover {
+      background: rgba(15, 39, 68, 0.05);
+      color: #334155;
+    }
+
+    .ai-agent-panel__close:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+    }
+
+    .ai-agent-panel__body {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg-card, #f8fafc);
+    }
+
+    .ai-agent-panel__body > .ai-agent-composer {
+      margin-top: auto;
+    }
+
+    .ai-agent-panel__scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 16px 16px 12px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ai-agent-chat {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .ai-agent-turn {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-width: 100%;
+    }
+
+    .ai-agent-turn--user {
+      align-self: flex-end;
+      align-items: flex-end;
+      max-width: 80%;
+    }
+
+    .ai-agent-turn--ai {
+      align-self: flex-start;
+      align-items: flex-start;
+      max-width: 80%;
+    }
+
+    .ai-agent-bubble {
+      margin: 0;
+      padding: 13px 15px;
+      border: none;
+      border-radius: 17px;
+      font-size: 13px;
+      font-weight: var(--font-medium);
+      line-height: 1.55;
+      box-shadow: none;
+    }
+
+    .ai-agent-turn--user .ai-agent-bubble {
+      background: #eaf2ff;
+      color: #1e3a5f;
+    }
+
+    .ai-agent-turn--ai .ai-agent-bubble {
+      background: #ffffff;
+      color: #334155;
+      box-shadow: 0 1px 2px rgba(15, 39, 68, 0.04);
+    }
+
+    .ai-agent-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin: 0;
+      padding: 0 4px;
+    }
+
+    .ai-agent-meta__line {
+      margin: 0;
+      font-size: 11px;
+      font-weight: var(--font-medium);
+      line-height: 1.45;
+      color: #94a3b8;
+    }
+
+    .ai-agent-meta__label {
+      color: #94a3b8;
+      font-weight: var(--font-semibold);
+    }
+
+    .ai-agent-suggest {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 22px 0 0;
+      padding: 0;
+    }
+
+    .ai-agent-suggest__label {
+      margin: 0;
+      font-size: 12px;
+      font-weight: var(--font-medium);
+      line-height: 1.3;
+      color: #94a3b8;
+    }
+
+    .ai-agent-suggest__pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .ai-agent-suggest__pill.knowledge-chip {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: #eaf2ff;
+      border: 1px solid #d6e4f8;
+      color: #26364d;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: var(--font-medium);
+      line-height: 1.3;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition:
+        background 160ms ease,
+        border-color 160ms ease;
+    }
+
+    .ai-agent-suggest__pill.knowledge-chip:hover {
+      background: #dfeaff;
+      border-color: #bfd3f4;
+    }
+
+    .ai-agent-suggest__pill.knowledge-chip:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+    }
+
+    .ai-agent-composer {
+      position: sticky;
+      bottom: 0;
+      z-index: 3;
+      flex-shrink: 0;
+      margin: 0;
+      padding: 12px 16px 16px;
+      border-top: 1px solid rgba(220, 228, 238, 0.65);
+      background: var(--bg-card, #f8fafc);
+    }
+
+    .ai-agent-composer__box {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 92px;
+      padding: 12px;
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(15, 39, 68, 0.05);
+    }
+
+    .ai-agent-composer__input {
+      box-sizing: border-box;
+      display: block;
+      width: 100%;
+      min-height: 44px;
+      max-height: 140px;
+      margin: 0;
+      padding: 0 2px;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      color: var(--text-default);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: var(--font-medium);
+      line-height: 1.5;
+      resize: none;
+      box-shadow: none;
+    }
+
+    .ai-agent-composer__input::placeholder {
+      color: #94a3b8;
+    }
+
+    .ai-agent-composer__input:focus {
+      outline: none;
+    }
+
+    .ai-agent-composer__toolbar {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .ai-agent-composer__actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .ai-agent-tool {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
+      min-height: 30px;
+      padding: 0 11px;
+      border: 1px solid rgba(203, 213, 225, 0.85);
+      border-radius: 999px;
+      background: #f8fafc;
+      color: #64748b;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: var(--font-medium);
+      line-height: 1.2;
+      white-space: nowrap;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease;
+    }
+
+    .ai-agent-tool.is-on {
+      border-color: rgba(37, 99, 235, 0.35);
+      background: rgba(234, 242, 255, 0.98);
+      color: #1d4ed8;
+    }
+
+    .ai-agent-tool:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+    }
+
+    .ai-agent-composer__send {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background: #2563eb;
+      color: #ffffff;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 160ms ease;
+    }
+
+    .ai-agent-composer__send:hover {
+      background: #1d4ed8;
+    }
+
+    .ai-agent-composer__send:focus-visible {
+      outline: 2px solid var(--primary, #005bac);
+      outline-offset: 2px;
+    }
+
+    .ai-agent-composer__send-icon {
+      display: block;
+      width: 18px;
+      height: 18px;
     }
   </style>
 </head>
 <body>
   <div class="console app-shell">
     <aside class="app-lnb app-shell__lnb" aria-label="주 메뉴">
-      <div class="app-lnb__brand" aria-hidden="true" title="신한라이프">
-        <span class="app-lnb__brand-mark"></span>
+      <div class="app-lnb__brand" title="신한라이프 AI 상담지원" aria-label="신한라이프">
+        <span class="app-lnb__brand-mark ui-icon-placeholder ui-icon-placeholder--lnb" aria-hidden="true"></span>
       </div>
       <nav class="app-lnb__nav" aria-label="업무 메뉴">
         <button type="button" class="app-lnb__btn is-active" aria-current="page" title="고객정보" aria-label="고객정보">
@@ -2471,28 +3323,19 @@
       </nav>
     </aside>
     <div class="console__stack">
+    <p class="viewport-min-notice" role="note">이 화면은 업무용 최소 너비 768px 기준입니다. 가로 스크롤로 전체 레이아웃을 확인할 수 있습니다.</p>
     <header class="topbar">
-      <div class="topbar__left">
-        <span class="topbar__brand-mark" aria-hidden="true"></span>
-        <div class="topbar__brand-text">
-          <h1 class="topbar__title">신한라이프 AI 상담지원</h1>
-          <span class="topbar__ver" aria-hidden="true">v1.0</span>
-        </div>
-      </div>
-      <div class="topbar__center">
+      <div class="topbar__modes">
         <div class="mode-segmented" role="group" aria-label="화면 모드">
           <button type="button" class="mode-segmented__btn is-active" aria-pressed="true">상담모드</button>
-          <button type="button" class="mode-segmented__btn" aria-pressed="false">학습 · 조회모드</button>
+          <button type="button" class="mode-segmented__btn" aria-pressed="false">학습·조회모드</button>
         </div>
       </div>
-      <div class="topbar__right">
-        <div class="topbar__link" role="group" aria-label="상담사 김상담, Tele-Pro 연동">
-          <span class="topbar__avatar-placeholder" aria-hidden="true"></span>
-          <span class="topbar__link-line">
-            <span class="topbar__link-name">김상담</span><span class="topbar__link-sep" aria-hidden="true"> | </span><span class="topbar__link-tele">Tele-Pro 연동</span>
-          </span>
-        </div>
-        <button type="button" class="icon-btn" aria-label="설정">⚙</button>
+      <div class="topbar__actions" aria-label="상담사 김상담">
+        <span class="ui-icon-placeholder ui-icon-placeholder--28" aria-hidden="true"></span>
+        <span class="ui-icon-placeholder ui-icon-placeholder--28" aria-hidden="true"></span>
+        <span class="ui-icon-placeholder ui-icon-placeholder--28" aria-hidden="true"></span>
+        <span class="topbar__user-name">김상담</span>
       </div>
     </header>
 
@@ -2518,13 +3361,17 @@
                         닫기
                       </button>
                     </header>
-                    <div class="info-panel-card__body scroll-area">
-                      <section class="info-panel-section info-doc-section live-sect--customer" data-info-section="customer" id="info-acc-customer" aria-labelledby="info-sect-basic-title">
-                        <h3 class="info-doc-section__head" id="info-sect-basic-title">
-                          <span class="info-doc-section__num">01</span>
-                          <span class="info-doc-section__title">기본정보</span>
-                        </h3>
-                        <div class="info-panel-section__content">
+                    <div class="info-panel-stack">
+                    <div class="info-panel-card__body scroll-area" id="info-panel-main">
+                      <section class="info-section info-panel-section info-doc-section live-sect--customer" data-info-section="customer" id="info-acc-customer">
+                        <div class="info-section-card live-inner workspace-inner-card info-section__content-area">
+                          <header class="info-sect-mini-head" id="info-sect-basic-title">
+                            <span class="info-sect-mini-head__lead">
+                              <span class="info-sect-mini-head__num">01</span>
+                              <span class="info-sect-mini-head__title">기본정보</span>
+                            </span>
+                          </header>
+                          <div class="info-section-card__body info-section__content info-section__content--kv info-panel-section__content" id="info-acc-customer-body" role="region" aria-labelledby="info-sect-basic-title">
                           <dl class="left-accordion__dl">
                               <div class="left-accordion__pair">
                                 <dt>고객명</dt>
@@ -2557,186 +3404,171 @@
                                 </dd>
                               </div>
                           </dl>
+                          </div>
                         </div>
                       </section>
-                      <section class="info-panel-section info-doc-section" data-info-section="history" id="dash-card-history" aria-labelledby="dash-card-history-title">
-                        <h3 class="info-doc-section__head" id="dash-card-history-title">
-                          <span class="info-doc-section__num">02</span>
-                          <span class="info-doc-section__title">최근 상담</span>
-                        </h3>
-                        <div class="info-panel-section__content dash-card-history">
-                          <div class="history-toolbar">
-                  <div class="history-filter-chips" role="group" aria-label="상담 상태 필터">
-                    <button type="button" class="history-chip is-active" data-history-filter="all" aria-pressed="true">전체</button>
-                    <button type="button" class="history-chip" data-history-filter="in_progress" aria-pressed="false">진행</button>
-                    <button type="button" class="history-chip" data-history-filter="done" aria-pressed="false">완료</button>
-                    <button type="button" class="history-chip" data-history-filter="delayed" aria-pressed="false">지연</button>
-                  </div>
-                  <div class="history-sort">
-                    <select
-                      id="history-sort-select"
-                      class="history-sort__select"
-                      aria-label="정렬 기준"
-                      title="정렬 기준"
-                    >
-                      <option value="date-desc" selected>최신순</option>
-                      <option value="date-asc">오래된순</option>
-                      <option value="status">상태순</option>
-                    </select>
-                  </div>
-                </div>
-                          <div class="panel-list-scroll scroll-area" tabindex="0" role="region" aria-label="최근 상담 내역 목록">
-                  <ul class="panel-list" id="history-panel-list">
-                    <li data-history-status="in_progress">
-                      <button type="button" class="history-item" aria-label="보험금 청구 문의, 2026-05-10, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-05-10">2026-05-10</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">보험금 청구 문의</p>
-                            <span class="history-item__badge history-item__badge--in_progress">진행</span>
+                      <section class="info-section info-panel-section info-doc-section info-doc-section--history" data-info-section="history" id="dash-card-history-section">
+                        <div class="info-section-card live-inner workspace-inner-card info-section__content-area">
+                          <header class="info-sect-mini-head" id="dash-card-history-title">
+                            <span class="info-sect-mini-head__lead">
+                              <span class="info-sect-mini-head__num">02</span>
+                              <span class="info-sect-mini-head__title">최근 상담</span>
+                            </span>
+                          </header>
+                          <div class="info-section-card__body info-section__content info-section__content--list info-panel-section__content dash-card-history dash-card-history--preview">
+                            <ul class="panel-list" id="history-panel-list" aria-label="최근 상담 최근 3건">
+                              <li class="history-item">
+                                <div class="history-item__left">
+                                  <time class="history-item__date" datetime="2026-05-10">2026-05-10</time>
+                                  <p class="history-item__title">보험금 청구 문의</p>
+                                </div>
+                              </li>
+                              <li class="history-item">
+                                <div class="history-item__left">
+                                  <time class="history-item__date" datetime="2026-05-03">2026-05-03</time>
+                                  <p class="history-item__title">자동이체 변경</p>
+                                </div>
+                              </li>
+                              <li class="history-item">
+                                <div class="history-item__left">
+                                  <time class="history-item__date" datetime="2026-04-21">2026-04-21</time>
+                                  <p class="history-item__title">계약 관계자 변경</p>
+                                </div>
+                              </li>
+                              <li class="history-item">
+                                <div class="history-item__left">
+                                  <time class="history-item__date" datetime="2026-04-12">2026-04-12</time>
+                                  <p class="history-item__title">보험료 납입일 문의</p>
+                                </div>
+                              </li>
+                              <li class="history-item">
+                                <div class="history-item__left">
+                                  <time class="history-item__date" datetime="2026-03-28">2026-03-28</time>
+                                  <p class="history-item__title">해약환급금 확인</p>
+                                </div>
+                              </li>
+                              <li class="history-item">
+                                <div class="history-item__left">
+                                  <time class="history-item__date" datetime="2026-03-15">2026-03-15</time>
+                                  <p class="history-item__title">주소지 변경</p>
+                                </div>
+                              </li>
+                              <li class="history-item">
+                                <div class="history-item__left">
+                                  <time class="history-item__date" datetime="2026-02-26">2026-02-26</time>
+                                  <p class="history-item__title">증권 재발행 문의</p>
+                                </div>
+                              </li>
+                            </ul>
                           </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                    <li data-history-status="done">
-                      <button type="button" class="history-item" aria-label="자동이체 변경, 2026-05-03, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-05-03">2026-05-03</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">자동이체 변경</p>
-                            <span class="history-item__badge history-item__badge--done">완료</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                    <li data-history-status="pending">
-                      <button type="button" class="history-item" aria-label="계약 관계자 변경, 2026-04-21, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-04-21">2026-04-21</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">계약 관계자 변경</p>
-                            <span class="history-item__badge history-item__badge--pending">대기</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                    <li data-history-status="delayed">
-                      <button type="button" class="history-item" aria-label="보험료 납입일 문의, 2026-04-12, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-04-12">2026-04-12</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">보험료 납입일 문의</p>
-                            <span class="history-item__badge history-item__badge--delayed">지연</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                    <li data-history-status="done">
-                      <button type="button" class="history-item" aria-label="해약환급금 확인, 2026-03-28, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-03-28">2026-03-28</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">해약환급금 확인</p>
-                            <span class="history-item__badge history-item__badge--done">완료</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                    <li data-history-status="in_progress">
-                      <button type="button" class="history-item" aria-label="주소지 변경, 2026-03-15, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-03-15">2026-03-15</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">주소지 변경</p>
-                            <span class="history-item__badge history-item__badge--in_progress">진행</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                    <li data-history-status="delayed">
-                      <button type="button" class="history-item" aria-label="증권 재발행 문의, 2026-02-26, 상세 보기">
-                        <div class="history-item__left">
-                          <time class="history-item__date" datetime="2026-02-26">2026-02-26</time>
-                          <div class="history-item__title-line">
-                            <p class="history-item__title">증권 재발행 문의</p>
-                            <span class="history-item__badge history-item__badge--delayed">지연</span>
-                          </div>
-                        </div>
-                        <span class="history-item__chevron history-item__right-icon" aria-hidden="true"></span>
-                      </button>
-                    </li>
-                  </ul>
-                </div>
                         </div>
                       </section>
-                      <section class="info-panel-section info-doc-section" data-info-section="contracts" id="info-acc-contracts" aria-labelledby="info-sect-contracts-title">
-                        <h3 class="info-doc-section__head" id="info-sect-contracts-title">
-                          <span class="info-doc-section__num" aria-hidden="true">03</span>
-                          <span class="info-doc-section__title">계약리스트</span>
-                          <span class="info-doc-section__meta">3건</span>
-                        </h3>
-                        <div class="info-panel-section__content">
+                      <section class="info-section info-panel-section info-doc-section" data-info-section="contracts" id="info-acc-contracts">
+                        <div class="info-section-card live-inner workspace-inner-card info-section__content-area">
+                          <header class="info-sect-mini-head" id="info-sect-contracts-title">
+                            <span class="info-sect-mini-head__lead">
+                              <span class="info-sect-mini-head__num" aria-hidden="true">03</span>
+                              <span class="info-sect-mini-head__title">계약리스트</span>
+                            </span>
+                            <span class="info-sect-mini-head__trail">
+                              <span class="info-sect-mini-head__meta">3건</span>
+                            </span>
+                          </header>
+                          <div class="info-section-card__body info-section__content info-section__content--list info-panel-section__content" id="info-acc-contracts-body" role="region" aria-labelledby="info-sect-contracts-title">
                           <ul class="contract-list" role="list">
-                            <li>
-                              <button type="button" class="contract-list__item is-selected" aria-pressed="true">
-                                <span class="contract-list__check" aria-hidden="true">✓</span>
-                                <span class="contract-list__text-block">
-                                  <p class="contract-list__title">[종신] 무배당 신한 더드림</p>
-                                  <p class="contract-list__meta">계약 2018.03 / 월 120,000원</p>
-                                </span>
-                                <span class="contract-list__chevron" aria-hidden="true"></span>
-                              </button>
+                            <li class="contract-list__item is-selected">
+                              <div class="contract-list__text-block">
+                                <p class="contract-list__title">[종신] 무배당 신한 더드림</p>
+                                <p class="contract-list__meta">계약 2018.03 / 월 120,000원</p>
+                              </div>
                             </li>
-                            <li>
-                              <button type="button" class="contract-list__item" aria-pressed="false">
-                                <span class="contract-list__check" aria-hidden="true">✓</span>
-                                <span class="contract-list__text-block">
-                                  <p class="contract-list__title">[연금] 신한 라이프 플랜</p>
-                                </span>
-                                <span class="contract-list__chevron" aria-hidden="true"></span>
-                              </button>
+                            <li class="contract-list__item">
+                              <div class="contract-list__text-block">
+                                <p class="contract-list__title">[연금] 신한 라이프 플랜</p>
+                              </div>
                             </li>
-                            <li>
-                              <button type="button" class="contract-list__item" aria-pressed="false">
-                                <span class="contract-list__check" aria-hidden="true">✓</span>
-                                <span class="contract-list__text-block">
-                                  <p class="contract-list__title">[변액] 신한 인베스트</p>
-                                </span>
-                                <span class="contract-list__chevron" aria-hidden="true"></span>
-                              </button>
+                            <li class="contract-list__item">
+                              <div class="contract-list__text-block">
+                                <p class="contract-list__title">[변액] 신한 인베스트</p>
+                              </div>
                             </li>
                           </ul>
+                          </div>
                         </div>
                       </section>
-                      <section class="info-panel-section info-doc-section" data-info-section="guide" id="info-acc-guide" aria-labelledby="info-sect-guide-title">
-                        <h3 class="info-doc-section__head" id="info-sect-guide-title">
-                          <span class="info-doc-section__num" aria-hidden="true">04</span>
-                          <span class="info-doc-section__title">상담안내 가이드</span>
-                        </h3>
-                        <div class="info-panel-section__content">
+                      <section class="info-section info-panel-section info-doc-section" data-info-section="guide" id="info-acc-guide">
+                        <div class="info-section-card live-inner workspace-inner-card info-section__content-area">
+                          <header class="info-sect-mini-head" id="info-sect-guide-title">
+                            <span class="info-sect-mini-head__lead">
+                              <span class="info-sect-mini-head__num" aria-hidden="true">04</span>
+                              <span class="info-sect-mini-head__title">상담안내 가이드</span>
+                            </span>
+                          </header>
+                          <div class="info-section-card__body info-section__content info-section__content--guide info-panel-section__content" id="info-acc-guide-body" role="region" aria-labelledby="info-sect-guide-title">
                           <div class="info-doc-guide" role="region" aria-label="상담 안내" tabindex="0">
-                            <p class="info-doc-guide__lede">
-                              보험금 청구 필수 안내 5건 중 3건을 완료했습니다. 남은 항목은 처리기간·마무리 안내입니다.
-                            </p>
+                            <div class="info-doc-guide__head">
+                              <p class="info-doc-guide__title">[자동안내] 보험금 청구</p>
+                              <p class="info-doc-guide__status">필수 안내 5건 중 3건 완료</p>
+                            </div>
                             <div
                               class="info-doc-guide__progress"
                               role="progressbar"
                               aria-valuemin="0"
-                              aria-valuemax="100"
-                              aria-valuenow="60"
-                              aria-label="필수 안내 진행률 60%"
+                              aria-valuemax="5"
+                              aria-valuenow="3"
+                              aria-label="필수 안내 5건 중 3건 완료"
                             >
                               <div class="info-doc-guide__progress-fill"></div>
                             </div>
+                            <ul class="info-doc-guide__checklist" aria-label="필수 안내 체크리스트">
+                              <li class="info-doc-guide__check-item is-done">
+                                <span class="info-doc-guide__check" aria-hidden="true"></span>
+                                <span class="info-doc-guide__label">본인확인</span>
+                              </li>
+                              <li class="info-doc-guide__check-item is-done">
+                                <span class="info-doc-guide__check" aria-hidden="true"></span>
+                                <span class="info-doc-guide__label">청구사유</span>
+                              </li>
+                              <li class="info-doc-guide__check-item is-done">
+                                <span class="info-doc-guide__check" aria-hidden="true"></span>
+                                <span class="info-doc-guide__label">구비서류</span>
+                              </li>
+                              <li class="info-doc-guide__check-item">
+                                <span class="info-doc-guide__check" aria-hidden="true"></span>
+                                <span class="info-doc-guide__label">처리기간</span>
+                              </li>
+                              <li class="info-doc-guide__check-item">
+                                <span class="info-doc-guide__check" aria-hidden="true"></span>
+                                <span class="info-doc-guide__label">마무리</span>
+                              </li>
+                            </ul>
+                          </div>
                           </div>
                         </div>
                       </section>
+                    </div>
+                    <div class="info-subpanel" id="history-full-panel" hidden>
+                      <header class="info-subpanel__head">
+                        <button type="button" class="info-subpanel__back" id="history-full-back">뒤로</button>
+                        <h2 class="info-subpanel__title">최근 상담</h2>
+                      </header>
+                      <div class="info-subpanel__body dash-card-history dash-card-history--full">
+                        <div class="panel-list-scroll scroll-area" tabindex="0" role="region" aria-label="최근 상담 전체 목록">
+                          <ul class="panel-list" id="history-full-list"></ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="info-subpanel" id="history-detail-panel" hidden>
+                      <header class="info-subpanel__head">
+                        <button type="button" class="info-subpanel__back" id="history-detail-back">뒤로</button>
+                        <h2 class="info-subpanel__title" id="history-detail-title">상담 상세</h2>
+                      </header>
+                      <div class="info-subpanel__body">
+                        <p class="history-detail__date" id="history-detail-date"></p>
+                        <h3 class="history-detail__heading" id="history-detail-heading"></h3>
+                        <p class="history-detail__summary" id="history-detail-summary">해당 상담의 상세 이력·처리 내용을 확인할 수 있습니다. (데모)</p>
+                      </div>
+                    </div>
                     </div>
                 </article>
               </div>
@@ -2755,8 +3587,8 @@
             </header>
             <div class="live-inner workspace-inner-card stt-content-card">
             <div class="stt-card__log" role="region" aria-label="실시간 대화 로그">
-              <div class="chat-scroll-area scroll-area">
-              <div class="stt-chat" role="log" aria-live="polite" aria-relevant="additions text">
+              <div class="chat-scroll-area scroll-area" id="stt-chat-scroll">
+              <div class="stt-chat" id="stt-chat" role="log" aria-live="polite" aria-relevant="additions text">
                   <article class="stt-chat__msg stt-chat__msg--customer">
                     <div class="stt-chat__avatar" role="img" aria-label="고객 프로필">
                       <img
@@ -2770,6 +3602,10 @@
                     <div class="stt-chat__stack">
                       <div class="stt-chat__sender">홍길동 고객님</div>
                       <p class="stt-chat__bubble">보험금 청구하려면 어떤 서류가 필요한가요?</p>
+                      <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
+                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 필요 서류 안내">필요 서류 안내</span>
+                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 청구 후 지급 기간">청구 후 지급 기간</span>
+                      </div>
                       <time class="stt-chat__time" datetime="2026-05-13T14:23:08">14:23:08</time>
                     </div>
                   </article>
@@ -2781,9 +3617,11 @@
                     <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
                     <div class="stt-chat__stack">
                       <div class="stt-chat__sender">홍길동 고객님</div>
-                      <p class="stt-chat__bubble">
-                        <span class="highlight-keyword">자동이체</span> <span class="highlight-keyword">계좌변경</span> 하고 싶어요.
-                      </p>
+                      <p class="stt-chat__bubble">자동이체 계좌변경 하고 싶어요.</p>
+                      <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
+                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 자동이체 변경 방법">자동이체 변경 방법</span>
+                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 계좌 변경 가능 조건">계좌 변경 가능 조건</span>
+                      </div>
                       <time class="stt-chat__time" datetime="2026-05-13T14:23:20">14:23:20</time>
                     </div>
                   </article>
@@ -2795,9 +3633,11 @@
                     <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
                     <div class="stt-chat__stack">
                       <div class="stt-chat__sender">홍길동 고객님</div>
-                      <p class="stt-chat__bubble">
-                        지금 등록된 <span class="highlight-keyword">계좌</span>를 다른 은행 계좌로 바꾸고 싶어요.
-                      </p>
+                      <p class="stt-chat__bubble">지금 등록된 계좌를 다른 은행 계좌로 바꾸고 싶어요.</p>
+                      <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
+                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 계좌 변경 가능 조건">계좌 변경 가능 조건</span>
+                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 타인 계좌 변경 여부">타인 계좌 변경 여부</span>
+                      </div>
                       <time class="stt-chat__time" datetime="2026-05-13T14:23:26">14:23:26</time>
                     </div>
                   </article>
@@ -2809,7 +3649,10 @@
                     <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
                     <div class="stt-chat__stack">
                       <div class="stt-chat__sender">홍길동 고객님</div>
-                      <p class="stt-chat__bubble"><span class="highlight-keyword">신분증</span>도 필요한가요?</p>
+                      <p class="stt-chat__bubble">신분증도 필요한가요?</p>
+                      <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
+                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 본인확인 필요 서류">본인확인 필요 서류</span>
+                      </div>
                       <time class="stt-chat__time" datetime="2026-05-13T14:23:32">14:23:32</time>
                     </div>
                   </article>
@@ -2822,6 +3665,9 @@
                     <div class="stt-chat__stack">
                       <div class="stt-chat__sender">홍길동 고객님</div>
                       <p class="stt-chat__bubble">변경하면 바로 적용되나요?</p>
+                      <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
+                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 변경 후 적용 시점">변경 후 적용 시점</span>
+                      </div>
                       <time class="stt-chat__time" datetime="2026-05-13T14:23:40">14:23:40</time>
                     </div>
                   </article>
@@ -2833,9 +3679,10 @@
                     <div class="stt-chat__avatar stt-chat__avatar--initial" role="img" aria-label="고객 프로필">김</div>
                     <div class="stt-chat__stack">
                       <div class="stt-chat__sender">홍길동 고객님</div>
-                      <p class="stt-chat__bubble">
-                        그럼 이번 달 <span class="highlight-keyword">보험료</span>는 기존 계좌에서 나가나요?
-                      </p>
+                      <p class="stt-chat__bubble">그럼 이번 달 보험료는 기존 계좌에서 나가나요?</p>
+                      <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
+                        <span class="stt-faq-link knowledge-chip" aria-label="추천: 이번 달 납입 계좌 확인">이번 달 납입 계좌 확인</span>
+                      </div>
                       <time class="stt-chat__time" datetime="2026-05-13T14:23:48">14:23:48</time>
                     </div>
                   </article>
@@ -2863,50 +3710,89 @@
             </div>
             </div>
           </div>
-          <div class="live-composite__reserve" aria-hidden="true"></div>
+          <div class="live-composite__product">
+            <div class="live-outer live-outer--product workspace-main-card" id="product-info-root">
+              <header class="card-header card-header--product live-sect__head">
+                <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
+                <h3 class="card-header-title live-sect__title" id="live-sect-title-product">상품 및 업무정보</h3>
+                <button
+                  type="button"
+                  class="product-info__toggle"
+                  id="product-info-toggle"
+                  aria-expanded="true"
+                  aria-controls="product-info-body"
+                  title="상품 및 업무정보 접기"
+                  aria-label="상품 및 업무정보 접기"
+                >
+                  <span class="product-info__chevron" aria-hidden="true"></span>
+                </button>
+              </header>
+              <div class="live-inner workspace-inner-card product-info-card" id="product-info-body">
+                <div class="product-info__hero">
+                  <p class="product-info__contract">
+                    [종신] 무배당 신한 더드림
+                    <span class="product-info__contract-no">계약 1234-5678</span>
+                  </p>
+                  <ul class="product-info__metrics" aria-label="주요 금액">
+                    <li class="product-info__metric"><span>월 보험료</span><strong>128,000원</strong></li>
+                    <li class="product-info__metric"><span>가입금액</span><strong>1억원</strong></li>
+                    <li class="product-info__metric"><span>해약환급금</span><strong>8,420,000원</strong></li>
+                  </ul>
+                </div>
+                <ul class="product-info__capabilities" aria-label="업무 가능 여부">
+                  <li class="product-info__cap-pill product-info__cap-pill--ok">
+                    <span class="product-info__cap-label">보험금 청구</span>
+                    <span class="product-info__cap-sep" aria-hidden="true">|</span>
+                    <span class="product-info__cap-status">가능</span>
+                  </li>
+                  <li class="product-info__cap-pill product-info__cap-pill--ok">
+                    <span class="product-info__cap-label">자동이체 계좌변경</span>
+                    <span class="product-info__cap-sep" aria-hidden="true">|</span>
+                    <span class="product-info__cap-status">가능</span>
+                  </li>
+                  <li class="product-info__cap-pill product-info__cap-pill--deny">
+                    <span class="product-info__cap-label">서비스 정지</span>
+                    <span class="product-info__cap-sep" aria-hidden="true">|</span>
+                    <span class="product-info__cap-status">불가</span>
+                  </li>
+                  <li class="product-info__cap-pill product-info__cap-pill--deny">
+                    <span class="product-info__cap-label">카드납 변경</span>
+                    <span class="product-info__cap-sep" aria-hidden="true">|</span>
+                    <span class="product-info__cap-status">불가</span>
+                  </li>
+                </ul>
+                <p class="product-info__notice">△ 자동이체 납입 중, 보험금 접수 중, 계약관계자변경 접수 중</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="workspace__col workspace__col--know main-grid__col main-grid__col--3" aria-label="상담 어시스턴트">
-        <div class="live-composite live-composite--know-only" aria-label="추천 지식 답변">
+      <div class="workspace__col workspace__col--know main-grid__col main-grid__col--3" id="workspace-col-know" aria-label="상담 어시스턴트">
+        <div class="live-composite live-composite--know-only" aria-label="상담 어시스턴트">
             <section class="live-outer live-outer--know workspace-main-card live-sect--know" id="know-queue-root" aria-labelledby="live-sect-title-know">
-              <header class="card-header live-sect__head">
+              <header class="card-header card-header--assistant live-sect__head">
                 <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
-                <h3 class="card-header-title live-sect__title" id="live-sect-title-know">추천 지식 답변</h3>
+                <h3 class="card-header-title live-sect__title" id="live-sect-title-know">상담 어시스턴트</h3>
+                <div class="assistant-sort">
+                  <select id="know-sort-select" class="assistant-sort__select" aria-label="정렬 기준" title="정렬 기준">
+                    <option value="relevance" selected>관련도순</option>
+                  </select>
+                </div>
               </header>
-              <div class="live-inner workspace-inner-card know-stack-inner">
-                <section class="know-stack-section know-stack-section--queue" aria-label="처리할 요청">
-                  <div class="know-queue-panel">
-                    <ul class="know-queue__list scroll-area" id="know-queue-list" role="listbox" aria-label="처리할 요청 목록"></ul>
-                  </div>
-                </section>
-
-                <div class="know-stack-split" role="presentation" aria-hidden="true"></div>
-
-                <section class="know-stack-section know-stack-section--detail" aria-label="선택된 요청 상세">
-                  <div class="know-detail scroll-area" id="know-detail-panel">
-                    <h4 class="know-detail__headline" id="know-detail-title"></h4>
-                    <p class="know-detail__empty" id="know-detail-empty">모든 요청이 처리되었습니다. 신규 요청이 들어오면 큐에 표시됩니다.</p>
-                    <div class="know-detail__body" id="know-detail-body">
-                      <div class="know-card__block">
-                        <span class="know-card__subhead">추천 답변</span>
-                        <p class="know-card__answer" id="know-detail-answer"></p>
-                      </div>
-                      <div class="know-card__block">
-                        <span class="know-card__subhead">관련 FAQ</span>
-                        <div class="know-card__btn-row" id="know-detail-faq" role="group" aria-label="관련 FAQ"></div>
-                      </div>
-                      <div class="know-card__block">
-                        <span class="know-card__subhead">추천 다음 화면</span>
-                        <div class="know-card__btn-row" id="know-detail-screens" role="group" aria-label="추천 다음 화면"></div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                <div class="know-actions">
-                  <button type="button" class="know-actions__btn know-actions__btn--primary" id="know-btn-complete">답변 완료</button>
-                  <button type="button" class="know-actions__btn know-actions__btn--secondary" id="know-btn-next">다음 요청 보기</button>
+              <div class="live-inner workspace-inner-card know-assistant-inner">
+                <div class="know-accordion scroll-area" id="know-accordion-list" aria-label="상담 요청 목록"></div>
+                <p class="know-assistant__empty" id="know-assistant-empty" hidden>처리할 요청이 없습니다.</p>
+                <div class="know-assistant__query">
+                  <button
+                    type="button"
+                    class="ai-agent-fab"
+                    id="ai-agent-fab"
+                    aria-expanded="false"
+                    aria-controls="ai-agent-panel"
+                  >
+                    AI 질의
+                  </button>
                 </div>
               </div>
             </section>
@@ -2927,8 +3813,142 @@
       </div>
       <span class="statusbar__keys" role="note">F1 도움말 / F2 접수 / F5 새로고침</span>
     </footer>
+
+    <button type="button" class="know-drawer-backdrop" id="know-drawer-backdrop" aria-label="상담 어시스턴트 패널 닫기" hidden></button>
+    <button type="button" class="know-drawer-fab" id="know-drawer-fab" aria-expanded="false" aria-controls="workspace-col-know">상담 어시스턴트</button>
+
+    <aside
+      class="ai-agent-panel"
+      id="ai-agent-panel"
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="ai-agent-panel-title"
+      aria-hidden="true"
+    >
+      <header class="ai-agent-panel__header">
+        <h2 class="ai-agent-panel__title" id="ai-agent-panel-title">질의 및 에이전트</h2>
+        <div class="ai-agent-panel__header-end">
+          <div class="ai-agent-panel__statuses" aria-label="에이전트 상태">
+            <span class="ai-agent-badge ai-agent-badge--know">지식 ON</span>
+            <span class="ai-agent-badge ai-agent-badge--live">상담 중</span>
+          </div>
+          <button type="button" class="ai-agent-panel__close" id="ai-agent-panel-close" aria-label="AI 패널 닫기">×</button>
+        </div>
+      </header>
+      <div class="ai-agent-panel__body">
+        <div class="ai-agent-panel__scroll scroll-area">
+          <div class="ai-agent-chat" id="ai-agent-chat" aria-live="polite" aria-label="AI 대화">
+            <article class="ai-agent-turn ai-agent-turn--user">
+              <p class="ai-agent-bubble">갱신형과 비갱신형 상품 차이가 뭐예요?</p>
+            </article>
+            <article class="ai-agent-turn ai-agent-turn--ai">
+              <p class="ai-agent-bubble">갱신형은 보험기간 종료 시 갱신 여부·보험료가 재산정되며, 비갱신형은 초기 보험료가 만기까지 유지되는 구조입니다. 고객의 나이·건강 상태·상품 유형에 따라 안내 문구를 구분해 주세요.</p>
+              <div class="ai-agent-meta">
+                <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">단계</span> 의도분석 → 지식검색 → 답변생성</p>
+                <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">출처</span> SOK#3202 약관 12-1 / FAQ #87</p>
+              </div>
+            </article>
+          </div>
+          <section class="ai-agent-suggest" aria-labelledby="ai-agent-suggest-label">
+            <h3 class="ai-agent-suggest__label" id="ai-agent-suggest-label">추천 질문</h3>
+            <div class="ai-agent-suggest__pills" role="group" aria-label="추천 질문 목록">
+              <button type="button" class="ai-agent-suggest__pill knowledge-chip" data-ai-query="갱신형과 비갱신형 상품의 차이를 알려주세요.">갱신형 vs 비갱신형 차이</button>
+              <button type="button" class="ai-agent-suggest__pill knowledge-chip" data-ai-query="변액 상품 수익률은 어디서 조회하나요?">변액 상품 수익률 조회</button>
+              <button type="button" class="ai-agent-suggest__pill knowledge-chip" data-ai-query="청약철회 기간 기준이 어떻게 되나요?">청약철회 기간 기준</button>
+            </div>
+          </section>
+        </div>
+        <footer class="ai-agent-composer">
+          <div class="ai-agent-composer__box">
+            <textarea
+              class="ai-agent-composer__input"
+              id="ai-agent-input"
+              rows="2"
+              placeholder="메시지를 입력하세요."
+              aria-label="AI 메시지 입력"
+            ></textarea>
+            <div class="ai-agent-composer__toolbar">
+              <div class="ai-agent-composer__actions">
+                <button type="button" class="ai-agent-tool" id="ai-agent-tool-file" aria-pressed="false">파일</button>
+                <button type="button" class="ai-agent-tool" id="ai-agent-tool-voice" aria-pressed="false">음성</button>
+                <button type="button" class="ai-agent-tool ai-agent-tool--know is-on" id="ai-agent-tool-know" aria-pressed="true">지식 ON</button>
+              </div>
+              <button type="button" class="ai-agent-composer__send" id="ai-agent-send" aria-label="메시지 전송">
+                <svg class="ai-agent-composer__send-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 19V5M5 12l7-7 7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </aside>
+
     </div>
     <script>
+      (function () {
+        var CHEVRON_SVG =
+          '<svg class="icon-chevron__svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+          '<g transform="translate(5 8.5)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
+          '<polyline points="14 0 7 7 0 0"></polyline></g></svg>';
+
+        window.crmCreateChevron = function (opts) {
+          opts = opts || {};
+          var el = document.createElement("span");
+          el.className = "icon-chevron";
+          if (opts.expanded) el.classList.add("icon-chevron--expanded");
+          if (opts.size === "sm") el.classList.add("icon-chevron--sm");
+          if (opts.className) {
+            opts.className.trim().split(/\s+/).forEach(function (c) {
+              if (c) el.classList.add(c);
+            });
+          }
+          el.setAttribute("aria-hidden", "true");
+          var svg = CHEVRON_SVG;
+          if (opts.size === "sm") {
+            svg = svg.replace('width="24"', 'width="18"').replace('height="24"', 'height="18"');
+          }
+          el.innerHTML = svg;
+          return el;
+        };
+
+        function hydrateChevrons(root) {
+          var scope = root || document;
+          scope.querySelectorAll(".icon-chevron").forEach(function (node) {
+            if (node.querySelector("svg")) return;
+            var sm = node.classList.contains("icon-chevron--sm");
+            var expanded =
+              node.classList.contains("icon-chevron--expanded") || !!node.closest(".is-expanded");
+            var extra = [];
+            node.classList.forEach(function (c) {
+              if (
+                c !== "icon-chevron" &&
+                c !== "icon-chevron--sm" &&
+                c !== "icon-chevron--expanded"
+              ) {
+                extra.push(c);
+              }
+            });
+            var repl = window.crmCreateChevron({
+              size: sm ? "sm" : undefined,
+              expanded: expanded,
+              className: extra.join(" "),
+            });
+            node.replaceWith(repl);
+          });
+        }
+
+        window.crmHydrateChevrons = hydrateChevrons;
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", function () {
+            hydrateChevrons();
+          });
+        } else {
+          hydrateChevrons();
+        }
+      })();
+
       (function () {
         var el = document.querySelector(".floating-control-group__elapsed");
         if (!el) return;
@@ -2951,6 +3971,76 @@
           totalSec += 1;
           render();
         }, 1000);
+      })();
+
+      (function () {
+        var scrollEl = document.getElementById("stt-chat-scroll");
+        var chatEl = document.getElementById("stt-chat");
+        if (!scrollEl) return;
+
+        var stickToBottom = true;
+        var NEAR_BOTTOM_PX = 80;
+
+        function distanceFromBottom() {
+          return scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight;
+        }
+
+        function isNearBottom() {
+          return distanceFromBottom() <= NEAR_BOTTOM_PX;
+        }
+
+        function scrollToBottom(opts) {
+          var force = opts && opts.force;
+          if (!force && !stickToBottom) return;
+
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              scrollEl.scrollTop = scrollEl.scrollHeight;
+            });
+          });
+        }
+
+        scrollEl.addEventListener(
+          "scroll",
+          function () {
+            stickToBottom = isNearBottom();
+          },
+          { passive: true }
+        );
+
+        function initScroll() {
+          stickToBottom = true;
+          scrollToBottom({ force: true });
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initScroll);
+        } else {
+          initScroll();
+        }
+
+        window.addEventListener("load", function () {
+          scrollToBottom({ force: true });
+        });
+
+        if (chatEl && typeof MutationObserver !== "undefined") {
+          var pending = false;
+          var observer = new MutationObserver(function () {
+            if (pending) return;
+            pending = true;
+            requestAnimationFrame(function () {
+              pending = false;
+              if (isNearBottom()) stickToBottom = true;
+              scrollToBottom({ force: stickToBottom });
+            });
+          });
+          observer.observe(chatEl, { childList: true, subtree: true, characterData: true });
+        }
+
+        window.crmSttScrollToBottom = function (force) {
+          if (force) stickToBottom = true;
+          scrollToBottom({ force: force || stickToBottom });
+        };
       })();
 
       (function () {
@@ -3012,92 +4102,6 @@
         });
       })();
 
-      (function () {
-        var root = document.getElementById("dash-card-history");
-        if (!root) return;
-        var list = document.getElementById("history-panel-list");
-        if (!list) return;
-        var chips = root.querySelectorAll(".history-chip[data-history-filter]");
-        var sortSelect = document.getElementById("history-sort-select");
-
-        var STATUS_ORDER = { delayed: 0, in_progress: 1, pending: 2, done: 3 };
-
-        function getItems() {
-          return Array.prototype.slice.call(list.querySelectorAll(":scope > li"));
-        }
-
-        function parseDate(li) {
-          var t = li.querySelector("time[datetime]");
-          if (!t) return 0;
-          var raw = t.getAttribute("datetime");
-          if (!raw) return 0;
-          var d = Date.parse(raw);
-          return isNaN(d) ? 0 : d;
-        }
-
-        function statusKey(li) {
-          var st = li.getAttribute("data-history-status");
-          return st && Object.prototype.hasOwnProperty.call(STATUS_ORDER, st) ? st : "pending";
-        }
-
-        function applyFilter() {
-          var active = root.querySelector(".history-chip.is-active");
-          var f = active ? active.getAttribute("data-history-filter") : "all";
-          getItems().forEach(function (li) {
-            var st = li.getAttribute("data-history-status") || "";
-            var match = f === "all" || st === f;
-            li.classList.toggle("is-filtered-out", !match);
-          });
-        }
-
-        function applySort() {
-          var mode = sortSelect ? sortSelect.value : "date-desc";
-          var items = getItems();
-          items.sort(function (a, b) {
-            var hideA = a.classList.contains("is-filtered-out");
-            var hideB = b.classList.contains("is-filtered-out");
-            if (hideA !== hideB) return hideA ? 1 : -1;
-
-            var da = parseDate(a);
-            var db = parseDate(b);
-            var sa = STATUS_ORDER[statusKey(a)];
-            var sb = STATUS_ORDER[statusKey(b)];
-
-            if (mode === "date-desc") return db - da;
-            if (mode === "date-asc") return da - db;
-            if (mode === "status") {
-              if (sa !== sb) return sa - sb;
-              return db - da;
-            }
-            return db - da;
-          });
-          items.forEach(function (li) {
-            list.appendChild(li);
-          });
-        }
-
-        function refresh() {
-          applyFilter();
-          applySort();
-        }
-
-        chips.forEach(function (chip) {
-          chip.addEventListener("click", function () {
-            chips.forEach(function (c) {
-              var on = c === chip;
-              c.classList.toggle("is-active", on);
-              c.setAttribute("aria-pressed", on ? "true" : "false");
-            });
-            refresh();
-          });
-        });
-
-        if (sortSelect) {
-          sortSelect.addEventListener("change", refresh);
-        }
-
-        refresh();
-      })();
 
       (function () {
         var root = document.getElementById("know-queue-root");
@@ -3106,28 +4110,34 @@
         var KNOW_ITEMS = [
           {
             title: "보험금 청구 서류 안내 요청",
+            question: "보험금 청구하려면 어떤 서류가 필요한가요?",
             status: "in_progress",
             priority: "high",
             answer:
               "청구 서류는 사고 유형에 따라 달라지며, 접수 후 심사까지 통상 7~14영업일이 소요될 수 있습니다. 필요 시 추가 서류를 요청드릴 수 있으니, 고객 안내 시 약관상 면책·지급 제한 여부를 함께 확인해 주세요.",
+            source: "근거 SOK#3202 약관 12-1 · FAQ #87",
             faqs: ["청구 후 지급 기간은?", "필요 서류는 무엇인가요?"],
             screens: ["보험금 청구 접수 화면", "자동이체 변경 화면"],
           },
           {
             title: "자동이체 계좌 변경 절차 문의",
+            question: "자동이체 계좌변경 하고 싶어요.",
             status: "pending",
             priority: "medium",
             answer:
               "자동이체 변경은 본인 명의 계좌로만 가능하며, 변경 신청 후 다음 납입일부터 적용되는 경우가 많습니다. 고객에게 적용 시점과 필요 서류를 안내해 주세요.",
+            source: "근거 SOK#2104 업무안내 3-2 · FAQ #52",
             faqs: ["변경 후 적용 시점은?", "타인 계좌로 가능한가요?"],
             screens: ["자동이체 변경 화면", "고객 기본정보 화면"],
           },
           {
             title: "해약환급금 산출 기준 확인",
+            question: "해약환급금이 얼마나 나오는지 확인하고 싶어요.",
             status: "pending",
             priority: "low",
             answer:
               "해약환급금은 납입 보험료, 계약 경과 기간, 특약 여부 등에 따라 산출됩니다. 정확한 금액은 시스템 조회 후 안내하고, 공제 항목이 있을 수 있음을 고지해 주세요.",
+            source: "근거 SOK#1890 약관 8-4 · FAQ #61",
             faqs: ["중도해약 시 공제 항목은?", "환급금 지급 방식은?"],
             screens: ["해약 환급 조회 화면"],
           },
@@ -3137,63 +4147,21 @@
           items: KNOW_ITEMS.map(function (row) {
             return {
               title: row.title,
+              question: row.question,
               status: row.status,
               priority: row.priority,
               answer: row.answer,
+              source: row.source || "",
               faqs: row.faqs.slice(),
               screens: row.screens.slice(),
             };
           }),
-          selectedIndex: 0,
+          expandedIndex: 0,
         };
 
-        var listEl = document.getElementById("know-queue-list");
-        var titleEl = document.getElementById("know-detail-title");
-        var answerEl = document.getElementById("know-detail-answer");
-        var faqRow = document.getElementById("know-detail-faq");
-        var screenRow = document.getElementById("know-detail-screens");
-        var bodyEl = document.getElementById("know-detail-body");
-        var emptyEl = document.getElementById("know-detail-empty");
-        var btnComplete = document.getElementById("know-btn-complete");
-        var btnNext = document.getElementById("know-btn-next");
-
-        function statusLabel(s) {
-          if (s === "in_progress") return "진행중";
-          if (s === "pending") return "대기";
-          return "완료";
-        }
-
-        function priorityLabel(p) {
-          if (p === "high") return "높음";
-          if (p === "medium") return "중간";
-          return "낮음";
-        }
-
-        function initialSelection() {
-          var i;
-          for (i = 0; i < state.items.length; i++) {
-            if (state.items[i].status === "in_progress") return i;
-          }
-          for (i = 0; i < state.items.length; i++) {
-            if (state.items[i].status === "pending") return i;
-          }
-          return state.items.length ? 0 : -1;
-        }
-
-        function nextAfterComplete(avoidIndex) {
-          var n = state.items.length;
-          if (n === 0) return -1;
-          var step;
-          for (step = 1; step < n; step++) {
-            var i = (avoidIndex + step) % n;
-            if (state.items[i].status === "pending") return i;
-          }
-          for (step = 1; step < n; step++) {
-            var j = (avoidIndex + step) % n;
-            if (state.items[j].status === "in_progress") return j;
-          }
-          return -1;
-        }
+        var accordionEl = document.getElementById("know-accordion-list");
+        var emptyEl = document.getElementById("know-assistant-empty");
+        var sortSelect = document.getElementById("know-sort-select");
 
         function fillChips(container, labels) {
           if (!container) return;
@@ -3207,99 +4175,403 @@
           });
         }
 
-        function renderList() {
-          if (!listEl) return;
-          listEl.textContent = "";
-          state.items.forEach(function (item, index) {
-            var li = document.createElement("li");
-            li.setAttribute("role", "none");
-            var btn = document.createElement("button");
-            btn.type = "button";
-            btn.className = "know-queue__item";
-            btn.setAttribute("role", "option");
-            btn.setAttribute("aria-selected", index === state.selectedIndex ? "true" : "false");
-            if (index === state.selectedIndex) btn.classList.add("is-selected");
-            if (item.status === "done") btn.classList.add("is-done");
-
-            var main = document.createElement("div");
-            main.className = "know-queue__item-main";
-            var tit = document.createElement("p");
-            tit.className = "know-queue__title";
-            tit.textContent = item.title;
-            var badges = document.createElement("div");
-            badges.className = "know-queue__badges";
-            var sb = document.createElement("span");
-            sb.className = "know-queue__badge know-queue__badge--" + item.status;
-            sb.textContent = statusLabel(item.status);
-            var pb = document.createElement("span");
-            pb.className = "know-queue__badge know-queue__badge--prio-" + item.priority;
-            pb.textContent = priorityLabel(item.priority);
-            badges.appendChild(sb);
-            badges.appendChild(pb);
-            main.appendChild(tit);
-            main.appendChild(badges);
-            btn.appendChild(main);
-            btn.addEventListener("click", function () {
-              state.selectedIndex = index;
-              renderAll();
-            });
-            li.appendChild(btn);
-            listEl.appendChild(li);
+        function renderAccordion() {
+          if (!accordionEl) return;
+          accordionEl.textContent = "";
+          var visible = state.items.filter(function (it) {
+            return it.status !== "done";
           });
-        }
+          var showEmpty = visible.length === 0;
 
-        function renderDetail() {
-          var idx = state.selectedIndex;
-          var n = state.items.length;
-          if (idx < 0 || idx >= n) {
-            if (titleEl) titleEl.textContent = "";
-            if (answerEl) answerEl.textContent = "";
-            fillChips(faqRow, []);
-            fillChips(screenRow, []);
-            if (bodyEl) bodyEl.classList.add("is-hidden");
-            if (emptyEl) emptyEl.classList.add("is-visible");
-            if (btnComplete) btnComplete.disabled = true;
-            return;
-          }
-          if (bodyEl) bodyEl.classList.remove("is-hidden");
-          if (emptyEl) emptyEl.classList.remove("is-visible");
-          var item = state.items[idx];
-          if (titleEl) titleEl.textContent = item.title;
-          if (answerEl) answerEl.textContent = item.answer;
-          fillChips(faqRow, item.faqs);
-          fillChips(screenRow, item.screens);
-          if (btnComplete) btnComplete.disabled = item.status === "done";
+          if (emptyEl) emptyEl.hidden = !showEmpty;
+          if (accordionEl) accordionEl.hidden = showEmpty;
+
+          state.items.forEach(function (item, index) {
+            var expanded = index === state.expandedIndex;
+            var card = document.createElement("article");
+            card.className = "know-acc-card";
+            card.classList.toggle("is-expanded", expanded);
+            if (item.status === "done") card.classList.add("is-done");
+            card.setAttribute("data-know-index", String(index));
+
+            var trigger = document.createElement("button");
+            trigger.type = "button";
+            trigger.className = "know-acc-card__trigger";
+            trigger.setAttribute("aria-expanded", expanded ? "true" : "false");
+            trigger.id = "know-acc-trigger-" + index;
+            trigger.setAttribute("aria-controls", "know-acc-panel-" + index);
+
+            var lead = document.createElement("span");
+            lead.className = "know-acc-card__lead";
+            var num = document.createElement("span");
+            num.className = "know-acc-card__num";
+            num.textContent = index + 1 + ".";
+            var title = document.createElement("span");
+            title.className = "know-acc-card__title";
+            title.textContent = item.title;
+            lead.appendChild(num);
+            lead.appendChild(title);
+
+            var meta = document.createElement("span");
+            meta.className = "know-acc-card__meta";
+            var chev = window.crmCreateChevron({
+              expanded: expanded,
+              className: "know-acc-card__chevron",
+            });
+            meta.appendChild(chev);
+
+            trigger.appendChild(lead);
+            trigger.appendChild(meta);
+            trigger.addEventListener("click", function () {
+              state.expandedIndex = index;
+              renderAccordion();
+            });
+
+            var panel = document.createElement("div");
+            panel.className = "know-acc-card__panel";
+            panel.id = "know-acc-panel-" + index;
+            panel.setAttribute("role", "region");
+            panel.setAttribute("aria-labelledby", trigger.id);
+
+            var inner = document.createElement("div");
+            inner.className = "know-acc-card__inner";
+
+            var flow = document.createElement("div");
+            flow.className = "know-acc-flow";
+            var qText = document.createElement("p");
+            qText.className = "know-acc-flow__question";
+            qText.textContent = item.question;
+            var aText = document.createElement("p");
+            aText.className = "know-acc-flow__answer";
+            aText.textContent = item.answer;
+            flow.appendChild(qText);
+            flow.appendChild(aText);
+
+            var sourceText = document.createElement("p");
+            sourceText.className = "know-acc-source";
+            sourceText.textContent = item.source || "";
+
+            var actions = document.createElement("div");
+            actions.className = "know-acc-actions";
+
+            var faqGroup = document.createElement("div");
+            faqGroup.className = "know-acc-chip-group";
+            var faqLabel = document.createElement("p");
+            faqLabel.className = "know-acc-chip-group__label";
+            faqLabel.textContent = "질문 추천";
+            var faqChips = document.createElement("div");
+            faqChips.className = "know-acc-chips";
+            fillChips(faqChips, item.faqs);
+            faqGroup.appendChild(faqLabel);
+            faqGroup.appendChild(faqChips);
+            actions.appendChild(faqGroup);
+
+            if (item.screens && item.screens.length) {
+              var screenGroup = document.createElement("div");
+              screenGroup.className = "know-acc-chip-group";
+              var screenLabel = document.createElement("p");
+              screenLabel.className = "know-acc-chip-group__label";
+              screenLabel.textContent = "관련 화면";
+              var screenChips = document.createElement("div");
+              screenChips.className = "know-acc-chips";
+              item.screens.forEach(function (text) {
+                var btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "know-card__btn knowledge-chip know-chip--screen";
+                btn.textContent = text;
+                screenChips.appendChild(btn);
+              });
+              screenGroup.appendChild(screenLabel);
+              screenGroup.appendChild(screenChips);
+              actions.appendChild(screenGroup);
+            }
+
+            inner.appendChild(flow);
+            if (item.source) inner.appendChild(sourceText);
+            inner.appendChild(actions);
+            panel.appendChild(inner);
+
+            card.appendChild(trigger);
+            card.appendChild(panel);
+            accordionEl.appendChild(card);
+          });
         }
 
         function renderAll() {
-          renderList();
-          renderDetail();
+          renderAccordion();
+          if (window.crmHydrateChevrons && accordionEl) {
+            window.crmHydrateChevrons(accordionEl);
+          }
         }
 
-        state.selectedIndex = initialSelection();
+        if (sortSelect) {
+          sortSelect.addEventListener("change", function () {
+            renderAll();
+          });
+        }
+
+        var sttLinkTimer = null;
+
+        window.crmKnowActivate = function (knowIndex, faqIndex) {
+          if (knowIndex < 0 || knowIndex >= state.items.length) return;
+          state.expandedIndex = knowIndex;
+          renderAll();
+          if (!accordionEl) return;
+          accordionEl.querySelectorAll(".know-acc-card").forEach(function (node) {
+            node.classList.remove("is-stt-linked");
+          });
+          var card = accordionEl.querySelector('[data-know-index="' + knowIndex + '"]');
+          if (card) {
+            card.classList.add("is-stt-linked");
+            if (sttLinkTimer) clearTimeout(sttLinkTimer);
+            sttLinkTimer = setTimeout(function () {
+              card.classList.remove("is-stt-linked");
+            }, 2200);
+            if (typeof card.scrollIntoView === "function") {
+              card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
+          }
+          if (faqIndex != null && faqIndex >= 0 && card) {
+            var chips = card.querySelectorAll(".know-acc-chips .knowledge-chip:not(.know-chip--screen)");
+            chips.forEach(function (chip, i) {
+              chip.classList.toggle("is-active", i === faqIndex);
+            });
+            var target = chips[faqIndex];
+            if (target && typeof target.focus === "function") {
+              target.focus({ preventScroll: true });
+            }
+          }
+        };
+
         renderAll();
+      })();
 
-        if (btnComplete) {
-          btnComplete.addEventListener("click", function () {
-            var idx = state.selectedIndex;
-            if (idx < 0 || idx >= state.items.length) return;
-            var it = state.items[idx];
-            if (it.status === "done") return;
-            it.status = "done";
-            state.selectedIndex = nextAfterComplete(idx);
-            renderAll();
+(function () {
+        var panel = document.getElementById("ai-agent-panel");
+        var fab = document.getElementById("ai-agent-fab");
+        var closeBtn = document.getElementById("ai-agent-panel-close");
+        var input = document.getElementById("ai-agent-input");
+        var sendBtn = document.getElementById("ai-agent-send");
+        var chat = document.getElementById("ai-agent-chat");
+
+        if (!panel || !fab) return;
+
+        function setOpen(on) {
+          panel.classList.toggle("is-open", on);
+          panel.setAttribute("aria-hidden", on ? "false" : "true");
+          fab.setAttribute("aria-expanded", on ? "true" : "false");
+          fab.hidden = on;
+          if (on && input) {
+            input.focus();
+          }
+        }
+
+        function appendUserMessage(text) {
+          if (!chat || !text) return;
+          var turn = document.createElement("article");
+          turn.className = "ai-agent-turn ai-agent-turn--user";
+          var bubble = document.createElement("p");
+          bubble.className = "ai-agent-bubble";
+          bubble.textContent = text;
+          turn.appendChild(bubble);
+          chat.appendChild(turn);
+          var scrollRoot = document.querySelector(".ai-agent-panel__scroll");
+          if (scrollRoot) scrollRoot.scrollTop = scrollRoot.scrollHeight;
+        }
+
+        function setQuery(text) {
+          if (!input || !text) return;
+          input.value = text;
+          input.focus();
+        }
+
+        function submitQuery(text) {
+          var q = (text || (input && input.value) || "").trim();
+          if (!q) return;
+          setOpen(true);
+          setQuery(q);
+          appendUserMessage(q);
+          if (input) input.value = "";
+        }
+
+        window.crmAiPanel = {
+          open: function () {
+            setOpen(true);
+          },
+          close: function () {
+            setOpen(false);
+          },
+          setQuery: setQuery,
+          submit: submitQuery,
+        };
+
+        fab.addEventListener("click", function () {
+          setOpen(true);
+        });
+
+        if (closeBtn) {
+          closeBtn.addEventListener("click", function () {
+            setOpen(false);
+            fab.focus();
           });
         }
 
-        if (btnNext) {
-          btnNext.addEventListener("click", function () {
-            var n = state.items.length;
-            if (n === 0) return;
-            var cur = state.selectedIndex < 0 ? 0 : state.selectedIndex;
-            state.selectedIndex = (cur + 1) % n;
-            renderAll();
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && panel.classList.contains("is-open")) {
+            setOpen(false);
+            fab.focus();
+          }
+        });
+
+        if (sendBtn && input) {
+          sendBtn.addEventListener("click", function () {
+            submitQuery();
+          });
+          input.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              submitQuery();
+            }
           });
         }
+
+        document.querySelectorAll(".ai-agent-suggest__pill[data-ai-query]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            setOpen(true);
+            setQuery(btn.getAttribute("data-ai-query") || btn.textContent);
+          });
+        });
+
+        document.querySelectorAll(".ai-agent-tool").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var on = !btn.classList.contains("is-on");
+            btn.classList.toggle("is-on", on);
+            btn.setAttribute("aria-pressed", on ? "true" : "false");
+          });
+        });
+
+      })();
+
+
+
+      (function () {
+        var workspace = document.querySelector(".workspace");
+        var infoRoot = document.getElementById("workspace-col-info");
+        var knowCol = document.getElementById("workspace-col-know");
+        var knowToggle = document.getElementById("know-drawer-toggle");
+        var knowFab = document.getElementById("know-drawer-fab");
+        var knowBackdrop = document.getElementById("know-drawer-backdrop");
+        var panelToggle = document.getElementById("info-side-panel-toggle");
+        var lastBand = "";
+
+        function mqTablet() {
+          return window.matchMedia("(min-width: 768px) and (max-width: 1023px)");
+        }
+
+        function mqLaptop() {
+          return window.matchMedia("(min-width: 1024px) and (max-width: 1279px)");
+        }
+
+        function band() {
+          var w = window.innerWidth;
+          if (w >= 1600) return "wide";
+          if (w >= 1280) return "desktop";
+          if (w >= 1024) return "laptop";
+          if (w >= 768) return "tablet";
+          return "narrow";
+        }
+
+        function setKnowDrawer(open) {
+          if (!knowCol) return;
+          knowCol.classList.toggle("is-drawer-open", open);
+          if (knowToggle) knowToggle.setAttribute("aria-expanded", open ? "true" : "false");
+          if (knowFab) knowFab.setAttribute("aria-expanded", open ? "true" : "false");
+          if (knowBackdrop) {
+            knowBackdrop.hidden = !open;
+            knowBackdrop.classList.toggle("is-visible", open);
+          }
+        }
+
+        function setInfoSideExpanded(on) {
+          if (!infoRoot) return;
+          infoRoot.classList.toggle("is-side-expanded", on);
+          if (workspace) workspace.classList.toggle("workspace--info-collapsed", !on);
+          if (panelToggle) {
+            panelToggle.setAttribute("aria-expanded", on ? "true" : "false");
+            panelToggle.textContent = on ? "닫기" : "열기";
+            panelToggle.setAttribute("title", on ? "정보 패널 접기" : "정보 패널 펼치기");
+            panelToggle.setAttribute("aria-label", on ? "정보 패널 접기" : "정보 패널 펼치기");
+          }
+        }
+
+        function applyLaptopDefaults() {
+          var history = document.getElementById("dash-card-history-section");
+          if (history) history.classList.remove("is-section-expanded");
+        }
+
+        function applyLayoutMode() {
+          var next = band();
+          var enteredLaptop = next === "laptop" && lastBand !== "laptop";
+          var enteredTablet = next === "tablet" && lastBand !== "tablet";
+
+          if (workspace) workspace.classList.toggle("workspace--layout-laptop", next === "laptop");
+          if (enteredLaptop) applyLaptopDefaults();
+          if (enteredTablet) setInfoSideExpanded(false);
+          if (next !== "tablet") setKnowDrawer(false);
+          lastBand = next;
+        }
+
+        function bindOpen(el) {
+          if (!el) return;
+          el.addEventListener("click", function () {
+            setKnowDrawer(!knowCol || !knowCol.classList.contains("is-drawer-open"));
+          });
+        }
+
+        bindOpen(knowToggle);
+        bindOpen(knowFab);
+        if (knowBackdrop) knowBackdrop.addEventListener("click", function () { setKnowDrawer(false); });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && knowCol && knowCol.classList.contains("is-drawer-open")) {
+            setKnowDrawer(false);
+            e.preventDefault();
+          }
+        });
+
+        var historyHead = document.getElementById("dash-card-history-title");
+        if (historyHead) {
+          historyHead.style.cursor = "pointer";
+          historyHead.addEventListener("click", function () {
+            if (!mqLaptop().matches) return;
+            var section = document.getElementById("dash-card-history-section");
+            if (section) section.classList.toggle("is-section-expanded");
+          });
+        }
+
+        applyLayoutMode();
+        window.addEventListener("resize", applyLayoutMode);
+        if (mqTablet().addEventListener) mqTablet().addEventListener("change", applyLayoutMode);
+        if (mqLaptop().addEventListener) mqLaptop().addEventListener("change", applyLayoutMode);
+      })();
+
+      (function () {
+        var root = document.getElementById("product-info-root");
+        var toggle = document.getElementById("product-info-toggle");
+        if (!root || !toggle) return;
+
+        function setExpanded(on) {
+          root.classList.toggle("is-collapsed", !on);
+          toggle.setAttribute("aria-expanded", on ? "true" : "false");
+          toggle.setAttribute("title", on ? "상품 및 업무정보 접기" : "상품 및 업무정보 펼치기");
+          toggle.setAttribute("aria-label", on ? "상품 및 업무정보 접기" : "상품 및 업무정보 펼치기");
+        }
+
+        toggle.addEventListener("click", function () {
+          setExpanded(root.classList.contains("is-collapsed"));
+        });
+
+        setExpanded(true);
       })();
 
     </script>

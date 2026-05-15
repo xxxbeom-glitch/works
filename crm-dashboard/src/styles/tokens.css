@@ -191,8 +191,14 @@
   --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   :root {
     --page-padding-x: var(--space-6);
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --page-padding-x: var(--space-5);
   }
 }

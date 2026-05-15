@@ -1872,47 +1872,6 @@
       min-width: 0;
     }
 
-    .live-composite .assistant-sort {
-      flex-shrink: 0;
-      margin-left: auto;
-    }
-
-    .live-composite .assistant-sort__select {
-      box-sizing: border-box;
-      margin: 0;
-      min-width: 0;
-      max-width: 120px;
-      height: 28px;
-      min-height: 28px;
-      padding: 0 22px 0 10px;
-      border: 1px solid rgba(15, 39, 68, 0.1);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--text-default);
-      font-family: inherit;
-      font-size: var(--text-xs);
-      font-weight: var(--font-medium);
-      line-height: 1;
-      cursor: pointer;
-      -webkit-appearance: none;
-      appearance: none;
-      background-image: linear-gradient(45deg, transparent 50%, var(--text-soft) 50%),
-        linear-gradient(135deg, var(--text-soft) 50%, transparent 50%);
-      background-position: calc(100% - 11px) 50%, calc(100% - 7px) 50%;
-      background-size: 4px 4px, 4px 4px;
-      background-repeat: no-repeat;
-    }
-
-    .live-composite .assistant-sort__select:hover {
-      border-color: rgba(0, 91, 172, 0.22);
-      background-color: #fff;
-    }
-
-    .live-composite .assistant-sort__select:focus-visible {
-      outline: 2px solid var(--primary, #005bac);
-      outline-offset: 2px;
-    }
-
     .live-composite .live-outer--know > .live-inner.know-assistant-inner {
       display: flex;
       flex-direction: column;
@@ -3774,11 +3733,6 @@
               <header class="card-header card-header--assistant live-sect__head">
                 <span class="card-header-icon card-header-icon--placeholder" aria-hidden="true"></span>
                 <h3 class="card-header-title live-sect__title" id="live-sect-title-know">상담 어시스턴트</h3>
-                <div class="assistant-sort">
-                  <select id="know-sort-select" class="assistant-sort__select" aria-label="정렬 기준" title="정렬 기준">
-                    <option value="relevance" selected>관련도순</option>
-                  </select>
-                </div>
               </header>
               <div class="live-inner workspace-inner-card know-assistant-inner">
                 <div class="know-accordion scroll-area" id="know-accordion-list" aria-label="상담 요청 목록"></div>
@@ -4161,8 +4115,6 @@
 
         var accordionEl = document.getElementById("know-accordion-list");
         var emptyEl = document.getElementById("know-assistant-empty");
-        var sortSelect = document.getElementById("know-sort-select");
-
         function fillChips(container, labels) {
           if (!container) return;
           container.textContent = "";
@@ -4302,12 +4254,6 @@
           if (window.crmHydrateChevrons && accordionEl) {
             window.crmHydrateChevrons(accordionEl);
           }
-        }
-
-        if (sortSelect) {
-          sortSelect.addEventListener("change", function () {
-            renderAll();
-          });
         }
 
         var sttLinkTimer = null;

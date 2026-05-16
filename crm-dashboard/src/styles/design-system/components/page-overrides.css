@@ -1,10 +1,18 @@
 /* ================================================================
-   Page Overrides — 3페이지 공통 컴포넌트 강제 통일
-   각 페이지 로컬 <style>이 디자인시스템보다 나중에 로드되므로
-   이 파일을 index.css 맨 마지막에 import해서 최종 override
+   Page Overrides ??3???? ?? ????? ?? ???
+   ?????? ?? <style>????????????? ?????????????   ???????index.css ??????? import??? ?? override
 ================================================================ */
 
-/* ── 카드 헤더 공통 ── */
+.card {
+  --card-body-padding: var(--layout-card-padding);
+  --card-body-gap: var(--space-md);
+  --card-footer-padding-y: var(--space-sm);
+  display: flex !important;
+  flex-direction: column !important;
+  min-width: 0 !important;
+}
+
+/* ???? ?? ??? ?? ???? */
 .card__head {
   padding: var(--space-2xl) var(--layout-card-padding) !important;
   height: auto !important;
@@ -12,20 +20,68 @@
 }
 
 .card__body {
-  padding: var(--layout-card-padding) !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--card-body-gap) !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: var(--card-body-padding) !important;
 }
 
-/* ── 카드 간 vertical gap 공통 ── */
+.card__body > :first-child { margin-top: 0 !important; }
+.card__body > :last-child { margin-bottom: 0 !important; }
+
+.card__body--scroll,
+.card__body--flex {
+  flex: 1 1 auto !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+.ds-card__body,
+.info-section-card__body,
+.info-panel-card__body,
+.info-section__content,
+.info-panel-section__content,
+.live-inner,
+.workspace-inner-card {
+  padding-bottom: var(--space-2xl) !important;
+}
+
+.card__body--flush {
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+.card__footer,
+.editor-status {
+  box-sizing: border-box !important;
+  flex: 0 0 auto !important;
+  padding: var(--card-footer-padding-y) var(--layout-card-padding) !important;
+  border-top: 1px solid var(--color-border-default) !important;
+}
+
+.card__actions,
+.action-row,
+.actions {
+  box-sizing: border-box !important;
+  gap: var(--space-sm) !important;
+  flex-shrink: 0 !important;
+}
+
+/* ???? ?? ??vertical gap ?? ???? */
 .col__scroll {
   gap: var(--space-md) !important;
 }
 
+.col > .stat-summary + .card,
 .col > .stat-row + .card,
 .col > .card + .card {
   margin-top: var(--space-md) !important;
 }
 
-/* ── 카드 타이틀 공통 ── */
+/* ???? ?? ?????? ?? ???? */
 .card__title {
   font-size:   var(--type-subheading-fs) !important;
   font-weight: var(--fw-semibold) !important;
@@ -35,9 +91,9 @@
   margin: 0 !important;
 }
 
-/* ── 컬럼 헤더 공통 ── */
+/* ???? ?? ??? ?? ???? */
 .ds-col-head {
-  padding: var(--space-lg) var(--layout-card-padding) !important;  /* 16px 상하 */
+  padding: var(--space-lg) var(--layout-card-padding) !important;  /* 16px ??? */
   min-height: 0 !important;
 }
 
@@ -63,7 +119,7 @@
   height: 16px !important;
 }
 
-/* ── 섹션 타이틀 공통 (index.html) ── */
+/* ???? ??? ?????? ?? (index.html) ???? */
 .cinfo-section__title,
 .cinfo-guide__title,
 .card-header-title,
@@ -75,7 +131,7 @@
   color:       var(--color-text-strong) !important;
 }
 
-/* ── Form Controls 공통 (inspection-review) ── */
+/* ???? Form Controls ?? (inspection-review) ???? */
 .input,
 .select {
   height:      var(--control-h-md) !important;
@@ -84,238 +140,490 @@
   font-weight: var(--fw-regular) !important;
 }
 
+select,
+.select,
+.ds-select {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  padding-right: 40px !important;
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%2364748B' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 14px center !important;
+  background-size: 16px 16px !important;
+}
+
+select:focus,
+.select:focus,
+.ds-select:focus {
+  background-position: right 14px center !important;
+}
+
+html body select,
+html body .select,
+html body .ds-select {
+  padding-right: 40px !important;
+  background-position: right 14px center !important;
+}
+
 /* ================================================================
-   버튼 Alias — 페이지별 로컬 클래스 → ds-btn 기준값 통일
-   HTML 마크업 변경 없이 page-overrides.css 한 곳에서 관리
-   나중에 마크업을 ds-btn 계열로 교체하면 이 블록 전체 삭제
+   ?? 7???? Alias
+   Case 1 CTA      36px / bold   / filled dark
+   Case 2 Secondary 30px / semibold / outlined
+   Case 3 Ghost    36px / semibold / outlined
+   Case 4 Inline   26px / semibold / outlined or filled
+   Case 5 Chip/Seg 30px / medium  / soft ??bold(active)
+   Case 6 Icon     26?26px / ghost
+   Case 7 Tool     26px / medium  / pill
 ================================================================ */
 
-/* ── CTA 버튼 (주요 실행) → ds-btn--primary + ds-btn--lg ── */
-/* P2: 문서 생성 실행 / P3: 조회, 업무 종결 */
+/* ???? Case 1: CTA ???? */
 .btn-primary {
-  display:       inline-flex !important;
-  align-items:   center !important;
-  justify-content: center !important;
-  gap:           var(--space-xs) !important;
-  height:        var(--control-h-lg) !important;
-  padding:       0 var(--control-pad-x-lg) !important;
-  border:        1px solid var(--c-neutral-800) !important;
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  height: var(--control-h-lg) !important;
+  padding: 0 var(--control-pad-x-lg) !important;
+  border: 1px solid var(--c-neutral-800) !important;
   border-radius: var(--radius-control) !important;
-  background:    var(--c-neutral-800) !important;
-  color:         var(--color-text-inverse) !important;
-  font-family:   inherit !important;
-  font-size:     var(--type-ui-label-fs) !important;
-  font-weight:   var(--fw-bold) !important;
-  line-height:   1 !important;
-  white-space:   nowrap !important;
-  cursor:        pointer !important;
-  transition:    background var(--motion-fast), border-color var(--motion-fast) !important;
+  background: var(--c-neutral-800) !important;
+  color: var(--color-text-inverse) !important;
+  font-family: inherit !important; font-size: var(--type-button-fs) !important;
+  font-weight: var(--fw-bold) !important; line-height: 1 !important;
+  white-space: nowrap !important; cursor: pointer !important;
+  transition: background var(--motion-fast), border-color var(--motion-fast) !important;
 }
-.btn-primary:hover {
-  background:   var(--c-neutral-900) !important;
-  border-color: var(--c-neutral-900) !important;
+.btn-primary:hover { background: var(--c-neutral-900) !important; border-color: var(--c-neutral-900) !important; }
+.btn-primary:disabled { opacity: 0.4 !important; cursor: not-allowed !important; }
+
+.col__cta {
+  padding: var(--space-sm) 0 0 !important;
+  border-top: 1px solid var(--color-border-default) !important;
+  background: var(--color-surface-outer) !important;
+}
+.col__cta .btn-primary {
+  width: 100% !important;
+  height: 48px !important;
+  border-radius: var(--radius-control) !important;
 }
 
-/* ── Ghost 버튼 (취소/저장) → ds-btn--secondary + ds-btn--lg ── */
-/* P3: 초기화, 저장 */
-.btn-ghost {
-  display:       inline-flex !important;
-  align-items:   center !important;
-  justify-content: center !important;
-  gap:           var(--space-xs) !important;
-  height:        var(--control-h-lg) !important;
-  padding:       0 var(--control-pad-x-lg) !important;
-  border:        1px solid var(--color-border-strong) !important;
-  border-radius: var(--radius-control) !important;
-  background:    var(--color-surface-card) !important;
-  color:         var(--color-text-default) !important;
-  font-family:   inherit !important;
-  font-size:     var(--type-ui-label-fs) !important;
-  font-weight:   var(--fw-semibold) !important;
-  line-height:   1 !important;
-  white-space:   nowrap !important;
-  cursor:        pointer !important;
-  transition:    background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast) !important;
-}
-.btn-ghost:hover {
-  background:   var(--color-surface-soft) !important;
-  border-color: var(--color-border-strong) !important;
-}
-
-/* ── Secondary 버튼 (보조) → ds-btn--secondary + ds-btn--md ── */
-/* P2: 다시 생성, 이어서 수정 / P3: 변경 저장 */
+/* ???? Case 2: Secondary ???? */
 .btn-secondary {
-  display:       inline-flex !important;
-  align-items:   center !important;
-  justify-content: center !important;
-  gap:           var(--space-xs) !important;
-  height:        var(--control-h-md) !important;
-  padding:       0 var(--control-pad-x-md) !important;
-  border:        1px solid var(--color-border-strong) !important;
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  height: var(--control-h-md) !important;
+  padding: 0 var(--control-pad-x-md) !important;
+  border: 1px solid var(--color-border-strong) !important;
   border-radius: var(--radius-control) !important;
-  background:    var(--color-surface-card) !important;
-  color:         var(--color-text-default) !important;
-  font-family:   inherit !important;
-  font-size:     var(--type-ui-label-fs) !important;
-  font-weight:   var(--fw-semibold) !important;
-  line-height:   1 !important;
-  white-space:   nowrap !important;
-  cursor:        pointer !important;
-  transition:    background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast) !important;
+  background: var(--color-surface-card) !important;
+  color: var(--color-text-default) !important;
+  font-family: inherit !important; font-size: var(--type-button-fs) !important;
+  font-weight: var(--fw-semibold) !important; line-height: 1 !important;
+  white-space: nowrap !important; cursor: pointer !important;
+  transition: background var(--motion-fast), border-color var(--motion-fast) !important;
 }
 .btn-secondary:hover { background: var(--color-surface-soft) !important; }
-
-/* filled variant (이어서 수정) */
+/* filled variant */
 .btn-secondary.btn-secondary--primary {
-  background:   var(--c-neutral-800) !important;
-  color:        var(--color-text-inverse) !important;
+  background: var(--c-neutral-800) !important; color: var(--color-text-inverse) !important;
   border-color: var(--c-neutral-800) !important;
 }
-.btn-secondary.btn-secondary--primary:hover {
-  background:   var(--c-neutral-900) !important;
-  border-color: var(--c-neutral-900) !important;
-}
-
-/* inline variant (변경 저장) → ds-btn--sm */
+.btn-secondary.btn-secondary--primary:hover { background: var(--c-neutral-900) !important; border-color: var(--c-neutral-900) !important; }
+/* sm variant */
 .btn-secondary.btn-secondary--inline {
-  height:  var(--control-h-sm) !important;
+  height: var(--control-h-sm) !important;
   padding: 0 var(--control-pad-x-sm) !important;
 }
 
-/* ── Seg 버튼 (날짜 바로가기) → ds-chip 기준 ── */
-/* P2, P3: 최근 일주일 / 1개월 / 3개월 */
-.seg__btn {
-  height:      var(--control-h-md) !important;
-  padding:     0 var(--control-pad-x-md) !important;
-  background:  var(--color-surface-card) !important;
-  color:       var(--color-text-secondary) !important;
-  font-family: inherit !important;
-  font-size:   var(--type-ui-label-fs) !important;
-  font-weight: var(--fw-medium) !important;
-  line-height: 1 !important;
-  cursor:      pointer !important;
-  transition:  background var(--motion-fast), color var(--motion-fast) !important;
+/* ???? Case 3: Ghost ???? */
+.btn-ghost {
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  height: var(--control-h-lg) !important;
+  padding: 0 var(--control-pad-x-lg) !important;
+  border: 1px solid var(--color-border-strong) !important;
+  border-radius: var(--radius-control) !important;
+  background: var(--color-surface-card) !important;
+  color: var(--color-text-default) !important;
+  font-family: inherit !important; font-size: var(--type-button-fs) !important;
+  font-weight: var(--fw-semibold) !important; line-height: 1 !important;
+  white-space: nowrap !important; cursor: pointer !important;
+  transition: background var(--motion-fast), border-color var(--motion-fast) !important;
 }
-.seg__btn:hover { background: var(--color-surface-soft) !important; color: var(--color-text-default) !important; }
-.seg__btn.is-active {
-  background:  var(--c-neutral-100) !important;
-  color:       var(--color-text-strong) !important;
-  font-weight: var(--fw-bold) !important;
+.btn-ghost:hover { background: var(--color-surface-soft) !important; }
+
+/* ???? Case 4: Inline ???? */
+/* outlined */
+.card__head-action,
+.link-btn,
+.file-list__clear,
+.btn-secondary.btn-secondary--inline {
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  gap: var(--space-xs) !important;
+  height: var(--control-h-sm) !important;
+  padding: 0 var(--control-pad-x-sm) !important;
+  border: 1px solid var(--color-border-default) !important;
+  border-radius: var(--radius-control) !important;
+  background: var(--color-surface-card) !important;
+  color: var(--color-text-muted) !important;
+  font-family: inherit !important; font-size: var(--type-button-fs) !important;
+  font-weight: var(--fw-semibold) !important; line-height: 1 !important;
+  white-space: nowrap !important; cursor: pointer !important;
+  transition: background var(--motion-fast), color var(--motion-fast) !important;
+}
+.card__head-action:hover,
+.link-btn:hover,
+.file-list__clear:hover { background: var(--color-surface-soft) !important; color: var(--color-text-secondary) !important; }
+/* filled active (?? ???) */
+.card__head-action.is-active {
+  background: #F3F4F6 !important; border-color: #9CA3AF !important;
+  color: #111827 !important; font-weight: var(--fw-bold) !important;
+}
+.card__head-action.is-active:hover { background: #E5E7EB !important; border-color: #9CA3AF !important; }
+/* danger (??????P1) */
+.cinfo-caller__save {
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  height: var(--control-h-sm) !important; min-height: var(--control-h-sm) !important;
+  padding: 0 var(--control-pad-x-sm) !important;
+  border: 0 !important; border-radius: var(--radius-control) !important;
+  background: var(--color-status-danger) !important; color: var(--color-text-inverse) !important;
+  font-family: inherit !important; font-size: var(--type-button-fs) !important;
+  font-weight: var(--fw-bold) !important; line-height: 1 !important; cursor: pointer !important;
+}
+/* outlined (?? P1) */
+.ds-col-head--ai .ds-col-head__action-btn {
+  height: var(--control-h-sm) !important;
+  padding: 0 var(--control-pad-x-sm) !important;
+  font-size: var(--type-button-fs) !important;
+  font-weight: var(--fw-semibold) !important;
 }
 
-/* 검색 필터 안의 segmented control은 input/select와 같은 form height를 따른다. */
-.filter-grid .input,
-.filter-grid .select,
-.filter-grid .seg,
-.filter-grid .seg__btn {
-  height:     var(--filter-control-height, 40px) !important;
-  min-height: var(--filter-control-height, 40px) !important;
-  box-sizing: border-box !important;
+/* ???? Case 5: Chip / Seg ???? */
+.seg__btn,
+.pill-btn {
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  height: var(--control-h-md) !important;
+  padding: 0 var(--control-pad-x-md) !important;
+  border: 1px solid var(--color-border-strong) !important;
+  border-radius: var(--radius-control) !important;
+  background: var(--color-surface-soft) !important;
+  color: var(--color-text-secondary) !important;
+  font-family: inherit !important; font-size: var(--type-button-fs) !important;
+  font-weight: var(--fw-medium) !important; line-height: 1 !important;
+  white-space: nowrap !important; cursor: pointer !important;
+  transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast) !important;
+}
+.seg__btn:hover,
+.pill-btn:hover { background: var(--c-neutral-100) !important; }
+.seg__btn.is-active,
+.pill-btn.is-active,
+.pill-btn[aria-pressed="true"] {
+  background: var(--c-neutral-800) !important; border-color: var(--c-neutral-800) !important;
+  color: var(--color-text-inverse) !important; font-weight: var(--fw-bold) !important;
 }
 
-.filter-grid .seg {
+/* Segmented control ??: wrapper? ??? border/radius???? ???? ??????. */
+.seg {
   display: inline-flex !important;
   align-items: stretch !important;
   align-self: center !important;
+  height: var(--control-h-md) !important;
+  min-height: var(--control-h-md) !important;
+  border: 1px solid var(--color-border-strong) !important;
+  border-radius: var(--radius-control) !important;
+  overflow: hidden !important;
+  background: var(--color-surface-card) !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  box-sizing: border-box !important;
 }
 
-.filter-grid .seg__btn {
+.seg .seg__btn {
+  flex: 1 1 0 !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  padding: 0 var(--control-pad-x-md) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--color-surface-card) !important;
+  color: var(--color-text-default) !important;
+  font-family: inherit !important;
+  font-size: var(--type-button-fs) !important;
+  font-weight: var(--fw-medium) !important;
   line-height: var(--type-body-lh) !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  align-self: stretch !important;
   margin: 0 !important;
+  align-self: stretch !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
 }
 
-/* ── Pill 버튼 (RAG 선택) → ds-chip 기준 ── */
-/* P2: 보험 약관, FAQ 등 */
-.pill-btn {
-  display:       inline-flex !important;
-  align-items:   center !important;
-  height:        var(--control-h-md) !important;
-  padding:       0 var(--control-pad-x-md) !important;
-  border:        1px solid var(--color-border-strong) !important;
-  border-radius: var(--radius-control) !important;
-  background:    var(--color-surface-soft) !important;
-  color:         var(--color-text-secondary) !important;
-  font-family:   inherit !important;
-  font-size:     var(--type-ui-label-fs) !important;
-  font-weight:   var(--fw-medium) !important;
-  line-height:   1 !important;
-  cursor:        pointer !important;
-  transition:    background var(--motion-fast), border-color var(--motion-fast) !important;
-}
-.pill-btn:hover { background: var(--c-neutral-100) !important; border-color: var(--c-neutral-300) !important; }
-.pill-btn.is-active {
-  background:   var(--c-neutral-800) !important;
-  border-color: var(--c-neutral-800) !important;
-  color:        var(--color-text-inverse) !important;
+.seg .seg__btn + .seg__btn {
+  border-left: 1px solid var(--color-border-strong) !important;
 }
 
-/* ── Pager 버튼 → ds-btn--sm 기준 ── */
-/* P3: 페이지 네비게이션 */
-.pager__btn {
-  display:       inline-flex !important;
-  align-items:   center !important;
-  justify-content: center !important;
-  min-width:     var(--control-h-sm) !important;
-  height:        var(--control-h-sm) !important;
-  padding:       0 var(--space-sm) !important;
-  border:        1px solid transparent !important;
-  border-radius: var(--radius-control) !important;
-  background:    transparent !important;
-  color:         var(--color-text-muted) !important;
-  font-family:   inherit !important;
-  font-size:     var(--type-ui-label-fs) !important;
-  font-weight:   var(--fw-medium) !important;
-  line-height:   1 !important;
-  cursor:        pointer !important;
-  transition:    background var(--motion-fast), color var(--motion-fast) !important;
+.seg .seg__btn:hover {
+  background: var(--color-surface-soft) !important;
+  color: var(--color-text-secondary) !important;
 }
-.pager__btn:hover { background: var(--c-neutral-100) !important; color: var(--color-text-strong) !important; }
-.pager__btn.is-active {
-  background:  var(--c-neutral-800) !important;
-  color:       var(--color-text-inverse) !important;
+
+.seg .seg__btn.is-active {
+  background: var(--c-neutral-800) !important;
+  color: var(--color-text-inverse) !important;
   font-weight: var(--fw-bold) !important;
 }
+
+/* ?????? ??? segmented control?? ??? input????? 40px form height??????? */
+.filter-grid .seg {
+  height: var(--filter-control-height, 40px) !important;
+  min-height: var(--filter-control-height, 40px) !important;
+}
+.filter-grid .seg .seg__btn,
+.filter-grid .seg__btn {
+  min-height: var(--filter-control-height, 40px) !important;
+}
+
+/* Pager??chip ????? ?????sm */
+.pager__btn {
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  min-width: var(--control-h-sm) !important; height: var(--control-h-sm) !important;
+  padding: 0 var(--space-sm) !important;
+  border: 1px solid transparent !important; border-radius: var(--radius-control) !important;
+  background: transparent !important; color: var(--color-text-muted) !important;
+  font-family: inherit !important; font-size: var(--type-button-fs) !important;
+  font-weight: var(--fw-medium) !important; line-height: 1 !important; cursor: pointer !important;
+  transition: background var(--motion-fast), color var(--motion-fast) !important;
+}
+.pager__btn:hover { background: var(--c-neutral-100) !important; color: var(--color-text-strong) !important; }
+.pager__btn.is-active { background: var(--c-neutral-800) !important; color: var(--color-text-inverse) !important; font-weight: var(--fw-bold) !important; }
 .pager__btn--edge { color: var(--color-text-soft) !important; }
 
-/* ── Inline 아이콘 버튼 → ds-icon-btn 기준 ── */
-/* P1: 변경저장, 분리 / P2: 카드 헤더 액션 */
-.cinfo-caller__save {
-  height:        var(--control-h-sm) !important;
-  min-height:    var(--control-h-sm) !important;
-  padding:       0 var(--control-pad-x-sm) !important;
-  border:        0 !important;
-  border-radius: var(--radius-control) !important;
-  background:    var(--color-status-danger) !important;
-  color:         var(--color-text-inverse) !important;
+/* ???? Case 6: Icon ???? */
+.ds-icon-btn,
+.icon-btn {
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  width: var(--control-h-sm) !important; height: var(--control-h-sm) !important;
+  border: none !important; border-radius: var(--radius-control) !important;
+  background: transparent !important; color: var(--color-text-muted) !important;
+  cursor: pointer !important; flex-shrink: 0 !important;
+  transition: background var(--motion-fast), color var(--motion-fast) !important;
+}
+.ds-icon-btn:hover,
+.icon-btn:hover { background: var(--color-surface-soft) !important; color: var(--color-text-default) !important; }
+
+/* ???? Case 7: Tool (pill shape toggle) ???? */
+.ai-agent-tool {
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  height: var(--control-h-sm) !important; min-height: var(--control-h-sm) !important;
+  padding: 0 var(--control-pad-x-sm) !important;
+  border: 1px solid var(--color-border-default) !important;
+  border-radius: var(--radius-pill) !important;
+  background: var(--color-surface-soft) !important; color: var(--color-text-muted) !important;
+  font-family: var(--font-sans) !important; font-size: var(--type-button-fs) !important;
+  font-weight: var(--fw-medium) !important; line-height: 1 !important;
+  white-space: nowrap !important; cursor: pointer !important;
+  transition: background var(--motion-fast), color var(--motion-fast) !important;
+}
+.ai-agent-tool.is-on,
+.ai-agent-tool[aria-pressed="true"] {
+  background: var(--c-neutral-100) !important; border-color: var(--c-neutral-300) !important;
+  color: var(--color-text-secondary) !important; font-weight: var(--fw-semibold) !important;
+}
+
+/* ================================================================
+   ??? / ??? 4???? Alias
+   Case 1 Badge      pill / ?????? ??? ?? (Status?Risk?File?Step ???)
+   Case 2 Outline Tag border ??? ??? ???
+   Case 3 Dot Status  dot + ?????   Case 4 Label       ??????????(typography ??? ???)
+================================================================ */
+
+/* ???? Case 1: Badge (?? ???? ???? */
+/* ??? ????
+   P1 ??cinfo-guide__item-status (???/????
+   P2 ??file__status (???/???/????, pill
+   P3 ??risk (High/Mid/Low), status pill ?? */
+
+.ds-badge,
+.file__status,
+.risk,
+.pill {
+  display:       inline-flex !important;
+  align-items:   center !important;
+  gap:           4px !important;
+  height:        18px !important;
+  padding:       0 var(--space-xs) !important;
+  border-radius: var(--radius-pill) !important;
   font-family:   inherit !important;
-  font-size:     var(--type-ui-label-fs) !important;
+  font-size:     var(--fs-10) !important;
   font-weight:   var(--fw-bold) !important;
   line-height:   1 !important;
-  cursor:        pointer !important;
+  white-space:   nowrap !important;
+  background:    var(--c-neutral-100) !important;
+  color:         var(--color-text-secondary) !important;
 }
 
-.ds-col-head--ai .ds-col-head__action-btn {
-  height:      var(--control-h-sm) !important;
-  padding:     0 var(--control-pad-x-sm) !important;
-  font-size:   var(--type-ui-label-fs) !important;
+/* Risk???? ??? ????? */
+.risk {
+  height:  20px !important;
+  padding: 0 var(--space-sm) !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* ???? Badge ??????? ???? */
+.file__status--ok,
+.ds-badge--success,
+.cinfo-guide__item--done .cinfo-guide__item-status {
+  background: var(--color-status-success-soft) !important;
+  color:      var(--color-status-success) !important;
+}
+
+.file__status--fail,
+.ds-badge--danger,
+.risk--high {
+  background: var(--color-status-danger-soft) !important;
+  color:      var(--color-status-danger) !important;
+}
+
+.ds-badge--warning,
+.risk--mid {
+  background: var(--color-status-warning-soft) !important;
+  color:      var(--color-status-warning) !important;
+}
+
+.file__status--loading,
+.ds-badge--neutral,
+.risk--low {
+  background: var(--c-neutral-100) !important;
+  color:      var(--color-text-secondary) !important;
+}
+
+.ds-badge--info {
+  background: var(--color-status-info-soft) !important;
+  color:      var(--color-status-info) !important;
+}
+
+/* ???? Case 2: Outline Tag ???? */
+/* ??? ????
+   P1 ??cinfo-history__pill (?? ??????????)
+         product-info-summary__chip (??? ??? ??
+   P3 ?????????? */
+
+.ds-tag,
+.cinfo-history__pill,
+.product-info-summary__chip {
+  display:       inline-flex !important;
+  align-items:   center !important;
+  height:        22px !important;
+  padding:       0 var(--space-sm) !important;
+  border:        1px solid var(--color-border-default) !important;
+  border-radius: var(--r-sm) !important;
+  background:    var(--color-surface-card) !important;
+  color:         var(--color-text-secondary) !important;
+  font-family:   inherit !important;
+  font-size:     var(--type-caption-fs) !important;
+  font-weight:   var(--fw-medium) !important;
+  line-height:   1 !important;
+  white-space:   nowrap !important;
+}
+
+.ds-tag--brand,
+.product-info-summary__chip--ok {
+  border-color: var(--color-brand-accent-border) !important;
+  background:   var(--color-brand-primary-softer) !important;
+  color:        var(--color-brand-primary) !important;
+}
+
+.ds-tag--danger,
+.product-info-summary__chip--deny {
+  border-color: rgba(248, 113, 113, 0.24) !important;
+  background:   var(--color-status-danger-soft) !important;
+  color:        var(--color-status-danger) !important;
+}
+
+.ds-tag--muted,
+.product-info-summary__chip--muted {
+  background: var(--color-surface-soft) !important;
+  color:      var(--color-text-muted) !important;
+}
+
+/* ???? Case 3: Dot Status ???? */
+/* ??? ????
+   P3 ??status (????/ ?????/ ?????) */
+
+.ds-dot-status,
+.status {
+  display:     inline-flex !important;
+  align-items: center !important;
+  gap:         var(--space-xs) !important;
+  font-family: inherit !important;
+  font-size:   var(--type-caption-fs) !important;
   font-weight: var(--fw-semibold) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  color:       var(--color-text-soft) !important;
 }
 
-/* ── Tool 버튼 (파일/음성/지식ON) ── */
-/* P1: SHINDY 패널 하단 */
-.ai-agent-tool {
-  height:      var(--control-h-sm) !important;
-  min-height:  var(--control-h-sm) !important;
-  padding:     0 var(--control-pad-x-sm) !important;
-  font-family: var(--font-sans) !important;
-  font-size:   var(--type-ui-label-fs) !important;
-  font-weight: var(--fw-medium) !important;
-  line-height: 1 !important;
+.ds-dot-status::before,
+.status::before {
+  content:       '' !important;
+  width:         6px !important;
+  height:        6px !important;
+  border-radius: var(--radius-circle) !important;
+  background:    currentColor !important;
+  flex-shrink:   0 !important;
 }
+
+.status--unchecked,
+.ds-dot-status--wait    { color: var(--color-text-soft) !important; }
+.status--checking,
+.ds-dot-status--progress{ color: var(--color-text-muted) !important; }
+.status--done,
+.ds-dot-status--done    { color: var(--color-text-secondary) !important; }
+
+/* ???? Case 4: Label (?????????? ???? */
+/* ??? ????
+   P1 ??????? dt, cinfo-caller__label
+   P2 ??form-row__label, editor-label
+   P3 ??filter-grid__label, mini-card__title, stat-row__label-title */
+
+.ds-label,
+.form-row__label,
+.filter-grid__label,
+.mini-card__title,
+.stat-row__label-title,
+.editor-label,
+.cinfo-caller__label,
+.cust-list .label,
+.cust-list dt,
+.ai-result__label {
+  font-family: inherit !important;
+  font-size:   var(--type-caption-fs) !important;
+  font-weight: var(--fw-medium) !important;
+  line-height: var(--lh-snug) !important;
+  color:       var(--color-text-muted) !important;
+}
+
+.editor-label {
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+/* ?? Case 5: Work Body Text (P1 ?? ?? ?? ???) ?? */
+.ds-work-text,
+.dash-card-history .history-item__title,
+.live-outer--info .contract-list__title,
+.live-composite .stt-card__log .stt-chat__bubble,
+.live-composite .live-outer--stt .stt-chat__bubble,
+.live-composite .know-acc-flow__question,
+.live-composite .live-outer--know .know-acc-flow__question,
+.live-composite .know-acc-answer-item__title,
+.live-composite .live-outer--know .know-acc-answer-item__title,
+.live-composite .know-acc-flow__answer-body,
+.live-composite .live-outer--know .know-acc-flow__answer-body,
+.live-composite .know-acc-answer-item__detail li,
+.live-composite .live-outer--know .know-acc-answer-item__detail li {
+  font-family: inherit !important;
+  font-size:   var(--type-body-fs) !important;
+  line-height: var(--type-body-lh) !important;
+}
+
 .check {
   font-size: var(--type-body-fs) !important;
   gap:       var(--space-xs) !important;
@@ -327,14 +635,7 @@
   accent-color: var(--c-neutral-800) !important;
 }
 
-/* ── 필터 레이블 공통 ── */
-.filter-grid__label {
-  font-size:   var(--type-caption-fs) !important;
-  font-weight: var(--fw-medium) !important;
-  color:       var(--color-text-muted) !important;
-}
-
-/* ── 미니카드 공통 ── */
+/* ???? ???? ?? ???? */
 .mini-card {
   padding: var(--layout-card-padding) !important;
   gap:     var(--space-md) !important;

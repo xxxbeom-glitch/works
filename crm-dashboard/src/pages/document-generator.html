@@ -113,15 +113,25 @@
     /* 중앙 컬럼: 카드 1개를 컬럼 전체 높이로 채움 (내부 본문에서 스크롤) */
     .col--stretch { gap: 0; }
     .col--stretch .col__scroll { padding-right: 0; margin-right: 0; }
+    .col__scroll--contained {
+      overflow: hidden;
+      padding-right: 0;
+      margin-right: 0;
+    }
 
     /* CTA 영역: 좌측 컬럼 하단 고정 */
     .col__cta {
       flex-shrink: 0;
       position: sticky;
       bottom: 0;
-      padding: 12px;
+      padding: var(--space-sm) 0 0;
       background: var(--color-surface-outer);
+      border-top: 1px solid var(--color-border-default);
       z-index: 10;
+    }
+    .col__cta .btn-primary {
+      height: 48px;
+      border-radius: var(--radius-control);
     }
 
     /* ----- 내부 카드 (#FFF / radius 16 / overflow hidden) ----- */
@@ -142,20 +152,13 @@
     /* 카드 헤더 */
     .card__head {
       flex-shrink: 0;
-      padding: 24px var(--layout-card-padding);
+      padding: var(--space-lg) var(--layout-card-padding) !important;
       border-bottom: 1px solid var(--color-border-default);
       display: flex; align-items: center; justify-content: space-between;
       gap: var(--space-md);
     }
     .card__head-lead {
       display: inline-flex; align-items: center; gap: var(--space-sm); min-width: 0;
-    }
-    .card__num {
-      flex-shrink: 0;
-      width: 22px; height: 22px; border-radius: 50%;
-      background: var(--c-neutral-100); color: var(--color-text-secondary);
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: var(--type-small-fs); font-weight: var(--fw-bold); line-height: 1;
     }
     .card__title {
       margin: 0;
@@ -176,7 +179,8 @@
       display: flex; flex-direction: column; gap: var(--space-md);
       min-width: 0;
     }
-    .card__body--flex {
+    .card__body--flex,
+    .card__body--scroll {
       flex: 1 1 auto;
       min-height: 0;
       overflow-y: auto;
@@ -184,13 +188,17 @@
       scrollbar-width: thin;
       scrollbar-color: rgba(156, 163, 175, 0.30) transparent;
     }
-    .card__body--flex::-webkit-scrollbar { width: 5px; }
-    .card__body--flex::-webkit-scrollbar-track { background: transparent; }
-    .card__body--flex::-webkit-scrollbar-thumb {
+    .card__body--flex::-webkit-scrollbar,
+    .card__body--scroll::-webkit-scrollbar { width: 5px; }
+    .card__body--flex::-webkit-scrollbar-track,
+    .card__body--scroll::-webkit-scrollbar-track { background: transparent; }
+    .card__body--flex::-webkit-scrollbar-thumb,
+    .card__body--scroll::-webkit-scrollbar-thumb {
       background: rgba(156, 163, 175, 0.30);
       border-radius: var(--radius-pill);
     }
-    .card__body--flex::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.52); }
+    .card__body--flex::-webkit-scrollbar-thumb:hover,
+    .card__body--scroll::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.52); }
 
     /* ============================================================
        1열 - 카드별 위젯
@@ -306,11 +314,12 @@
        - 선택: dark filled (neutral-700) + white text
        ============================================================ */
     :root {
-      --sel-h:       34px;
-      --sel-r:       var(--r-sm);        /* 6px */
-      --sel-border:  var(--color-border-default);
-      --sel-bg-on:   var(--c-neutral-700);
-      --sel-cl-on:   var(--color-text-inverse);
+      --sel-h:         34px;
+      --sel-r:         var(--r-sm);        /* 6px */
+      --sel-border:    #D1D5DB;
+      --sel-bg-on:     #F3F4F6;
+      --sel-border-on: #9CA3AF;
+      --sel-cl-on:     #111827;
     }
 
     /* ── 참조 RAG 선택: 2열 그리드 ── */
@@ -342,13 +351,13 @@
     }
     .rag-select-card .check.is-checked {
       background: var(--sel-bg-on);
-      border-color: var(--sel-bg-on);
+      border-color: var(--sel-border-on);
       color: var(--sel-cl-on);
       font-weight: var(--fw-bold);
     }
     .rag-select-card .check.is-checked:hover {
-      background: var(--c-neutral-800);
-      border-color: var(--c-neutral-800);
+      background: var(--c-neutral-200);
+      border-color: var(--sel-border-on);
     }
 
     /* 체크박스 숨김 — 클릭 이벤트만 활용 */
@@ -386,13 +395,13 @@
     }
     .chip.is-active {
       background: var(--sel-bg-on);
-      border-color: var(--sel-bg-on);
+      border-color: var(--sel-border-on);
       color: var(--sel-cl-on);
       font-weight: var(--fw-bold);
     }
     .chip.is-active:hover {
-      background: var(--c-neutral-800);
-      border-color: var(--c-neutral-800);
+      background: var(--c-neutral-200);
+      border-color: var(--sel-border-on);
     }
     .chip:focus-visible {
       outline: 2px solid var(--c-neutral-400);
@@ -419,13 +428,14 @@
       color: var(--color-text-secondary);
     }
     .card__head-action.is-active {
-      background: var(--c-neutral-800);
-      border-color: var(--c-neutral-800);
-      color: var(--color-text-inverse);
+      background: var(--sel-bg-on);
+      border-color: var(--sel-border-on);
+      color: var(--sel-cl-on);
+      font-weight: var(--fw-bold);
     }
     .card__head-action.is-active:hover {
-      background: var(--c-neutral-900);
-      border-color: var(--c-neutral-900);
+      background: var(--c-neutral-200);
+      border-color: var(--sel-border-on);
     }
 
     /* form row + segmented + number input */
@@ -501,15 +511,23 @@
       flex-shrink: 0;
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      flex-wrap: nowrap;
       gap: var(--space-xs);
-      margin: calc(var(--layout-card-padding) * -1) calc(var(--layout-card-padding) * -1) 16px;
-      padding: 10px var(--layout-card-padding);
+      margin: 0;
+      padding: 0 0 var(--space-md);
       border-bottom: 1px solid var(--color-border-default);
       background: var(--color-surface-card);
       color: var(--color-text-muted);
       font-size: var(--type-small-fs);
       line-height: var(--lh-snug);
+    }
+    .editor-meta__left {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      min-width: 0;
     }
     .editor-meta__sep { color: var(--color-text-soft); }
     .editor-status {
@@ -696,6 +714,19 @@
     .ta:focus { border-color: var(--color-border-strong); }
 
     .actions { display: flex; gap: var(--space-sm); }
+    .revision-card {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .revision-card .card__body {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .revision-card .ta {
+      flex: 1 1 auto;
+      min-height: 96px;
+      resize: none;
+    }
     .btn-secondary {
       flex: 1 1 0;
       height: var(--control-h-md);
@@ -784,7 +815,6 @@
           <article class="card">
             <header class="card__head">
               <span class="card__head-lead">
-                <span class="card__num" aria-hidden="true">1</span>
                 <h3 class="card__title">문서 업로드</h3>
               </span>
             </header>
@@ -846,7 +876,6 @@
           <article class="card rag-select-card">
             <header class="card__head">
               <span class="card__head-lead">
-                <span class="card__num" aria-hidden="true">2</span>
                 <h3 class="card__title">참조 RAG 선택</h3>
               </span>
               <button type="button" class="card__head-action" id="rag-select-all">전체 선택</button>
@@ -868,7 +897,6 @@
           <article class="card doctype-card">
             <header class="card__head">
               <span class="card__head-lead">
-                <span class="card__num" aria-hidden="true">3</span>
                 <h3 class="card__title">문서 유형 선택</h3>
               </span>
               <button type="button" class="card__head-action is-active" id="doc-merge-btn">문서 통합</button>
@@ -888,7 +916,6 @@
           <article class="card">
             <header class="card__head">
               <span class="card__head-lead">
-                <span class="card__num" aria-hidden="true">4</span>
                 <h3 class="card__title">생성 옵션 선택</h3>
               </span>
             </header>
@@ -952,13 +979,16 @@
               <h2 class="ds-col-head__title">문서 생성 결과</h2>
             </span>
           </header>
-          <div class="col__scroll" style="overflow: hidden;">
+          <div class="col__scroll col__scroll--contained">
 
           <article class="card card--stretch">
-            <div class="card__body card__body--flex">
+            <div class="card__body card__body--scroll card__body--flex">
               <div class="editor-meta" aria-label="문서 생성 결과 상태">
-                <span class="pill">요약본</span>
-                <span>생성일: 2026-05-14 00:00:00</span>
+                <span class="editor-meta__left">
+                  <span class="pill">요약본</span>
+                  <span>생성일: 2026-05-14 00:00:00</span>
+                </span>
+                <span class="editor-status__save"><span class="editor-status__save-dot" aria-hidden="true"></span>자동 저장됨</span>
               </div>
               <div class="editor-doc">
                 <h1>보험실효 안내방법</h1>
@@ -981,12 +1011,11 @@
                 </ol>
               </div>
             </div>
-            <footer class="editor-status" aria-label="문서 편집 상태">
+            <footer class="card__footer editor-status" aria-label="문서 편집 상태">
               <div class="editor-status__group">
                 <span>페이지 수: <strong>10</strong></span>
                 <span>글자 수: <strong>80,000</strong></span>
               </div>
-              <span class="editor-status__save"><span class="editor-status__save-dot" aria-hidden="true"></span>자동 저장됨</span>
             </footer>
           </article>
 
@@ -1012,7 +1041,6 @@
           <article class="card">
             <header class="card__head">
               <span class="card__head-lead">
-                <span class="card__num" aria-hidden="true">6</span>
                 <h3 class="card__title">참고 출처<span class="card__title-sub">(5)</span></h3>
               </span>
               <button type="button" class="link-btn">
@@ -1062,10 +1090,9 @@
           </article>
 
           <!-- 7) 수정 요청 -->
-          <article class="card">
+          <article class="card revision-card">
             <header class="card__head">
               <span class="card__head-lead">
-                <span class="card__num" aria-hidden="true">7</span>
                 <h3 class="card__title">수정 요청</h3>
               </span>
             </header>
@@ -1088,7 +1115,6 @@
           <article class="card">
             <header class="card__head">
               <span class="card__head-lead">
-                <span class="card__num" aria-hidden="true">8</span>
                 <h3 class="card__title">다운로드</h3>
               </span>
             </header>

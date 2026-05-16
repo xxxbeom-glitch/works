@@ -4811,6 +4811,13 @@
       margin-top: var(--space-md);
     }
 
+    .cinfo-panel {
+      --cinfo-card-pad: 16px;
+      --cinfo-row-gap: var(--space-xxs);
+      --cinfo-row-min-h: 34px;
+      --cinfo-row-pad-y: var(--space-xxs);
+    }
+
     /* 헤더가 있는 카드 (최근 상담 이력 / 계약 리스트 / 상담 안내 가이드)
        - 카드 자체 padding/gap을 0으로 두고, header(padding:16)와
          content(padding:16)이 각자 자기 여백을 책임진다. */
@@ -4819,6 +4826,16 @@
     .cinfo-panel .cinfo-section--guide {
       padding: 0;
       gap: 0;
+    }
+
+    .cinfo-panel .cinfo-section--guide {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    .cinfo-panel .cinfo-section--customer {
+      padding: var(--cinfo-card-pad);
+      gap: var(--space-sm);
     }
 
     .cinfo-panel .cinfo-section__head {
@@ -4874,7 +4891,7 @@
     .cinfo-panel .cinfo-section--history .cinfo-history__list,
     .cinfo-panel .cinfo-section--contracts .cinfo-contracts,
     .cinfo-panel .cinfo-section--guide .cinfo-guide {
-      padding: 16px;
+      padding: var(--cinfo-card-pad);
     }
 
     /* 1) 고객정보 본문 */
@@ -4888,7 +4905,10 @@
     }
 
     .cinfo-panel .cinfo-customer__meta {
+      align-self: stretch;
       margin: 0;
+      padding-bottom: 0;
+      border-bottom: 0;
       font-size: var(--type-body-fs);
       font-weight: var(--fw-regular);
       line-height: var(--lh-snug);
@@ -4902,7 +4922,7 @@
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: var(--space-xs);
+      gap: var(--cinfo-row-gap);
     }
 
     .cinfo-panel .cinfo-customer__list > li {
@@ -4910,13 +4930,13 @@
       align-items: center;
       justify-content: space-between;
       gap: var(--space-lg);
-      min-height: 26px;
-      padding: 0;
+      min-height: var(--cinfo-row-min-h);
+      padding: var(--cinfo-row-pad-y) 0;
     }
 
     .cinfo-panel .cinfo-customer__label {
       position: relative;
-      padding-left: 12px;
+      padding-left: var(--space-sm);
       font-size: var(--type-body-fs);
       font-weight: var(--fw-regular);
       color: var(--color-text-muted);
@@ -4931,7 +4951,7 @@
       width: 3px;
       height: 3px;
       border-radius: 50%;
-      background: var(--c-neutral-400);
+      background: var(--color-text-soft);
       transform: translateY(-50%);
     }
 
@@ -5025,7 +5045,7 @@
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: var(--space-sm);
+      gap: var(--cinfo-row-gap);
     }
 
     .cinfo-panel .cinfo-history__row {
@@ -5033,6 +5053,8 @@
       grid-template-columns: 110px minmax(0, 1fr);
       align-items: center;
       gap: var(--space-sm);
+      min-height: var(--cinfo-row-min-h);
+      padding: var(--cinfo-row-pad-y) 0;
     }
 
     .cinfo-panel .cinfo-history__date {
@@ -5067,6 +5089,9 @@
       list-style: none;
       margin: 0;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--cinfo-row-gap);
     }
 
     .cinfo-panel .cinfo-contract {
@@ -5074,9 +5099,9 @@
       align-items: center;
       justify-content: space-between;
       gap: var(--space-sm);
-      height: 48px;
-      margin: 0 0 8px;
-      padding: 0 12px;
+      min-height: 44px;
+      margin: 0;
+      padding: var(--cinfo-row-pad-y) 12px;
       border-radius: var(--radius-control);
       background: transparent;
       color: var(--color-text-strong);
@@ -5156,6 +5181,8 @@
       align-self: stretch;
       display: flex;
       flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
       gap: var(--space-md);
       margin: 0;
     }
@@ -6572,7 +6599,7 @@
       flex-wrap: nowrap !important;
       gap: var(--space-md) !important;
       margin: 0 !important;
-      padding: 8px 16px !important;
+      padding: 12px 16px !important;
       background: transparent !important;
       border: 0 !important;
       border-top: 1px solid var(--color-border-default) !important;
@@ -7001,7 +7028,7 @@
       align-items: stretch !important;
       gap: var(--space-md) !important;
       margin: 0 !important;
-      padding: 0 !important;
+      padding: 0 0 var(--space-2xl) !important;
       background: transparent !important;
       border: 0 !important;
       box-shadow: none !important;
@@ -7757,7 +7784,7 @@
       gap: var(--space-md) !important;
       width: 100% !important;
       margin: 0 !important;
-      padding: 8px 16px !important;
+      padding: 12px 16px !important;
       background: transparent !important;
       border: 0 !important;
       border-top: 1px solid var(--color-border-default) !important;
@@ -7925,7 +7952,7 @@
       display: flex !important;
       flex-direction: column !important;
       gap: var(--space-sm) !important;
-      padding: 0 !important;
+      padding: 0 0 var(--space-2xl) !important;
       margin: 0 !important;
       background: transparent !important;
     }
@@ -8109,9 +8136,9 @@
       align-items: center !important;
       gap: var(--space-md) !important;
       width: 100% !important;
-      min-height: 44px !important;
+      min-height: 52px !important;
       margin: 0 !important;
-      padding: 8px 16px !important;
+      padding: 12px 16px !important;
       background: transparent !important;
       border: 0 !important;
       border-top: 1px solid var(--color-border-default) !important;
@@ -8205,7 +8232,7 @@
       flex-direction: row !important;
       flex-wrap: nowrap !important;
       gap: var(--space-md) !important;
-      padding: 8px 16px !important;
+      padding: 12px 16px !important;
       margin: 0 !important;
       background: transparent !important;
       border: 0 !important;
@@ -8407,6 +8434,8 @@
       align-self: stretch !important;
       display: flex !important;
       flex-direction: column !important;
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
       gap: 8px !important;
       margin: 0 !important;
       padding: 14px 16px !important;
@@ -8480,7 +8509,7 @@
       grid-column: auto !important;
     }
 
-    /* 아이콘 — 상태 pill로 통합되어 숨김 */
+    /* 아이콘 — 완료 상태는 칸 자체의 ::before 체크로 표시 */
     .cinfo-panel .cinfo-guide__item-icon {
       display: none !important;
     }
@@ -8496,31 +8525,27 @@
       line-height: var(--lh-snug) !important;
     }
 
-    /* 상태 pill — 기본 숨김 (완료만 표시) */
+    /* 상태 라벨은 사용하지 않는다. 완료 여부는 칸 전체와 체크 아이콘으로 표현 */
     .cinfo-panel .cinfo-guide__item-status {
       display: none !important;
     }
 
-    /* ── done 상태 — ✓ 완료 pill ── */
+    /* ── done 상태 — 전체 칸 green state + 상단 체크 아이콘 ── */
     .cinfo-panel .cinfo-guide__item--done {
-      background: var(--color-surface-soft) !important;
-      border-color: var(--color-border-default) !important;
-      color: var(--color-text-muted) !important;
+      background: var(--color-status-success-soft) !important;
+      border-color: var(--color-status-success) !important;
+      color: var(--color-status-success) !important;
     }
 
-    .cinfo-panel .cinfo-guide__item--done .cinfo-guide__item-status {
+    .cinfo-panel .cinfo-guide__item--done::before {
+      content: "" !important;
       display: inline-flex !important;
-      align-items: center !important;
-      gap: 2px !important;
-      height: 16px !important;
-      padding: 0 5px !important;
-      border-radius: var(--radius-pill) !important;
-      background: var(--color-status-success-soft) !important;
-      color: var(--color-status-success) !important;
-      font-size: var(--fs-10) !important;
-      font-weight: var(--fw-bold) !important;
-      line-height: 1 !important;
-      white-space: nowrap !important;
+      width: 14px !important;
+      height: 14px !important;
+      flex: 0 0 14px !important;
+      background: currentColor !important;
+      mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.4 4.6 6.7 11.3 2.9 7.5l1.1-1.1 2.7 2.7 5.6-5.6 1.1 1.1Z'/%3E%3C/svg%3E") center / contain no-repeat !important;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.4 4.6 6.7 11.3 2.9 7.5l1.1-1.1 2.7 2.7 5.6-5.6 1.1 1.1Z'/%3E%3C/svg%3E") center / contain no-repeat !important;
     }
 
     /* ── current(진행중) 상태 — neutral 강조, 라벨 없음 ── */
@@ -8858,9 +8883,9 @@
       flex-wrap: nowrap !important;
       gap: var(--space-md) !important;
       width: 100% !important;
-      min-height: 44px !important;
+      min-height: 52px !important;
       margin: 0 !important;
-      padding: 8px 16px !important;
+      padding: 12px 16px !important;
       background: transparent !important;
       border: 0 !important;
       border-top: 1px solid var(--color-border-default) !important;
@@ -9395,7 +9420,7 @@
                           <ul class="cinfo-guide__list" id="cinfo-guide-list" aria-label="필수 안내 5단계">
                             <li class="cinfo-guide__item cinfo-guide__item--done" data-guide-step="identity">
                               <span class="cinfo-guide__item-title">본인확인</span>
-                              <span class="cinfo-guide__item-status">완료</span>
+                              <span class="cinfo-guide__item-status"></span>
                             </li>
                             <li class="cinfo-guide__item cinfo-guide__item--current" data-guide-step="method">
                               <span class="cinfo-guide__item-title">청구방법</span>
@@ -9990,8 +10015,7 @@
             item.className = "cinfo-guide__item " + statusClass(status);
             item.setAttribute("data-status", status);
             var state = item.querySelector(".cinfo-guide__item-status");
-            /* 완료 항목만 "✓ 완료" pill 표시, 나머지는 빈 문자열 */
-            if (state) state.textContent = status === "done" ? "✓ 완료" : "";
+            if (state) state.textContent = "";
           });
         }
 

@@ -314,8 +314,8 @@
        - 선택: dark filled (neutral-700) + white text
        ============================================================ */
     :root {
-      --sel-h:         34px;
-      --sel-r:         var(--r-sm);        /* 6px */
+      --sel-h:         var(--control-h-md);   /* 공통 form control 기준 (30px) */
+      --sel-r:         var(--r-sm);           /* 6px */
       --sel-border:    #D1D5DB;
       --sel-bg-on:     #F3F4F6;
       --sel-border-on: #9CA3AF;
@@ -465,12 +465,15 @@
     .seg__btn + .seg__btn { border-left: 1px solid var(--color-border-strong); }
     .seg__btn:hover { background: var(--color-surface-soft); color: var(--color-text-secondary); }
     .seg__btn.is-active {
-      background: var(--c-neutral-100);
-      color: var(--color-text-secondary);
-      font-weight: var(--fw-bold);
+      /* Selected = 정책 일치 (RAG/chip/pill과 동일) */
+      background: var(--sel-bg-on);
+      color: var(--sel-cl-on);
+      font-weight: var(--fw-semibold);
     }
     .num-input {
-      width: 64px; height: 30px; padding: 0 8px;
+      width: 64px;
+      height: var(--control-h-md);
+      padding: 0 var(--control-pad-x-sm);
       border: 1px solid var(--color-border-strong);
       border-radius: var(--r-sm);
       font-size: var(--type-body-fs); color: var(--color-text-strong);
@@ -660,9 +663,11 @@
     .pill-btn:hover { background: var(--c-neutral-100); border-color: var(--c-neutral-400); }
     .pill-btn.is-active,
     .pill-btn[aria-pressed="true"] {
-      background: var(--c-neutral-800);
-      border-color: var(--c-neutral-800);
-      color: var(--color-text-inverse);
+      /* Selected = 연한 gray + dark text (정책 일치, dark navy 금지) */
+      background: var(--sel-bg-on, #F3F4F6);
+      border-color: var(--sel-border-on, #9CA3AF);
+      color: var(--sel-cl-on, #111827);
+      font-weight: var(--fw-semibold);
     }
 
     /* ── 다운로드 포맷 버튼 (아이콘 + 라벨 세로 정렬) ── */
@@ -749,7 +754,9 @@
     .btn-secondary--primary:hover { background: var(--c-neutral-900); border-color: var(--c-neutral-900); }
 
     .input-text {
-      width: 100%; height: 40px; padding: 0 12px;
+      width: 100%;
+      height: var(--control-h-md);
+      padding: 0 var(--control-pad-x-md);
       border: 1px solid var(--color-border-strong);
       background: var(--color-surface-card); color: var(--color-text-strong);
       border-radius: var(--radius-control); font-size: var(--type-body-fs);
@@ -982,6 +989,11 @@
           <div class="col__scroll col__scroll--contained">
 
           <article class="card card--stretch">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <h3 class="card__title">문서 생성 결과</h3>
+              </span>
+            </header>
             <div class="card__body card__body--scroll card__body--flex">
               <div class="editor-meta" aria-label="문서 생성 결과 상태">
                 <span class="editor-meta__left">

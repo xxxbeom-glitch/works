@@ -1,441 +1,3845 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>스타일가이드 · 신한라이프 AI 상담지원</title>
-  <link rel="stylesheet" href="../styles/design-system/index.css" />
-  <script>
-    (function () {
-      try {
-        if (window.self === window.top) {
-          window.location.replace('app.html#page=4');
-        }
-      } catch (_) {}
-    })();
-  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>신한라이프 CRM 디자인 시스템 — Style Guide</title>
+  <link rel="stylesheet" href="../styles/design-system/index.css">
   <style>
-    html,
-    body {
+    /* ============================================================
+       Style Guide 전용 레이아웃
+       - 프로젝트 실제 토큰/컴포넌트만 사용
+       - 가이드 자체도 동일한 톤 (neutral gray, card 기반)
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      margin: 0; padding: 0;
+      font-family: var(--font-sans);
       background: var(--color-surface-app);
-    }
-
-    .page4-content {
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .styleguide-page {
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow-y: auto;
-      padding: var(--layout-shell-pad-x);
-      display: flex;
-      flex-direction: column;
-      gap: var(--layout-section-gap);
-    }
-
-    .sg-hero,
-    .sg-section,
-    .sg-card {
-      background: var(--color-surface-card);
-      border-radius: var(--radius-card);
-      box-shadow: var(--shadow-card);
-    }
-
-    .sg-hero {
-      padding: var(--space-2xl);
-      display: grid;
-      gap: var(--space-md);
-    }
-
-    .sg-eyebrow {
-      margin: 0;
-      color: var(--color-brand-primary);
-      font-size: var(--type-caption-fs);
-      font-weight: var(--fw-bold);
-      line-height: var(--type-caption-lh);
-      letter-spacing: var(--ls-wide);
-    }
-
-    .sg-title {
-      margin: 0;
-      color: var(--color-text-strong);
-      font-size: var(--type-display-fs);
-      font-weight: var(--type-display-fw);
-      line-height: var(--type-display-lh);
-    }
-
-    .sg-desc {
-      max-width: 860px;
-      margin: 0;
-      color: var(--color-text-muted);
+      color: var(--color-text-default);
       font-size: var(--type-body-fs);
       line-height: var(--type-body-lh);
     }
 
-    .sg-section {
-      padding: var(--space-2xl);
+    /* ── Layout shell ── */
+    .sg-layout {
       display: grid;
-      gap: var(--space-lg);
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
     }
 
-    .sg-section__head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: var(--space-lg);
+    .sg-side {
+      position: sticky; top: 0;
+      height: 100vh; overflow-y: auto;
+      background: var(--color-surface-card);
+      border-right: 1px solid var(--color-border-default);
+      padding: var(--space-3xl) var(--space-lg);
     }
 
-    .sg-section__title {
-      margin: 0;
+    .sg-side__brand {
+      font-size: var(--type-subheading-fs);
+      font-weight: var(--fw-bold);
       color: var(--color-text-strong);
-      font-size: var(--type-title-fs);
-      font-weight: var(--type-title-fw);
-      line-height: var(--type-title-lh);
+      margin: 0 0 var(--space-md) 0;
+      letter-spacing: -0.01em;
     }
 
-    .sg-section__summary {
-      margin: var(--space-xs) 0 0;
+    .sg-side__sub {
+      font-size: var(--type-caption-fs);
       color: var(--color-text-muted);
+      margin: 0 0 var(--space-2xl) 0;
+    }
+
+    .sg-side__group-title {
+      font-size: 10px;
+      font-weight: var(--fw-bold);
+      color: var(--color-text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: var(--space-lg) var(--space-sm) var(--space-xs);
+    }
+    .sg-side__group-title:first-of-type { margin-top: 0; }
+
+    .sg-side__nav { display: flex; flex-direction: column; gap: 2px; }
+    .sg-side__link {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-xs) var(--space-sm);
       font-size: var(--type-small-fs);
-      line-height: var(--type-small-lh);
-    }
-
-    .sg-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--layout-content-gap);
-    }
-
-    .sg-card {
-      padding: var(--layout-card-padding);
-      display: grid;
-      gap: var(--space-md);
-      box-shadow: none;
-      border: var(--border-subtle);
-    }
-
-    .sg-card__title {
-      margin: 0;
-      color: var(--color-text-strong);
-      font-size: var(--type-card-title-fs);
-      font-weight: var(--type-card-title-fw);
-      line-height: var(--type-card-title-lh);
-    }
-
-    .sg-card__text {
-      margin: 0;
-      color: var(--color-text-muted);
-      font-size: var(--type-caption-fs);
-      line-height: var(--lh-normal);
-    }
-
-    .sg-token-list {
-      display: grid;
-      gap: var(--space-sm);
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .sg-token-list li {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-md);
-      min-height: 32px;
-      padding: 0 var(--space-md);
-      border-radius: var(--radius-control);
-      background: var(--color-surface-soft);
       color: var(--color-text-secondary);
-      font-size: var(--type-caption-fs);
-      line-height: var(--type-caption-lh);
+      text-decoration: none;
+      border-radius: var(--r-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
+    }
+    .sg-side__link:hover {
+      background: var(--color-surface-soft);
+      color: var(--color-text-strong);
+    }
+    .sg-side__link.is-active {
+      background: #F3F4F6;
+      color: #111827;
+      border-color: #9CA3AF;
+      font-weight: var(--fw-semibold);
+    }
+    .sg-side__link-num {
+      font-size: 10px;
+      color: var(--color-text-soft);
+      font-family: 'Consolas', monospace;
+      min-width: 18px;
+    }
+    .sg-side__link.is-active .sg-side__link-num { color: var(--color-text-muted); }
+
+    /* ── Section visibility (tab mode) ── */
+    .sg-section { display: none; }
+    .sg-section.is-active { display: block; animation: sgFadeIn 180ms ease-out; }
+    @keyframes sgFadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .sg-token-list code {
-      color: var(--color-brand-primary);
-      font-weight: var(--fw-bold);
+    /* ── Copy button (token/class) ── */
+    .sg-copy {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 6px;
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-xs);
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: background var(--motion-fast), border-color var(--motion-fast);
     }
+    .sg-copy:hover {
+      background: var(--color-surface-soft);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-strong);
+    }
+    .sg-copy.is-copied {
+      background: var(--color-status-success-soft);
+      border-color: var(--color-status-success);
+      color: var(--color-status-success);
+    }
+    .sg-copy__icon { width: 10px; height: 10px; }
 
-    .sg-shell-preview {
-      min-height: 280px;
-      border-radius: var(--radius-card);
-      background: var(--color-surface-app);
-      border: var(--border-subtle);
-      overflow: hidden;
+    /* ── Overview ── */
+    .sg-overview-grid {
       display: grid;
-      grid-template-rows: var(--layout-header-height) 1fr;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      margin-bottom: var(--space-2xl);
     }
-
-    .sg-shell-preview__header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--color-surface-header);
-      border-bottom: var(--border-subtle);
+    .sg-overview-card {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
+      padding: var(--space-lg);
+    }
+    .sg-overview-card__num {
+      font-size: 28px;
+      font-weight: var(--fw-bold);
+      color: var(--color-text-strong);
+      margin: 0 0 4px 0;
+      line-height: 1;
+    }
+    .sg-overview-card__label {
+      font-size: var(--type-caption-fs);
       color: var(--color-text-muted);
+      font-weight: var(--fw-medium);
+      margin: 0;
+    }
+
+    .sg-overview-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+    .sg-overview-item {
+      display: flex; gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg);
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: background var(--motion-fast), border-color var(--motion-fast);
+    }
+    .sg-overview-item:hover {
+      background: var(--color-surface-soft);
+      border-color: var(--color-border-strong);
+    }
+    .sg-overview-item__num {
+      font-family: 'Consolas', monospace;
       font-size: var(--type-caption-fs);
+      color: var(--color-text-soft);
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .sg-overview-item__title {
+      font-size: var(--type-body-fs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-text-strong);
+      margin: 0 0 2px 0;
+    }
+    .sg-overview-item__desc {
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+
+    .sg-principle {
+      padding: var(--space-md) var(--space-lg);
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-left: 3px solid var(--c-neutral-800);
+      border-radius: var(--r-sm);
+      margin-bottom: var(--space-sm);
+    }
+    .sg-principle__title {
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-bold);
+      color: var(--color-text-strong);
+      margin: 0 0 4px 0;
+    }
+    .sg-principle__desc {
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-secondary);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       Inspector Mode
+    ============================================================ */
+    body.is-inspector-mode .sg-main {
+      max-width: none !important;
+      padding: 0 !important;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .sg-inspect {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: var(--color-surface-app);
+    }
+
+    .sg-inspect__toolbar {
+      flex-shrink: 0;
+      display: flex; align-items: center; gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg);
+      background: var(--color-surface-card);
+      border-bottom: 1px solid var(--color-border-default);
+    }
+
+    .sg-inspect__tabs {
+      display: inline-flex;
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      overflow: hidden;
+      background: var(--color-surface-card);
+    }
+    .sg-inspect__tab {
+      padding: 0 var(--control-pad-x-md);
+      height: var(--control-h-md);
+      border: 0;
+      background: transparent;
+      color: var(--color-text-default);
+      font-family: inherit;
+      font-size: var(--type-button-fs);
+      font-weight: var(--fw-medium);
+      cursor: pointer;
+    }
+    .sg-inspect__tab + .sg-inspect__tab { border-left: 1px solid var(--color-border-strong); }
+    .sg-inspect__tab:hover { background: var(--color-surface-soft); }
+    .sg-inspect__tab.is-active {
+      background: var(--c-neutral-800);
+      color: var(--color-text-inverse);
       font-weight: var(--fw-bold);
     }
 
-    .sg-shell-preview__body {
+    .sg-inspect__toggle {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      padding: 0 var(--space-md);
+      height: var(--control-h-md);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-card);
+      font-size: var(--type-button-fs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-text-default);
+      cursor: pointer;
+      user-select: none;
+    }
+    .sg-inspect__toggle.is-on {
+      background: #F3F4F6;
+      color: #111827;
+      border-color: #9CA3AF;
+    }
+    .sg-inspect__toggle-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--color-text-soft);
+    }
+    .sg-inspect__toggle.is-on .sg-inspect__toggle-dot {
+      background: var(--color-status-success);
+      box-shadow: 0 0 0 3px var(--color-status-success-soft);
+    }
+
+    .sg-inspect__audit-btn {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      padding: 0 var(--space-md);
+      height: var(--control-h-md);
+      border: 1px solid var(--c-neutral-800);
+      border-radius: var(--radius-control);
+      background: var(--c-neutral-800);
+      color: var(--color-text-inverse);
+      font-family: inherit;
+      font-size: var(--type-button-fs);
+      font-weight: var(--fw-bold);
+      cursor: pointer;
+    }
+    .sg-inspect__audit-btn:hover { background: var(--c-neutral-900); border-color: var(--c-neutral-900); }
+    .sg-inspect__audit-btn.is-loading { opacity: 0.6; cursor: progress; }
+
+    .sg-inspect__hint {
+      margin-left: auto;
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-muted);
+    }
+
+    .sg-inspect__body {
+      flex: 1 1 auto;
       display: grid;
-      grid-template-columns: var(--layout-lnb-width) 1fr;
+      grid-template-columns: 1fr 380px;
       min-height: 0;
     }
 
-    .sg-shell-preview__lnb {
-      padding: var(--layout-lnb-pad-top) 0;
-      background: var(--color-surface-lnb);
-      border-right: var(--border-subtle);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--layout-lnb-nav-gap);
+    .sg-inspect__frame-wrap {
+      position: relative;
+      background: var(--color-surface-soft);
+      overflow: hidden;
     }
+    .sg-inspect__frame {
+      display: none;
+      width: 100%; height: 100%;
+      border: 0;
+      background: var(--color-surface-card);
+    }
+    .sg-inspect__frame.is-visible { display: block; }
 
-    .sg-shell-preview__icon,
-    .sg-shell-preview__nav {
-      border: var(--bw-1) dashed currentColor;
+    .sg-inspect__loading {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--color-surface-card);
       color: var(--color-text-muted);
-      background: transparent;
+      font-size: var(--type-small-fs);
+      pointer-events: none;
+      transition: opacity var(--motion-fast);
+    }
+    .sg-inspect__loading.is-hidden { opacity: 0; pointer-events: none; }
+
+    /* Audit Panel */
+    .sg-audit {
+      background: var(--color-surface-card);
+      border-left: 1px solid var(--color-border-default);
+      overflow-y: auto;
+      display: flex; flex-direction: column;
+    }
+    .sg-audit__head {
+      flex-shrink: 0;
+      padding: var(--space-md) var(--space-lg);
+      border-bottom: 1px solid var(--color-border-default);
+      background: var(--color-surface-soft);
+    }
+    .sg-audit__title {
+      font-size: var(--type-subheading-fs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-text-strong);
+      margin: 0;
+    }
+    .sg-audit__tabs {
+      display: flex; gap: 2px;
+      margin-top: var(--space-sm);
+    }
+    .sg-audit__tab {
+      flex: 1;
+      padding: var(--space-xs) var(--space-sm);
+      border: 1px solid var(--color-border-default);
+      background: var(--color-surface-card);
+      color: var(--color-text-muted);
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-medium);
+      cursor: pointer;
+      border-radius: var(--r-xs);
+    }
+    .sg-audit__tab:hover { background: var(--color-surface-soft); }
+    .sg-audit__tab.is-active {
+      background: var(--c-neutral-800);
+      color: var(--color-text-inverse);
+      border-color: var(--c-neutral-800);
+      font-weight: var(--fw-bold);
     }
 
-    .sg-shell-preview__icon {
-      width: var(--layout-lnb-brand-size);
-      height: var(--layout-lnb-brand-size);
-      border-radius: var(--radius-control);
+    .sg-audit__body {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: var(--space-md) var(--space-lg);
+    }
+    .sg-audit__body > .sg-audit-pane { display: none; }
+    .sg-audit__body > .sg-audit-pane.is-active { display: block; }
+
+    .sg-audit-empty {
+      padding: var(--space-3xl) var(--space-md);
+      color: var(--color-text-muted);
+      font-size: var(--type-small-fs);
+      text-align: center;
+    }
+
+    .sg-audit-el {
+      padding: var(--space-md);
+      background: var(--color-surface-soft);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
       margin-bottom: var(--space-md);
     }
-
-    .sg-shell-preview__nav {
-      width: var(--layout-lnb-button-size);
-      height: var(--layout-lnb-button-size);
-      border-radius: var(--radius-lg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .sg-audit-el__tag {
+      display: inline-block;
+      padding: 2px 6px;
+      background: var(--c-neutral-800);
+      color: var(--color-text-inverse);
+      font-family: 'Consolas', monospace;
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-bold);
+      border-radius: var(--r-xs);
+    }
+    .sg-audit-el__classes {
+      margin-top: var(--space-xs);
+      font-family: 'Consolas', monospace;
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-secondary);
+      word-break: break-all;
+    }
+    .sg-audit-el__id {
+      margin-top: 2px;
+      font-family: 'Consolas', monospace;
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-muted);
     }
 
-    .sg-shell-preview__nav::before {
-      content: "";
-      width: var(--icon-2xl);
-      height: var(--icon-2xl);
-      border: var(--bw-1) dashed currentColor;
+    .sg-audit-table {
+      width: 100%; border-collapse: collapse;
+      font-family: 'Consolas', monospace;
+      font-size: var(--type-caption-fs);
+      margin-bottom: var(--space-md);
+    }
+    .sg-audit-table td {
+      padding: 4px 6px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      vertical-align: top;
+    }
+    .sg-audit-table td:first-child {
+      color: var(--color-text-muted);
+      width: 90px;
+      font-weight: var(--fw-medium);
+    }
+    .sg-audit-table td:last-child {
+      color: var(--color-text-strong);
+      word-break: break-all;
+    }
+    .sg-audit-table tr:last-child td { border-bottom: 0; }
+
+    .sg-audit-issues {
+      margin-top: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--color-status-warning-soft);
+      border: 1px solid var(--color-status-warning);
       border-radius: var(--r-sm);
     }
-
-    .sg-shell-preview__main {
-      padding: var(--layout-shell-pad-x);
-      display: grid;
-      grid-template-columns: 28fr 32fr 40fr;
-      gap: var(--layout-content-gap);
-      min-width: 0;
+    .sg-audit-issue {
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-secondary);
+      margin: 2px 0;
+    }
+    .sg-audit-issue::before {
+      content: '⚠';
+      margin-right: 4px;
+      color: var(--color-status-warning);
+      font-weight: var(--fw-bold);
     }
 
-    .sg-preview-col {
-      min-width: 0;
-      border-radius: var(--radius-outer);
-      background: var(--color-surface-outer);
-      padding: var(--layout-card-gap);
-      display: grid;
-      gap: var(--layout-card-gap);
-    }
-
-    .sg-preview-card {
-      min-height: 68px;
-      border-radius: var(--radius-card);
+    /* Cross-page audit list */
+    .sg-mismatch-list { display: flex; flex-direction: column; gap: var(--space-sm); }
+    .sg-mismatch-item {
+      padding: var(--space-sm) var(--space-md);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
       background: var(--color-surface-card);
-      box-shadow: var(--shadow-card);
     }
-
-    .sg-breakpoints {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: var(--layout-content-gap);
+    .sg-mismatch-item.has-mismatch {
+      border-color: var(--color-status-warning);
+      background: var(--color-status-warning-soft);
     }
-
-    .sg-breakpoint {
-      padding: var(--space-md);
-      border-radius: var(--radius-control);
-      background: var(--color-surface-soft);
-      border: var(--border-subtle);
-    }
-
-    .sg-breakpoint strong {
-      display: block;
+    .sg-mismatch-item.ok { opacity: 0.6; }
+    .sg-mismatch-item.not-found { opacity: 0.45; border-style: dashed; }
+    .sg-mismatch-item__head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--space-sm);
       margin-bottom: var(--space-xs);
+    }
+    .sg-mismatch-item__name {
+      font-family: 'Consolas', monospace;
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-bold);
       color: var(--color-text-strong);
+    }
+    .sg-mismatch-tag {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: var(--r-xs);
+      font-size: 9px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.3px;
+    }
+    .sg-mismatch-tag--mis { background: var(--color-status-warning); color: var(--color-text-inverse); }
+    .sg-mismatch-tag--ok  { background: var(--color-status-success-soft); color: var(--color-status-success); }
+    .sg-mismatch-tag--na  { background: var(--c-neutral-100); color: var(--color-text-muted); }
+
+    .sg-mismatch-prop {
+      margin-top: var(--space-xs);
+      font-family: 'Consolas', monospace;
       font-size: var(--type-caption-fs);
     }
-
-    .sg-breakpoint span {
+    .sg-mismatch-prop__name {
       color: var(--color-text-muted);
-      font-size: var(--fs-11);
-      line-height: var(--lh-normal);
+      margin-bottom: 2px;
+    }
+    .sg-mismatch-prop__values {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 2px 6px;
+      padding-left: var(--space-xs);
+    }
+    .sg-mismatch-prop__values code:nth-child(odd) {
+      color: var(--color-text-muted);
+      font-weight: var(--fw-medium);
+    }
+    .sg-mismatch-prop__values code:nth-child(even) {
+      color: var(--color-text-strong);
+      word-break: break-all;
     }
 
-    @media (max-width: 1440px) {
-      .sg-grid,
-      .sg-breakpoints {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .sg-shell-preview__main {
-        grid-template-columns: 1fr 1fr;
-      }
+    /* Floating Tooltip */
+    .sg-tt {
+      position: fixed;
+      z-index: 99999;
+      min-width: 240px; max-width: 340px;
+      padding: var(--space-sm) var(--space-md);
+      background: rgba(17, 24, 39, 0.97);
+      color: #F3F4F6;
+      border-radius: var(--r-md);
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 11px;
+      line-height: 1.5;
+      box-shadow: var(--shadow-overlay);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 80ms;
+    }
+    .sg-tt.is-visible { opacity: 1; }
+    .sg-tt__header {
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    .sg-tt__tag {
+      display: inline-block;
+      padding: 1px 5px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 3px;
+      font-weight: bold;
+      margin-right: 4px;
+    }
+    .sg-tt__classes {
+      color: #9CA3AF;
+      font-size: 10px;
+      display: block;
+      margin-top: 4px;
+      word-break: break-all;
+    }
+    .sg-tt__table {
+      width: 100%; border-collapse: collapse;
+    }
+    .sg-tt__table td {
+      padding: 1px 0;
+      vertical-align: top;
+    }
+    .sg-tt__table td:first-child {
+      color: #9CA3AF;
+      padding-right: 8px;
+      width: 60px;
+    }
+    .sg-tt__issues {
+      margin-top: 6px;
+      padding-top: 4px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+    .sg-tt__issue {
+      color: #FCA5A5;
+      font-size: 10px;
+      margin: 2px 0;
+    }
+  
+    .sg-main { padding: var(--space-4xl) var(--space-3xl) 80px; max-width: 1280px; }
+
+    /* ── Page header ── */
+    .sg-page-head {
+      padding-bottom: var(--space-lg);
+      margin-bottom: var(--space-4xl);
+      border-bottom: 1px solid var(--color-border-default);
+    }
+    .sg-page-head__title {
+      font-size: 26px; font-weight: var(--fw-bold);
+      color: var(--color-text-strong); margin: 0 0 var(--space-sm) 0;
+      letter-spacing: -0.01em;
+    }
+    .sg-page-head__desc {
+      font-size: var(--type-body-fs); color: var(--color-text-secondary); margin: 0;
     }
 
-    @media (max-width: 1280px) {
-      .sg-grid,
-      .sg-breakpoints {
-        grid-template-columns: minmax(0, 1fr);
-      }
+    /* ── Section / Subsection ── */
+    .sg-section { margin-bottom: 64px; scroll-margin-top: 24px; }
+    .sg-section__head {
+      display: flex; align-items: baseline; gap: var(--space-md);
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-2xl);
+      border-bottom: 1px solid var(--color-border-default);
+    }
+    .sg-section__index {
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-bold);
+      color: var(--color-text-muted);
+      font-family: 'Consolas', monospace;
+    }
+    .sg-section__title {
+      font-size: 20px; font-weight: var(--fw-bold);
+      color: var(--color-text-strong); margin: 0;
+    }
+    .sg-section__desc {
+      font-size: var(--type-small-fs); color: var(--color-text-muted); margin: 0;
+    }
+
+    .sg-sub { margin-bottom: var(--space-3xl); }
+    .sg-sub__title {
+      font-size: var(--type-subheading-fs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-text-strong);
+      margin: 0 0 var(--space-md) 0;
+    }
+    .sg-sub__desc {
+      font-size: var(--type-small-fs); color: var(--color-text-muted);
+      margin: 0 0 var(--space-md) 0;
+    }
+
+    /* ── Demo box & spec block ── */
+    .sg-demo {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-card);
+      padding: var(--space-2xl);
+      margin-bottom: var(--space-sm);
+    }
+    .sg-demo--soft { background: var(--color-surface-soft); }
+    .sg-demo--app  { background: var(--color-surface-app); }
+
+    .sg-spec {
+      background: var(--c-neutral-50);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
+      padding: var(--space-md) var(--space-lg);
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: var(--type-small-fs);
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+    }
+    .sg-spec__row { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+    .sg-spec__k {
+      color: var(--color-text-strong);
+      font-weight: var(--fw-semibold);
+      min-width: 140px;
+    }
+    .sg-spec__v { color: var(--color-text-muted); }
+
+    /* ── Grids ── */
+    .sg-grid { display: grid; gap: var(--space-md); }
+    .sg-grid--2 { grid-template-columns: repeat(2, 1fr); }
+    .sg-grid--3 { grid-template-columns: repeat(3, 1fr); }
+    .sg-grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+    /* ── Color swatch ── */
+    .sg-swatch {
+      display: flex; align-items: center; gap: var(--space-md);
+      padding: var(--space-md);
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
+    }
+    .sg-swatch__chip {
+      width: 56px; height: 56px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--color-border-subtle);
+      flex-shrink: 0;
+    }
+    .sg-swatch__info { min-width: 0; flex: 1; }
+    .sg-swatch__name {
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-text-strong);
+      margin: 0 0 2px 0;
+    }
+    .sg-swatch__token {
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-muted);
+      font-family: 'Consolas', monospace;
+      margin: 0;
+      word-break: break-all;
+    }
+    .sg-swatch__hex {
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-soft);
+      font-family: 'Consolas', monospace;
+      margin: 2px 0 0 0;
+    }
+
+    /* ── Typography demo ── */
+    .sg-type {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      padding: var(--space-lg);
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
+      margin-bottom: var(--space-sm);
+      gap: var(--space-lg);
+    }
+    .sg-type__sample { flex: 1; min-width: 0; color: var(--color-text-strong); }
+    .sg-type__meta {
+      flex-shrink: 0;
+      font-family: 'Consolas', monospace;
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-muted);
+      text-align: right;
+      line-height: 1.5;
+    }
+    .sg-type__meta strong { color: var(--color-text-strong); }
+
+    /* ── Spacing visualizer ── */
+    .sg-space {
+      display: grid;
+      grid-template-columns: 80px 1fr 220px;
+      align-items: center; gap: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-sm);
+      margin-bottom: 4px;
+    }
+    .sg-space__name {
+      font-family: 'Consolas', monospace;
+      font-size: var(--type-small-fs);
+      color: var(--color-text-strong);
+      font-weight: var(--fw-semibold);
+    }
+    .sg-space__bar { height: 20px; background: var(--c-neutral-800); border-radius: 2px; }
+    .sg-space__meta {
+      font-family: 'Consolas', monospace;
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-muted);
+      text-align: right;
+    }
+
+    /* ── Demo cards ── */
+    .sg-card-demo {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+    }
+    .sg-card-demo__head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: var(--space-lg) var(--layout-card-padding);
+      border-bottom: 1px solid var(--color-border-default);
+    }
+    .sg-card-demo__title {
+      font-size: var(--type-subheading-fs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-text-strong);
+      margin: 0;
+    }
+    .sg-card-demo__body {
+      padding: var(--layout-card-padding);
+      display: flex; flex-direction: column; gap: var(--space-md);
+    }
+    .sg-card-demo__body--flush { padding: 0; }
+    .sg-card-demo__footer {
+      display: flex; justify-content: flex-end; gap: var(--space-sm);
+      padding: var(--space-sm) var(--layout-card-padding);
+      border-top: 1px solid var(--color-border-default);
+    }
+
+    /* ── Button row ── */
+    .sg-row {
+      display: flex; flex-wrap: wrap; gap: var(--space-md);
+      padding: var(--space-lg);
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
+      margin-bottom: var(--space-sm);
+      align-items: center;
+    }
+    .sg-row--column { flex-direction: column; align-items: stretch; }
+
+    /* ── Layout visualizer ── */
+    .sg-layout-vis {
+      background: var(--color-surface-soft);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
+      padding: var(--space-md);
+      display: grid;
+      grid-template-columns: 28% 32% 40%;
+      gap: 14px;
+    }
+    .sg-layout-vis__col {
+      background: var(--color-surface-card);
+      border: 1px dashed var(--color-border-strong);
+      border-radius: var(--r-sm);
+      min-height: 120px;
+      padding: var(--space-md);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-size: var(--type-small-fs);
+      color: var(--color-text-secondary);
+      text-align: center;
+      gap: 4px;
+    }
+    .sg-layout-vis__col strong {
+      color: var(--color-text-strong);
+      font-size: var(--type-subheading-fs);
+    }
+
+    /* ── Divider demo ── */
+    .sg-divider-demo {
+      position: relative;
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+    }
+    .sg-divider-demo__head {
+      padding: var(--space-lg) var(--layout-card-padding);
+      border-bottom: 1px solid var(--color-border-default);
+      font-size: var(--type-subheading-fs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-text-strong);
+    }
+    .sg-divider-demo__grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .sg-divider-demo__grid::before {
+      content: ''; position: absolute;
+      left: 0; right: 0; top: 50%;
+      height: 1px; background: var(--color-border-default);
+    }
+    .sg-divider-demo__grid::after {
+      content: ''; position: absolute;
+      top: 0; bottom: 0; left: 50%;
+      width: 1px; background: var(--color-border-default);
+    }
+    .sg-divider-demo__cell { padding: var(--space-md) var(--layout-card-padding); }
+    .sg-divider-demo__label {
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-muted);
+      margin: 0 0 4px 0;
+    }
+    .sg-divider-demo__value {
+      font-size: var(--type-body-fs);
+      color: var(--color-text-strong);
+      font-weight: var(--fw-medium);
+      margin: 0;
+    }
+
+    /* ── Scroll demo ── */
+    .sg-scroll-demo {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      max-height: 280px;
+    }
+    .sg-scroll-demo__head {
+      padding: var(--space-lg) var(--layout-card-padding);
+      border-bottom: 1px solid var(--color-border-default);
+      font-size: var(--type-subheading-fs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-text-strong);
+      flex-shrink: 0;
+    }
+    .sg-scroll-demo__body {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: var(--layout-card-padding);
+      display: flex; flex-direction: column; gap: var(--space-md);
+      scrollbar-width: thin;
+      scrollbar-color: var(--c-neutral-300) transparent;
+    }
+    .sg-scroll-demo__body::-webkit-scrollbar { width: 6px; }
+    .sg-scroll-demo__body::-webkit-scrollbar-thumb {
+      background: var(--c-neutral-300); border-radius: 3px;
+    }
+    .sg-scroll-demo__item {
+      padding: var(--space-md);
+      background: var(--color-surface-soft);
+      border-radius: var(--r-sm);
+    }
+    .sg-scroll-demo__item-title {
+      font-size: var(--type-body-fs);
+      font-weight: var(--fw-medium);
+      color: var(--color-text-strong);
+      margin: 0 0 4px 0;
+    }
+    .sg-scroll-demo__item-meta {
+      font-size: var(--type-small-fs);
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+
+    /* ── Pills / tags row ── */
+    .sg-pill-row {
+      display: flex; flex-wrap: wrap; gap: var(--space-md);
+      padding: var(--space-lg);
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
+      margin-bottom: var(--space-sm);
+      align-items: center;
+    }
+
+    /* ── Form demo ── */
+    .sg-form-row {
+      display: flex; flex-direction: column; gap: var(--space-xs);
+    }
+    .sg-form-row__label {
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-medium);
+      color: var(--color-text-muted);
+    }
+    .sg-form-input {
+      display: block; width: 100%;
+      height: var(--control-h-md);
+      padding: 0 var(--control-pad-x-md);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-card);
+      font-family: inherit;
+      font-size: var(--type-body-fs);
+      color: var(--color-text-default);
+      outline: none;
+      transition: border-color var(--motion-fast);
+    }
+    .sg-form-input:focus { border-color: var(--color-border-focus); }
+    .sg-form-textarea {
+      display: block; width: 100%; min-height: 80px;
+      padding: var(--space-sm) var(--control-pad-x-md);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-card);
+      font-family: inherit;
+      font-size: var(--type-body-fs);
+      color: var(--color-text-default);
+      line-height: var(--type-body-lh);
+      resize: vertical;
+    }
+    .sg-form-select {
+      display: block; width: 100%;
+      height: var(--control-h-md);
+      padding: 0 40px 0 var(--control-pad-x-md);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-card) url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%2364748B' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center;
+      background-size: 16px 16px;
+      font-family: inherit;
+      font-size: var(--type-body-fs);
+      color: var(--color-text-default);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    /* ── Buttons (style-guide 데모용 — 실제 프로젝트 토큰만 사용) ── */
+    .sg-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: var(--space-xs);
+      border-radius: var(--radius-control);
+      font-family: inherit;
+      font-size: var(--type-button-fs);
+      font-weight: var(--fw-bold);
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
+    }
+    .sg-btn--primary {
+      height: var(--control-h-lg); padding: 0 var(--control-pad-x-lg);
+      background: var(--c-neutral-800); color: var(--color-text-inverse);
+      border: 1px solid var(--c-neutral-800);
+    }
+    .sg-btn--primary:hover {
+      background: var(--c-neutral-900); border-color: var(--c-neutral-900);
+    }
+    .sg-btn--secondary {
+      height: var(--control-h-md); padding: 0 var(--control-pad-x-md);
+      background: var(--color-surface-card); color: var(--color-text-default);
+      border: 1px solid var(--color-border-strong);
+      font-weight: var(--fw-semibold);
+    }
+    .sg-btn--secondary:hover { background: var(--color-surface-soft); }
+    .sg-btn--ghost {
+      height: var(--control-h-md); padding: 0 var(--control-pad-x-md);
+      background: transparent; color: var(--color-text-muted);
+      border: 1px solid transparent;
+      font-weight: var(--fw-semibold);
+    }
+    .sg-btn--ghost:hover {
+      background: var(--color-surface-soft); color: var(--color-text-strong);
+    }
+    .sg-btn--inline {
+      height: var(--control-h-sm); padding: 0 var(--control-pad-x-sm);
+      background: var(--color-surface-card); color: var(--color-text-muted);
+      border: 1px solid var(--color-border-default);
+      font-weight: var(--fw-semibold);
+    }
+    .sg-btn--inline:hover {
+      background: var(--color-surface-soft); color: var(--color-text-secondary);
+    }
+    .sg-btn--inline.is-active {
+      background: #F3F4F6; color: #111827; border-color: #9CA3AF;
+      font-weight: var(--fw-bold);
+    }
+    .sg-btn--danger {
+      height: var(--control-h-sm); padding: 0 var(--control-pad-x-sm);
+      background: var(--color-status-danger); color: var(--color-text-inverse);
+      border: 0;
+    }
+    .sg-btn--cta {
+      height: var(--control-h-xl); padding: 0 var(--control-pad-x-lg);
+      width: 100%;
+      background: var(--c-neutral-800); color: var(--color-text-inverse);
+      border: 1px solid var(--c-neutral-800);
+    }
+    .sg-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .sg-icon-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: var(--control-h-sm); height: var(--control-h-sm);
+      border: 0; background: transparent;
+      color: var(--color-text-muted); border-radius: var(--radius-control);
+      cursor: pointer;
+    }
+    .sg-icon-btn:hover { background: var(--color-surface-soft); color: var(--color-text-default); }
+
+    /* ── Segmented ── */
+    .sg-seg {
+      display: inline-flex; align-items: stretch;
+      height: var(--control-h-md);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      overflow: hidden; background: var(--color-surface-card);
+    }
+    .sg-seg__btn {
+      padding: 0 var(--control-pad-x-md);
+      border: 0; border-radius: 0;
+      background: var(--color-surface-card);
+      color: var(--color-text-default);
+      font-family: inherit;
+      font-size: var(--type-button-fs);
+      font-weight: var(--fw-medium);
+      cursor: pointer;
+    }
+    .sg-seg__btn + .sg-seg__btn {
+      border-left: 1px solid var(--color-border-strong);
+    }
+    .sg-seg__btn:hover { background: var(--color-surface-soft); }
+    .sg-seg__btn.is-active {
+      background: var(--c-neutral-800);
+      color: var(--color-text-inverse);
+      font-weight: var(--fw-bold);
+    }
+
+    /* Header mode tab (분리 스타일) */
+    .sg-mode-seg {
+      display: inline-flex; gap: 4px; padding: 4px;
+      background: var(--c-neutral-100);
+      border-radius: var(--radius-pill);
+    }
+    .sg-mode-seg__btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 28px; padding: 0 14px;
+      border: 0; border-radius: var(--radius-pill);
+      background: transparent; color: var(--color-text-muted);
+      font-family: inherit;
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-semibold);
+      cursor: pointer;
+    }
+    .sg-mode-seg__btn:hover { color: var(--color-text-secondary); }
+    .sg-mode-seg__btn.is-active {
+      background: var(--color-surface-card);
+      color: var(--color-text-strong);
+      box-shadow: 0 1px 2px rgba(15,23,42,0.06);
+    }
+
+    /* ── Checkbox ── */
+    .sg-check {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      font-size: var(--type-body-fs);
+      color: var(--color-text-default);
+      cursor: pointer;
+    }
+    .sg-check input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: var(--c-neutral-800);
+      cursor: pointer;
+    }
+
+    /* ── Pills (실제 토큰 기반) ── */
+    .sg-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      height: 18px; padding: 0 var(--space-xs);
+      border-radius: var(--radius-pill);
+      font-size: var(--fs-10);
+      font-weight: var(--fw-bold);
+      line-height: 1;
+      background: var(--c-neutral-100);
+      color: var(--color-text-secondary);
+    }
+    .sg-pill--success { background: var(--color-status-success-soft); color: var(--color-status-success); }
+    .sg-pill--warning { background: var(--color-status-warning-soft); color: var(--color-status-warning); }
+    .sg-pill--danger  { background: var(--color-status-danger-soft);  color: var(--color-status-danger);  }
+
+    .sg-risk {
+      display: inline-flex; align-items: center;
+      height: 20px; padding: 0 var(--space-sm);
+      border-radius: var(--radius-pill);
+      font-size: var(--fs-10);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.3px;
+    }
+    .sg-risk--high   { background: var(--color-status-danger-soft); color: var(--color-status-danger); }
+    .sg-risk--medium { background: var(--color-status-warning-soft); color: var(--color-status-warning); }
+    .sg-risk--low    { background: var(--c-neutral-100); color: var(--color-text-secondary); }
+
+    .sg-tag {
+      display: inline-flex; align-items: center;
+      height: 22px; padding: 0 var(--space-sm);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-sm);
+      background: var(--color-surface-card);
+      color: var(--color-text-secondary);
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-medium);
+      line-height: 1;
+    }
+    .sg-tag--muted { background: var(--color-surface-soft); color: var(--color-text-muted); }
+
+    .sg-status {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-text-soft);
+    }
+    .sg-status::before {
+      content: ''; width: 6px; height: 6px;
+      border-radius: var(--radius-circle);
+      background: currentColor; flex-shrink: 0;
+    }
+    .sg-status--checking { color: var(--color-text-muted); }
+    .sg-status--done     { color: var(--color-text-secondary); }
+
+    /* ── Table ── */
+    .sg-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+    }
+    .sg-table th,
+    .sg-table td {
+      padding: 10px 14px;
+      text-align: left;
+      vertical-align: middle;
+      font-size: var(--type-small-fs);
+      border-bottom: 1px solid var(--color-border-default);
+    }
+    .sg-table th {
+      background: var(--color-surface-soft);
+      color: var(--color-text-muted);
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-semibold);
+    }
+    .sg-table td { color: var(--color-text-default); }
+    .sg-table tbody tr { transition: background var(--motion-fast); cursor: pointer; }
+    .sg-table tbody tr:hover { background: var(--color-surface-soft); }
+    .sg-table tbody tr:last-child td { border-bottom: 0; }
+    .sg-table--center th,
+    .sg-table--center td { text-align: center; }
+    .sg-table--center th:first-child,
+    .sg-table--center td:first-child { text-align: left; }
+
+    .sg-pager {
+      display: flex; align-items: center; justify-content: center;
+      gap: var(--space-xs);
+      padding: var(--space-sm) var(--layout-card-padding) var(--layout-card-padding);
+    }
+    .sg-pager__btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: var(--control-h-sm); height: var(--control-h-sm);
+      padding: 0 var(--space-sm);
+      border: 1px solid transparent;
+      border-radius: var(--radius-control);
+      background: transparent;
+      color: var(--color-text-muted);
+      font-size: var(--type-button-fs);
+      font-weight: var(--fw-medium);
+      cursor: pointer;
+    }
+    .sg-pager__btn:hover {
+      background: var(--c-neutral-100); color: var(--color-text-strong);
+    }
+    .sg-pager__btn.is-active {
+      background: var(--c-neutral-800);
+      color: var(--color-text-inverse);
+      font-weight: var(--fw-bold);
+    }
+
+    /* ── File list ── */
+    .sg-file-list {
+      display: flex; flex-direction: column; gap: var(--space-sm);
+    }
+    .sg-file-item {
+      display: flex; align-items: center; gap: var(--space-md);
+      padding: var(--space-md);
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
+    }
+    .sg-file-item__icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px;
+      border-radius: var(--r-sm);
+      background: var(--c-neutral-100);
+      color: var(--color-text-muted);
+      flex-shrink: 0;
+    }
+    .sg-file-item__info { flex: 1; min-width: 0; }
+    .sg-file-item__name {
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-medium);
+      color: var(--color-text-strong);
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .sg-file-item__meta {
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-muted);
+      margin: 2px 0 0 0;
+    }
+
+    .sg-file-btn-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+    }
+    .sg-file-btn {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: var(--space-xs);
+      padding: var(--space-md);
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: background var(--motion-fast), border-color var(--motion-fast);
+    }
+    .sg-file-btn:hover {
+      background: var(--color-surface-soft);
+      border-color: var(--color-border-strong);
+    }
+    .sg-file-btn__ext {
+      font-size: var(--type-button-fs);
+      font-weight: var(--fw-bold);
+      color: var(--color-text-strong);
+      letter-spacing: 0.5px;
+    }
+    .sg-file-btn__label {
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-muted);
+    }
+
+    /* ── Action / quick action bar ── */
+    .sg-action-bar {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-md) var(--layout-card-padding);
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-md);
+      margin-bottom: var(--space-sm);
+    }
+    .sg-action-bar__label {
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-muted);
+      font-weight: var(--fw-medium);
+      flex-shrink: 0;
+    }
+    .sg-action-bar__items {
+      display: flex; flex-wrap: wrap; gap: var(--space-xs);
+      flex: 1; min-width: 0;
+    }
+    .sg-action-pill {
+      display: inline-flex; align-items: center;
+      height: var(--control-h-sm); padding: 0 var(--control-pad-x-sm);
+      border-radius: var(--radius-pill);
+      background: var(--color-surface-soft);
+      color: var(--color-text-secondary);
+      border: 1px solid var(--color-border-default);
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-medium);
+      cursor: pointer;
+    }
+    .sg-action-pill:hover {
+      background: var(--c-neutral-100);
+      color: var(--color-text-strong);
+    }
+
+    /* ── Detail/info row ── */
+    .sg-info-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      padding: var(--space-sm) 0;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .sg-info-row + .sg-info-row { border-top: 1px solid var(--color-border-subtle); }
+    .sg-info-row__label {
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-muted);
+      font-weight: var(--fw-medium);
+    }
+    .sg-info-row__value {
+      font-size: var(--type-body-fs);
+      color: var(--color-text-strong);
+    }
+
+    /* ── Deprecated ── */
+    .sg-deprecated {
+      position: relative;
+      background: var(--color-status-warning-soft);
+      border: 1px solid var(--color-status-warning);
+      border-radius: var(--r-md);
+      padding: var(--space-md) var(--space-lg);
+      margin-bottom: var(--space-sm);
+    }
+    .sg-deprecated__title {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-bold);
+      color: var(--color-status-warning);
+      margin: 0 0 var(--space-xs) 0;
+    }
+    .sg-deprecated__title::before {
+      content: 'DEPRECATED';
+      padding: 2px 6px;
+      background: var(--color-status-warning);
+      color: var(--color-text-inverse);
+      border-radius: 3px;
+      font-size: 9px;
+    }
+    .sg-deprecated__body {
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-secondary);
+      margin: 0;
+    }
+
+    /* ── Notice ── */
+    .sg-notice {
+      padding: var(--space-md) var(--space-lg);
+      background: var(--c-neutral-50);
+      border-left: 3px solid var(--c-neutral-400);
+      border-radius: var(--r-sm);
+      font-size: var(--type-small-fs);
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-md);
+    }
+    .sg-notice strong { color: var(--color-text-strong); }
+    .sg-notice--warn {
+      background: var(--color-status-warning-soft);
+      border-left-color: var(--color-status-warning);
+      color: var(--color-text-secondary);
     }
   </style>
 </head>
 <body>
-  <div class="page4-content">
-    <main class="styleguide-page" aria-label="스타일가이드">
-      <section class="sg-hero">
-        <p class="sg-eyebrow">STEMA STYLE GUIDE · CRM DASHBOARD</p>
-        <h1 class="sg-title">공통 레이아웃 시스템</h1>
-        <p class="sg-desc">
-          1920×1080 기준의 시각 비율을 유지하면서 1280, 1440, 1600, 1920, 2560+ 업무용 해상도에서
-          Header, LNB, card gap, content padding이 자연스럽게 스케일되도록 정의한 canonical layout guide입니다.
-        </p>
-      </section>
+  <div class="sg-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sg-side">
+      <h2 class="sg-side__brand">CRM Design System</h2>
+      <p class="sg-side__sub">v1.0 · 1920×1080 Webview</p>
 
-      <section class="sg-section" aria-labelledby="layout-preview-title">
-        <div class="sg-section__head">
-          <div>
-            <h2 class="sg-section__title" id="layout-preview-title">Preview</h2>
-            <p class="sg-section__summary">실제 AppShell과 같은 토큰으로 Header/LNB/3-column dashboard의 상대 비율을 보여줍니다.</p>
+      <nav class="sg-side__nav">
+        <a class="sg-side__link" data-target="overview" href="#overview">
+          <span class="sg-side__link-num">00</span><span>Overview</span>
+        </a>
+        <a class="sg-side__link" data-target="inspector" href="#inspector" style="border-color: var(--color-border-strong);">
+          <span class="sg-side__link-num">🔍</span><span>Inspector</span>
+        </a>
+
+        <p class="sg-side__group-title">Foundation</p>
+        <a class="sg-side__link" data-target="s1" href="#s1">
+          <span class="sg-side__link-num">01</span><span>Color</span>
+        </a>
+        <a class="sg-side__link" data-target="s2" href="#s2">
+          <span class="sg-side__link-num">02</span><span>Typography</span>
+        </a>
+        <a class="sg-side__link" data-target="s3" href="#s3">
+          <span class="sg-side__link-num">03</span><span>Spacing</span>
+        </a>
+        <a class="sg-side__link" data-target="s4" href="#s4">
+          <span class="sg-side__link-num">04</span><span>Layout</span>
+        </a>
+
+        <p class="sg-side__group-title">Cards</p>
+        <a class="sg-side__link" data-target="s5" href="#s5">
+          <span class="sg-side__link-num">05</span><span>Card System</span>
+        </a>
+        <a class="sg-side__link" data-target="cardcomp" href="#cardcomp">
+          <span class="sg-side__link-num">06</span><span>Card Composition</span>
+        </a>
+
+        <p class="sg-side__group-title">Controls</p>
+        <a class="sg-side__link" data-target="s6" href="#s6">
+          <span class="sg-side__link-num">07</span><span>Buttons</span>
+        </a>
+        <a class="sg-side__link" data-target="s7" href="#s7">
+          <span class="sg-side__link-num">08</span><span>Forms</span>
+        </a>
+        <a class="sg-side__link" data-target="s8" href="#s8">
+          <span class="sg-side__link-num">09</span><span>Segmented / Toggle</span>
+        </a>
+        <a class="sg-side__link" data-target="s9" href="#s9">
+          <span class="sg-side__link-num">10</span><span>Badge / Tag</span>
+        </a>
+
+        <p class="sg-side__group-title">Patterns</p>
+        <a class="sg-side__link" data-target="s10" href="#s10">
+          <span class="sg-side__link-num">11</span><span>Table</span>
+        </a>
+        <a class="sg-side__link" data-target="s11" href="#s11">
+          <span class="sg-side__link-num">12</span><span>Detail Panel</span>
+        </a>
+        <a class="sg-side__link" data-target="s12" href="#s12">
+          <span class="sg-side__link-num">13</span><span>Scroll Area</span>
+        </a>
+        <a class="sg-side__link" data-target="s13" href="#s13">
+          <span class="sg-side__link-num">14</span><span>Action Bar</span>
+        </a>
+        <a class="sg-side__link" data-target="s14" href="#s14">
+          <span class="sg-side__link-num">15</span><span>File / Download</span>
+        </a>
+
+        <p class="sg-side__group-title">Maintenance</p>
+        <a class="sg-side__link" data-target="deprecated" href="#deprecated">
+          <span class="sg-side__link-num">⚠</span><span>Deprecated</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="sg-main">
+      <!-- =============================
+           00. Overview (Default landing)
+      ============================== -->
+      <section class="sg-section" id="overview">
+        <header class="sg-page-head">
+          <h1 class="sg-page-head__title">신한라이프 CRM — Style Guide</h1>
+          <p class="sg-page-head__desc">
+            현재 프로젝트의 실제 디자인 시스템을 시각화한 컴포넌트 카탈로그입니다.
+            좌측 메뉴에서 카테고리를 선택해 빠르게 컴포넌트를 확인할 수 있습니다.
+          </p>
+        </header>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">디자인 시스템 현황</h3>
+          <div class="sg-overview-grid">
+            <div class="sg-overview-card">
+              <p class="sg-overview-card__num">13</p>
+              <p class="sg-overview-card__label">Semantic Color Tokens</p>
+            </div>
+            <div class="sg-overview-card">
+              <p class="sg-overview-card__num">6</p>
+              <p class="sg-overview-card__label">Typography Levels</p>
+            </div>
+            <div class="sg-overview-card">
+              <p class="sg-overview-card__num">8</p>
+              <p class="sg-overview-card__label">Spacing Tokens</p>
+            </div>
+            <div class="sg-overview-card">
+              <p class="sg-overview-card__num">7</p>
+              <p class="sg-overview-card__label">Button Cases</p>
+            </div>
+            <div class="sg-overview-card">
+              <p class="sg-overview-card__num">4</p>
+              <p class="sg-overview-card__label">Badge / Tag Cases</p>
+            </div>
+            <div class="sg-overview-card">
+              <p class="sg-overview-card__num">3</p>
+              <p class="sg-overview-card__label">Status (Success/Warn/Danger)</p>
+            </div>
           </div>
-          <span class="ds-status-pill ds-status-pill--info">Responsive Shell</span>
         </div>
 
-        <div class="sg-shell-preview" aria-label="반응형 대시보드 레이아웃 미리보기">
-          <div class="sg-shell-preview__header">Header · var(--layout-header-height)</div>
-          <div class="sg-shell-preview__body">
-            <aside class="sg-shell-preview__lnb" aria-label="LNB preview">
-              <div class="sg-shell-preview__icon" aria-hidden="true"></div>
-              <div class="sg-shell-preview__nav" aria-hidden="true"></div>
-              <div class="sg-shell-preview__nav" aria-hidden="true"></div>
-              <div class="sg-shell-preview__nav" aria-hidden="true"></div>
-            </aside>
-            <div class="sg-shell-preview__main">
-              <div class="sg-preview-col">
-                <div class="sg-preview-card"></div>
-                <div class="sg-preview-card"></div>
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">디자인 원칙</h3>
+          <div class="sg-principle">
+            <p class="sg-principle__title">① Neutral Gray Palette</p>
+            <p class="sg-principle__desc">
+              Blue 강조 컬러는 사용하지 않습니다. Brand Primary 는 <code>--c-neutral-700 #374151</code>.
+              상태 표시(success/warning/danger)에만 채도 있는 컬러를 사용합니다.
+            </p>
+          </div>
+          <div class="sg-principle">
+            <p class="sg-principle__title">② Token First</p>
+            <p class="sg-principle__desc">
+              모든 색상·간격·타이포는 <code>tokens.css</code>·<code>semantic.css</code> 토큰 기준.
+              hex 직접 사용 금지 (legacy 호환 영역 제외).
+            </p>
+          </div>
+          <div class="sg-principle">
+            <p class="sg-principle__title">③ Card 구조 통일</p>
+            <p class="sg-principle__desc">
+              모든 카드는 <code>.card</code> + <code>.card__head</code> + <code>.card__body</code> +
+              <code>.card__footer</code> 구조. padding/gap 은 <code>--card-body-padding</code>·<code>--card-body-gap</code>·<code>--card-footer-padding-y</code> 토큰만 사용.
+            </p>
+          </div>
+          <div class="sg-principle">
+            <p class="sg-principle__title">④ Selected 상태는 연한 Gray</p>
+            <p class="sg-principle__desc">
+              버튼·칩의 선택 상태는 dark navy/black 아닌 <code>#F3F4F6 / border #9CA3AF / text #111827</code> 조합.
+            </p>
+          </div>
+          <div class="sg-principle">
+            <p class="sg-principle__title">⑤ Fixed Canvas 1920×1080</p>
+            <p class="sg-principle__desc">
+              WebView 고정 캔버스. 헤더 64px / LNB 96px / 푸터 40px / 3열 (28% · 32% · 40%) 구조.
+            </p>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">카테고리 바로가기</h3>
+          <div class="sg-overview-list">
+            <div class="sg-overview-item" data-jump="s1">
+              <span class="sg-overview-item__num">01</span>
+              <div>
+                <p class="sg-overview-item__title">Color</p>
+                <p class="sg-overview-item__desc">Surface · Border · Text · Status 토큰</p>
               </div>
-              <div class="sg-preview-col">
-                <div class="sg-preview-card"></div>
-                <div class="sg-preview-card"></div>
+            </div>
+            <div class="sg-overview-item" data-jump="s2">
+              <span class="sg-overview-item__num">02</span>
+              <div>
+                <p class="sg-overview-item__title">Typography</p>
+                <p class="sg-overview-item__desc">6단계 계층 (Heading → UI Label)</p>
               </div>
-              <div class="sg-preview-col">
-                <div class="sg-preview-card"></div>
-                <div class="sg-preview-card"></div>
+            </div>
+            <div class="sg-overview-item" data-jump="s3">
+              <span class="sg-overview-item__num">03</span>
+              <div>
+                <p class="sg-overview-item__title">Spacing</p>
+                <p class="sg-overview-item__desc">4~32px scale, 카드/레이아웃 padding</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="s4">
+              <span class="sg-overview-item__num">04</span>
+              <div>
+                <p class="sg-overview-item__title">Layout</p>
+                <p class="sg-overview-item__desc">1920×1080 / 3열 / 헤더·LNB·푸터</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="s5">
+              <span class="sg-overview-item__num">05</span>
+              <div>
+                <p class="sg-overview-item__title">Card System</p>
+                <p class="sg-overview-item__desc">6가지 카드 구조 + 패딩 규칙</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="cardcomp">
+              <span class="sg-overview-item__num">06</span>
+              <div>
+                <p class="sg-overview-item__title">Card Composition</p>
+                <p class="sg-overview-item__desc">실전 카드 조합 패턴 (컬럼 단위)</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="s6">
+              <span class="sg-overview-item__num">07</span>
+              <div>
+                <p class="sg-overview-item__title">Buttons</p>
+                <p class="sg-overview-item__desc">CTA · Secondary · Ghost · Inline · Icon · Tool</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="s7">
+              <span class="sg-overview-item__num">08</span>
+              <div>
+                <p class="sg-overview-item__title">Forms</p>
+                <p class="sg-overview-item__desc">Input · Select · Date · Textarea · Checkbox</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="s8">
+              <span class="sg-overview-item__num">09</span>
+              <div>
+                <p class="sg-overview-item__title">Segmented / Toggle</p>
+                <p class="sg-overview-item__desc">옵션 전환 + 헤더 모드 탭 (별도)</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="s9">
+              <span class="sg-overview-item__num">10</span>
+              <div>
+                <p class="sg-overview-item__title">Badge / Tag</p>
+                <p class="sg-overview-item__desc">Risk · File Status · Outline · Dot Status</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="s10">
+              <span class="sg-overview-item__num">11</span>
+              <div>
+                <p class="sg-overview-item__title">Table</p>
+                <p class="sg-overview-item__desc">검수현황 테이블 + Pagination</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="s11">
+              <span class="sg-overview-item__num">12</span>
+              <div>
+                <p class="sg-overview-item__title">Detail Panel</p>
+                <p class="sg-overview-item__desc">Grid + Full-width divider</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="s12">
+              <span class="sg-overview-item__num">13</span>
+              <div>
+                <p class="sg-overview-item__title">Scroll Area</p>
+                <p class="sg-overview-item__desc">Header fixed + body scroll</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="s13">
+              <span class="sg-overview-item__num">14</span>
+              <div>
+                <p class="sg-overview-item__title">Action Bar</p>
+                <p class="sg-overview-item__desc">질문 추천 · 관련 화면 · Card Footer</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="s14">
+              <span class="sg-overview-item__num">15</span>
+              <div>
+                <p class="sg-overview-item__title">File / Download</p>
+                <p class="sg-overview-item__desc">업로드 리스트 + 확장자 버튼</p>
+              </div>
+            </div>
+            <div class="sg-overview-item" data-jump="deprecated">
+              <span class="sg-overview-item__num">⚠</span>
+              <div>
+                <p class="sg-overview-item__title">Deprecated</p>
+                <p class="sg-overview-item__desc">사용 금지 / 폐기 예정 항목</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="sg-section" aria-labelledby="layout-spec-title">
+      <!-- =============================
+           ★ Inspector (실제 1/2/3 페이지 검사)
+      ============================== -->
+      <section class="sg-section" id="inspector">
+        <div class="sg-inspect">
+          <div class="sg-inspect__toolbar">
+            <div class="sg-inspect__tabs" role="tablist" aria-label="페이지 전환">
+              <button type="button" class="sg-inspect__tab is-active" data-inspect-page="index.html">Page 1 · 상담</button>
+              <button type="button" class="sg-inspect__tab" data-inspect-page="document-generator.html">Page 2 · 문서 생성</button>
+              <button type="button" class="sg-inspect__tab" data-inspect-page="inspection-review.html">Page 3 · 검수</button>
+            </div>
+            <button type="button" class="sg-inspect__toggle" id="sgInspectToggle" aria-pressed="false">
+              <span class="sg-inspect__toggle-dot"></span>
+              <span>Inspect Mode <span id="sgInspectStateLabel">OFF</span></span>
+            </button>
+            <button type="button" class="sg-inspect__audit-btn" id="sgRunAudit">
+              <span>전체 페이지 비교 실행</span>
+            </button>
+            <span class="sg-inspect__hint">Inspect ON → 화면 위에 마우스를 올리거나 클릭하세요</span>
+          </div>
+
+          <div class="sg-inspect__body">
+            <div class="sg-inspect__frame-wrap" id="sgFrameWrap">
+              <div class="sg-inspect__loading" id="sgLoading">페이지 로딩 중…</div>
+              <!-- iframe은 JS에서 동적 생성 (page1/2/3 동시 로드) -->
+            </div>
+
+            <aside class="sg-audit">
+              <div class="sg-audit__head">
+                <h3 class="sg-audit__title">Style Audit</h3>
+                <div class="sg-audit__tabs">
+                  <button type="button" class="sg-audit__tab is-active" data-audit-tab="selected">선택 요소</button>
+                  <button type="button" class="sg-audit__tab" data-audit-tab="mismatch">Mismatch (<span id="sgMismatchCount">0</span>)</button>
+                </div>
+              </div>
+              <div class="sg-audit__body">
+                <div class="sg-audit-pane is-active" data-audit-pane="selected">
+                  <div class="sg-audit-empty" id="sgAuditEmpty">
+                    Inspect Mode를 켜고<br>
+                    요소를 클릭하면<br>
+                    상세 정보가 표시됩니다.
+                  </div>
+                  <div id="sgAuditDetail" style="display: none;"></div>
+                </div>
+                <div class="sg-audit-pane" data-audit-pane="mismatch">
+                  <div class="sg-audit-empty" id="sgMismatchEmpty">
+                    상단 "전체 페이지 비교 실행"을 클릭하면<br>
+                    Page 1/2/3 컴포넌트별<br>
+                    불일치 항목이 자동으로 표시됩니다.
+                  </div>
+                  <div class="sg-mismatch-list" id="sgMismatchList"></div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================
+           01. Semantic Color
+      ============================== -->
+      <section class="sg-section" id="s1">
         <div class="sg-section__head">
-          <div>
-            <h2 class="sg-section__title" id="layout-spec-title">Spec</h2>
-            <p class="sg-section__summary">고정 px 대신 clamp 기반 토큰을 사용합니다. 아이콘 24px 기준은 유지하고, 컨테이너와 여백만 스케일됩니다.</p>
+          <span class="sg-section__index">01</span>
+          <h2 class="sg-section__title">Semantic Color</h2>
+        </div>
+        <p class="sg-sub__desc">
+          Neutral Gray Palette 기반. 강조용 Blue 컬러는 사용하지 않습니다.
+          기존 Blue 토큰은 호환성 보존 목적으로만 primitive.css에 유지됩니다.
+        </p>
+
+        <!-- Background / Surface -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Background / Surface</h3>
+          <div class="sg-grid sg-grid--2">
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #DADFE4;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">App Background</p>
+                <p class="sg-swatch__token">--color-surface-app</p>
+                <p class="sg-swatch__hex">#DADFE4 · 카드 바깥 전체 배경</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: rgba(241, 245, 249, 0.92);"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Outer Surface</p>
+                <p class="sg-swatch__token">--color-surface-outer</p>
+                <p class="sg-swatch__hex">rgba(241,245,249,0.92) · CTA 배경</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #FFFFFF;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Card Surface</p>
+                <p class="sg-swatch__token">--color-surface-card</p>
+                <p class="sg-swatch__hex">#FFFFFF · 모든 카드 기본 배경</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #F9FAFB;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Soft Surface</p>
+                <p class="sg-swatch__token">--color-surface-soft</p>
+                <p class="sg-swatch__hex">#F9FAFB · hover, sub block</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #F3F4F6;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Row / Selected</p>
+                <p class="sg-swatch__token">--color-surface-row · --color-surface-selected</p>
+                <p class="sg-swatch__hex">#F3F4F6 · 선택, active 상태</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #475569;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Footer / Dark</p>
+                <p class="sg-swatch__token">--color-surface-footer</p>
+                <p class="sg-swatch__hex">#475569 · 하단 상태바</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="sg-grid">
-          <article class="sg-card">
-            <h3 class="sg-card__title">Header</h3>
-            <p class="sg-card__text">기준값은 64px. 작은 업무용 해상도에서는 56px까지 축소되어 dense dashboard 느낌을 유지합니다.</p>
-            <ul class="sg-token-list">
-              <li><span>height</span><code>clamp(56px, 3.5vw, 64px)</code></li>
-              <li><span>padding-x</span><code>var(--layout-header-pad-x)</code></li>
-              <li><span>gap</span><code>var(--layout-header-gap)</code></li>
-            </ul>
-          </article>
+        <!-- Border / Divider -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Border / Divider</h3>
+          <div class="sg-grid sg-grid--3">
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #E5EAF3;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Default Border</p>
+                <p class="sg-swatch__token">--color-border-default</p>
+                <p class="sg-swatch__hex">#E5EAF3 · 카드/구분선 기본</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #DADDE3;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Strong Border</p>
+                <p class="sg-swatch__token">--color-border-strong</p>
+                <p class="sg-swatch__hex">#DADDE3 · input, segmented</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: rgba(220, 228, 238, 0.55);"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Subtle Border</p>
+                <p class="sg-swatch__token">--color-border-subtle</p>
+                <p class="sg-swatch__hex">rgba(220,228,238,0.55) · 약한 divider</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-          <article class="sg-card">
-            <h3 class="sg-card__title">LNB</h3>
-            <p class="sg-card__text">기준값은 96px. 작은 해상도에서는 72px까지 줄어들며 placeholder icon은 24px 기준을 유지합니다.</p>
-            <ul class="sg-token-list">
-              <li><span>width</span><code>clamp(72px, 5vw, 96px)</code></li>
-              <li><span>button</span><code>clamp(36px, 2.08vw, 40px)</code></li>
-              <li><span>icon</span><code>24px fixed</code></li>
-            </ul>
-          </article>
+        <!-- Text -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Text</h3>
+          <div class="sg-grid sg-grid--2">
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #111827;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Text Strong</p>
+                <p class="sg-swatch__token">--color-text-strong</p>
+                <p class="sg-swatch__hex">#111827 · 제목, 핵심 정보</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #1F2937;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Text Default</p>
+                <p class="sg-swatch__token">--color-text-default</p>
+                <p class="sg-swatch__hex">#1F2937 · 본문, 입력값</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #374151;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Text Secondary</p>
+                <p class="sg-swatch__token">--color-text-secondary</p>
+                <p class="sg-swatch__hex">#374151 · 보조 본문</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #6B7280;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Text Muted</p>
+                <p class="sg-swatch__token">--color-text-muted</p>
+                <p class="sg-swatch__hex">#6B7280 · 라벨, 메타</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #9CA3AF;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Text Soft</p>
+                <p class="sg-swatch__token">--color-text-soft</p>
+                <p class="sg-swatch__hex">#9CA3AF · placeholder, 미체크</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #D1D5DB;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Text Disabled</p>
+                <p class="sg-swatch__token">--color-text-disabled</p>
+                <p class="sg-swatch__hex">#D1D5DB · 비활성</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-          <article class="sg-card">
-            <h3 class="sg-card__title">Dashboard Density</h3>
-            <p class="sg-card__text">카드 비율은 유지하고 gap/padding만 조절해 정보량과 여백의 균형을 맞춥니다.</p>
-            <ul class="sg-token-list">
-              <li><span>content gap</span><code>clamp(10px, .72vw, 14px)</code></li>
-              <li><span>card gap</span><code>clamp(8px, .63vw, 12px)</code></li>
-              <li><span>card padding</span><code>clamp(14px, .94vw, 18px)</code></li>
-            </ul>
-          </article>
+        <!-- Active / Selected -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Active / Selected</h3>
+          <div class="sg-grid sg-grid--2">
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #F3F4F6;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Selected Background</p>
+                <p class="sg-swatch__token">--color-surface-selected</p>
+                <p class="sg-swatch__hex">#F3F4F6 · 칩/버튼 선택 시</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #9CA3AF;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Selected Border</p>
+                <p class="sg-swatch__token">--c-neutral-400</p>
+                <p class="sg-swatch__hex">#9CA3AF · 선택 상태 강조 border</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Status</h3>
+          <div class="sg-grid sg-grid--2">
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #12A150;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Success</p>
+                <p class="sg-swatch__token">--color-status-success</p>
+                <p class="sg-swatch__hex">#12A150 · 완료, 정상</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #E9F8EF; border-color: #12A150;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Success Soft</p>
+                <p class="sg-swatch__token">--color-status-success-soft</p>
+                <p class="sg-swatch__hex">#E9F8EF · 완료 박스 배경</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #D99000;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Warning</p>
+                <p class="sg-swatch__token">--color-status-warning</p>
+                <p class="sg-swatch__hex">#D99000 · 위험도 Mid</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #FFFBEB;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Warning Soft</p>
+                <p class="sg-swatch__token">--color-status-warning-soft</p>
+                <p class="sg-swatch__hex">#FFFBEB</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #FF3B30;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Danger</p>
+                <p class="sg-swatch__token">--color-status-danger</p>
+                <p class="sg-swatch__hex">#FF3B30 · 위험도 High, 오류</p>
+              </div>
+            </div>
+            <div class="sg-swatch">
+              <div class="sg-swatch__chip" style="background: #FEF2F2;"></div>
+              <div class="sg-swatch__info">
+                <p class="sg-swatch__name">Danger Soft</p>
+                <p class="sg-swatch__token">--color-status-danger-soft</p>
+                <p class="sg-swatch__hex">#FEF2F2</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sg-notice sg-notice--warn">
+          <strong>⚠ Blue 강조 컬러 사용 금지.</strong>
+          <code>--c-blue-*</code> 토큰은 primitive.css에만 호환용으로 남아 있으며,
+          신규 화면/컴포넌트에서는 반드시 Neutral Gray + Status 색상만 사용합니다.
         </div>
       </section>
 
-      <section class="sg-section" aria-labelledby="breakpoint-title">
-        <div>
-          <h2 class="sg-section__title" id="breakpoint-title">Responsive Rules</h2>
-          <p class="sg-section__summary">모바일 전환이 아니라 고해상도 업무용 대시보드의 시각 밀도 보정 규칙입니다.</p>
+      <!-- =============================
+           02. Typography
+      ============================== -->
+      <section class="sg-section" id="s2">
+        <div class="sg-section__head">
+          <span class="sg-section__index">02</span>
+          <h2 class="sg-section__title">Typography</h2>
         </div>
-        <div class="sg-breakpoints">
-          <div class="sg-breakpoint"><strong>≤1280</strong><span>Header/LNB 최소값 근접, gap 10px, card gap 8px.</span></div>
-          <div class="sg-breakpoint"><strong>1440</strong><span>compact desktop. scale 0.94, 과한 여백 방지.</span></div>
-          <div class="sg-breakpoint"><strong>1600</strong><span>standard desktop. scale 0.97, 1920에 가까운 밀도.</span></div>
-          <div class="sg-breakpoint"><strong>1920</strong><span>canonical baseline. Header 64px, LNB 96px.</span></div>
-          <div class="sg-breakpoint"><strong>2560+</strong><span>Header/LNB는 상한 유지, page padding/gap만 소폭 증가.</span></div>
+        <p class="sg-sub__desc">6단계 타이포 계층 (Heading → Subheading → Body → Small → Caption → UI Label). Pretendard Variable.</p>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">L1 — Heading (페이지/카드 최상위 제목)</h3>
+          <div class="sg-type">
+            <span class="sg-type__sample" style="font-size: var(--type-heading-fs); font-weight: var(--type-heading-fw); line-height: var(--type-heading-lh);">홍길동 고객님</span>
+            <span class="sg-type__meta">
+              <strong>--type-heading-fs</strong><br>18px / 700 / 1.2
+            </span>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">사용 클래스</span><span class="sg-spec__v">고객명 값 (.live-outer--info dd:nth-child(1))</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">L2 — Subheading (영역/카드 타이틀)</h3>
+          <div class="sg-type">
+            <span class="sg-type__sample" style="font-size: var(--type-subheading-fs); font-weight: var(--type-subheading-fw); line-height: var(--type-subheading-lh);">최근 상담 이력</span>
+            <span class="sg-type__meta">
+              <strong>--type-subheading-fs</strong><br>14px / 600 / 1.35
+            </span>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">사용 클래스</span><span class="sg-spec__v">.card__title · .cinfo-section__title · .live-sect__title · .ds-col-head__title · .mini-card__title</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">L3 — Body (본문 텍스트)</h3>
+          <div class="sg-type">
+            <span class="sg-type__sample" style="font-size: var(--type-body-fs); font-weight: var(--type-body-fw); line-height: var(--type-body-lh);">안녕하세요. 신한라이프 상담원입니다. 무엇을 도와드릴까요?</span>
+            <span class="sg-type__meta">
+              <strong>--type-body-fs</strong><br>13px / 400 / 1.55
+            </span>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">사용 클래스</span><span class="sg-spec__v">.stt-chat__bubble · .history-item__title · .contract-list__title · .editor-doc · .ds-work-text</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">L4 — Small (보조 데이터/값)</h3>
+          <div class="sg-type">
+            <span class="sg-type__sample" style="font-size: var(--type-small-fs); font-weight: var(--type-small-fw); line-height: var(--type-small-lh); color: var(--color-text-secondary);">2026-05-14 15:30 · 보험료 납입 문의</span>
+            <span class="sg-type__meta">
+              <strong>--type-small-fs</strong><br>12px / 400 / 1.5
+            </span>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">사용 클래스</span><span class="sg-spec__v">.history-item__date · .contract-list__meta · .cust-sub · .editor-foot · 테이블 td</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">L5 — Caption (라벨/메타)</h3>
+          <div class="sg-type">
+            <span class="sg-type__sample" style="font-size: var(--type-caption-fs); font-weight: var(--type-caption-fw); line-height: var(--type-caption-lh); color: var(--color-text-muted);">고객번호</span>
+            <span class="sg-type__meta">
+              <strong>--type-caption-fs</strong><br>11px / 500 / 1.35
+            </span>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">사용 클래스</span><span class="sg-spec__v">.form-row__label · .filter-grid__label · .cust-list dt · .stat-row__label-title · 테이블 th</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">L6 — Button Text</h3>
+          <div class="sg-type">
+            <span class="sg-type__sample" style="font-size: var(--type-button-fs); font-weight: var(--fw-bold); line-height: 1;">문서 생성 실행</span>
+            <span class="sg-type__meta">
+              <strong>--type-button-fs</strong><br>12px / 700 / 1
+            </span>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">사용 클래스</span><span class="sg-spec__v">.btn-primary · .btn-secondary · .btn-ghost · .seg__btn · .pager__btn</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">L6' — UI Label / Badge Text</h3>
+          <div class="sg-type">
+            <span class="sg-type__sample" style="font-size: var(--type-ui-label-fs); font-weight: var(--fw-bold); line-height: 1; color: var(--color-text-secondary); letter-spacing: 0.3px;">HIGH</span>
+            <span class="sg-type__meta">
+              <strong>--type-ui-label-fs</strong><br>11px / 700 / 1
+            </span>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">사용 클래스</span><span class="sg-spec__v">.risk · .file__status · .ds-badge · .info-doc-guide__state</span></div>
+          </div>
         </div>
       </section>
 
-      <section class="sg-section" aria-labelledby="usage-title">
-        <div>
-          <h2 class="sg-section__title" id="usage-title">Usage</h2>
-          <p class="sg-section__summary">신규 페이지와 컴포넌트는 아래 토큰을 사용하고, LNB/Header에 고정 px를 직접 쓰지 않습니다.</p>
+      <!-- =============================
+           03. Spacing / Padding
+      ============================== -->
+      <section class="sg-section" id="s3">
+        <div class="sg-section__head">
+          <span class="sg-section__index">03</span>
+          <h2 class="sg-section__title">Spacing / Padding</h2>
         </div>
-        <div class="sg-grid">
-          <article class="sg-card">
-            <h3 class="sg-card__title">Do</h3>
-            <p class="sg-card__text">Shell, 페이지 padding, 카드 간격은 layout token을 사용합니다.</p>
-            <ul class="sg-token-list">
-              <li><span>shell</span><code>var(--layout-header-height)</code></li>
-              <li><span>lnb</span><code>var(--layout-lnb-width)</code></li>
-              <li><span>page</span><code>var(--layout-shell-pad-x)</code></li>
-            </ul>
-          </article>
-          <article class="sg-card">
-            <h3 class="sg-card__title">Don’t</h3>
-            <p class="sg-card__text">Header 64px, LNB 96px, dashboard gap을 개별 페이지에서 직접 선언하지 않습니다.</p>
-            <ul class="sg-token-list">
-              <li><span>금지</span><code>height: 64px</code></li>
-              <li><span>금지</span><code>width: 96px</code></li>
-              <li><span>금지</span><code>gap: random px</code></li>
-            </ul>
-          </article>
-          <article class="sg-card">
-            <h3 class="sg-card__title">Principle</h3>
-            <p class="sg-card__text">구조를 바꾸지 않고 밀도만 보정합니다. 카드 비율과 정보 우선순위는 화면 크기와 무관하게 유지합니다.</p>
-            <ul class="sg-token-list">
-              <li><span>keep</span><code>3-column ratio</code></li>
-              <li><span>scale</span><code>spacing only</code></li>
-              <li><span>cap</span><code>shell max size</code></li>
-            </ul>
-          </article>
+        <p class="sg-sub__desc">4px 기반 spacing scale. 카드/레이아웃에 사용되는 패딩 토큰 포함.</p>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Spacing Scale</h3>
+          <div class="sg-space">
+            <span class="sg-space__name">--space-xxs</span>
+            <div class="sg-space__bar" style="width: 4px;"></div>
+            <span class="sg-space__meta">4px · --s-2</span>
+          </div>
+          <div class="sg-space">
+            <span class="sg-space__name">--space-xs</span>
+            <div class="sg-space__bar" style="width: 6px;"></div>
+            <span class="sg-space__meta">6px · --s-3</span>
+          </div>
+          <div class="sg-space">
+            <span class="sg-space__name">--space-sm</span>
+            <div class="sg-space__bar" style="width: 8px;"></div>
+            <span class="sg-space__meta">8px · --s-4 · 버튼 간격</span>
+          </div>
+          <div class="sg-space">
+            <span class="sg-space__name">--space-md</span>
+            <div class="sg-space__bar" style="width: 12px;"></div>
+            <span class="sg-space__meta">12px · --s-6 · card body gap</span>
+          </div>
+          <div class="sg-space">
+            <span class="sg-space__name">--space-lg</span>
+            <div class="sg-space__bar" style="width: 16px;"></div>
+            <span class="sg-space__meta">16px · --s-8 · form row gap</span>
+          </div>
+          <div class="sg-space">
+            <span class="sg-space__name">--space-xl</span>
+            <div class="sg-space__bar" style="width: 20px;"></div>
+            <span class="sg-space__meta">20px · --s-10</span>
+          </div>
+          <div class="sg-space">
+            <span class="sg-space__name">--space-2xl</span>
+            <div class="sg-space__bar" style="width: 24px;"></div>
+            <span class="sg-space__meta">24px · --s-12 · scroll bottom</span>
+          </div>
+          <div class="sg-space">
+            <span class="sg-space__name">--space-3xl</span>
+            <div class="sg-space__bar" style="width: 32px;"></div>
+            <span class="sg-space__meta">32px · --s-16</span>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Layout Spacing</h3>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">--layout-card-padding</span><span class="sg-spec__v">18px · 카드 내부 기본 패딩 (좌/우/내부)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">--layout-card-gap</span><span class="sg-spec__v">12px · 컬럼 내부 카드 사이 세로 간격</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">--layout-content-gap</span><span class="sg-spec__v">14px · 컬럼 사이 가로 간격</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">--card-body-padding</span><span class="sg-spec__v">var(--layout-card-padding) = 18px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">--card-body-gap</span><span class="sg-spec__v">var(--space-md) = 12px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">--card-footer-padding-y</span><span class="sg-spec__v">var(--space-sm) = 8px · 좌우는 --layout-card-padding</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">card head padding</span><span class="sg-spec__v">var(--space-2xl) var(--layout-card-padding) = 24px 18px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">table cell padding</span><span class="sg-spec__v">10px 14px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">form row gap</span><span class="sg-spec__v">var(--space-xs) ~ var(--space-sm) = 6~8px</span></div>
+          </div>
         </div>
       </section>
+
+      <!-- =============================
+           04. Layout
+      ============================== -->
+      <section class="sg-section" id="s4">
+        <div class="sg-section__head">
+          <span class="sg-section__index">04</span>
+          <h2 class="sg-section__title">Layout</h2>
+        </div>
+        <p class="sg-sub__desc">1920×1080 고정 캔버스. 헤더 + LNB + 3열 워크스페이스 + 푸터 구조.</p>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">3-Column Workspace</h3>
+          <div class="sg-demo sg-demo--app">
+            <div class="sg-layout-vis">
+              <div class="sg-layout-vis__col">
+                <strong>1열 · 28%</strong>
+                <span>고객 정보</span>
+                <span>(Folding 가능 → compact mode)</span>
+              </div>
+              <div class="sg-layout-vis__col">
+                <strong>2열 · 32%</strong>
+                <span>상담 진행</span>
+                <span>STT / Live Composite</span>
+              </div>
+              <div class="sg-layout-vis__col">
+                <strong>3열 · 40%</strong>
+                <span>SHINDY</span>
+                <span>지식 / 추천 / 답변</span>
+              </div>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">--col-1</span><span class="sg-spec__v">28% · 1열 (compact 시 폴딩)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">--col-2</span><span class="sg-spec__v">32% · 2열</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">--col-3</span><span class="sg-spec__v">40% · 3열</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">--grid-gap</span><span class="sg-spec__v">clamp(10px, 0.72vw, 14px)</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Shell Structure</h3>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">--layout-header-h</span><span class="sg-spec__v">64px · 상단 헤더 (모드 탭, 사용자)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">--layout-footer-h</span><span class="sg-spec__v">40px · 하단 상태바</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">--layout-lnb-w</span><span class="sg-spec__v">96px · 좌측 LNB</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">--layout-page-pad-x</span><span class="sg-spec__v">32px · 워크스페이스 좌우 패딩</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">컬럼 카드 간 spacing</span><span class="sg-spec__v">var(--layout-card-gap) = 12px (세로)</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================
+           05. Card System
+      ============================== -->
+      <section class="sg-section" id="s5">
+        <div class="sg-section__head">
+          <span class="sg-section__index">05</span>
+          <h2 class="sg-section__title">Card System</h2>
+        </div>
+        <p class="sg-sub__desc">모든 카드는 동일한 wrapper / body / footer 구조 사용. padding은 토큰으로 통일.</p>
+
+        <!-- Basic -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">기본 카드</h3>
+          <div class="sg-card-demo" style="max-width: 480px;">
+            <div class="sg-card-demo__body">
+              <p style="margin: 0; color: var(--color-text-secondary);">
+                카드 본문 콘텐츠 영역. padding 18px, gap 12px.
+              </p>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">background</span><span class="sg-spec__v">var(--color-surface-card)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">border</span><span class="sg-spec__v">1px solid var(--color-border-default)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">radius</span><span class="sg-spec__v">var(--radius-card) = 16px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">body padding</span><span class="sg-spec__v">var(--layout-card-padding) = 18px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">body gap</span><span class="sg-spec__v">var(--space-md) = 12px</span></div>
+          </div>
+        </div>
+
+        <!-- Header card -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Header 있는 카드</h3>
+          <div class="sg-card-demo" style="max-width: 480px;">
+            <div class="sg-card-demo__head">
+              <h3 class="sg-card-demo__title">문서 업로드</h3>
+            </div>
+            <div class="sg-card-demo__body">
+              <p style="margin: 0; color: var(--color-text-secondary);">
+                헤더 패딩 16px 18px, body 18px.
+              </p>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">head padding</span><span class="sg-spec__v">var(--space-lg) var(--layout-card-padding) = 16px 18px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">head border-bottom</span><span class="sg-spec__v">1px solid var(--color-border-default)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">title typography</span><span class="sg-spec__v">14px / 600 / 1.35 (subheading)</span></div>
+          </div>
+        </div>
+
+        <!-- Scroll card -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Scroll 카드</h3>
+          <div class="sg-scroll-demo">
+            <div class="sg-scroll-demo__head">최근 상담 이력</div>
+            <div class="sg-scroll-demo__body">
+              <div class="sg-scroll-demo__item"><p class="sg-scroll-demo__item-title">보험료 납입 문의</p><p class="sg-scroll-demo__item-meta">2026-05-14 15:30</p></div>
+              <div class="sg-scroll-demo__item"><p class="sg-scroll-demo__item-title">계약 변경 요청</p><p class="sg-scroll-demo__item-meta">2026-05-13 10:20</p></div>
+              <div class="sg-scroll-demo__item"><p class="sg-scroll-demo__item-title">보험금 청구 안내</p><p class="sg-scroll-demo__item-meta">2026-05-12 14:15</p></div>
+              <div class="sg-scroll-demo__item"><p class="sg-scroll-demo__item-title">상품 추천 요청</p><p class="sg-scroll-demo__item-meta">2026-05-11 09:40</p></div>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.card__body--scroll (flex: 1 1 auto; overflow-y: auto)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">head</span><span class="sg-spec__v">flex-shrink: 0 (고정)</span></div>
+          </div>
+        </div>
+
+        <!-- Footer card -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Footer/Action 있는 카드</h3>
+          <div class="sg-card-demo" style="max-width: 480px;">
+            <div class="sg-card-demo__body">
+              <p style="margin: 0; color: var(--color-text-secondary);">메모 입력 영역</p>
+              <textarea class="sg-form-textarea" placeholder="메모를 입력하세요"></textarea>
+            </div>
+            <div class="sg-card-demo__footer">
+              <button class="sg-btn sg-btn--ghost">취소</button>
+              <button class="sg-btn sg-btn--secondary">저장</button>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">footer padding</span><span class="sg-spec__v">var(--space-sm) var(--layout-card-padding) = 8px 18px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">border-top</span><span class="sg-spec__v">1px solid var(--color-border-default)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">button gap</span><span class="sg-spec__v">var(--space-sm) = 8px</span></div>
+          </div>
+        </div>
+
+        <!-- Detail panel -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Detail Panel 카드 (Flush body)</h3>
+          <div class="sg-divider-demo">
+            <div class="sg-divider-demo__head">검수 상세 정보</div>
+            <div class="sg-divider-demo__grid">
+              <div class="sg-divider-demo__cell"><p class="sg-divider-demo__label">고객명</p><p class="sg-divider-demo__value">홍길동</p></div>
+              <div class="sg-divider-demo__cell"><p class="sg-divider-demo__label">고객번호</p><p class="sg-divider-demo__value">1234567890</p></div>
+              <div class="sg-divider-demo__cell"><p class="sg-divider-demo__label">검수일시</p><p class="sg-divider-demo__value">2026-05-14 14:30</p></div>
+              <div class="sg-divider-demo__cell"><p class="sg-divider-demo__label">위험도</p><p class="sg-divider-demo__value"><span class="sg-risk sg-risk--high">HIGH</span></p></div>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.card__body--flush (padding: 0, gap: 0)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">divider</span><span class="sg-spec__v">grid wrapper ::before/::after (full-width, padding 영향 없음)</span></div>
+          </div>
+        </div>
+
+        <!-- CTA card -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">CTA Footer 있는 카드</h3>
+          <div class="sg-card-demo" style="max-width: 480px;">
+            <div class="sg-card-demo__body">
+              <p style="margin: 0; color: var(--color-text-secondary);">문서 생성 옵션</p>
+            </div>
+            <div style="padding: var(--space-sm) 0 0; background: var(--color-surface-outer); border-top: 1px solid var(--color-border-default);">
+              <button class="sg-btn sg-btn--cta">문서 생성 실행</button>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.col__cta</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">padding</span><span class="sg-spec__v">var(--space-sm) 0 0 (좌우 패딩 없음 → 버튼이 끝까지)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">button height</span><span class="sg-spec__v">48px (CTA용 control-h-xl)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">button width</span><span class="sg-spec__v">100%</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================
+           06. Card Composition (실전 카드 조합)
+      ============================== -->
+      <section class="sg-section" id="cardcomp">
+        <div class="sg-section__head">
+          <span class="sg-section__index">06</span>
+          <h2 class="sg-section__title">Card Composition</h2>
+        </div>
+        <p class="sg-sub__desc">
+          단일 카드가 아닌 실제 화면에서 여러 카드/구조가 조합되는 패턴 예시.
+          컬럼 단위 layout (3열 중 1열) 기준으로 구성합니다.
+        </p>
+
+        <!-- Pattern A: Header + Scroll Body + CTA Footer -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Pattern A — Header + Scroll Body + CTA Footer</h3>
+          <p class="sg-sub__desc">문서 생성 컬럼처럼 헤더 고정 / 본문 스크롤 / 하단 full-width CTA 구조.</p>
+          <div class="sg-demo sg-demo--app" style="padding: var(--space-lg);">
+            <div style="max-width: 360px; height: 480px; display: flex; flex-direction: column; gap: var(--space-md);">
+              <div class="sg-card-demo" style="flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;">
+                <div class="sg-card-demo__head">
+                  <h3 class="sg-card-demo__title">참조 RAG 선택</h3>
+                </div>
+                <div class="sg-card-demo__body" style="flex: 1 1 auto; overflow-y: auto; min-height: 0;">
+                  <label class="sg-check"><input type="checkbox" checked> 보험 약관</label>
+                  <label class="sg-check"><input type="checkbox"> FAQ</label>
+                  <label class="sg-check"><input type="checkbox" checked> 상품 매뉴얼</label>
+                  <label class="sg-check"><input type="checkbox"> 상담 가이드</label>
+                  <label class="sg-check"><input type="checkbox"> 사내 정책</label>
+                </div>
+              </div>
+              <div style="background: var(--color-surface-outer); border-top: 1px solid var(--color-border-default); padding: var(--space-sm) 0 0;">
+                <button class="sg-btn sg-btn--cta">문서 생성 실행</button>
+              </div>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">컬럼 구조</span><span class="sg-spec__v">.col + .col__scroll + .col__cta (sticky bottom)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">카드 flex</span><span class="sg-spec__v">flex: 1 1 auto / min-height: 0 → 컬럼 높이 채움</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">CTA</span><span class="sg-spec__v">100% width / 48px height / 좌우 padding 0</span></div>
+          </div>
+        </div>
+
+        <!-- Pattern B: Stat + Filter + Table -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Pattern B — Stat Card + Filter + Table</h3>
+          <p class="sg-sub__desc">검수현황처럼 상단 통계 카드 + 필터 + 테이블 + pagination 조합.</p>
+          <div class="sg-demo sg-demo--app" style="padding: var(--space-lg);">
+            <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+              <!-- Stat Row -->
+              <div class="sg-card-demo">
+                <div style="display: flex; align-items: center; padding: var(--space-md) var(--layout-card-padding); flex-direction: column; gap: var(--space-sm);">
+                  <div style="display: flex; align-items: center; gap: var(--space-2xl); width: 100%; justify-content: space-between;">
+                    <div>
+                      <p style="margin: 0 0 4px; font-size: var(--type-caption-fs); color: var(--color-text-muted); font-weight: var(--fw-medium);">검수현황</p>
+                    </div>
+                    <div style="display: flex; gap: var(--space-2xl);">
+                      <div style="text-align: center;">
+                        <p style="margin: 0 0 4px; font-size: var(--type-caption-fs); color: var(--color-status-danger); font-weight: var(--fw-bold);">HIGH</p>
+                        <p style="margin: 0; font-size: 18px; font-weight: var(--fw-bold); color: var(--color-text-strong);">12</p>
+                      </div>
+                      <div style="text-align: center;">
+                        <p style="margin: 0 0 4px; font-size: var(--type-caption-fs); color: var(--color-status-warning); font-weight: var(--fw-bold);">MID</p>
+                        <p style="margin: 0; font-size: 18px; font-weight: var(--fw-bold); color: var(--color-text-strong);">8</p>
+                      </div>
+                      <div style="text-align: center;">
+                        <p style="margin: 0 0 4px; font-size: var(--type-caption-fs); color: var(--color-text-secondary); font-weight: var(--fw-bold);">LOW</p>
+                        <p style="margin: 0; font-size: 18px; font-weight: var(--fw-bold); color: var(--color-text-strong);">3</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="width: 100%; text-align: right;">
+                    <span style="font-size: var(--type-caption-fs); color: var(--color-text-soft);">2026-05-14 기준</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Filter + Table -->
+              <div class="sg-card-demo">
+                <div style="padding: var(--space-md) var(--layout-card-padding); display: flex; gap: var(--space-sm); align-items: center; border-bottom: 1px solid var(--color-border-default);">
+                  <input type="text" class="sg-form-input" style="flex: 1; max-width: 240px;" placeholder="고객명 검색">
+                  <button class="sg-btn sg-btn--secondary">검색</button>
+                </div>
+                <table class="sg-table" style="border: 0; border-radius: 0;">
+                  <thead>
+                    <tr>
+                      <th>고객명</th>
+                      <th>검수일</th>
+                      <th>위험도</th>
+                      <th>상태</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>홍길동</td><td>2026-05-14</td><td><span class="sg-risk sg-risk--high">HIGH</span></td><td>검수완료</td></tr>
+                    <tr><td>김철수</td><td>2026-05-14</td><td><span class="sg-risk sg-risk--medium">MID</span></td><td>검수중</td></tr>
+                    <tr><td>이영희</td><td>2026-05-13</td><td><span class="sg-risk sg-risk--low">LOW</span></td><td>미검수</td></tr>
+                  </tbody>
+                </table>
+                <div class="sg-pager">
+                  <button class="sg-pager__btn">‹</button>
+                  <button class="sg-pager__btn is-active">1</button>
+                  <button class="sg-pager__btn">2</button>
+                  <button class="sg-pager__btn">›</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">stat card</span><span class="sg-spec__v">기준일은 카드 내부 하단 우측 muted text</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">filter row</span><span class="sg-spec__v">card 상단, border-bottom으로 table과 구분</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">pager padding</span><span class="sg-spec__v">var(--space-sm) var(--layout-card-padding) var(--layout-card-padding)</span></div>
+          </div>
+        </div>
+
+        <!-- Pattern C: Detail + Action Footer -->
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Pattern C — Detail Panel + Follow-up Card</h3>
+          <p class="sg-sub__desc">상세 정보 + 후속 조치(메모 + 저장/종결 버튼) 조합. 메모는 남은 공간을 채움.</p>
+          <div class="sg-demo sg-demo--app" style="padding: var(--space-lg);">
+            <div style="display: flex; flex-direction: column; gap: var(--space-md); height: 520px;">
+              <!-- Detail -->
+              <div class="sg-divider-demo">
+                <div class="sg-divider-demo__head">검수 상세 정보</div>
+                <div class="sg-divider-demo__grid">
+                  <div class="sg-divider-demo__cell"><p class="sg-divider-demo__label">고객명</p><p class="sg-divider-demo__value">홍길동</p></div>
+                  <div class="sg-divider-demo__cell"><p class="sg-divider-demo__label">검수일시</p><p class="sg-divider-demo__value">2026-05-14 14:30</p></div>
+                  <div class="sg-divider-demo__cell"><p class="sg-divider-demo__label">위험도</p><p class="sg-divider-demo__value"><span class="sg-risk sg-risk--high">HIGH</span></p></div>
+                  <div class="sg-divider-demo__cell"><p class="sg-divider-demo__label">상태</p><p class="sg-divider-demo__value">검수완료</p></div>
+                </div>
+              </div>
+              <!-- Follow-up -->
+              <div class="sg-card-demo" style="flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;">
+                <div class="sg-card-demo__head"><h3 class="sg-card-demo__title">후속 조치</h3></div>
+                <div class="sg-card-demo__body" style="flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;">
+                  <div class="sg-form-row">
+                    <label class="sg-form-row__label">조치 유형</label>
+                    <select class="sg-form-select"><option>메모</option><option>재상담 예정</option></select>
+                  </div>
+                  <div class="sg-form-row" style="flex: 1 1 auto; min-height: 0;">
+                    <label class="sg-form-row__label">메모</label>
+                    <textarea class="sg-form-textarea" style="height: 100%; min-height: 96px; resize: none;" placeholder="메모를 입력하세요"></textarea>
+                  </div>
+                </div>
+                <div class="sg-card-demo__footer">
+                  <button class="sg-btn sg-btn--secondary">저장</button>
+                  <button class="sg-btn sg-btn--primary" style="height: var(--control-h-md);">업무 종결</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">follow-up card</span><span class="sg-spec__v">flex: 1 1 auto → 남은 세로 공간 채움</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">textarea</span><span class="sg-spec__v">height: 100%; min-height: 96px; resize: none</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">버튼</span><span class="sg-spec__v">card__footer 우측 정렬 고정</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================
+           07. Buttons
+      ============================== -->
+      <section class="sg-section" id="s6">
+        <div class="sg-section__head">
+          <span class="sg-section__index">06</span>
+          <h2 class="sg-section__title">Buttons</h2>
+        </div>
+        <p class="sg-sub__desc">7가지 케이스 (CTA / Secondary / Ghost / Inline / Segmented / Icon / Tool).</p>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Case 1 — CTA Primary</h3>
+          <div class="sg-row">
+            <button class="sg-btn sg-btn--primary">문서 생성 실행</button>
+            <button class="sg-btn sg-btn--primary" disabled>비활성</button>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.btn-primary</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">height</span><span class="sg-spec__v">var(--control-h-lg) = 36px (full-width CTA는 48px)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">padding</span><span class="sg-spec__v">0 var(--control-pad-x-lg) = 0 14px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">background</span><span class="sg-spec__v">var(--c-neutral-800) → hover: --c-neutral-900</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">text</span><span class="sg-spec__v">12px / 700 / White</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Case 2 — Secondary (Outlined / Filled Dark)</h3>
+          <div class="sg-row">
+            <button class="sg-btn sg-btn--secondary">취소</button>
+            <button class="sg-btn sg-btn--primary" style="height: var(--control-h-md);">저장</button>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.btn-secondary, .btn-secondary--primary</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">height</span><span class="sg-spec__v">var(--control-h-md) = 30px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">background</span><span class="sg-spec__v">White (outlined) / --c-neutral-800 (filled)</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Case 3 — Ghost (Outlined Large)</h3>
+          <div class="sg-row">
+            <button class="sg-btn sg-btn--secondary" style="height: var(--control-h-lg);">다운로드</button>
+            <button class="sg-btn sg-btn--ghost">취소</button>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.btn-ghost</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">height</span><span class="sg-spec__v">var(--control-h-lg) = 36px</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Case 4 — Inline Action (작은 액션 / 활성 상태)</h3>
+          <div class="sg-row">
+            <button class="sg-btn sg-btn--inline">요약본 생성</button>
+            <button class="sg-btn sg-btn--inline is-active">문서 통합</button>
+            <button class="sg-btn sg-btn--inline">+ 참조 추가</button>
+            <button class="sg-btn sg-btn--danger">통화 종료</button>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.card__head-action · .link-btn · .file-list__clear</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">height</span><span class="sg-spec__v">var(--control-h-sm) = 26px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">is-active (선택)</span><span class="sg-spec__v">bg #F3F4F6 / border #9CA3AF / text #111827 / bold</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">danger (cinfo-caller__save)</span><span class="sg-spec__v">bg var(--color-status-danger), white text</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Case 6 — Icon Button</h3>
+          <div class="sg-row">
+            <button class="sg-icon-btn" aria-label="닫기">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M12 4 4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+            <button class="sg-icon-btn" aria-label="검색">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="m14 14-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+            <button class="sg-icon-btn" aria-label="더보기">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="3" r="1.5" fill="currentColor"/><circle cx="8" cy="8" r="1.5" fill="currentColor"/><circle cx="8" cy="13" r="1.5" fill="currentColor"/></svg>
+            </button>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.icon-btn · .ds-icon-btn</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">size</span><span class="sg-spec__v">26 × 26px (정사각형)</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Case 7 — Pill Tool Toggle</h3>
+          <div class="sg-row">
+            <button class="sg-btn" style="height: var(--control-h-sm); padding: 0 var(--control-pad-x-sm); border-radius: var(--radius-pill); background: var(--color-surface-soft); color: var(--color-text-muted); border: 1px solid var(--color-border-default); font-weight: var(--fw-medium);">검색</button>
+            <button class="sg-btn" style="height: var(--control-h-sm); padding: 0 var(--control-pad-x-sm); border-radius: var(--radius-pill); background: var(--c-neutral-100); color: var(--color-text-secondary); border: 1px solid var(--c-neutral-300); font-weight: var(--fw-semibold);">상품추천 (On)</button>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.ai-agent-tool</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">radius</span><span class="sg-spec__v">var(--radius-pill) = 9999px</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">상태 변화 (Default / Hover / Active / Disabled)</h3>
+          <div class="sg-row">
+            <button class="sg-btn sg-btn--primary">Default</button>
+            <button class="sg-btn sg-btn--primary" style="background: var(--c-neutral-900); border-color: var(--c-neutral-900);">Hover</button>
+            <button class="sg-btn sg-btn--primary" style="background: var(--c-neutral-900);">Active</button>
+            <button class="sg-btn sg-btn--primary" disabled>Disabled</button>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">disabled</span><span class="sg-spec__v">opacity: 0.4, cursor: not-allowed</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">focus-visible</span><span class="sg-spec__v">outline: 2px solid var(--color-border-focus), offset 2px</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================
+           07. Form Controls
+      ============================== -->
+      <section class="sg-section" id="s7">
+        <div class="sg-section__head">
+          <span class="sg-section__index">07</span>
+          <h2 class="sg-section__title">Form Controls</h2>
+        </div>
+        <p class="sg-sub__desc">Input, Select, Date, Textarea, Checkbox, Search 등 폼 요소.</p>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Input / Select / Date / Textarea</h3>
+          <div class="sg-demo">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); max-width: 720px;">
+              <div class="sg-form-row">
+                <label class="sg-form-row__label">고객명</label>
+                <input type="text" class="sg-form-input" placeholder="홍길동" value="홍길동">
+              </div>
+              <div class="sg-form-row">
+                <label class="sg-form-row__label">조치 유형</label>
+                <select class="sg-form-select">
+                  <option>메모</option>
+                  <option>재상담 예정</option>
+                </select>
+              </div>
+              <div class="sg-form-row">
+                <label class="sg-form-row__label">검수일</label>
+                <input type="date" class="sg-form-input" value="2026-05-14">
+              </div>
+              <div class="sg-form-row">
+                <label class="sg-form-row__label">고객번호</label>
+                <input type="text" class="sg-form-input" placeholder="입력하세요" disabled>
+              </div>
+              <div class="sg-form-row" style="grid-column: span 2;">
+                <label class="sg-form-row__label">메모</label>
+                <textarea class="sg-form-textarea" placeholder="메모를 입력하세요"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">height</span><span class="sg-spec__v">var(--control-h-md) = 30px (input/select/date)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">padding</span><span class="sg-spec__v">0 var(--control-pad-x-md) = 0 12px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">border</span><span class="sg-spec__v">1px solid var(--color-border-strong) #DADDE3</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">radius</span><span class="sg-spec__v">var(--radius-control) = 8px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">font</span><span class="sg-spec__v">var(--type-body-fs) = 13px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">select arrow</span><span class="sg-spec__v">우측 14px, SVG 16×16, padding-right 40px 확보</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">disabled</span><span class="sg-spec__v">bg --color-surface-soft, color --color-text-disabled</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">사용 클래스</span><span class="sg-spec__v">.input · .select · .ds-input · .ds-select · .ds-textarea</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Search Input</h3>
+          <div class="sg-demo">
+            <div style="position: relative; max-width: 320px;">
+              <svg style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted);" width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/>
+                <path d="m14 14-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <input type="text" class="sg-form-input" placeholder="고객명, 번호로 검색" style="padding-left: 32px;">
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">아이콘 위치</span><span class="sg-spec__v">좌측 10px, 14×14 SVG</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">padding-left</span><span class="sg-spec__v">32px (아이콘 + 여백 확보)</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Checkbox</h3>
+          <div class="sg-demo">
+            <div style="display: flex; gap: var(--space-lg);">
+              <label class="sg-check"><input type="checkbox" checked> 보험 약관</label>
+              <label class="sg-check"><input type="checkbox"> FAQ</label>
+              <label class="sg-check"><input type="checkbox"> 상품 매뉴얼</label>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.check (label) + input[type=checkbox]</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">checkbox size</span><span class="sg-spec__v">16 × 16px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">accent-color</span><span class="sg-spec__v">var(--c-neutral-800) #1F2937</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">gap</span><span class="sg-spec__v">var(--space-xs) = 6px (label 내부)</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Form Row / Filter Group</h3>
+          <div class="sg-demo">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); align-items: end;">
+              <div class="sg-form-row">
+                <label class="sg-form-row__label">검수 기간</label>
+                <input type="date" class="sg-form-input" value="2026-05-01">
+              </div>
+              <div class="sg-form-row">
+                <label class="sg-form-row__label">~</label>
+                <input type="date" class="sg-form-input" value="2026-05-14">
+              </div>
+              <div class="sg-form-row">
+                <label class="sg-form-row__label">위험도</label>
+                <select class="sg-form-select"><option>전체</option><option>High</option></select>
+              </div>
+              <div class="sg-form-row">
+                <label class="sg-form-row__label">&nbsp;</label>
+                <button class="sg-btn sg-btn--secondary">검색</button>
+              </div>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">form-row gap</span><span class="sg-spec__v">var(--space-xs) = 6px (label ↔ input)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">filter-grid gap</span><span class="sg-spec__v">var(--space-md) = 12px (row 간)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">filter input height</span><span class="sg-spec__v">--filter-control-height = 40px (예외)</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================
+           08. Segmented / Toggle
+      ============================== -->
+      <section class="sg-section" id="s8">
+        <div class="sg-section__head">
+          <span class="sg-section__index">08</span>
+          <h2 class="sg-section__title">Segmented / Toggle</h2>
+        </div>
+        <p class="sg-sub__desc">옵션 전환 컨트롤. 헤더 모드 탭은 별도 디자인으로 분리.</p>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">기간 선택 / 공식형·자유형 / 요약 타입 (공통 segmented)</h3>
+          <div class="sg-row">
+            <div class="sg-seg">
+              <button class="sg-seg__btn is-active">최근 일주일</button>
+              <button class="sg-seg__btn">최근 한달</button>
+              <button class="sg-seg__btn">최근 3개월</button>
+            </div>
+          </div>
+          <div class="sg-row">
+            <div class="sg-seg">
+              <button class="sg-seg__btn is-active">공식형</button>
+              <button class="sg-seg__btn">자유형</button>
+            </div>
+            <div class="sg-seg">
+              <button class="sg-seg__btn is-active">요약본 생성</button>
+              <button class="sg-seg__btn">문서 통합</button>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">wrapper</span><span class="sg-spec__v">.seg (border + radius + overflow:hidden, 단일 border)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">button</span><span class="sg-spec__v">.seg__btn (border:0, 인접 버튼만 border-left)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">height</span><span class="sg-spec__v">var(--control-h-md) = 30px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">active</span><span class="sg-spec__v">background --c-neutral-800, color white, bold</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">filter-grid 예외</span><span class="sg-spec__v">.filter-grid .seg → height 40px</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Multi-select Button Box (RAG / 문서 유형)</h3>
+          <div class="sg-row">
+            <button class="sg-btn sg-btn--inline">보험 약관</button>
+            <button class="sg-btn sg-btn--inline is-active">FAQ</button>
+            <button class="sg-btn sg-btn--inline">상품 매뉴얼</button>
+            <button class="sg-btn sg-btn--inline is-active">상담 가이드</button>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.card__head-action / .chip + .is-active</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">selected</span><span class="sg-spec__v">bg #F3F4F6 / border #9CA3AF / text #111827</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">⚠ 정책</span><span class="sg-spec__v">dark navy/black 선택 배경 사용 금지 → 연한 gray로</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">헤더 모드 탭 (별도 디자인)</h3>
+          <div class="sg-demo sg-demo--soft" style="background: var(--color-surface-card); display: flex; justify-content: center;">
+            <div class="sg-mode-seg">
+              <button class="sg-mode-seg__btn is-active">상담 모드</button>
+              <button class="sg-mode-seg__btn">학습·조회 모드</button>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.mode-segmented (헤더 전용)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">분리 이유</span><span class="sg-spec__v">page-overrides에서 .seg 공통 스타일 제외</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">style</span><span class="sg-spec__v">pill shape, soft neutral selected (헤더 톤에 맞춤)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">selected</span><span class="sg-spec__v">white card surface + subtle shadow (dark 강조 없음)</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================
+           09. Label / Badge / Tag
+      ============================== -->
+      <section class="sg-section" id="s9">
+        <div class="sg-section__head">
+          <span class="sg-section__index">09</span>
+          <h2 class="sg-section__title">Label / Badge / Tag</h2>
+        </div>
+        <p class="sg-sub__desc">4가지 케이스 (Badge / Outline Tag / Dot Status / Label).</p>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Case 1 — Risk Badge (위험도 High / Mid / Low)</h3>
+          <div class="sg-pill-row">
+            <span class="sg-risk sg-risk--high">HIGH</span>
+            <span class="sg-risk sg-risk--medium">MID</span>
+            <span class="sg-risk sg-risk--low">LOW</span>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.risk · .risk--high/--medium/--low</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">size</span><span class="sg-spec__v">height 20px / padding 0 8px / radius pill</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">font</span><span class="sg-spec__v">10px / 700 / letter-spacing 0.3px</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Case 1 — File / Step Status</h3>
+          <div class="sg-pill-row">
+            <span class="sg-pill sg-pill--success">완료</span>
+            <span class="sg-pill sg-pill--warning">검증중</span>
+            <span class="sg-pill sg-pill--danger">실패</span>
+            <span class="sg-pill">대기</span>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.file__status · .ds-badge · .pill</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">size</span><span class="sg-spec__v">height 18px / padding 0 6px / radius pill</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">font</span><span class="sg-spec__v">var(--fs-10) = 10px / 700</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Case 2 — Outline Tag (neutral)</h3>
+          <div class="sg-pill-row">
+            <span class="sg-tag">일반</span>
+            <span class="sg-tag">VIP</span>
+            <span class="sg-tag">신규</span>
+            <span class="sg-tag sg-tag--muted">기타</span>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.ds-tag · .cinfo-history__pill · .product-info-summary__chip</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">size</span><span class="sg-spec__v">height 22px / padding 0 8px / radius 6px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">border</span><span class="sg-spec__v">1px solid var(--color-border-default)</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Case 3 — Dot Status (검수상태)</h3>
+          <div class="sg-pill-row">
+            <span class="sg-status">미검수</span>
+            <span class="sg-status sg-status--checking">검수중</span>
+            <span class="sg-status sg-status--done">검수완료</span>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.status · .ds-dot-status</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">dot</span><span class="sg-spec__v">::before 6×6 currentColor circle</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">font</span><span class="sg-spec__v">var(--type-caption-fs) = 11px / 600</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Case 4 — Label (단순 라벨)</h3>
+          <div class="sg-pill-row" style="gap: var(--space-xl);">
+            <span style="font-size: var(--type-caption-fs); font-weight: var(--fw-medium); color: var(--color-text-muted);">고객번호</span>
+            <span style="font-size: var(--type-caption-fs); font-weight: var(--fw-medium); color: var(--color-text-muted);">검수 기간</span>
+            <span style="font-size: var(--type-caption-fs); font-weight: var(--fw-medium); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.06em;">RESULT</span>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.form-row__label · .filter-grid__label · .editor-label · .cust-list dt</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">font</span><span class="sg-spec__v">11px / 500 / --color-text-muted</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">editor-label 예외</span><span class="sg-spec__v">letter-spacing 0.06em, uppercase</span></div>
+          </div>
+        </div>
+
+        <div class="sg-notice sg-notice--warn">
+          <strong>⚠ Blue 강조 라벨/배지 사용 금지.</strong>
+          상태 표시는 success(green) / warning(yellow) / danger(red) + neutral gray만 사용합니다.
+        </div>
+      </section>
+
+      <!-- =============================
+           10. Table
+      ============================== -->
+      <section class="sg-section" id="s10">
+        <div class="sg-section__head">
+          <span class="sg-section__index">10</span>
+          <h2 class="sg-section__title">Table</h2>
+        </div>
+        <p class="sg-sub__desc">검수현황 테이블. 헤더 + body + pagination. 위험도는 badge, 검수상태는 일반 텍스트.</p>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">기본 테이블 (좌측 정렬)</h3>
+          <div class="sg-card-demo">
+            <table class="sg-table">
+              <thead>
+                <tr>
+                  <th>고객명</th>
+                  <th>고객번호</th>
+                  <th>검수일시</th>
+                  <th>위험도</th>
+                  <th>검수상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>홍길동</td>
+                  <td>1234567890</td>
+                  <td>2026-05-14 14:30</td>
+                  <td><span class="sg-risk sg-risk--high">HIGH</span></td>
+                  <td>검수완료</td>
+                </tr>
+                <tr>
+                  <td>김철수</td>
+                  <td>2345678901</td>
+                  <td>2026-05-14 13:20</td>
+                  <td><span class="sg-risk sg-risk--medium">MID</span></td>
+                  <td>검수중</td>
+                </tr>
+                <tr>
+                  <td>이영희</td>
+                  <td>3456789012</td>
+                  <td>2026-05-14 11:15</td>
+                  <td><span class="sg-risk sg-risk--low">LOW</span></td>
+                  <td>미검수</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="sg-pager">
+              <button class="sg-pager__btn">‹</button>
+              <button class="sg-pager__btn is-active">1</button>
+              <button class="sg-pager__btn">2</button>
+              <button class="sg-pager__btn">3</button>
+              <button class="sg-pager__btn">›</button>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.table · .pager · .pager__btn</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">cell padding</span><span class="sg-spec__v">10px 14px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">th</span><span class="sg-spec__v">var(--type-caption-fs) 11px / 600 / muted / bg --color-surface-soft</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">td</span><span class="sg-spec__v">var(--type-small-fs) 12px / 400</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">row hover</span><span class="sg-spec__v">background var(--color-surface-soft)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">pager padding</span><span class="sg-spec__v">var(--space-sm) var(--layout-card-padding) var(--layout-card-padding)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">⚠ 검수상태</span><span class="sg-spec__v">badge/dot 사용 안 함 → 일반 텍스트로 표시</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">중앙 정렬 테이블</h3>
+          <div class="sg-card-demo">
+            <table class="sg-table sg-table--center">
+              <thead>
+                <tr>
+                  <th>고객명</th>
+                  <th>위험도</th>
+                  <th>건수</th>
+                  <th>완료율</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>홍길동</td>
+                  <td><span class="sg-risk sg-risk--high">HIGH</span></td>
+                  <td>12</td>
+                  <td>75%</td>
+                </tr>
+                <tr>
+                  <td>김철수</td>
+                  <td><span class="sg-risk sg-risk--medium">MID</span></td>
+                  <td>8</td>
+                  <td>62%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.table--center (1번째 컬럼은 좌측 정렬 유지)</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================
+           11. Detail Panel / Divider
+      ============================== -->
+      <section class="sg-section" id="s11">
+        <div class="sg-section__head">
+          <span class="sg-section__index">11</span>
+          <h2 class="sg-section__title">Detail Panel / Divider</h2>
+        </div>
+        <p class="sg-sub__desc">검수 상세 정보 같은 2열 grid panel. divider는 wrapper 기준, 셀 padding 무관.</p>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">2×2 Grid Panel + Full-width Divider</h3>
+          <div class="sg-divider-demo">
+            <div class="sg-divider-demo__head">검수 상세 정보</div>
+            <div class="sg-divider-demo__grid">
+              <div class="sg-divider-demo__cell">
+                <p class="sg-divider-demo__label">고객명</p>
+                <p class="sg-divider-demo__value">홍길동 (1234567890)</p>
+              </div>
+              <div class="sg-divider-demo__cell">
+                <p class="sg-divider-demo__label">검수일시</p>
+                <p class="sg-divider-demo__value">2026-05-14 14:30:25</p>
+              </div>
+              <div class="sg-divider-demo__cell">
+                <p class="sg-divider-demo__label">위험도</p>
+                <p class="sg-divider-demo__value"><span class="sg-risk sg-risk--high">HIGH</span></p>
+              </div>
+              <div class="sg-divider-demo__cell">
+                <p class="sg-divider-demo__label">검수상태</p>
+                <p class="sg-divider-demo__value">검수완료</p>
+              </div>
+            </div>
+          </div>
+          <div class="sg-notice">
+            <strong>Divider 구현 규칙</strong><br>
+            ① 각 셀에 직접 border를 넣지 않는다.<br>
+            ② grid wrapper에 <code>::before</code> (가로) · <code>::after</code> (세로) pseudo-element로 그린다.<br>
+            ③ <code>left: 0; right: 0</code>, <code>top: 0; bottom: 0</code>으로 wrapper 끝까지 이어지게 한다.<br>
+            ④ 셀의 padding은 콘텐츠 여백에만 사용 — divider는 padding 영향 없음.<br>
+            ⑤ 카드에 <code>overflow: hidden</code> 유지 → 둥근 모서리 밖으로 선 튀어나가지 않음.
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">label</span><span class="sg-spec__v">11px / 500 / --color-text-muted</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">value</span><span class="sg-spec__v">13px / 500 / --color-text-strong</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">cell padding</span><span class="sg-spec__v">var(--space-md) var(--layout-card-padding) = 12px 18px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">divider color</span><span class="sg-spec__v">var(--color-border-default) #E5EAF3</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Label / Value Row (info-row)</h3>
+          <div class="sg-demo">
+            <div class="sg-info-row"><span class="sg-info-row__label">고객번호</span><span class="sg-info-row__value">1234567890</span></div>
+            <div class="sg-info-row"><span class="sg-info-row__label">생년월일</span><span class="sg-info-row__value">1985-03-12</span></div>
+            <div class="sg-info-row"><span class="sg-info-row__label">연락처</span><span class="sg-info-row__value">010-1234-5678</span></div>
+            <div class="sg-info-row"><span class="sg-info-row__label">가입 상품</span><span class="sg-info-row__value">신한 라이프 보장 플러스</span></div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.info-row · .cust-list dl/dt/dd</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">grid</span><span class="sg-spec__v">120px(label) 1fr(value)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">divider</span><span class="sg-spec__v">행 사이 1px solid var(--color-border-subtle)</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================
+           12. Scroll Area
+      ============================== -->
+      <section class="sg-section" id="s12">
+        <div class="sg-section__head">
+          <span class="sg-section__index">12</span>
+          <h2 class="sg-section__title">Scroll Area</h2>
+        </div>
+        <p class="sg-sub__desc">카드 내부 스크롤 — 헤더 고정 + body 스크롤, 얇은 neutral scrollbar.</p>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Header Fixed + Body Scroll</h3>
+          <div class="sg-scroll-demo">
+            <div class="sg-scroll-demo__head">최근 상담 이력 (Header Fixed)</div>
+            <div class="sg-scroll-demo__body">
+              <div class="sg-scroll-demo__item"><p class="sg-scroll-demo__item-title">보험료 납입 문의</p><p class="sg-scroll-demo__item-meta">2026-05-14 15:30</p></div>
+              <div class="sg-scroll-demo__item"><p class="sg-scroll-demo__item-title">계약 변경 요청</p><p class="sg-scroll-demo__item-meta">2026-05-13 10:20</p></div>
+              <div class="sg-scroll-demo__item"><p class="sg-scroll-demo__item-title">보험금 청구 안내</p><p class="sg-scroll-demo__item-meta">2026-05-12 14:15</p></div>
+              <div class="sg-scroll-demo__item"><p class="sg-scroll-demo__item-title">상품 추천 요청</p><p class="sg-scroll-demo__item-meta">2026-05-11 09:40</p></div>
+              <div class="sg-scroll-demo__item"><p class="sg-scroll-demo__item-title">FAQ 안내</p><p class="sg-scroll-demo__item-meta">2026-05-10 16:05</p></div>
+              <div class="sg-scroll-demo__item"><p class="sg-scroll-demo__item-title">해지 환급금 문의</p><p class="sg-scroll-demo__item-meta">2026-05-09 11:25</p></div>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.card__body--scroll · .card__body--flex</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">flex</span><span class="sg-spec__v">flex: 1 1 auto / overflow-y: auto</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">head</span><span class="sg-spec__v">flex-shrink: 0</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">scroll bottom padding</span><span class="sg-spec__v">var(--space-2xl) = 24px (마지막 항목 하단 여백)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">scrollbar width</span><span class="sg-spec__v">6px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">scrollbar color</span><span class="sg-spec__v">thumb var(--c-neutral-300) #D1D5DB / track transparent</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">scrollbar-width</span><span class="sg-spec__v">thin (Firefox)</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================
+           13. Action Bar / Footer Bar
+      ============================== -->
+      <section class="sg-section" id="s13">
+        <div class="sg-section__head">
+          <span class="sg-section__index">13</span>
+          <h2 class="sg-section__title">Action Bar / Footer Bar</h2>
+        </div>
+        <p class="sg-sub__desc">질문 추천 / 관련 화면 / 추천 칩 등 라벨 + 버튼 그룹 구조.</p>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">질문 추천 / 추천 질문</h3>
+          <div class="sg-action-bar">
+            <span class="sg-action-bar__label">추천 질문</span>
+            <div class="sg-action-bar__items">
+              <button class="sg-action-pill">보험료 납입 방법</button>
+              <button class="sg-action-pill">해지환급금 조회</button>
+              <button class="sg-action-pill">계약 변경 절차</button>
+              <button class="sg-action-pill">청구 서류 안내</button>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.ai-agent-suggest · .ka-doc__recommend</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">padding</span><span class="sg-spec__v">var(--space-md) var(--layout-card-padding) = 12px 18px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">label</span><span class="sg-spec__v">11px / 500 / muted (flex-shrink: 0)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">pill gap</span><span class="sg-spec__v">var(--space-xs) = 6px</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">관련 화면</h3>
+          <div class="sg-action-bar">
+            <span class="sg-action-bar__label">관련 화면</span>
+            <div class="sg-action-bar__items">
+              <button class="sg-action-pill">고객 정보 조회</button>
+              <button class="sg-action-pill">계약 상세</button>
+              <button class="sg-action-pill">결제 이력</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">Card Footer Action Row</h3>
+          <div class="sg-card-demo" style="max-width: 560px;">
+            <div class="sg-card-demo__body">
+              <p style="margin: 0; color: var(--color-text-secondary);">조치 유형과 메모를 입력하세요</p>
+            </div>
+            <div class="sg-card-demo__footer">
+              <button class="sg-btn sg-btn--ghost">초기화</button>
+              <button class="sg-btn sg-btn--secondary">저장</button>
+              <button class="sg-btn sg-btn--primary" style="height: var(--control-h-md);">업무 종결</button>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.card__footer · .action-row · .actions</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">padding</span><span class="sg-spec__v">var(--space-sm) var(--layout-card-padding) = 8px 18px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">gap</span><span class="sg-spec__v">var(--space-sm) = 8px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">정렬</span><span class="sg-spec__v">우측 정렬 (justify-content: flex-end)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">border-top</span><span class="sg-spec__v">1px solid var(--color-border-default)</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================
+           14. File / Download
+      ============================== -->
+      <section class="sg-section" id="s14">
+        <div class="sg-section__head">
+          <span class="sg-section__index">14</span>
+          <h2 class="sg-section__title">File / Download</h2>
+        </div>
+        <p class="sg-sub__desc">업로드 파일 리스트, 파일 상태, 다운로드 확장자 버튼.</p>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">업로드 파일 리스트</h3>
+          <div class="sg-demo">
+            <div class="sg-file-list">
+              <div class="sg-file-item">
+                <div class="sg-file-item__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 2h6l4 4v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    <path d="M9 2v4h4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="sg-file-item__info">
+                  <p class="sg-file-item__name">보험_상담_내용_2026-05-14.pdf</p>
+                  <p class="sg-file-item__meta">1.2 MB · 업로드 완료</p>
+                </div>
+                <span class="sg-pill sg-pill--success">완료</span>
+                <button class="sg-icon-btn" aria-label="삭제">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M12 4 4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+              <div class="sg-file-item">
+                <div class="sg-file-item__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 2h6l4 4v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <div class="sg-file-item__info">
+                  <p class="sg-file-item__name">계약서_원본.docx</p>
+                  <p class="sg-file-item__meta">348 KB · 검증 중</p>
+                </div>
+                <span class="sg-pill sg-pill--warning">검증중</span>
+                <button class="sg-icon-btn" aria-label="삭제">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M12 4 4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+              <div class="sg-file-item">
+                <div class="sg-file-item__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 2h6l4 4v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <div class="sg-file-item__info">
+                  <p class="sg-file-item__name">고객_요청서.hwp</p>
+                  <p class="sg-file-item__meta">2.4 MB · 업로드 실패</p>
+                </div>
+                <span class="sg-pill sg-pill--danger">실패</span>
+                <button class="sg-icon-btn" aria-label="삭제">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M12 4 4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.file-list · .file-list__item · .file__status</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">item padding</span><span class="sg-spec__v">var(--space-md) = 12px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">item gap</span><span class="sg-spec__v">var(--space-md) = 12px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">icon</span><span class="sg-spec__v">32×32 / radius var(--r-sm) / bg --c-neutral-100</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">file name</span><span class="sg-spec__v">12px / 500 / ellipsis</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">file meta</span><span class="sg-spec__v">11px / 400 / muted</span></div>
+          </div>
+        </div>
+
+        <div class="sg-sub">
+          <h3 class="sg-sub__title">파일 확장자 다운로드 버튼 (Vertical Label)</h3>
+          <div class="sg-demo">
+            <div class="sg-file-btn-grid" style="max-width: 480px;">
+              <button class="sg-file-btn">
+                <span class="sg-file-btn__ext">PDF</span>
+                <span class="sg-file-btn__label">PDF 다운로드</span>
+              </button>
+              <button class="sg-file-btn">
+                <span class="sg-file-btn__ext">DOCX</span>
+                <span class="sg-file-btn__label">Word 다운로드</span>
+              </button>
+              <button class="sg-file-btn">
+                <span class="sg-file-btn__ext">HWP</span>
+                <span class="sg-file-btn__label">한글 다운로드</span>
+              </button>
+              <button class="sg-file-btn">
+                <span class="sg-file-btn__ext">TXT</span>
+                <span class="sg-file-btn__label">Text 다운로드</span>
+              </button>
+            </div>
+          </div>
+          <div class="sg-spec">
+            <div class="sg-spec__row"><span class="sg-spec__k">클래스</span><span class="sg-spec__v">.download-btn · .file-ext-btn</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">grid</span><span class="sg-spec__v">repeat(4, 1fr) / gap var(--space-md)</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">padding</span><span class="sg-spec__v">var(--space-md) = 12px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">ext label</span><span class="sg-spec__v">12px / 700 / --color-text-strong / letter-spacing 0.5px</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">caption</span><span class="sg-spec__v">11px / 500 / muted</span></div>
+            <div class="sg-spec__row"><span class="sg-spec__k">layout</span><span class="sg-spec__v">flex column / center align</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================
+           Deprecated
+      ============================== -->
+      <section class="sg-section" id="deprecated">
+        <div class="sg-section__head">
+          <span class="sg-section__index">⚠</span>
+          <h2 class="sg-section__title">Deprecated · 폐기 예정</h2>
+        </div>
+        <p class="sg-sub__desc">호환성 유지를 위해 보존되지만 신규 화면/컴포넌트에서는 사용 금지.</p>
+
+        <div class="sg-deprecated">
+          <p class="sg-deprecated__title">Blue 강조 컬러 토큰</p>
+          <p class="sg-deprecated__body">
+            <code>--c-blue-strong (#0057FF)</code>, <code>--c-blue-deep (#005BAC)</code>, <code>--c-blue-600 (#2563EB)</code> 등
+            모든 Blue 계열 컬러는 강조 색으로 사용 금지. Brand Primary는 Neutral Gray (<code>--c-neutral-700 #374151</code>)로 대체됨.
+          </p>
+        </div>
+
+        <div class="sg-deprecated">
+          <p class="sg-deprecated__title">Legacy 타이포 토큰 alias</p>
+          <p class="sg-deprecated__body">
+            <code>--type-display-*</code>, <code>--type-title-*</code> → <code>--type-heading-*</code><br>
+            <code>--type-section-*</code>, <code>--type-card-title-*</code> → <code>--type-subheading-*</code><br>
+            <code>--type-pill-*</code>, <code>--type-label-*</code> → <code>--type-ui-label-*</code>
+          </p>
+        </div>
+
+        <div class="sg-deprecated">
+          <p class="sg-deprecated__title">Legacy Spacing alias</p>
+          <p class="sg-deprecated__body">
+            <code>--space-2</code>, <code>--space-3</code>, <code>--space-4</code> → 
+            <code>--space-xxs</code>, <code>--space-xs</code>, <code>--space-sm</code> 사용.
+          </p>
+        </div>
+
+        <div class="sg-deprecated">
+          <p class="sg-deprecated__title">카드 타이틀 앞 숫자 원형 배지</p>
+          <p class="sg-deprecated__body">
+            <code>.card__num</code> 클래스는 모두 제거됨. 카드 헤더는 일반 업무 타이틀로 통일.
+          </p>
+        </div>
+
+        <div class="sg-deprecated">
+          <p class="sg-deprecated__title">중복/구버전 cursor 지시 파일</p>
+          <p class="sg-deprecated__body">
+            <code>cursor-create-design-system.md</code>, <code>cursor-semantic-map*.md</code>,
+            <code>cursor-style-unify.md</code>, <code>cursor-title-unify.md</code>,
+            <code>cursor-button-unify.md</code>, <code>cursor-button-alias.md</code>,
+            <code>cursor-info-row.md</code>, <code>cursor-page-overrides.md</code> 등은 모두 삭제됨.<br>
+            현재 유지 파일: <code>cursor-button-7cases.md</code>, <code>cursor-tag-label-4cases.md</code>
+          </p>
+        </div>
+      </section>
+
+      <footer style="margin-top: 80px; padding-top: var(--space-2xl); border-top: 1px solid var(--color-border-default); color: var(--color-text-muted); font-size: var(--type-small-fs); text-align: center;">
+        <p style="margin: 0;">
+          신한라이프 CRM Design System · Style Guide v1.0<br>
+          기준: <code>src/styles/design-system/tokens/{primitive,semantic}.css</code>,
+          <code>components/{semantic-map,page-overrides}.css</code>
+        </p>
+      </footer>
     </main>
   </div>
+
+  <!-- Floating Tooltip (Inspector Mode) -->
+  <div class="sg-tt" id="sgTooltip" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      'use strict';
+      const links = document.querySelectorAll('.sg-side__link');
+      const sections = document.querySelectorAll('.sg-section');
+      const mainScroller = document.querySelector('.sg-main') || document.documentElement;
+
+      function activate(targetId) {
+        if (!targetId) targetId = 'overview';
+        let matched = false;
+        sections.forEach(function (s) {
+          const isMatch = s.id === targetId;
+          s.classList.toggle('is-active', isMatch);
+          if (isMatch) matched = true;
+        });
+        if (!matched) {
+          const fallback = document.getElementById('overview');
+          if (fallback) fallback.classList.add('is-active');
+          targetId = 'overview';
+        }
+        links.forEach(function (l) {
+          l.classList.toggle('is-active', l.dataset.target === targetId);
+        });
+        try {
+          history.replaceState(null, '', '#' + targetId);
+        } catch (_) {}
+        window.scrollTo({ top: 0, behavior: 'auto' });
+
+        // Inspector mode toggles full-screen body class
+        document.body.classList.toggle('is-inspector-mode', targetId === 'inspector');
+        if (targetId === 'inspector' && window.SGInspector) {
+          window.SGInspector.ensureInit();
+        }
+      }
+
+      links.forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          activate(link.dataset.target);
+        });
+      });
+
+      document.querySelectorAll('[data-jump]').forEach(function (el) {
+        el.addEventListener('click', function () {
+          activate(el.dataset.jump);
+        });
+      });
+
+      window.addEventListener('hashchange', function () {
+        activate((location.hash || '#overview').slice(1));
+      });
+
+      const initial = (location.hash || '#overview').slice(1);
+      activate(initial);
+
+      /* ── Inspector Module ── */
+      window.SGInspector = (function () {
+        const PAGES = [
+          { src: 'index.html',              label: 'Page 1' },
+          { src: 'document-generator.html', label: 'Page 2' },
+          { src: 'inspection-review.html',  label: 'Page 3' }
+        ];
+
+        // 페이지 간 비교할 공통 컴포넌트 정의
+        const COMPARE = [
+          { name: '.card',            selector: '.card' },
+          { name: '.card__head',      selector: '.card__head' },
+          { name: '.card__body',      selector: '.card__body' },
+          { name: '.card__footer',    selector: '.card__footer, .editor-status' },
+          { name: '.btn-primary',     selector: '.btn-primary' },
+          { name: '.btn-secondary',   selector: '.btn-secondary' },
+          { name: '.btn-ghost',       selector: '.btn-ghost' },
+          { name: '.card__head-action', selector: '.card__head-action' },
+          { name: 'input.input',      selector: 'input.input, .input' },
+          { name: 'select',           selector: 'select, .select' },
+          { name: 'textarea',         selector: 'textarea, .ta' },
+          { name: '.seg',             selector: '.seg' },
+          { name: '.seg__btn',        selector: '.seg__btn' },
+          { name: '.risk',            selector: '.risk, .risk--high, .risk--medium, .risk--low' },
+          { name: '.file__status',    selector: '.file__status' },
+          { name: '.pager__btn',      selector: '.pager__btn' },
+          { name: 'table.table th',   selector: '.table thead th, table.table thead th' },
+          { name: 'table.table td',   selector: '.table tbody td, table.table tbody td' },
+          { name: '.col__cta',        selector: '.col__cta' }
+        ];
+
+        const COMPARE_PROPS = ['height', 'minHeight', 'padding', 'borderRadius', 'borderColor', 'backgroundColor', 'color', 'fontSize', 'fontWeight', 'lineHeight'];
+
+        let initialized = false;
+        let inspectMode = false;
+        let activePage = PAGES[0].src;
+        const frames = {};
+        const frameLoaded = {};
+        let tooltipEl, frameWrap, loadingEl;
+        let activeAuditTab = 'selected';
+
+        function ensureInit() {
+          if (initialized) return;
+          initialized = true;
+
+          tooltipEl = document.getElementById('sgTooltip');
+          frameWrap = document.getElementById('sgFrameWrap');
+          loadingEl = document.getElementById('sgLoading');
+
+          // 3개 iframe 동시 로드
+          PAGES.forEach(function (page) {
+            const iframe = document.createElement('iframe');
+            iframe.className = 'sg-inspect__frame';
+            iframe.dataset.page = page.src;
+            iframe.src = page.src;
+            iframe.addEventListener('load', function () {
+              frameLoaded[page.src] = true;
+              attachInspector(iframe);
+              if (page.src === activePage) hideLoading();
+            });
+            frameWrap.appendChild(iframe);
+            frames[page.src] = iframe;
+          });
+
+          setActivePage(activePage);
+
+          // Tab handlers
+          document.querySelectorAll('[data-inspect-page]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              setActivePage(btn.dataset.inspectPage);
+            });
+          });
+
+          // Inspect toggle
+          document.getElementById('sgInspectToggle').addEventListener('click', function () {
+            toggleInspectMode();
+          });
+
+          // Audit run
+          document.getElementById('sgRunAudit').addEventListener('click', runAudit);
+
+          // Audit tab switch
+          document.querySelectorAll('[data-audit-tab]').forEach(function (tab) {
+            tab.addEventListener('click', function () {
+              switchAuditTab(tab.dataset.auditTab);
+            });
+          });
+        }
+
+        function hideLoading() {
+          if (loadingEl) loadingEl.classList.add('is-hidden');
+        }
+
+        function setActivePage(src) {
+          activePage = src;
+          Object.entries(frames).forEach(function ([s, f]) {
+            f.classList.toggle('is-visible', s === src);
+          });
+          document.querySelectorAll('[data-inspect-page]').forEach(function (btn) {
+            btn.classList.toggle('is-active', btn.dataset.inspectPage === src);
+          });
+          if (!frameLoaded[src]) {
+            loadingEl.classList.remove('is-hidden');
+          } else {
+            hideLoading();
+          }
+          hideTooltip();
+        }
+
+        function toggleInspectMode() {
+          inspectMode = !inspectMode;
+          const btn = document.getElementById('sgInspectToggle');
+          btn.classList.toggle('is-on', inspectMode);
+          btn.setAttribute('aria-pressed', inspectMode);
+          document.getElementById('sgInspectStateLabel').textContent = inspectMode ? 'ON' : 'OFF';
+          if (!inspectMode) hideTooltip();
+        }
+
+        function attachInspector(iframe) {
+          let doc;
+          try {
+            doc = iframe.contentDocument;
+            if (!doc || !doc.body) return;
+          } catch (err) {
+            console.warn('[Inspector] iframe 접근 실패 (cross-origin?)', err);
+            return;
+          }
+
+          // Highlight stylesheet inject (한번만)
+          if (!doc.getElementById('sgInspectorStyle')) {
+            const style = doc.createElement('style');
+            style.id = 'sgInspectorStyle';
+            style.textContent = '.__sg-hl { outline: 2px solid #1F2937 !important; outline-offset: -2px !important; box-shadow: inset 0 0 0 9999px rgba(31,41,55,0.04) !important; }';
+            doc.head.appendChild(style);
+          }
+
+          let lastHover = null;
+
+          doc.addEventListener('mousemove', function (e) {
+            if (!inspectMode) return;
+            const target = e.target;
+            if (target && target !== lastHover) {
+              if (lastHover) lastHover.classList.remove('__sg-hl');
+              if (target.classList) target.classList.add('__sg-hl');
+              lastHover = target;
+            }
+            updateTooltip(target, iframe, e);
+          }, true);
+
+          doc.addEventListener('mouseleave', function () {
+            if (lastHover && lastHover.classList) lastHover.classList.remove('__sg-hl');
+            lastHover = null;
+            hideTooltip();
+          }, true);
+
+          // Click → pin to audit panel (preventDefault to avoid navigation)
+          doc.addEventListener('click', function (e) {
+            if (!inspectMode) return;
+            e.preventDefault();
+            e.stopPropagation();
+            pinElement(e.target, iframe);
+          }, true);
+        }
+
+        function getComputedInfo(el) {
+          const win = el.ownerDocument.defaultView;
+          const cs = win.getComputedStyle(el);
+          return {
+            tag: el.tagName.toLowerCase(),
+            id: el.id || '',
+            classes: el.classList ? Array.from(el.classList).filter(function (c) { return c !== '__sg-hl'; }) : [],
+            width: cs.width,
+            height: cs.height,
+            padding: cs.padding,
+            margin: cs.margin,
+            gap: cs.gap,
+            borderRadius: cs.borderRadius,
+            borderTop: cs.borderTopWidth + ' ' + cs.borderTopStyle + ' ' + cs.borderTopColor,
+            borderColor: cs.borderTopColor,
+            background: cs.backgroundColor,
+            color: cs.color,
+            fontSize: cs.fontSize,
+            fontWeight: cs.fontWeight,
+            lineHeight: cs.lineHeight,
+            fontFamily: cs.fontFamily.split(',')[0].replace(/['"]/g, ''),
+            display: cs.display,
+            flexDirection: cs.flexDirection,
+            position: cs.position,
+            zIndex: cs.zIndex,
+            overflow: cs.overflow
+          };
+        }
+
+        function detectIssues(info, el) {
+          const issues = [];
+          // Blue 색상 정책 위반 (hex)
+          const bluePatterns = ['#0057ff', '#005bac', '#2563eb', '#1d6cff', '#1d4ed8'];
+          const bg = (info.background || '').toLowerCase();
+          const fg = (info.color || '').toLowerCase();
+          const border = (info.borderColor || '').toLowerCase();
+
+          // RGB 형태 블루 감지 (computed style은 rgb() 반환)
+          function isBlueRgb(s) {
+            if (!s) return false;
+            const m = s.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+            if (!m) return false;
+            const r = +m[1], g = +m[2], b = +m[3];
+            // 블루가 다른 채널보다 70 이상 큰 경우
+            return b > r + 60 && b > g + 40 && b > 130;
+          }
+
+          if (isBlueRgb(bg)) issues.push('Blue background detected (정책 위반)');
+          if (isBlueRgb(fg)) issues.push('Blue text color detected (정책 위반)');
+          if (isBlueRgb(border)) issues.push('Blue border detected (정책 위반)');
+
+          // 컨트롤 높이 검증
+          const h = parseFloat(info.height);
+          const isControl = ['button', 'input', 'select', 'textarea'].includes(info.tag) ||
+            (el.classList && (el.classList.contains('btn-primary') || el.classList.contains('btn-secondary') ||
+              el.classList.contains('btn-ghost') || el.classList.contains('seg__btn')));
+          if (isControl && info.tag !== 'textarea') {
+            const allowed = [26, 28, 30, 32, 36, 40, 44, 48];
+            if (!allowed.some(function (a) { return Math.abs(h - a) < 1; })) {
+              issues.push('Non-standard control height: ' + info.height);
+            }
+          }
+
+          // Font-size 검증 (디자인 토큰: 10/11/12/13/14/18)
+          const fs = parseFloat(info.fontSize);
+          const allowedFs = [10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24];
+          if (fs && !allowedFs.some(function (a) { return Math.abs(fs - a) < 0.5; })) {
+            issues.push('Non-standard font-size: ' + info.fontSize);
+          }
+
+          // Border-radius 검증
+          const br = parseFloat(info.borderRadius);
+          if (br && br > 0) {
+            const allowedBr = [4, 6, 8, 10, 12, 16, 20, 9999];
+            if (!allowedBr.some(function (a) { return Math.abs(br - a) < 1; })) {
+              issues.push('Non-standard border-radius: ' + info.borderRadius);
+            }
+          }
+
+          return issues;
+        }
+
+        function updateTooltip(el, iframe, mouseEvt) {
+          if (!el || !el.tagName) { hideTooltip(); return; }
+          const info = getComputedInfo(el);
+          const issues = detectIssues(info, el);
+
+          const classesHtml = info.classes.length
+            ? '<span class="sg-tt__classes">.' + info.classes.join(' .') + '</span>'
+            : '';
+          const idHtml = info.id ? '<span class="sg-tt__classes">#' + info.id + '</span>' : '';
+
+          let rows = '';
+          rows += '<tr><td>size</td><td>' + info.width + ' × ' + info.height + '</td></tr>';
+          rows += '<tr><td>padding</td><td>' + info.padding + '</td></tr>';
+          if (info.margin && info.margin !== '0px') rows += '<tr><td>margin</td><td>' + info.margin + '</td></tr>';
+          if (info.gap && info.gap !== 'normal' && info.gap !== '0px') rows += '<tr><td>gap</td><td>' + info.gap + '</td></tr>';
+          rows += '<tr><td>radius</td><td>' + info.borderRadius + '</td></tr>';
+          rows += '<tr><td>bg</td><td>' + info.background + '</td></tr>';
+          rows += '<tr><td>color</td><td>' + info.color + '</td></tr>';
+          rows += '<tr><td>font</td><td>' + info.fontSize + ' / ' + info.fontWeight + ' / lh ' + info.lineHeight + '</td></tr>';
+          rows += '<tr><td>display</td><td>' + info.display + (info.flexDirection !== 'row' ? ' (' + info.flexDirection + ')' : '') + '</td></tr>';
+
+          const issuesHtml = issues.length
+            ? '<div class="sg-tt__issues">' + issues.map(function (i) { return '<div class="sg-tt__issue">⚠ ' + i + '</div>'; }).join('') + '</div>'
+            : '';
+
+          tooltipEl.innerHTML =
+            '<div class="sg-tt__header">' +
+              '<span class="sg-tt__tag">' + info.tag + '</span>' +
+              classesHtml + idHtml +
+            '</div>' +
+            '<table class="sg-tt__table">' + rows + '</table>' +
+            issuesHtml;
+
+          const iframeRect = iframe.getBoundingClientRect();
+          let x = iframeRect.left + mouseEvt.clientX + 14;
+          let y = iframeRect.top + mouseEvt.clientY + 14;
+          const ttRect = tooltipEl.getBoundingClientRect();
+          if (x + ttRect.width > window.innerWidth - 8) x = window.innerWidth - ttRect.width - 8;
+          if (y + ttRect.height > window.innerHeight - 8) y = window.innerHeight - ttRect.height - 8;
+          tooltipEl.style.left = x + 'px';
+          tooltipEl.style.top = y + 'px';
+          tooltipEl.classList.add('is-visible');
+        }
+
+        function hideTooltip() {
+          if (tooltipEl) tooltipEl.classList.remove('is-visible');
+        }
+
+        function pinElement(el, iframe) {
+          if (!el || !el.tagName) return;
+          const info = getComputedInfo(el);
+          const issues = detectIssues(info, el);
+          const empty = document.getElementById('sgAuditEmpty');
+          const detail = document.getElementById('sgAuditDetail');
+          empty.style.display = 'none';
+          detail.style.display = 'block';
+
+          let rows = '';
+          rows += '<tr><td>size</td><td>' + info.width + ' × ' + info.height + '</td></tr>';
+          rows += '<tr><td>padding</td><td>' + info.padding + '</td></tr>';
+          rows += '<tr><td>margin</td><td>' + info.margin + '</td></tr>';
+          rows += '<tr><td>gap</td><td>' + (info.gap || '—') + '</td></tr>';
+          rows += '<tr><td>radius</td><td>' + info.borderRadius + '</td></tr>';
+          rows += '<tr><td>border</td><td>' + info.borderTop + '</td></tr>';
+          rows += '<tr><td>background</td><td>' + info.background + '</td></tr>';
+          rows += '<tr><td>color</td><td>' + info.color + '</td></tr>';
+          rows += '<tr><td>font-size</td><td>' + info.fontSize + '</td></tr>';
+          rows += '<tr><td>font-weight</td><td>' + info.fontWeight + '</td></tr>';
+          rows += '<tr><td>line-height</td><td>' + info.lineHeight + '</td></tr>';
+          rows += '<tr><td>font-family</td><td>' + info.fontFamily + '</td></tr>';
+          rows += '<tr><td>display</td><td>' + info.display + '</td></tr>';
+          rows += '<tr><td>flex-dir</td><td>' + info.flexDirection + '</td></tr>';
+          rows += '<tr><td>position</td><td>' + info.position + '</td></tr>';
+          rows += '<tr><td>z-index</td><td>' + info.zIndex + '</td></tr>';
+          rows += '<tr><td>overflow</td><td>' + info.overflow + '</td></tr>';
+
+          const classesHtml = info.classes.length
+            ? '<div class="sg-audit-el__classes">.' + info.classes.join(' .') + '</div>'
+            : '';
+          const idHtml = info.id ? '<div class="sg-audit-el__id">#' + info.id + '</div>' : '';
+
+          const issuesHtml = issues.length
+            ? '<div class="sg-audit-issues">' + issues.map(function (i) { return '<div class="sg-audit-issue">' + i + '</div>'; }).join('') + '</div>'
+            : '';
+
+          detail.innerHTML =
+            '<div class="sg-audit-el">' +
+              '<span class="sg-audit-el__tag">' + info.tag + '</span>' +
+              classesHtml + idHtml +
+            '</div>' +
+            '<table class="sg-audit-table">' + rows + '</table>' +
+            issuesHtml;
+
+          switchAuditTab('selected');
+        }
+
+        function switchAuditTab(name) {
+          activeAuditTab = name;
+          document.querySelectorAll('[data-audit-tab]').forEach(function (t) {
+            t.classList.toggle('is-active', t.dataset.auditTab === name);
+          });
+          document.querySelectorAll('[data-audit-pane]').forEach(function (p) {
+            p.classList.toggle('is-active', p.dataset.auditPane === name);
+          });
+        }
+
+        function runAudit() {
+          const btn = document.getElementById('sgRunAudit');
+          btn.classList.add('is-loading');
+          btn.querySelector('span').textContent = '비교 중…';
+
+          setTimeout(function () {
+            const results = [];
+
+            COMPARE.forEach(function (comp) {
+              const pageData = {};
+              PAGES.forEach(function (page) {
+                pageData[page.src] = { found: false };
+                try {
+                  const doc = frames[page.src].contentDocument;
+                  if (!doc) return;
+                  const el = doc.querySelector(comp.selector);
+                  if (!el) return;
+                  const cs = doc.defaultView.getComputedStyle(el);
+                  const data = { found: true };
+                  COMPARE_PROPS.forEach(function (p) {
+                    data[p] = cs[p];
+                  });
+                  pageData[page.src] = data;
+                } catch (err) {
+                  pageData[page.src] = { found: false, error: true };
+                }
+              });
+
+              const mismatches = [];
+              COMPARE_PROPS.forEach(function (prop) {
+                const values = PAGES
+                  .map(function (p) { return pageData[p.src].found ? pageData[p.src][prop] : null; })
+                  .filter(function (v) { return v !== null; });
+                const unique = Array.from(new Set(values));
+                if (unique.length > 1) {
+                  mismatches.push({ prop: prop, unique: unique });
+                }
+              });
+
+              const foundCount = PAGES.filter(function (p) { return pageData[p.src].found; }).length;
+              results.push({
+                name: comp.name,
+                selector: comp.selector,
+                pageData: pageData,
+                mismatches: mismatches,
+                foundCount: foundCount
+              });
+            });
+
+            renderAuditList(results);
+            btn.classList.remove('is-loading');
+            btn.querySelector('span').textContent = '전체 페이지 비교 실행';
+          }, 50);
+        }
+
+        function renderAuditList(results) {
+          const list = document.getElementById('sgMismatchList');
+          const empty = document.getElementById('sgMismatchEmpty');
+          const countEl = document.getElementById('sgMismatchCount');
+
+          const mismatchCount = results.filter(function (r) { return r.mismatches.length > 0; }).length;
+          countEl.textContent = mismatchCount;
+
+          if (results.length === 0) { empty.style.display = 'block'; list.innerHTML = ''; return; }
+          empty.style.display = 'none';
+
+          let html = '';
+          results.forEach(function (r) {
+            const cls = r.foundCount === 0
+              ? 'not-found'
+              : (r.mismatches.length > 0 ? 'has-mismatch' : 'ok');
+            const tag = r.foundCount === 0
+              ? '<span class="sg-mismatch-tag sg-mismatch-tag--na">NOT FOUND</span>'
+              : (r.mismatches.length > 0
+                  ? '<span class="sg-mismatch-tag sg-mismatch-tag--mis">MISMATCH ' + r.mismatches.length + '</span>'
+                  : '<span class="sg-mismatch-tag sg-mismatch-tag--ok">OK</span>');
+
+            html += '<div class="sg-mismatch-item ' + cls + '">';
+            html += '<div class="sg-mismatch-item__head">' +
+              '<span class="sg-mismatch-item__name">' + r.name + '</span>' + tag + '</div>';
+
+            if (r.mismatches.length > 0) {
+              r.mismatches.forEach(function (m) {
+                html += '<div class="sg-mismatch-prop">';
+                html += '<div class="sg-mismatch-prop__name">' + m.prop + '</div>';
+                html += '<div class="sg-mismatch-prop__values">';
+                PAGES.forEach(function (p) {
+                  const d = r.pageData[p.src];
+                  const v = d.found ? d[m.prop] : '—';
+                  html += '<code>' + p.label + '</code><code>' + v + '</code>';
+                });
+                html += '</div></div>';
+              });
+            } else if (r.foundCount > 0) {
+              // OK 항목은 첫 번째 발견된 값만 간략 표시
+              const first = PAGES.find(function (p) { return r.pageData[p.src].found; });
+              if (first) {
+                const d = r.pageData[first.src];
+                html += '<div class="sg-mismatch-prop" style="opacity: 0.7;">' +
+                  '<div class="sg-mismatch-prop__name">h: ' + d.height + ' · pad: ' + d.padding + ' · radius: ' + d.borderRadius + '</div>' +
+                  '</div>';
+              }
+            }
+
+            html += '</div>';
+          });
+
+          list.innerHTML = html;
+          switchAuditTab('mismatch');
+        }
+
+        return { ensureInit: ensureInit };
+      })();
+
+      // 초기 페이지가 inspector면 즉시 초기화
+      if (initial === 'inspector') {
+        window.SGInspector.ensureInit();
+      }
+
+      /* ── Copy-to-clipboard ── */
+      function makeCopyable() {
+        const copyables = document.querySelectorAll('.sg-spec__v code, .sg-swatch__token, .sg-spec__k');
+        copyables.forEach(function (el) {
+          if (el.dataset.copyBound) return;
+          el.dataset.copyBound = '1';
+          el.style.cursor = 'copy';
+          el.title = '클릭하여 복사';
+          el.addEventListener('click', function () {
+            const text = el.textContent.trim();
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(function () {
+              const original = el.style.background;
+              el.style.background = 'var(--color-status-success-soft)';
+              el.style.color = 'var(--color-status-success)';
+              setTimeout(function () {
+                el.style.background = original;
+                el.style.color = '';
+              }, 600);
+            }).catch(function () { /* ignore */ });
+          });
+        });
+      }
+      makeCopyable();
+    })();
+  </script>
 </body>
 </html>

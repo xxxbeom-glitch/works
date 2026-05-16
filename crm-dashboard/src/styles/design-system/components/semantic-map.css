@@ -1,42 +1,4 @@
 /* ================================================================
-   공통 섹션 타이틀 — 3페이지 전체 통일
-   모든 카드/섹션 헤더 타이틀 → subheading (14px/600)
-================================================================ */
-
-/* index.html */
-.info-sect-mini-head__title,
-.cinfo-section__title,
-.cinfo-guide__title,
-.ai-agent-title__name,
-.card-header-title,
-.live-sect__title,
-.know-acc-card__title,
-.product-acc-card__title,
-.product-acc-card__name,
-
-/* document-generator.html / inspection-review.html */
-.card__title,
-.mini-card__title {
-  font-size:   var(--type-subheading-fs) !important;
-  font-weight: var(--fw-semibold) !important;
-  line-height: var(--lh-snug) !important;
-  font-family: var(--font-sans) !important;
-  letter-spacing: -0.01em;
-  color: var(--color-text-strong);
-  font-style: normal;
-}
-
-/* column-header.css 타이틀 */
-.ds-col-head__title {
-  font-size:   var(--type-subheading-fs) !important;
-  font-weight: var(--fw-semibold) !important;
-  line-height: var(--lh-snug) !important;
-  font-family: var(--font-sans) !important;
-  letter-spacing: -0.01em;
-  color: var(--color-text-strong);
-}
-
-/* ================================================================
    Semantic Map — 기존 페이지 클래스 → 디자인 시스템 토큰 연결
    HTML 마크업 수정 없이 CSS만으로 시멘틱 계층 적용
 

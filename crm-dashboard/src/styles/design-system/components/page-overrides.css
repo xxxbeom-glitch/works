@@ -1,6 +1,6 @@
 /* ================================================================
-   Page Overrides ??3???? ?? ????? ?? ???
-   ?????? ?? <style>????????????? ?????????????   ???????index.css ??????? import??? ?? override
+   Page Overrides ? ?? ??? ?? ?? ???? ??? ??
+   ?? ??? <style>?? ???? ????? ? ??? ??? import? ? ?? override
 ================================================================ */
 
 .card {
@@ -12,7 +12,7 @@
   min-width: 0 !important;
 }
 
-/* ???? ?? ??? ?? ???? */
+/* ?? ?? ?? ??? ?? ? ??? */
 .card__head {
   padding: var(--space-2xl) var(--layout-card-padding) !important;
   height: auto !important;
@@ -49,6 +49,72 @@
   padding-bottom: var(--space-2xl) !important;
 }
 
+/* ================================================================
+   Page 1 wrapper alias ??
+   -----------------------------------------------------------------
+   index.html? .card ??? ?? ??? ?? wrapper(cinfo-panel,
+   cinfo-section, live-sect, info-section-card ?)? ????.
+   .card padding/header ??? ? wrapper??? ??? ?????
+   alias ??? ????. (DOM ?? ?? ?? ?? ??)
+================================================================ */
+
+/* card surface ?? ? radius/border/background? ? wrapper? ?? ?? */
+.cinfo-panel,
+.cinfo-section,
+.live-sect,
+.info-section-card,
+.info-panel-card,
+.workspace-inner-card {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+}
+
+/* card__head ?? ? ?? header padding ?? ?? */
+.cinfo-panel__head,
+.cinfo-section__head,
+.live-sect__head,
+.info-section-card__head {
+  padding: var(--space-lg) var(--layout-card-padding) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: var(--space-md) !important;
+  flex-shrink: 0 !important;
+}
+
+/* card__body alias - ?? ?? body ?? (??? sub-section/scroll ?? ?? ???)
+   ??: .info-panel-card__body, .ai-agent-panel__scroll ?? scroll container?
+   ?? ???? ?? padding? ?? ????? ??? ???? ?? ?? */
+.cinfo-section__body,
+.cinfo-panel__body,
+.live-sect__body,
+.info-section-card__body,
+.info-section__content,
+.info-panel-section__content {
+  box-sizing: border-box !important;
+  padding: var(--layout-card-padding) !important;
+  gap: var(--space-md) !important;
+  min-width: 0 !important;
+}
+
+/* scroll container ?? wrapper - padding 0 ?? (?? ???? padding? ??) */
+.info-panel-card__body {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+}
+
+/* footer/action ?? ? chat-input bar, composer ? wrapper ?? ?? ?? */
+.chat-input-bar,
+.ai-agent-composer,
+.cinfo-panel__footer,
+.live-sect__footer {
+  box-sizing: border-box !important;
+  padding: var(--space-sm) var(--layout-card-padding) !important;
+  flex-shrink: 0 !important;
+}
+
 .card__body--flush {
   padding: 0 !important;
   gap: 0 !important;
@@ -70,7 +136,7 @@
   flex-shrink: 0 !important;
 }
 
-/* ???? ?? ??vertical gap ?? ???? */
+/* ?? ?? vertical gap ?? ?? ? ??? */
 .col__scroll {
   gap: var(--space-md) !important;
 }
@@ -81,7 +147,7 @@
   margin-top: var(--space-md) !important;
 }
 
-/* ???? ?? ?????? ?? ???? */
+/* ?? ?? ??? ?? ?? ?? ? ??? */
 .card__title {
   font-size:   var(--type-subheading-fs) !important;
   font-weight: var(--fw-semibold) !important;
@@ -91,9 +157,9 @@
   margin: 0 !important;
 }
 
-/* ???? ?? ??? ?? ???? */
+/* ?? ?? ?? ?? ?? ? ??? */
 .ds-col-head {
-  padding: var(--space-lg) var(--layout-card-padding) !important;  /* 16px ??? */
+  padding: var(--space-lg) var(--layout-card-padding) !important;  /* 16px ?? */
   min-height: 0 !important;
 }
 
@@ -119,7 +185,7 @@
   height: 16px !important;
 }
 
-/* ???? ??? ?????? ?? (index.html) ???? */
+/* ?? ???? ???? ?? ?? (index.html) ?? ? ??? */
 .cinfo-section__title,
 .cinfo-guide__title,
 .card-header-title,
@@ -131,7 +197,7 @@
   color:       var(--color-text-strong) !important;
 }
 
-/* ???? Form Controls ?? (inspection-review) ???? */
+/* ?? Form Controls ?? (inspection-review) ?? ? ??? */
 .input,
 .select {
   height:      var(--control-h-md) !important;
@@ -166,17 +232,17 @@ html body .ds-select {
 }
 
 /* ================================================================
-   ?? 7???? Alias
+   ?? 7??? Alias
    Case 1 CTA      36px / bold   / filled dark
    Case 2 Secondary 30px / semibold / outlined
    Case 3 Ghost    36px / semibold / outlined
    Case 4 Inline   26px / semibold / outlined or filled
-   Case 5 Chip/Seg 30px / medium  / soft ??bold(active)
+   Case 5 Chip/Seg 30px / medium  / soft ?? bold(active)
    Case 6 Icon     26?26px / ghost
    Case 7 Tool     26px / medium  / pill
 ================================================================ */
 
-/* ???? Case 1: CTA ???? */
+/* ?? Case 1: CTA ?? */
 .btn-primary {
   display: inline-flex !important; align-items: center !important; justify-content: center !important;
   height: var(--control-h-lg) !important;
@@ -204,7 +270,7 @@ html body .ds-select {
   border-radius: var(--radius-control) !important;
 }
 
-/* ???? Case 2: Secondary ???? */
+/* ?? Case 2: Secondary ?? */
 .btn-secondary {
   display: inline-flex !important; align-items: center !important; justify-content: center !important;
   height: var(--control-h-md) !important;
@@ -231,7 +297,7 @@ html body .ds-select {
   padding: 0 var(--control-pad-x-sm) !important;
 }
 
-/* ???? Case 3: Ghost ???? */
+/* ?? Case 3: Ghost ?? */
 .btn-ghost {
   display: inline-flex !important; align-items: center !important; justify-content: center !important;
   height: var(--control-h-lg) !important;
@@ -247,7 +313,7 @@ html body .ds-select {
 }
 .btn-ghost:hover { background: var(--color-surface-soft) !important; }
 
-/* ???? Case 4: Inline ???? */
+/* ?? Case 4: Inline ?? */
 /* outlined */
 .card__head-action,
 .link-btn,
@@ -269,13 +335,13 @@ html body .ds-select {
 .card__head-action:hover,
 .link-btn:hover,
 .file-list__clear:hover { background: var(--color-surface-soft) !important; color: var(--color-text-secondary) !important; }
-/* filled active (?? ???) */
+/* filled active (?? ?? ??) */
 .card__head-action.is-active {
   background: #F3F4F6 !important; border-color: #9CA3AF !important;
   color: #111827 !important; font-weight: var(--fw-bold) !important;
 }
 .card__head-action.is-active:hover { background: #E5E7EB !important; border-color: #9CA3AF !important; }
-/* danger (??????P1) */
+/* danger (???? P1) */
 .cinfo-caller__save {
   display: inline-flex !important; align-items: center !important; justify-content: center !important;
   height: var(--control-h-sm) !important; min-height: var(--control-h-sm) !important;
@@ -293,7 +359,7 @@ html body .ds-select {
   font-weight: var(--fw-semibold) !important;
 }
 
-/* ???? Case 5: Chip / Seg ???? */
+/* ?? Case 5: Chip / Seg ?? */
 .seg__btn,
 .pill-btn {
   display: inline-flex !important; align-items: center !important; justify-content: center !important;
@@ -317,7 +383,7 @@ html body .ds-select {
   color: var(--color-text-inverse) !important; font-weight: var(--fw-bold) !important;
 }
 
-/* Segmented control ??: wrapper? ??? border/radius???? ???? ??????. */
+/* Segmented control ?? ???: wrapper? ?? border/radius? ?? ??? ???. */
 .seg {
   display: inline-flex !important;
   align-items: stretch !important;
@@ -370,7 +436,7 @@ html body .ds-select {
   font-weight: var(--fw-bold) !important;
 }
 
-/* ?????? ??? segmented control?? ??? input????? 40px form height??????? */
+/* ???? ??? segmented control? ?? input? ??? 40px form height ??? ?? ?? */
 .filter-grid .seg {
   height: var(--filter-control-height, 40px) !important;
   min-height: var(--filter-control-height, 40px) !important;
@@ -380,7 +446,7 @@ html body .ds-select {
   min-height: var(--filter-control-height, 40px) !important;
 }
 
-/* Pager??chip ????? ?????sm */
+/* Pager? chip ??? ?? ?? sm */
 .pager__btn {
   display: inline-flex !important; align-items: center !important; justify-content: center !important;
   min-width: var(--control-h-sm) !important; height: var(--control-h-sm) !important;
@@ -395,7 +461,7 @@ html body .ds-select {
 .pager__btn.is-active { background: var(--c-neutral-800) !important; color: var(--color-text-inverse) !important; font-weight: var(--fw-bold) !important; }
 .pager__btn--edge { color: var(--color-text-soft) !important; }
 
-/* ???? Case 6: Icon ???? */
+/* ?? Case 6: Icon ?? */
 .ds-icon-btn,
 .icon-btn {
   display: inline-flex !important; align-items: center !important; justify-content: center !important;
@@ -408,7 +474,7 @@ html body .ds-select {
 .ds-icon-btn:hover,
 .icon-btn:hover { background: var(--color-surface-soft) !important; color: var(--color-text-default) !important; }
 
-/* ???? Case 7: Tool (pill shape toggle) ???? */
+/* ?? Case 7: Tool (pill shape toggle) ?? */
 .ai-agent-tool {
   display: inline-flex !important; align-items: center !important; justify-content: center !important;
   height: var(--control-h-sm) !important; min-height: var(--control-h-sm) !important;
@@ -428,17 +494,18 @@ html body .ds-select {
 }
 
 /* ================================================================
-   ??? / ??? 4???? Alias
-   Case 1 Badge      pill / ?????? ??? ?? (Status?Risk?File?Step ???)
-   Case 2 Outline Tag border ??? ??? ???
-   Case 3 Dot Status  dot + ?????   Case 4 Label       ??????????(typography ??? ???)
+   ?? / ?? 4??? Alias
+   Case 1 Badge      pill / ??? ?? ?? (Status/Risk/File/Step ?)
+   Case 2 Outline Tag border ?? ? ??
+   Case 3 Dot Status  dot + ???
+   Case 4 Label       ??? ??? (typography ?? ??)
 ================================================================ */
 
-/* ???? Case 1: Badge (?? ???? ???? */
-/* ??? ????
-   P1 ??cinfo-guide__item-status (???/????
-   P2 ??file__status (???/???/????, pill
-   P3 ??risk (High/Mid/Low), status pill ?? */
+/* ?? Case 1: Badge (?? ?? ?? pill) */
+/* ?? ???:
+   P1 ?? cinfo-guide__item-status (??/??/??)
+   P2 ?? file__status (???/??/?? ?, pill)
+   P3 ?? risk (High/Mid/Low), status pill ? */
 
 .ds-badge,
 .file__status,
@@ -459,14 +526,14 @@ html body .ds-select {
   color:         var(--color-text-secondary) !important;
 }
 
-/* Risk???? ??? ????? */
+/* Risk? ?? ? ? ???? ?? */
 .risk {
   height:  20px !important;
   padding: 0 var(--space-sm) !important;
   letter-spacing: 0.3px !important;
 }
 
-/* ???? Badge ??????? ???? */
+/* ?? Badge ??? ?? ?? */
 .file__status--ok,
 .ds-badge--success,
 .cinfo-guide__item--done .cinfo-guide__item-status {
@@ -482,7 +549,7 @@ html body .ds-select {
 }
 
 .ds-badge--warning,
-.risk--mid {
+.risk--medium {
   background: var(--color-status-warning-soft) !important;
   color:      var(--color-status-warning) !important;
 }
@@ -499,11 +566,11 @@ html body .ds-select {
   color:      var(--color-status-info) !important;
 }
 
-/* ???? Case 2: Outline Tag ???? */
-/* ??? ????
-   P1 ??cinfo-history__pill (?? ??????????)
-         product-info-summary__chip (??? ??? ??
-   P3 ?????????? */
+/* ?? Case 2: Outline Tag ?? */
+/* ?? ???:
+   P1 ?? cinfo-history__pill (?? ?? ?? ??)
+         product-info-summary__chip (?? ?? ?)
+   P3 ???? ?? */
 
 .ds-tag,
 .cinfo-history__pill,
@@ -525,7 +592,7 @@ html body .ds-select {
 
 .ds-tag--brand,
 .product-info-summary__chip--ok {
-  border-color: var(--color-brand-accent-border) !important;
+  border-color: var(--color-border-accent) !important;
   background:   var(--color-brand-primary-softer) !important;
   color:        var(--color-brand-primary) !important;
 }
@@ -543,9 +610,9 @@ html body .ds-select {
   color:      var(--color-text-muted) !important;
 }
 
-/* ???? Case 3: Dot Status ???? */
-/* ??? ????
-   P3 ??status (????/ ?????/ ?????) */
+/* ?? Case 3: Dot Status ?? */
+/* ?? ???:
+   P3 ?? status (???/ ???/ ????) */
 
 .ds-dot-status,
 .status {
@@ -577,11 +644,11 @@ html body .ds-select {
 .status--done,
 .ds-dot-status--done    { color: var(--color-text-secondary) !important; }
 
-/* ???? Case 4: Label (?????????? ???? */
-/* ??? ????
-   P1 ??????? dt, cinfo-caller__label
-   P2 ??form-row__label, editor-label
-   P3 ??filter-grid__label, mini-card__title, stat-row__label-title */
+/* ?? Case 4: Label (?? ??? ??? ??) */
+/* ?? ???:
+   P1 ???? dt, cinfo-caller__label
+   P2 ???? form-row__label, editor-label
+   P3 ???? filter-grid__label, mini-card__title, stat-row__label-title */
 
 .ds-label,
 .form-row__label,
@@ -605,7 +672,7 @@ html body .ds-select {
   text-transform: uppercase !important;
 }
 
-/* ?? Case 5: Work Body Text (P1 ?? ?? ?? ???) ?? */
+/* ?? Case 5: Work Body Text (P1 ?? ?? ?? ?? ?) ?? */
 .ds-work-text,
 .dash-card-history .history-item__title,
 .live-outer--info .contract-list__title,
@@ -635,7 +702,7 @@ html body .ds-select {
   accent-color: var(--c-neutral-800) !important;
 }
 
-/* ???? ???? ?? ???? */
+/* ???? ?? ?? ?? */
 .mini-card {
   padding: var(--layout-card-padding) !important;
   gap:     var(--space-md) !important;

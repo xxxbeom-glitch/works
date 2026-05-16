@@ -14,9 +14,10 @@
       --app-compact-w: 1360px;
       --app-h: 1080px;
       --app-current-w: var(--app-expanded-w);
-      --header-h: 64px;
-      --lnb-w: 96px;
-      --footer-h: 40px;
+      /* 로컬 변수 복제 제거: 시맨틱 토큰을 그대로 사용 */
+      --header-h: var(--layout-header-h);
+      --lnb-w: var(--layout-lnb-w);
+      --footer-h: var(--layout-footer-h, 40px);
       --shell-pad-x: var(--layout-header-pad-x);
       --shell-gap: var(--layout-header-gap);
       --lnb-pad-top: var(--layout-lnb-pad-top);
@@ -47,11 +48,11 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      background: #d9dee7;
+      background: var(--color-surface-app);
       color: var(--color-text-strong);
       font-family: var(--font-stack);
-      font-size: 14px;
-      line-height: 1.5;
+      font-size: var(--type-body-fs);
+      line-height: var(--lh-normal);
       -webkit-font-smoothing: antialiased;
     }
     @media (min-height: 1080px) {
@@ -78,7 +79,7 @@
     .shell__header {
       flex-shrink: 0;
       height: var(--header-h);
-      background: #FFFFFF;
+      background: var(--color-surface-header);
       border-bottom: none;
     }
     .shell__body {
@@ -126,10 +127,10 @@
       min-height: var(--footer-h);
       padding: var(--space-sm) var(--space-xl);
       background: var(--color-surface-footer);
-      color: #E2E8F0;
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1.5;
+      color: var(--color-text-on-footer, rgba(255,255,255,0.92));
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-semibold);
+      line-height: var(--lh-tight);
       font-variant-numeric: tabular-nums;
       overflow: hidden;
     }
@@ -141,18 +142,18 @@
     .statusbar__item {
       display: inline-flex; align-items: center; gap: 4px;
     }
-    .statusbar__item strong { color: #FFFFFF; font-weight: 600; }
+    .statusbar__item strong { color: var(--color-text-inverse); font-weight: var(--fw-semibold); }
     .status-dot {
-      width: 8px; height: 8px; border-radius: 999px;
-      background: #34D399;
+      width: 8px; height: 8px; border-radius: var(--radius-pill);
+      background: var(--color-status-success);
       flex-shrink: 0;
     }
     .statusbar__keys {
       margin-left: auto;
       flex-shrink: 0;
-      font-size: 13px; font-weight: 500;
+      font-size: var(--type-small-fs); font-weight: var(--fw-medium);
       letter-spacing: 0.02em;
-      color: rgba(226, 232, 240, 0.75);
+      color: rgba(255, 255, 255, 0.72);
     }
 
     /* ============================================================
@@ -167,7 +168,7 @@
       justify-content: space-between;
       gap: var(--shell-gap);
       padding: 0 var(--shell-pad-x);
-      background: #FFFFFF;
+      background: var(--color-surface-header);
       border-bottom: none;
       box-shadow: none;
     }
@@ -184,24 +185,24 @@
     .call-status-pill {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      border-radius: 9999px;
-      border: 1px solid #D1FAE5;
-      background: #ECFDF5;
+      gap: var(--space-xs);
+      padding: 6px var(--space-md);
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--c-green-100);
+      background: var(--color-status-success-soft);
     }
     .call-status-pill__dot {
       width: 8px;
       height: 8px;
-      border-radius: 9999px;
-      background: #10B981;
+      border-radius: var(--radius-pill);
+      background: var(--color-status-success);
       flex-shrink: 0;
     }
     .call-status-pill__text {
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 20px;
-      color: #047857;
+      font-size: var(--type-subheading-fs);
+      font-weight: var(--fw-semibold);
+      line-height: var(--lh-tight);
+      color: var(--c-green-600);
       white-space: nowrap;
     }
 
@@ -219,9 +220,9 @@
       align-items: center;
       column-gap: 2px;
       padding: 4px;
-      background: #EEF3F8;
+      background: var(--color-surface-soft);
       border: none;
-      border-radius: 999px;
+      border-radius: var(--radius-pill);
       box-sizing: border-box;
       pointer-events: none; /* static UI — 클릭 비활성 */
     }
@@ -231,16 +232,16 @@
       justify-content: center;
       width: 100%;
       min-width: 0;
-      height: 30px;
-      padding: 0 12px;
+      height: var(--control-h-md);
+      padding: 0 var(--space-md);
       border: none;
-      border-radius: 999px;
+      border-radius: var(--radius-pill);
       font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: var(--type-body-fs);
+      font-weight: var(--fw-semibold);
       line-height: 1;
       letter-spacing: 0.02em;
-      color: #64748B;
+      color: var(--color-text-muted);
       background: transparent;
       box-sizing: border-box;
       white-space: nowrap;
@@ -248,9 +249,9 @@
       -webkit-tap-highlight-color: transparent;
     }
     .mode-segmented__btn.is-active {
-      background: #E5E7EB;
-      color: #374151;
-      font-weight: 700;
+      background: var(--c-neutral-200);
+      color: var(--color-text-strong);
+      font-weight: var(--fw-bold);
     }
 
     /* 우측 사용자 영역 */
@@ -279,6 +280,8 @@
     }
     .topbar__icon-btn {
       cursor: pointer;
+      text-decoration: none;
+      color: inherit;
       transition:
         background var(--motion-fast),
         border-color var(--motion-fast),
@@ -304,9 +307,9 @@
     }
     .topbar__user-name {
       margin-left: 2px;
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1.2;
+      font-size: var(--type-body-fs);
+      font-weight: var(--fw-semibold);
+      line-height: var(--lh-tight);
       color: var(--color-text-strong);
       white-space: nowrap;
     }
@@ -316,15 +319,15 @@
        ============================================================ */
     .lnb {
       width: 100%; height: 100%;
-      background: #FFFFFF;
-      border-right: 1px solid #E5E7EB;
+      background: var(--color-surface-lnb);
+      border-right: 1px solid var(--color-border-default);
       padding: var(--lnb-pad-top) 0 var(--lnb-pad-bottom);
       display: flex; flex-direction: column; align-items: center; gap: 0;
     }
     .lnb__brand {
       width: var(--lnb-brand-size); height: var(--lnb-brand-size);
       margin: 0 0 var(--lnb-brand-gap);
-      border: 1px dashed #B8C3D1; border-radius: var(--radius-control);
+      border: 1px dashed var(--color-border-strong); border-radius: var(--radius-control);
       background: transparent;
     }
     .lnb__nav {
@@ -337,14 +340,14 @@
       height: var(--lnb-button-size);
       border-radius: var(--radius-pill);
       background: transparent;
-      color: #4B5563;
+      color: var(--color-text-secondary);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       transition: background 120ms, color 120ms;
     }
-    .lnb__btn:hover { background: #F3F4F6; color: #374151; border-radius: var(--radius-pill); }
-    .lnb__btn.is-active { background: #E5E7EB; color: #374151; border-radius: var(--radius-pill); }
+    .lnb__btn:hover { background: var(--color-surface-soft); color: var(--color-text-strong); border-radius: var(--radius-pill); }
+    .lnb__btn.is-active { background: var(--c-neutral-200); color: var(--color-text-strong); border-radius: var(--radius-pill); }
     .lnb__icon {
       display: block;
       width: 24px;
@@ -382,13 +385,13 @@
 
         <!-- 우측 사용자 영역 -->
         <div class="topbar__actions" aria-label="상담사 김상담">
-          <button type="button" class="topbar__icon-btn" aria-label="도움말">
+          <a href="style-guide.html" target="_blank" rel="noopener" class="topbar__icon-btn" aria-label="도움말 (스타일 가이드 열기)" title="스타일 가이드 열기">
             <svg class="topbar__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.7"/>
               <path d="M9.75 9.25A2.35 2.35 0 0 1 12.1 7c1.32 0 2.4.86 2.4 2.14 0 1.05-.57 1.62-1.45 2.22-.67.46-1.05.84-1.05 1.64v.35" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M12 16.5h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
             </svg>
-          </button>
+          </a>
           <button type="button" class="topbar__icon-btn" aria-label="알림">
             <svg class="topbar__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M7.75 10.45a4.25 4.25 0 0 1 8.5 0v2.52c0 .54.18 1.07.52 1.49l.65.81c.42.53.05 1.31-.62 1.31H7.2c-.67 0-1.04-.78-.62-1.31l.65-.81c.34-.42.52-.95.52-1.49v-2.52Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>

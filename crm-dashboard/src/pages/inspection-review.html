@@ -70,11 +70,8 @@
       min-width: 0; min-height: 0;
     }
 
-    .col > .stat-summary + .card,
-    .col > .stat-row + .card {
-      margin-top: var(--space-md);
-    }
-    .col > .card + .card {
+    .col > .card + .card,
+    .col > .stat-summary-card + .card {
       margin-top: var(--space-md);
     }
     /* 내부 카드 (공통) */
@@ -131,25 +128,21 @@
     }
 
     /* ============================================================
-       검수 현황 — compact summary row
+       검수 현황 — .card 시스템 위에 올라가는 compact summary
        ============================================================ */
-    .stat-summary {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      flex-shrink: 0;
+    .stat-summary-card { flex-shrink: 0; }
+    .stat-summary-card__body {
+      padding: var(--space-sm) var(--layout-card-padding) !important;
+      gap: var(--space-xs) !important;
     }
 
     .stat-row {
+      /* 카드 wrapper 안의 컨텐츠 row — 시각 스타일은 .card가 제공 */
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: stretch;
       gap: var(--space-xs);
-      padding: 8px 14px 7px 16px;
-      background: var(--color-surface-card);
-      border-radius: var(--r-lg);
-      border: 1px solid var(--color-border-default);
       flex-shrink: 0;
     }
 
@@ -232,12 +225,12 @@
     .stat-cell--high .stat-cell__name { color: var(--color-status-danger); font-weight: var(--fw-semibold); }
     .stat-cell--high .stat-cell__val  { color: var(--color-status-danger); }
 
-    .stat-cell--mid {
+    .stat-cell--medium {
       background: var(--color-status-warning-soft);
       border-color: var(--color-status-warning);
     }
-    .stat-cell--mid .stat-cell__name { color: var(--color-status-warning); font-weight: var(--fw-semibold); }
-    .stat-cell--mid .stat-cell__val  { color: var(--color-status-warning); }
+    .stat-cell--medium .stat-cell__name { color: var(--color-status-warning); font-weight: var(--fw-semibold); }
+    .stat-cell--medium .stat-cell__val  { color: var(--color-status-warning); }
 
     .stat-cell--low {
       background: var(--color-status-success-soft);
@@ -429,8 +422,7 @@
       font-size: var(--type-body-fs);
     }
     .table thead th {
-      height: 40px;
-      padding: var(--space-xs) 10px;
+      padding: 10px 14px;
       background: var(--color-surface-soft);
       color: var(--color-text-muted);
       font-size: var(--type-caption-fs); font-weight: var(--fw-semibold); text-align: center;
@@ -439,8 +431,7 @@
       vertical-align: middle;
     }
     .table tbody td {
-      height: 40px;
-      padding: var(--space-xs) 10px;
+      padding: 10px 14px;
       color: var(--color-text-default);
       font-size: var(--type-small-fs);
       border-bottom: 1px solid var(--color-border-default);
@@ -460,9 +451,9 @@
       font-size: var(--type-caption-fs); font-weight: var(--fw-bold);
       letter-spacing: 0.3px;
     }
-    .risk--high { background: var(--color-status-danger-soft); color: var(--color-status-danger); }
-    .risk--mid  { background: var(--color-status-warning-soft); color: var(--color-status-warning); }
-    .risk--low  { background: var(--c-neutral-100); color: var(--color-text-secondary); }
+    .risk--high   { background: var(--color-status-danger-soft); color: var(--color-status-danger); }
+    .risk--medium { background: var(--color-status-warning-soft); color: var(--color-status-warning); }
+    .risk--low    { background: var(--c-neutral-100); color: var(--color-text-secondary); }
 
     /* 검수상태 — 일반 데이터 텍스트로 통일 */
     .status {
@@ -864,29 +855,31 @@
             </span>
           </header>
 
-          <!-- 1) 검수 현황 — compact summary row -->
-          <div class="stat-summary">
-            <div class="stat-row" role="region" aria-label="검수 현황 요약">
-              <div class="stat-row__main">
-                <div class="stat-row__label">
-                  <span class="stat-row__label-title">검수현황</span>
+          <!-- 1) 검수 현황 — compact summary row (DS .card 구조 적용) -->
+          <article class="card stat-summary-card" aria-label="검수 현황 요약">
+            <div class="card__body stat-summary-card__body">
+              <div class="stat-row" role="region" aria-label="검수 현황 요약">
+                <div class="stat-row__main">
+                  <div class="stat-row__label">
+                    <span class="stat-row__label-title">검수현황</span>
+                  </div>
+                  <div class="stat-cell stat-cell--high">
+                    <span class="stat-cell__name">High</span>
+                    <span class="stat-cell__val">20<span class="stat-cell__unit">건</span></span>
+                  </div>
+                  <div class="stat-cell stat-cell--medium">
+                    <span class="stat-cell__name">Medium</span>
+                    <span class="stat-cell__val">10<span class="stat-cell__unit">건</span></span>
+                  </div>
+                  <div class="stat-cell stat-cell--low">
+                    <span class="stat-cell__name">Low</span>
+                    <span class="stat-cell__val">0<span class="stat-cell__unit">건</span></span>
+                  </div>
                 </div>
-                <div class="stat-cell stat-cell--high">
-                  <span class="stat-cell__name">High</span>
-                  <span class="stat-cell__val">20<span class="stat-cell__unit">건</span></span>
-                </div>
-                <div class="stat-cell stat-cell--mid">
-                  <span class="stat-cell__name">Medium</span>
-                  <span class="stat-cell__val">10<span class="stat-cell__unit">건</span></span>
-                </div>
-                <div class="stat-cell stat-cell--low">
-                  <span class="stat-cell__name">Low</span>
-                  <span class="stat-cell__val">0<span class="stat-cell__unit">건</span></span>
-                </div>
+                <span class="stat-row__meta">2026-05-26 기준</span>
               </div>
-              <span class="stat-row__meta">2026-05-26 기준</span>
             </div>
-          </div>
+          </article>
 
           <!-- 2) 검색 -->
           <article class="card">
@@ -1016,7 +1009,7 @@
                       <td>강남센터</td>
                       <td>해지</td>
                       <td>업무누락</td>
-                      <td><span class="risk risk--mid">Medium</span></td>
+                      <td><span class="risk risk--medium">Medium</span></td>
                       <td><span class="status status--checking">확인중</span></td>
                       <td>2026-05-20</td>
                     </tr>
@@ -1052,7 +1045,7 @@
                       <td>강남센터</td>
                       <td>해지</td>
                       <td>업무누락</td>
-                      <td><span class="risk risk--mid">Medium</span></td>
+                      <td><span class="risk risk--medium">Medium</span></td>
                       <td><span class="status status--checking">확인중</span></td>
                       <td>2026-05-20</td>
                     </tr>
@@ -1226,11 +1219,11 @@
                 <span class="form-row__label">메모</span>
                 <textarea class="ta" placeholder="조치 내용 또는 특이사항을 입력하세요."></textarea>
               </div>
-              <div class="action-row">
-                <button type="button" class="btn-ghost">저장</button>
-                <button type="button" class="btn-primary">업무 종결</button>
-              </div>
             </div>
+            <footer class="card__footer action-row followup-card__footer">
+              <button type="button" class="btn-ghost">저장</button>
+              <button type="button" class="btn-primary">업무 종결</button>
+            </footer>
           </article>
         </section>
       </main>

@@ -1,0 +1,38 @@
+/* ============================================================
+   BASE RESET — 토큰 기반 최소 리셋
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-surface-app);
+  color: var(--color-text-default);
+  font-family: var(--font-default);
+  font-size: var(--type-body-fs);
+  line-height: var(--type-body-lh);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+button, input, textarea, select {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; padding: 0; margin: 0; }
+img, svg { display: block; max-width: 100%; }
+table { border-collapse: collapse; }
+
+/* 포커스 가시성 (focus-visible 표준) */
+:focus { outline: none; }
+:focus-visible {
+  outline: var(--bw-2) solid var(--color-border-focus);
+  outline-offset: 2px;
+}

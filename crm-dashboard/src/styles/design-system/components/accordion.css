@@ -1,0 +1,50 @@
+/* ============================================================
+   ACCORDION — 단순 확장/접힘 패턴
+   ============================================================ */
+.ds-accordion {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-card);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.ds-accordion__item {
+  border-bottom: var(--bw-1) solid var(--color-border-default);
+}
+.ds-accordion__item:last-child { border-bottom: 0; }
+
+.ds-accordion__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 48px;
+  padding: var(--space-md) var(--space-lg);
+  background: transparent;
+  color: var(--color-text-strong);
+  font-family: var(--font-default);
+  font-size: var(--fs-14);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  cursor: pointer;
+  transition: background var(--motion-fast);
+}
+.ds-accordion__trigger:hover { background: var(--color-surface-soft); }
+
+.ds-accordion__chevron {
+  width: var(--icon-md);
+  height: var(--icon-md);
+  color: var(--color-text-muted);
+  transition: transform var(--motion-fast);
+}
+.ds-accordion__trigger[aria-expanded="true"] .ds-accordion__chevron {
+  transform: rotate(180deg);
+}
+
+.ds-accordion__body {
+  padding: 0 var(--space-lg) var(--space-lg);
+  color: var(--color-text-default);
+  font-size: var(--fs-13);
+  line-height: var(--lh-normal);
+}

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>스타일가이드 · 신한라이프 AI 상담지원</title>
+  <link rel="stylesheet" href="../styles/design-system/index.css" />
+  <script>
+    (function () {
+      try {
+        if (window.self === window.top) {
+          window.location.replace('app.html#page=4');
+        }
+      } catch (_) {}
+    })();
+  </script>
+  <style>
+    html,
+    body {
+      background: var(--color-surface-app);
+    }
+
+    .page4-content {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .styleguide-page {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      padding: var(--layout-shell-pad-x);
+      display: flex;
+      flex-direction: column;
+      gap: var(--layout-section-gap);
+    }
+
+    .sg-hero,
+    .sg-section,
+    .sg-card {
+      background: var(--color-surface-card);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+    }
+
+    .sg-hero {
+      padding: var(--space-2xl);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .sg-eyebrow {
+      margin: 0;
+      color: var(--color-brand-primary);
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-bold);
+      line-height: var(--type-caption-lh);
+      letter-spacing: var(--ls-wide);
+    }
+
+    .sg-title {
+      margin: 0;
+      color: var(--color-text-strong);
+      font-size: var(--type-display-fs);
+      font-weight: var(--type-display-fw);
+      line-height: var(--type-display-lh);
+    }
+
+    .sg-desc {
+      max-width: 860px;
+      margin: 0;
+      color: var(--color-text-muted);
+      font-size: var(--type-body-fs);
+      line-height: var(--type-body-lh);
+    }
+
+    .sg-section {
+      padding: var(--space-2xl);
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    .sg-section__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-lg);
+    }
+
+    .sg-section__title {
+      margin: 0;
+      color: var(--color-text-strong);
+      font-size: var(--type-title-fs);
+      font-weight: var(--type-title-fw);
+      line-height: var(--type-title-lh);
+    }
+
+    .sg-section__summary {
+      margin: var(--space-xs) 0 0;
+      color: var(--color-text-muted);
+      font-size: var(--type-small-fs);
+      line-height: var(--type-small-lh);
+    }
+
+    .sg-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--layout-content-gap);
+    }
+
+    .sg-card {
+      padding: var(--layout-card-padding);
+      display: grid;
+      gap: var(--space-md);
+      box-shadow: none;
+      border: var(--border-subtle);
+    }
+
+    .sg-card__title {
+      margin: 0;
+      color: var(--color-text-strong);
+      font-size: var(--type-card-title-fs);
+      font-weight: var(--type-card-title-fw);
+      line-height: var(--type-card-title-lh);
+    }
+
+    .sg-card__text {
+      margin: 0;
+      color: var(--color-text-muted);
+      font-size: var(--type-caption-fs);
+      line-height: var(--lh-normal);
+    }
+
+    .sg-token-list {
+      display: grid;
+      gap: var(--space-sm);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .sg-token-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      min-height: 32px;
+      padding: 0 var(--space-md);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-soft);
+      color: var(--color-text-secondary);
+      font-size: var(--type-caption-fs);
+      line-height: var(--type-caption-lh);
+    }
+
+    .sg-token-list code {
+      color: var(--color-brand-primary);
+      font-weight: var(--fw-bold);
+    }
+
+    .sg-shell-preview {
+      min-height: 280px;
+      border-radius: var(--radius-card);
+      background: var(--color-surface-app);
+      border: var(--border-subtle);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: var(--layout-header-height) 1fr;
+    }
+
+    .sg-shell-preview__header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-surface-header);
+      border-bottom: var(--border-subtle);
+      color: var(--color-text-muted);
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-bold);
+    }
+
+    .sg-shell-preview__body {
+      display: grid;
+      grid-template-columns: var(--layout-lnb-width) 1fr;
+      min-height: 0;
+    }
+
+    .sg-shell-preview__lnb {
+      padding: var(--layout-lnb-pad-top) 0;
+      background: var(--color-surface-lnb);
+      border-right: var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--layout-lnb-nav-gap);
+    }
+
+    .sg-shell-preview__icon,
+    .sg-shell-preview__nav {
+      border: var(--bw-1) dashed currentColor;
+      color: var(--color-text-muted);
+      background: transparent;
+    }
+
+    .sg-shell-preview__icon {
+      width: var(--layout-lnb-brand-size);
+      height: var(--layout-lnb-brand-size);
+      border-radius: var(--radius-control);
+      margin-bottom: var(--space-md);
+    }
+
+    .sg-shell-preview__nav {
+      width: var(--layout-lnb-button-size);
+      height: var(--layout-lnb-button-size);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sg-shell-preview__nav::before {
+      content: "";
+      width: var(--icon-2xl);
+      height: var(--icon-2xl);
+      border: var(--bw-1) dashed currentColor;
+      border-radius: var(--r-sm);
+    }
+
+    .sg-shell-preview__main {
+      padding: var(--layout-shell-pad-x);
+      display: grid;
+      grid-template-columns: 28fr 32fr 40fr;
+      gap: var(--layout-content-gap);
+      min-width: 0;
+    }
+
+    .sg-preview-col {
+      min-width: 0;
+      border-radius: var(--radius-outer);
+      background: var(--color-surface-outer);
+      padding: var(--layout-card-gap);
+      display: grid;
+      gap: var(--layout-card-gap);
+    }
+
+    .sg-preview-card {
+      min-height: 68px;
+      border-radius: var(--radius-card);
+      background: var(--color-surface-card);
+      box-shadow: var(--shadow-card);
+    }
+
+    .sg-breakpoints {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--layout-content-gap);
+    }
+
+    .sg-breakpoint {
+      padding: var(--space-md);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-soft);
+      border: var(--border-subtle);
+    }
+
+    .sg-breakpoint strong {
+      display: block;
+      margin-bottom: var(--space-xs);
+      color: var(--color-text-strong);
+      font-size: var(--type-caption-fs);
+    }
+
+    .sg-breakpoint span {
+      color: var(--color-text-muted);
+      font-size: var(--fs-11);
+      line-height: var(--lh-normal);
+    }
+
+    @media (max-width: 1440px) {
+      .sg-grid,
+      .sg-breakpoints {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .sg-shell-preview__main {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 1280px) {
+      .sg-grid,
+      .sg-breakpoints {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page4-content">
+    <main class="styleguide-page" aria-label="스타일가이드">
+      <section class="sg-hero">
+        <p class="sg-eyebrow">STEMA STYLE GUIDE · CRM DASHBOARD</p>
+        <h1 class="sg-title">공통 레이아웃 시스템</h1>
+        <p class="sg-desc">
+          1920×1080 기준의 시각 비율을 유지하면서 1280, 1440, 1600, 1920, 2560+ 업무용 해상도에서
+          Header, LNB, card gap, content padding이 자연스럽게 스케일되도록 정의한 canonical layout guide입니다.
+        </p>
+      </section>
+
+      <section class="sg-section" aria-labelledby="layout-preview-title">
+        <div class="sg-section__head">
+          <div>
+            <h2 class="sg-section__title" id="layout-preview-title">Preview</h2>
+            <p class="sg-section__summary">실제 AppShell과 같은 토큰으로 Header/LNB/3-column dashboard의 상대 비율을 보여줍니다.</p>
+          </div>
+          <span class="ds-status-pill ds-status-pill--info">Responsive Shell</span>
+        </div>
+
+        <div class="sg-shell-preview" aria-label="반응형 대시보드 레이아웃 미리보기">
+          <div class="sg-shell-preview__header">Header · var(--layout-header-height)</div>
+          <div class="sg-shell-preview__body">
+            <aside class="sg-shell-preview__lnb" aria-label="LNB preview">
+              <div class="sg-shell-preview__icon" aria-hidden="true"></div>
+              <div class="sg-shell-preview__nav" aria-hidden="true"></div>
+              <div class="sg-shell-preview__nav" aria-hidden="true"></div>
+              <div class="sg-shell-preview__nav" aria-hidden="true"></div>
+            </aside>
+            <div class="sg-shell-preview__main">
+              <div class="sg-preview-col">
+                <div class="sg-preview-card"></div>
+                <div class="sg-preview-card"></div>
+              </div>
+              <div class="sg-preview-col">
+                <div class="sg-preview-card"></div>
+                <div class="sg-preview-card"></div>
+              </div>
+              <div class="sg-preview-col">
+                <div class="sg-preview-card"></div>
+                <div class="sg-preview-card"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sg-section" aria-labelledby="layout-spec-title">
+        <div class="sg-section__head">
+          <div>
+            <h2 class="sg-section__title" id="layout-spec-title">Spec</h2>
+            <p class="sg-section__summary">고정 px 대신 clamp 기반 토큰을 사용합니다. 아이콘 24px 기준은 유지하고, 컨테이너와 여백만 스케일됩니다.</p>
+          </div>
+        </div>
+
+        <div class="sg-grid">
+          <article class="sg-card">
+            <h3 class="sg-card__title">Header</h3>
+            <p class="sg-card__text">기준값은 64px. 작은 업무용 해상도에서는 56px까지 축소되어 dense dashboard 느낌을 유지합니다.</p>
+            <ul class="sg-token-list">
+              <li><span>height</span><code>clamp(56px, 3.5vw, 64px)</code></li>
+              <li><span>padding-x</span><code>var(--layout-header-pad-x)</code></li>
+              <li><span>gap</span><code>var(--layout-header-gap)</code></li>
+            </ul>
+          </article>
+
+          <article class="sg-card">
+            <h3 class="sg-card__title">LNB</h3>
+            <p class="sg-card__text">기준값은 96px. 작은 해상도에서는 72px까지 줄어들며 placeholder icon은 24px 기준을 유지합니다.</p>
+            <ul class="sg-token-list">
+              <li><span>width</span><code>clamp(72px, 5vw, 96px)</code></li>
+              <li><span>button</span><code>clamp(36px, 2.08vw, 40px)</code></li>
+              <li><span>icon</span><code>24px fixed</code></li>
+            </ul>
+          </article>
+
+          <article class="sg-card">
+            <h3 class="sg-card__title">Dashboard Density</h3>
+            <p class="sg-card__text">카드 비율은 유지하고 gap/padding만 조절해 정보량과 여백의 균형을 맞춥니다.</p>
+            <ul class="sg-token-list">
+              <li><span>content gap</span><code>clamp(10px, .72vw, 14px)</code></li>
+              <li><span>card gap</span><code>clamp(8px, .63vw, 12px)</code></li>
+              <li><span>card padding</span><code>clamp(14px, .94vw, 18px)</code></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="sg-section" aria-labelledby="breakpoint-title">
+        <div>
+          <h2 class="sg-section__title" id="breakpoint-title">Responsive Rules</h2>
+          <p class="sg-section__summary">모바일 전환이 아니라 고해상도 업무용 대시보드의 시각 밀도 보정 규칙입니다.</p>
+        </div>
+        <div class="sg-breakpoints">
+          <div class="sg-breakpoint"><strong>≤1280</strong><span>Header/LNB 최소값 근접, gap 10px, card gap 8px.</span></div>
+          <div class="sg-breakpoint"><strong>1440</strong><span>compact desktop. scale 0.94, 과한 여백 방지.</span></div>
+          <div class="sg-breakpoint"><strong>1600</strong><span>standard desktop. scale 0.97, 1920에 가까운 밀도.</span></div>
+          <div class="sg-breakpoint"><strong>1920</strong><span>canonical baseline. Header 64px, LNB 96px.</span></div>
+          <div class="sg-breakpoint"><strong>2560+</strong><span>Header/LNB는 상한 유지, page padding/gap만 소폭 증가.</span></div>
+        </div>
+      </section>
+
+      <section class="sg-section" aria-labelledby="usage-title">
+        <div>
+          <h2 class="sg-section__title" id="usage-title">Usage</h2>
+          <p class="sg-section__summary">신규 페이지와 컴포넌트는 아래 토큰을 사용하고, LNB/Header에 고정 px를 직접 쓰지 않습니다.</p>
+        </div>
+        <div class="sg-grid">
+          <article class="sg-card">
+            <h3 class="sg-card__title">Do</h3>
+            <p class="sg-card__text">Shell, 페이지 padding, 카드 간격은 layout token을 사용합니다.</p>
+            <ul class="sg-token-list">
+              <li><span>shell</span><code>var(--layout-header-height)</code></li>
+              <li><span>lnb</span><code>var(--layout-lnb-width)</code></li>
+              <li><span>page</span><code>var(--layout-shell-pad-x)</code></li>
+            </ul>
+          </article>
+          <article class="sg-card">
+            <h3 class="sg-card__title">Don’t</h3>
+            <p class="sg-card__text">Header 64px, LNB 96px, dashboard gap을 개별 페이지에서 직접 선언하지 않습니다.</p>
+            <ul class="sg-token-list">
+              <li><span>금지</span><code>height: 64px</code></li>
+              <li><span>금지</span><code>width: 96px</code></li>
+              <li><span>금지</span><code>gap: random px</code></li>
+            </ul>
+          </article>
+          <article class="sg-card">
+            <h3 class="sg-card__title">Principle</h3>
+            <p class="sg-card__text">구조를 바꾸지 않고 밀도만 보정합니다. 카드 비율과 정보 우선순위는 화면 크기와 무관하게 유지합니다.</p>
+            <ul class="sg-token-list">
+              <li><span>keep</span><code>3-column ratio</code></li>
+              <li><span>scale</span><code>spacing only</code></li>
+              <li><span>cap</span><code>shell max size</code></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

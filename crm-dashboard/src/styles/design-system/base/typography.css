@@ -1,0 +1,84 @@
+/* ============================================================
+   TYPOGRAPHY — 의미 기반 텍스트 utility 클래스
+   - 모든 텍스트는 가능하면 이 클래스를 통해 스타일링
+   - .ds-text-* / .ds-heading-* / .ds-label-* / .ds-caption-* 등
+   ============================================================ */
+
+.ds-display {
+  font-family: var(--font-default);
+  font-size: var(--type-display-fs);
+  font-weight: var(--type-display-fw);
+  line-height: var(--type-display-lh);
+  color: var(--color-text-strong);
+}
+
+.ds-title {
+  font-family: var(--font-default);
+  font-size: var(--type-title-fs);
+  font-weight: var(--type-title-fw);
+  line-height: var(--type-title-lh);
+  color: var(--color-text-strong);
+}
+
+.ds-section-title {
+  font-family: var(--font-default);
+  font-size: var(--type-section-fs);
+  font-weight: var(--type-section-fw);
+  line-height: var(--type-section-lh);
+  color: var(--color-text-strong);
+}
+
+.ds-card-title {
+  font-family: var(--font-default);
+  font-size: var(--type-card-title-fs);
+  font-weight: var(--type-card-title-fw);
+  line-height: var(--type-card-title-lh);
+  color: var(--color-text-strong);
+}
+
+.ds-body {
+  font-family: var(--font-default);
+  font-size: var(--type-body-fs);
+  font-weight: var(--type-body-fw);
+  line-height: var(--type-body-lh);
+  color: var(--color-text-default);
+}
+
+.ds-body--strong { font-weight: var(--type-body-strong-fw); color: var(--color-text-strong); }
+.ds-body--muted  { color: var(--color-text-muted); }
+
+.ds-small {
+  font-family: var(--font-default);
+  font-size: var(--type-small-fs);
+  font-weight: var(--type-small-fw);
+  line-height: var(--type-small-lh);
+  color: var(--color-text-secondary);
+}
+
+.ds-caption {
+  font-family: var(--font-default);
+  font-size: var(--type-caption-fs);
+  font-weight: var(--type-caption-fw);
+  line-height: var(--type-caption-lh);
+  color: var(--color-text-muted);
+}
+
+.ds-label {
+  font-family: var(--font-default);
+  font-size: var(--type-label-fs);
+  font-weight: var(--type-label-fw);
+  line-height: var(--type-label-lh);
+  color: var(--color-text-strong);
+}
+
+/* Text color helpers (semantic only) */
+.ds-text-default   { color: var(--color-text-default); }
+.ds-text-strong    { color: var(--color-text-strong); }
+.ds-text-muted     { color: var(--color-text-muted); }
+.ds-text-soft      { color: var(--color-text-soft); }
+.ds-text-disabled  { color: var(--color-text-disabled); }
+.ds-text-inverse   { color: var(--color-text-inverse); }
+.ds-text-primary   { color: var(--color-brand-primary); }
+.ds-text-success   { color: var(--color-status-success); }
+.ds-text-warning   { color: var(--color-status-warning); }
+.ds-text-danger    { color: var(--color-status-danger); }

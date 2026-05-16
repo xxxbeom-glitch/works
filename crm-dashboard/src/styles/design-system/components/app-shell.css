@@ -1,0 +1,58 @@
+/* ============================================================
+   APP SHELL — Header / LNB / MainArea / Footer 고정 레이아웃
+   - 모든 페이지가 이 셸 안에서 동작 (MainContent 만 교체)
+   ============================================================ */
+.ds-app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.ds-app-header {
+  flex-shrink: 0;
+  height: var(--layout-header-height);
+  background: var(--color-surface-header);
+  border-bottom: var(--bw-1) solid var(--color-border-subtle);
+}
+
+.ds-app-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.ds-app-lnb {
+  flex-shrink: 0;
+  width: var(--layout-lnb-width);
+  height: 100%;
+  background: var(--color-surface-lnb);
+  border-right: var(--bw-1) solid var(--color-border-subtle);
+}
+
+.ds-app-main-area {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ds-app-main-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.ds-app-footer {
+  flex-shrink: 0;
+  min-height: var(--layout-footer-height);
+  background: var(--color-surface-footer);
+  color: var(--color-text-inverse);
+}

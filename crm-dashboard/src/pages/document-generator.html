@@ -1,0 +1,1181 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>신한라이프 AI · 문서 생성</title>
+  <script>
+    /* 단독 진입 시 AppShell(app.html) 로 자동 이동 (iframe 안에서는 그대로 렌더) */
+    (function () {
+      try {
+        if (window.self === window.top) {
+          window.location.replace('app.html#page=2');
+        }
+      } catch (_) { /* 무시하고 단독 렌더 */ }
+    })();
+  </script>
+  <style>
+    @import url("../styles/design-system/components/column-header.css");
+
+    /* ============================================================
+       디자인 토큰 (1열 카드 톤 그대로 가져옴)
+       ============================================================ */
+    :root {
+      --bg-app:            #EBEFF3;
+      --col-outer-bg:      rgba(255, 255, 255, 0.50);
+      --col-card-bg:       #FFFFFF;
+      --col-border:        #EBEBEB;
+      --col-border-strong: #DADDE3;
+      --col-text:          #111111;
+      --col-text-2:        #333333;
+      --col-text-muted:    #666666;
+      --col-text-soft:     #999999;
+      --col-primary:       #0057FF;
+      --col-primary-bg:    #EEF4FF;
+      --col-primary-bg-2:  #F8FBFF;
+      --col-row-bg:        #F3F7FF;
+      --col-soft-bg:       #F8FAFC;
+      --radius-outer:      20px;
+      --radius-card:       16px;
+      --radius-row:        8px;
+      --font-stack:        Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont,
+                           "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      height: 100%; max-height: 100vh;
+      overflow: hidden;
+    }
+    body {
+      background: var(--bg-app);
+      color: var(--col-text);
+      font-family: var(--font-stack);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; background: none; border: 0; padding: 0; }
+    input:focus, textarea:focus { outline: none; }
+
+    /* 얇고 연한 톤 공통 스크롤바 */
+    .scroll-y { overflow-y: auto; overflow-x: hidden; }
+    .scroll-y::-webkit-scrollbar { width: 8px; height: 8px; }
+    .scroll-y::-webkit-scrollbar-track { background: transparent; }
+    .scroll-y::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 999px;
+    }
+    .scroll-y::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
+    .scroll-y { scrollbar-width: thin; scrollbar-color: rgba(148, 163, 184, 0.45) transparent; }
+
+    /* ============================================================
+       Page2 (content-only) 셸
+       - AppShell 안에 iframe으로 박혀 들어가는 page2 콘텐츠 전용
+       - Header / LNB / Footer / 모드 토글 / 사용자 영역 없음
+       ============================================================ */
+    .page2-content {
+      height: 100vh; max-height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      background: var(--bg-app);
+    }
+
+    /* ============================================================
+       3-column workspace
+       ============================================================ */
+    .ws {
+      flex: 1 1 auto;
+      min-width: 0; min-height: 0;
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr) 380px;
+      gap: 12px;
+      padding: 12px;
+      overflow: hidden;
+    }
+
+    /* ----- 외곽 카드 (1열 cinfo-panel과 동일 톤) ----- */
+    .col {
+      background: var(--col-outer-bg);
+      border-radius: var(--radius-outer);
+      padding: 0 12px 12px;
+      display: flex; flex-direction: column; gap: 0;
+      min-width: 0; min-height: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* 컬럼 내부 스크롤 영역: 헤더 아래 카드 그룹만 스크롤 */
+    .col__scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex; flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 4px;
+      margin-right: -4px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+    }
+    .col__scroll::-webkit-scrollbar { width: 8px; }
+    .col__scroll::-webkit-scrollbar-track { background: transparent; }
+    .col__scroll::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 999px;
+    }
+    .col__scroll::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
+
+    /* 중앙 컬럼: 카드 1개를 컬럼 전체 높이로 채움 (내부 본문에서 스크롤) */
+    .col--stretch { gap: 0; }
+    .col--stretch .col__scroll { padding-right: 0; margin-right: 0; }
+
+    /* CTA 영역: 좌측 컬럼 하단 고정 */
+    .col__cta {
+      flex-shrink: 0;
+      position: sticky;
+      bottom: 0;
+      padding: 12px;
+      background: var(--col-outer-bg);
+      z-index: 10;
+    }
+
+    /* ----- 내부 카드 (#FFF / radius 16 / overflow hidden) ----- */
+    .card {
+      background: var(--col-card-bg);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      min-width: 0;
+      flex-shrink: 0;
+    }
+    .card--stretch {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+    }
+
+    /* 카드 헤더 (height 56 / padding 0 16 / border-bottom 1px #EBEBEB) */
+    .card__head {
+      flex-shrink: 0;
+      height: 56px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--col-border);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+    }
+    .card__head-lead {
+      display: inline-flex; align-items: center; gap: 10px; min-width: 0;
+    }
+    .card__num {
+      flex-shrink: 0;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--col-primary-bg); color: var(--col-primary);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; line-height: 1;
+    }
+    .card__title {
+      margin: 0;
+      font-family: var(--font-stack);
+      font-size: 18px; font-weight: 700; color: #000;
+      line-height: 20px;
+    }
+    .card__title-sub {
+      margin-left: 4px;
+      color: var(--col-text-muted); font-size: 14px; font-weight: 500;
+    }
+    .card__head-end {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--col-text-muted); font-size: 13px;
+    }
+
+    .card__body {
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 12px;
+      min-width: 0;
+    }
+    .card__body--flex {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+    }
+    .card__body--flex::-webkit-scrollbar { width: 8px; }
+    .card__body--flex::-webkit-scrollbar-track { background: transparent; }
+    .card__body--flex::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 999px;
+    }
+    .card__body--flex::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
+
+    /* ============================================================
+       1열 - 카드별 위젯
+       ============================================================ */
+
+    /* 업로드 드롭존 */
+    .upload-drop {
+      border: 1.5px dashed #BFD0F5;
+      background: var(--col-primary-bg-2);
+      border-radius: 12px;
+      padding: 18px; text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .upload-drop__title { font-size: 14px; font-weight: 700; color: var(--col-text); }
+    .upload-drop__desc { font-size: 12px; color: var(--col-text-muted); }
+    .upload-drop__btn {
+      margin-top: 4px; height: 32px; padding: 0 14px;
+      border: 1px solid #CFE0FF; background: #FFFFFF;
+      color: var(--col-primary); border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+    }
+    .upload-drop__btn:hover { background: var(--col-primary-bg); }
+
+    /* 파일 목록 */
+    .file-list { display: flex; flex-direction: column; gap: 8px; }
+    .file-list__head {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 12px; color: var(--col-text-muted);
+    }
+    .file-list__clear { color: var(--col-text-soft); font-size: 12px; }
+    .file-list__clear:hover { color: var(--col-primary); }
+    .file {
+      display: flex; align-items: center; gap: 10px;
+      height: 44px; padding: 0 12px;
+      background: var(--col-soft-bg);
+      border: 1px solid var(--col-border);
+      border-radius: var(--radius-row);
+    }
+    .file__icon { width: 18px; height: 18px; color: var(--col-text-muted); flex-shrink: 0; }
+    .file__name {
+      flex: 1 1 auto; min-width: 0;
+      font-size: 13px; color: var(--col-text);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .file__status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+      font-size: 11px; font-weight: 600;
+      padding: 3px 8px; border-radius: 999px;
+      line-height: 1;
+    }
+    .file__status--ok { color: #1E7E34; background: #E3F5E5; }
+    .file__status--fail { color: #C0392B; background: #FDECEB; }
+    .file__status--loading { color: var(--col-primary); background: var(--col-primary-bg); }
+    .file__status--loading::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+      opacity: 0.75;
+      animation: fileStatusSpin 800ms linear infinite;
+    }
+    @keyframes fileStatusSpin {
+      to { transform: rotate(360deg); }
+    }
+    .file__delete {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      color: var(--col-text-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 120ms, color 120ms;
+    }
+    .file__delete:hover {
+      background: #FDECEB;
+      color: #C0392B;
+    }
+    .file__delete svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ============================================================
+       공통 선택 컴포넌트 토큰
+       - 2번 RAG 선택(row+checkbox) / 3번 문서 유형(chip) 가 공유
+       - 차이는 형태(row vs chip)와 선택 상태(tint vs filled) 뿐
+       ============================================================ */
+    :root {
+      --sel-radius:        10px;
+      --sel-height:        36px;
+      --sel-font-size:     13px;
+      --sel-border:        #E5EAF3;
+      --sel-bg-hover:      #F4F7FB;
+      --sel-active-bg:     #EEF5FF;
+      --sel-active-color:  #2563EB;
+      --sel-active-border: #BFD7FF;
+      --sel-filled-bg:     #2563EB;
+      --sel-filled-color:  #FFFFFF;
+    }
+
+    /* ----- 2번 RAG 선택 : multi-select list row ----- */
+    .check-list { display: flex; flex-direction: column; gap: 4px; }
+    .check {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%;
+      min-height: var(--sel-height);
+      padding: 0 12px;
+      border: 1px solid transparent;
+      border-radius: var(--sel-radius);
+      background: transparent;
+      color: var(--col-text-2);
+      font-size: var(--sel-font-size); font-weight: 500;
+      cursor: pointer;
+      transition: background 120ms, border-color 120ms, color 120ms;
+    }
+    .check:hover { background: var(--sel-bg-hover); }
+    .check:focus-within {
+      background: var(--sel-active-bg);
+      border-color: var(--sel-active-border);
+    }
+    /* 체크된 row = 아주 연한 blue tint + blue accent text */
+    .check.is-checked {
+      background: var(--sel-active-bg);
+      border-color: var(--sel-active-border);
+      color: var(--sel-active-color);
+      font-weight: 600;
+    }
+    .check input[type="checkbox"] {
+      width: 16px; height: 16px; margin: 0;
+      accent-color: var(--sel-active-color);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    /* "전체 선택" = 상단 고정 옵션처럼 살짝 구분 (하단 구분선 + 굵게) */
+    .check--all {
+      font-weight: 700;
+      color: var(--col-text);
+      margin-bottom: 6px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--col-border);
+      border-radius: 0;
+    }
+    .check--all:hover { background: transparent; }
+    .check--all.is-checked {
+      background: transparent;
+      border-color: transparent;
+      border-bottom: 1px solid var(--sel-active-border);
+      color: var(--sel-active-color);
+    }
+
+    /* ----- 2번 RAG 선택 : SB 3×3 button grid override ----- */
+    .rag-select-card .card__head { align-items: center; }
+    .rag-select-card .card__head-lead { gap: 0; }
+
+    .rag-select-card .check--all {
+      width: auto;
+      min-height: 32px;
+      margin: 0;
+      padding: 0 12px;
+      border: 1px solid var(--sel-border);
+      border-radius: var(--sel-radius);
+      background: #FFFFFF;
+      color: var(--col-text-muted);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .rag-select-card .check--all:hover {
+      background: var(--sel-bg-hover);
+      border-color: var(--sel-active-border);
+      color: var(--sel-active-color);
+    }
+    .rag-select-card .check--all.is-checked {
+      background: var(--sel-active-bg);
+      border-color: var(--sel-active-border);
+      color: var(--sel-active-color);
+    }
+
+    .rag-select-card .check-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .rag-select-card .check {
+      min-height: 36px;
+      height: 36px;
+      padding: 0 10px;
+      border: 1px solid var(--sel-border);
+      border-radius: var(--sel-radius);
+      background: #FFFFFF;
+      color: var(--col-text-2);
+      justify-content: flex-start;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
+      text-align: left;
+    }
+    .rag-select-card .check:hover {
+      background: var(--sel-bg-hover);
+      border-color: var(--sel-active-border);
+      color: var(--sel-active-color);
+    }
+    .rag-select-card .check.is-checked {
+      background: var(--sel-active-bg);
+      border-color: var(--sel-active-border);
+      color: var(--sel-active-color);
+    }
+
+    .rag-select-card .check input[type="checkbox"] {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .rag-select-card .check span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .rag-select-card .check span::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid var(--sel-border);
+      background: #FFFFFF;
+      box-shadow: inset 0 0 0 2px #FFFFFF;
+    }
+    .rag-select-card .check.is-checked span::before {
+      border-color: var(--sel-active-color);
+      background: var(--sel-active-color);
+    }
+
+    /* ----- 3번 문서 유형 : chip / button group (filled selected) ----- */
+    .chip-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: var(--sel-height);
+      padding: 0 14px;
+      border: 1px solid var(--sel-border);
+      background: #FFFFFF;
+      color: var(--col-text-2);
+      border-radius: var(--sel-radius);
+      font-size: var(--sel-font-size); font-weight: 500;
+      cursor: pointer;
+      transition: background 120ms, border-color 120ms, color 120ms;
+    }
+    .chip:hover {
+      background: var(--sel-active-bg);
+      border-color: var(--sel-active-border);
+      color: var(--sel-active-color);
+    }
+    .chip:focus-visible {
+      outline: 2px solid var(--sel-active-border);
+      outline-offset: 2px;
+    }
+    /* 선택된 chip = filled blue */
+    .chip.is-active {
+      background: var(--sel-filled-bg);
+      border-color: var(--sel-filled-bg);
+      color: var(--sel-filled-color);
+      font-weight: 600;
+    }
+    .chip.is-active:hover {
+      background: var(--sel-filled-bg);
+      border-color: var(--sel-filled-bg);
+      color: var(--sel-filled-color);
+    }
+
+    /* form row + segmented + number input */
+    .form-row {
+      display: grid;
+      grid-template-columns: 84px minmax(0, 1fr);
+      align-items: center; gap: 12px;
+    }
+    .form-row__label { font-size: 13px; color: var(--col-text-muted); }
+    .form-row__field { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .seg {
+      display: inline-flex;
+      border: 1px solid var(--col-border-strong);
+      border-radius: 8px; overflow: hidden;
+    }
+    .seg__btn {
+      height: 30px; padding: 0 12px;
+      background: #FFFFFF; color: var(--col-text-2);
+      font-size: 13px;
+    }
+    .seg__btn + .seg__btn { border-left: 1px solid var(--col-border-strong); }
+    .seg__btn:hover { background: var(--col-primary-bg-2); color: var(--col-primary); }
+    .seg__btn.is-active { background: var(--col-primary-bg); color: var(--col-primary); font-weight: 700; }
+    .num-input {
+      width: 64px; height: 30px; padding: 0 8px;
+      border: 1px solid var(--col-border-strong);
+      border-radius: 6px;
+      font-size: 13px; color: var(--col-text);
+    }
+    .num-input:focus { border-color: var(--col-primary); }
+    .form-row__suffix { font-size: 13px; color: var(--col-text-muted); }
+
+    /* primary 버튼 */
+    .btn-primary {
+      width: 100%; height: 44px; padding: 0 16px;
+      background: var(--col-primary); color: #FFFFFF;
+      border-radius: 10px;
+      font-size: 14px; font-weight: 700;
+    }
+    .btn-primary:hover { background: #003FC8; }
+
+    /* ============================================================
+       2열 - 에디터
+       ============================================================ */
+    .pill {
+      display: inline-flex; align-items: center;
+      height: 26px; padding: 0 10px;
+      background: var(--col-primary-bg); color: var(--col-primary);
+      border-radius: 999px;
+      font-size: 12px; font-weight: 700;
+    }
+    .editor-label {
+      font-size: 11px; color: var(--col-text-soft);
+      letter-spacing: 0.6px; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .editor-doc h1 {
+      margin: 0 0 16px;
+      font-size: 24px; font-weight: 700; color: var(--col-text);
+      line-height: 1.3;
+    }
+    .editor-doc h2 {
+      margin: 24px 0 8px;
+      font-size: 16px; font-weight: 700; color: var(--col-text);
+      line-height: 1.4;
+    }
+    .editor-doc p, .editor-doc li {
+      font-size: 14px; color: var(--col-text-2);
+      line-height: 22px; margin: 0 0 6px;
+    }
+    .editor-doc ul, .editor-doc ol { padding-left: 20px; margin: 0 0 12px; }
+    .editor-doc .sub {
+      margin: 14px 0 6px;
+      font-size: 14px; font-weight: 700; color: var(--col-text-2);
+    }
+    .editor-foot {
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      border-top: 1px solid var(--col-border);
+      background: var(--col-soft-bg);
+      color: var(--col-text-muted); font-size: 12px;
+    }
+    .editor-foot__group { display: inline-flex; gap: 18px; }
+    .editor-foot strong { color: var(--col-text); font-weight: 700; }
+    .editor-foot__save {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .editor-foot__save-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22C55E;
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.12);
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       3열 - 출처 / 수정 / 다운로드
+       ============================================================ */
+    .src-list { display: flex; flex-direction: column; gap: 8px; }
+    .src-item {
+      display: flex; align-items: center; gap: 10px;
+      height: 44px; padding: 0 12px;
+      background: var(--col-soft-bg);
+      border: 1px solid var(--col-border);
+      border-radius: var(--radius-row);
+    }
+    .src-item__icon { width: 18px; height: 18px; color: var(--col-text-muted); flex-shrink: 0; }
+    .src-item__name {
+      flex: 1 1 auto; min-width: 0;
+      font-size: 13px; color: var(--col-text);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .icon-btn {
+      width: 28px; height: 28px; border-radius: 6px;
+      color: var(--col-text-muted);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .icon-btn:hover { background: var(--col-primary-bg); color: var(--col-primary); }
+    .icon-btn svg { width: 18px; height: 18px; }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 32px;
+      padding: 0 10px;
+      border: 1px solid var(--col-border-strong);
+      border-radius: 8px;
+      background: #FFFFFF;
+      color: var(--col-text-2);
+      font-size: 13px; font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .link-btn:hover {
+      background: var(--col-soft-bg);
+      border-color: var(--col-border-strong);
+      color: var(--col-text);
+      text-decoration: none;
+    }
+    .link-btn__icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: currentColor;
+    }
+
+    .pill-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill-btn {
+      display: inline-flex; align-items: center;
+      height: 32px; padding: 0 12px;
+      border: 1px solid #CFE0FF;
+      background: var(--col-primary-bg-2);
+      color: var(--col-primary);
+      border-radius: 8px;
+      font-size: 13px; font-weight: 500;
+    }
+    .pill-btn:hover { background: var(--col-primary-bg); border-color: #B9D1FF; }
+
+    .ta {
+      width: 100%; min-height: 96px;
+      padding: 10px 12px;
+      border: 1px solid var(--col-border-strong);
+      border-radius: 8px;
+      background: #FFFFFF;
+      font-size: 14px; color: var(--col-text);
+      resize: vertical;
+    }
+    .ta::placeholder { color: var(--col-text-soft); }
+    .ta:focus { border-color: var(--col-border-strong); }
+
+    .actions { display: flex; gap: 8px; }
+    .btn-secondary {
+      flex: 1 1 0;
+      height: 40px; padding: 0 12px;
+      border: 1px solid var(--col-border-strong);
+      background: #FFFFFF; color: var(--col-text-2);
+      border-radius: 10px;
+      font-size: 13px; font-weight: 600;
+    }
+    .btn-secondary:hover { border-color: var(--col-primary); color: var(--col-primary); }
+    .btn-secondary--primary {
+      background: var(--col-primary); color: #FFFFFF;
+      border-color: var(--col-primary);
+    }
+    .btn-secondary--primary:hover { background: #003FC8; color: #FFFFFF; }
+
+    .input-text {
+      width: 100%; height: 40px; padding: 0 12px;
+      border: 1px solid var(--col-border-strong);
+      background: #FFFFFF; color: var(--col-text);
+      border-radius: 8px; font-size: 14px;
+    }
+    .input-text:focus { border-color: var(--col-primary); }
+
+    .download-name-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .download-name-row__label {
+      flex: 0 0 auto;
+      color: var(--col-text-2);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .download-name-row .input-text {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    /* ============================================================
+       Responsive (1열 톤 유지)
+       ============================================================ */
+    @media (max-width: 1280px) {
+      .ws { grid-template-columns: 340px minmax(0, 1fr) 340px; }
+    }
+    @media (max-width: 1080px) {
+      .ws { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ============================================================
+       Page2 Content (AppShell 의 MainContent 슬롯에만 들어감)
+       - Header / LNB / Footer / 사용자 영역 / 모드 토글 없음
+       - 오직 "문서 생성 설정 / 결과 / 참고·수정·다운로드" 3-col 만 포함
+       ============================================================ -->
+  <div class="page2-content">
+      <main class="ws" aria-label="문서 생성 워크스페이스">
+
+        <!-- ============================ 1열 ============================ -->
+        <section class="col" aria-label="문서 생성 설정">
+          <header class="ds-col-head">
+            <span class="ds-col-head__lead">
+              <span class="ds-col-head__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M4 6h12M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <h2 class="ds-col-head__title">문서 생성 설정</h2>
+            </span>
+          </header>
+          <div class="col__scroll">
+
+          <!-- 1) 문서 업로드 -->
+          <article class="card">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <span class="card__num" aria-hidden="true">1</span>
+                <h3 class="card__title">문서 업로드</h3>
+              </span>
+            </header>
+            <div class="card__body">
+              <div class="upload-drop">
+                <div class="upload-drop__title">파일을 드래그하거나 클릭해 업로드</div>
+                <div class="upload-drop__desc">지원 형식: PDF · DOCX · PPTX · XLSX · HWP</div>
+                <button type="button" class="upload-drop__btn">파일 선택</button>
+              </div>
+              <div class="file-list">
+                <div class="file-list__head">
+                  <span id="upload-file-count">업로드 파일 (3)</span>
+                  <button type="button" class="file-list__clear">전체 삭제</button>
+                </div>
+                <div class="file">
+                  <svg class="file__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
+                    <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6"/>
+                  </svg>
+                  <span class="file__name">실효처리_업무매뉴얼.pptx</span>
+                  <span class="file__status file__status--ok">성공</span>
+                  <button type="button" class="file__delete" aria-label="실효처리_업무매뉴얼.pptx 삭제">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="file">
+                  <svg class="file__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
+                    <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6"/>
+                  </svg>
+                  <span class="file__name">FAQ_실효관련.docx</span>
+                  <span class="file__status file__status--fail">실패</span>
+                  <button type="button" class="file__delete" aria-label="FAQ_실효관련.docx 삭제">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="file">
+                  <svg class="file__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
+                    <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6"/>
+                  </svg>
+                  <span class="file__name">실효처리_보험금지급.pptx</span>
+                  <span class="file__status file__status--loading">진행중</span>
+                  <button type="button" class="file__delete" aria-label="실효처리_보험금지급.pptx 삭제">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2) 참고 RAG 선택 -->
+          <article class="card rag-select-card">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <h3 class="card__title">② 참조 RAG 선택</h3>
+              </span>
+              <label class="check check--all"><input type="checkbox" /><span>전체 선택</span></label>
+            </header>
+            <div class="card__body">
+              <div class="check-list">
+                <label class="check is-checked"><input type="checkbox" checked /><span>보험 약관</span></label>
+                <label class="check is-checked"><input type="checkbox" checked /><span>FAQ</span></label>
+                <label class="check"><input type="checkbox" /><span>SOK 콘텐츠</span></label>
+                <label class="check"><input type="checkbox" /><span>법규/지침</span></label>
+                <label class="check"><input type="checkbox" /><span>업무 매뉴얼</span></label>
+                <label class="check"><input type="checkbox" /><span>VOC 사례</span></label>
+                <label class="check"><input type="checkbox" /><span>기타</span></label>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3) 문서 유형 선택 -->
+          <article class="card">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <span class="card__num" aria-hidden="true">3</span>
+                <h3 class="card__title">문서 유형 선택</h3>
+              </span>
+            </header>
+            <div class="card__body">
+              <label class="check is-checked"><input type="checkbox" checked /><span>문서 통합</span></label>
+              <div class="chip-list" role="radiogroup" aria-label="문서 유형">
+                <button type="button" class="chip is-active" role="radio" aria-checked="true">요약본 생성</button>
+                <button type="button" class="chip" role="radio" aria-checked="false">SOK 콘텐츠</button>
+                <button type="button" class="chip" role="radio" aria-checked="false">업무 매뉴얼</button>
+                <button type="button" class="chip" role="radio" aria-checked="false">교육자료</button>
+                <button type="button" class="chip" role="radio" aria-checked="false">기타</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4) 생성 옵션 선택 -->
+          <article class="card">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <span class="card__num" aria-hidden="true">4</span>
+                <h3 class="card__title">생성 옵션 선택</h3>
+              </span>
+            </header>
+            <div class="card__body">
+              <div class="form-row">
+                <span class="form-row__label">문서 형식</span>
+                <span class="form-row__field">
+                  <span class="seg">
+                    <button type="button" class="seg__btn is-active">공식형</button>
+                    <button type="button" class="seg__btn">자유형</button>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span class="form-row__label">요약 수준</span>
+                <span class="form-row__field">
+                  <span class="seg">
+                    <button type="button" class="seg__btn is-active">간단히 요약</button>
+                    <button type="button" class="seg__btn">자세히 요약</button>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span class="form-row__label">문서 길이</span>
+                <span class="form-row__field">
+                  <span class="seg">
+                    <button type="button" class="seg__btn">짧게</button>
+                    <button type="button" class="seg__btn is-active">중간</button>
+                    <button type="button" class="seg__btn">길게</button>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span class="form-row__label">페이지 수</span>
+                <span class="form-row__field">
+                  <input type="number" class="num-input" value="10" min="1" />
+                  <span class="form-row__suffix">페이지</span>
+                </span>
+              </div>
+            </div>
+          </article>
+
+          </div>
+          
+          <!-- CTA 영역: 좌측 컬럼 하단 고정 -->
+          <div class="col__cta">
+            <button type="button" class="btn-primary">문서 생성 실행</button>
+          </div>
+        </section>
+
+        <!-- ============================ 2열 ============================ -->
+        <section class="col col--stretch" aria-label="문서 생성 결과">
+          <header class="ds-col-head">
+            <span class="ds-col-head__lead">
+              <span class="ds-col-head__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                  <path d="M8 9h8M8 12h8M8 15h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <h2 class="ds-col-head__title">문서 생성 결과</h2>
+            </span>
+          </header>
+          <div class="col__scroll" style="overflow: hidden;">
+
+          <article class="card card--stretch">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <span class="card__num" aria-hidden="true">5</span>
+                <h3 class="card__title">문서 생성 결과</h3>
+                <span class="pill">요약본</span>
+              </span>
+              <span class="card__head-end">생성일 : 2026-05-14 00:00:00</span>
+            </header>
+            <div class="card__body card__body--flex">
+              <div class="editor-label">Editor Area</div>
+              <div class="editor-doc">
+                <h1>보험실효 안내방법</h1>
+
+                <h2>1. 보험 실효 정의</h2>
+                <p>보험료를 일정 기간 미납 상태에서 보험사가 정한 납입최고(독촉) 기간까지 연체 시 보험 계약의 효력이 정지되는 상태를 뜻합니다.</p>
+
+                <h2>2. 보험실효 안내방법</h2>
+                <ul>
+                  <li><strong>보험료 미납 발생:</strong> 약정일에 보험료를 납부하지 않으면 보험사가 문자·전화·이메일 등으로 납입을 안내합니다(납입최고).</li>
+                  <li><strong>납입최고 기간:</strong> 가입기간이 1년 이상이면 14일, 1년 미만이면 7일 이내에 미납 보험료를 납부해야 합니다.</li>
+                  <li><strong>실효 전환:</strong> 납입최고 기간 내 납부가 없으면 보험계약은 유지되지만 효력이 상실(실효)되며, 실효 기간에는 사고 발생 시 보험금 지급이 제한될 수 있습니다.</li>
+                </ul>
+
+                <h2>3. 보험 처리 절차</h2>
+                <p class="sub">* 보험료 연체 발생 시</p>
+                <ol>
+                  <li>연체 안내</li>
+                  <li>유예기간 운영</li>
+                </ol>
+              </div>
+            </div>
+            <footer class="editor-foot">
+              <div class="editor-foot__group">
+                <span>페이지 수 : <strong>10</strong></span>
+                <span>글자 수 : <strong>80,000</strong></span>
+              </div>
+              <span class="editor-foot__save"><span class="editor-foot__save-dot" aria-hidden="true"></span>자동 저장됨</span>
+            </footer>
+          </article>
+
+          </div>
+        </section>
+
+        <!-- ============================ 3열 ============================ -->
+        <section class="col" aria-label="참고 출처 · 수정 요청 · 다운로드">
+          <header class="ds-col-head">
+            <span class="ds-col-head__lead">
+              <span class="ds-col-head__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect x="4" y="5" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                  <path d="M4 9h16" stroke="currentColor" stroke-width="1.6"/>
+                </svg>
+              </span>
+              <h2 class="ds-col-head__title">참고 · 수정 · 다운로드</h2>
+            </span>
+          </header>
+          <div class="col__scroll">
+
+          <!-- 6) 참고 출처 -->
+          <article class="card">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <span class="card__num" aria-hidden="true">6</span>
+                <h3 class="card__title">참고 출처<span class="card__title-sub">(5)</span></h3>
+              </span>
+              <button type="button" class="link-btn">
+                <svg class="link-btn__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 4v10m0 0l-4-4m4 4l4-4M5 19h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>전체 다운로드</span>
+              </button>
+            </header>
+            <div class="card__body">
+              <div class="src-list">
+                <div class="src-item">
+                  <svg class="src-item__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
+                  </svg>
+                  <span class="src-item__name">보험약관.pptx</span>
+                  <button type="button" class="icon-btn" aria-label="보험약관 다운로드">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="src-item">
+                  <svg class="src-item__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
+                  </svg>
+                  <span class="src-item__name">VOC사례.docx</span>
+                  <button type="button" class="icon-btn" aria-label="VOC사례 다운로드">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="src-item">
+                  <svg class="src-item__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
+                  </svg>
+                  <span class="src-item__name">SOK콘텐츠.pptx</span>
+                  <button type="button" class="icon-btn" aria-label="SOK콘텐츠 다운로드">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 7) 수정 요청 -->
+          <article class="card">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <span class="card__num" aria-hidden="true">7</span>
+                <h3 class="card__title">수정 요청</h3>
+              </span>
+            </header>
+            <div class="card__body">
+              <div class="pill-list">
+                <button type="button" class="pill-btn">보험 처리 절차 추가해줘</button>
+                <button type="button" class="pill-btn">보험실효 안내 방법을 좀 더 쉽게 작성해줘</button>
+                <button type="button" class="pill-btn">보험 해지에 대한 안내 추가해줘</button>
+                <button type="button" class="pill-btn">전체적으로 글자 크기를 1pt 올려줘</button>
+              </div>
+              <textarea class="ta" placeholder="자연어로 수정 내용을 입력하세요."></textarea>
+              <div class="actions">
+                <button type="button" class="btn-secondary">다시 생성</button>
+                <button type="button" class="btn-secondary btn-secondary--primary">이어서 수정</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 8) 다운로드 -->
+          <article class="card">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <span class="card__num" aria-hidden="true">8</span>
+                <h3 class="card__title">다운로드</h3>
+              </span>
+            </header>
+            <div class="card__body">
+              <label class="download-name-row">
+                <span class="download-name-row__label">문서명</span>
+                <input type="text" class="input-text" value="보험실효 안내방법" aria-label="문서명" />
+              </label>
+              <div class="pill-list">
+                <button type="button" class="pill-btn">PPTX</button>
+                <button type="button" class="pill-btn">DOCX</button>
+                <button type="button" class="pill-btn">XLSX</button>
+                <button type="button" class="pill-btn">HWP</button>
+                <button type="button" class="pill-btn">PDF</button>
+              </div>
+            </div>
+          </article>
+
+          </div>
+        </section>
+      </main>
+  </div><!-- /.page2-content -->
+
+  <script>
+    /* 업로드 파일 리스트: 개별 삭제 / 전체 삭제 */
+    (function () {
+      var list = document.querySelector('.page2-content .file-list');
+      if (!list) return;
+      var countEl = document.getElementById('upload-file-count');
+      var clearBtn = list.querySelector('.file-list__clear');
+
+      function updateCount() {
+        var count = list.querySelectorAll('.file').length;
+        if (countEl) countEl.textContent = '업로드 파일 (' + count + ')';
+      }
+
+      list.addEventListener('click', function (e) {
+        var del = e.target.closest('.file__delete');
+        if (!del) return;
+        var row = del.closest('.file');
+        if (row) row.remove();
+        updateCount();
+      });
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function () {
+          list.querySelectorAll('.file').forEach(function (row) { row.remove(); });
+          updateCount();
+        });
+      }
+
+      updateCount();
+    })();
+
+    /* ============================================================
+       chip (radio-chip 단일 선택)
+       - role="radio" / aria-checked 동기화
+       ============================================================ */
+    document.querySelectorAll('.page2-content .chip-list').forEach(function (list) {
+      list.addEventListener('click', function (e) {
+        var t = e.target.closest('.chip');
+        if (!t) return;
+        list.querySelectorAll('.chip').forEach(function (c) {
+          c.classList.remove('is-active');
+          c.setAttribute('aria-checked', 'false');
+        });
+        t.classList.add('is-active');
+        t.setAttribute('aria-checked', 'true');
+      });
+    });
+
+    /* segmented 단일 선택 */
+    document.querySelectorAll('.page2-content .seg').forEach(function (seg) {
+      seg.addEventListener('click', function (e) {
+        var t = e.target.closest('.seg__btn');
+        if (!t) return;
+        seg.querySelectorAll('.seg__btn').forEach(function (b) { b.classList.remove('is-active'); });
+        t.classList.add('is-active');
+      });
+    });
+
+    /* ============================================================
+       check row (multi-select)
+       - checkbox 상태 변경 시 .is-checked 동기화 → row tint
+       - "전체 선택"은 카드 내 모든 row 동시 토글
+       ============================================================ */
+    function syncCheckRow(input) {
+      var row = input.closest('.check');
+      if (!row) return;
+      row.classList.toggle('is-checked', input.checked);
+    }
+
+    document.querySelectorAll('.page2-content .check input[type="checkbox"]').forEach(function (chk) {
+      syncCheckRow(chk); // 초기 상태 보정
+      chk.addEventListener('change', function () { syncCheckRow(chk); });
+    });
+
+    document.querySelectorAll('.page2-content .check--all input[type="checkbox"]').forEach(function (allChk) {
+      allChk.addEventListener('change', function () {
+        var card = allChk.closest('.card');
+        if (!card) return;
+        card.querySelectorAll('.check:not(.check--all) input[type="checkbox"]').forEach(function (chk) {
+          chk.checked = allChk.checked;
+          syncCheckRow(chk);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>신한라이프 AI 상담지원</title>
+  <link rel="stylesheet" href="../styles/design-system/index.css">
+  <style>
+    /* ============================================================
+       AppShell 토큰 (LNB / Header 디자인은 1·2·3 페이지와 동일)
+       ============================================================ */
+    :root {
+      --header-h: var(--layout-header-height);
+      --lnb-w: var(--layout-lnb-width);
+      --footer-h: var(--layout-footer-height);
+      --shell-pad-x: var(--layout-header-pad-x);
+      --shell-gap: var(--layout-header-gap);
+      --lnb-pad-top: var(--layout-lnb-pad-top);
+      --lnb-pad-bottom: var(--layout-lnb-pad-bottom);
+      --lnb-brand-size: var(--layout-lnb-brand-size);
+      --lnb-brand-gap: var(--layout-lnb-brand-gap);
+      --lnb-nav-gap: var(--layout-lnb-nav-gap);
+      --lnb-button-size: var(--layout-lnb-button-size);
+      --col-border: var(--color-border-default);
+      --col-primary: var(--color-brand-primary);
+      --font-stack: Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont,
+                    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      height: 100%; max-height: 100vh;
+      overflow: hidden;
+    }
+    body {
+      background: var(--color-surface-app);
+      color: var(--color-text-strong);
+      font-family: var(--font-stack);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; padding: 0; }
+
+    /* ============================================================
+       Shell (Header 고정 / Body = LNB + Main / 100vh 가두기)
+       ============================================================ */
+    .shell {
+      display: flex; flex-direction: column;
+      height: 100vh; max-height: 100vh;
+      overflow: hidden;
+    }
+    .shell__header {
+      flex-shrink: 0;
+      height: var(--header-h);
+      background: #FFFFFF;
+      border-bottom: none;
+    }
+    .shell__body {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      overflow: hidden;
+    }
+    .shell__lnb {
+      flex-shrink: 0;
+      width: var(--lnb-w);
+      height: 100%;
+    }
+    /* MainArea = MainContent(iframe) + Footer(statusbar), 세로 스택 */
+    .shell__main-area {
+      flex: 1 1 auto;
+      min-width: 0; min-height: 0;
+      height: 100%;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .shell__main-content {
+      flex: 1 1 auto;
+      min-width: 0; min-height: 0;
+      display: flex;
+      overflow: hidden;
+    }
+    .shell__main-content iframe {
+      flex: 1 1 auto;
+      width: 100%; height: 100%;
+      border: 0; margin: 0; padding: 0;
+      display: block;
+      background: var(--color-surface-app);
+    }
+
+    /* ============================================================
+       Footer (statusbar) — AppShell 공통, activePage 무관 static
+       ============================================================ */
+    .statusbar {
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      min-height: var(--footer-h);
+      padding: var(--space-sm) var(--space-xl);
+      background: var(--color-surface-footer);
+      color: #E2E8F0;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.5;
+      font-variant-numeric: tabular-nums;
+    }
+    .statusbar__cluster {
+      display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-md);
+    }
+    .statusbar__item {
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .statusbar__item strong { color: #FFFFFF; font-weight: 600; }
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 999px;
+      background: #34D399;
+      flex-shrink: 0;
+    }
+    .statusbar__keys {
+      margin-left: auto;
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 0.02em;
+      color: rgba(226, 232, 240, 0.75);
+    }
+
+    /* ============================================================
+       Header (원본 SB 스타일 복원 — 모드 토글 중앙 / static UI)
+       - .topbar: 3-구역 (modes 중앙, actions 우측)
+       - 토글은 클릭 불가(static), 활성값은 "학습·조회모드"로 고정
+       ============================================================ */
+    .topbar {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--shell-gap);
+      padding: 0 var(--shell-pad-x);
+      background: #FFFFFF;
+      border-bottom: none;
+      box-shadow: none;
+    }
+
+    /* 좌측 통화 상태 영역 */
+    .topbar__left {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    /* 통화 상태 pill */
+    .call-status-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      border: 1px solid #D1FAE5;
+      background: #ECFDF5;
+    }
+    .call-status-pill__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #10B981;
+      flex-shrink: 0;
+    }
+    .call-status-pill__text {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      color: #047857;
+      white-space: nowrap;
+    }
+
+    /* 중앙 모드 토글 영역 */
+    .topbar__modes {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+    }
+    .mode-segmented {
+      display: inline-grid;
+      grid-template-columns: minmax(96px, 1fr) minmax(96px, 1fr);
+      align-items: center;
+      column-gap: 2px;
+      padding: 4px;
+      background: #EEF3F8;
+      border: none;
+      border-radius: 999px;
+      box-sizing: border-box;
+      pointer-events: none; /* static UI — 클릭 비활성 */
+    }
+    .mode-segmented__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-width: 0;
+      height: 30px;
+      padding: 0 12px;
+      border: none;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: #64748B;
+      background: transparent;
+      box-sizing: border-box;
+      white-space: nowrap;
+      cursor: default;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mode-segmented__btn.is-active {
+      background: #DCEBFF;
+      color: #005BAC;
+      font-weight: 700;
+    }
+
+    /* 우측 사용자 영역 */
+    .topbar__actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      min-width: 0;
+    }
+    .ui-icon-placeholder {
+      box-sizing: border-box;
+      display: inline-flex;
+      flex-shrink: 0;
+      color: transparent;
+      background: transparent;
+      border: 1px dashed rgba(100, 116, 139, 0.4);
+      box-shadow: none;
+    }
+    .ui-icon-placeholder--28 {
+      width: 28px; height: 28px;
+      min-width: 28px; min-height: 28px;
+      border-radius: var(--radius-control);
+    }
+    .topbar__user-name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--color-text-strong);
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       LNB (placeholder 단순화 — 4개 메뉴, responsive width)
+       ============================================================ */
+    .lnb {
+      width: 100%; height: 100%;
+      background: #FFFFFF;
+      border-right: 1px solid #E5E7EB;
+      padding: var(--lnb-pad-top) 0 var(--lnb-pad-bottom);
+      display: flex; flex-direction: column; align-items: center; gap: 0;
+    }
+    .lnb__brand {
+      width: var(--lnb-brand-size); height: var(--lnb-brand-size);
+      margin: 0 0 var(--lnb-brand-gap);
+      border: 1px dashed #B8C3D1; border-radius: var(--radius-control);
+      background: transparent;
+    }
+    .lnb__nav {
+      width: 100%;
+      display: flex; flex-direction: column; align-items: center; gap: var(--lnb-nav-gap);
+    }
+    .lnb__btn {
+      box-sizing: border-box;
+      width: var(--lnb-button-size); height: var(--lnb-button-size); border-radius: var(--radius-lg);
+      background: transparent; color: #4B5563;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: background 120ms, color 120ms;
+    }
+    .lnb__btn:hover { background: rgba(0, 87, 255, 0.06); color: var(--col-primary); }
+    .lnb__btn.is-active { background: #EAF2FF; color: var(--col-primary); }
+    .lnb__icon-ph {
+      display: block;
+      width: 24px; height: 24px;
+      border: 1px dashed currentColor; border-radius: 6px;
+      background: transparent;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+
+    <!-- ========== Header (공통, 고정) ========== -->
+    <header class="shell__header" aria-label="상단 헤더">
+      <div class="topbar">
+        <!-- 좌측 통화 상태 -->
+        <div class="topbar__left">
+          <div class="call-status-pill">
+            <span class="call-status-pill__dot" aria-hidden="true"></span>
+            <span class="call-status-pill__text">통화중 AM 14:25 (00:01:24)</span>
+          </div>
+        </div>
+
+        <!-- 중앙 모드 토글 (static UI — 클릭 불가, 활성값 "학습·조회모드" 고정) -->
+        <div class="topbar__modes">
+          <div class="mode-segmented" role="group" aria-label="화면 모드 (고정)">
+            <button type="button" class="mode-segmented__btn" aria-pressed="false" tabindex="-1">상담 모드</button>
+            <button type="button" class="mode-segmented__btn is-active" aria-pressed="true" tabindex="-1">학습·조회모드</button>
+          </div>
+        </div>
+
+        <!-- 우측 사용자 영역 -->
+        <div class="topbar__actions" aria-label="상담사 김상담">
+          <span class="ui-icon-placeholder ui-icon-placeholder--28" aria-hidden="true"></span>
+          <span class="ui-icon-placeholder ui-icon-placeholder--28" aria-hidden="true"></span>
+          <span class="ui-icon-placeholder ui-icon-placeholder--28" aria-hidden="true"></span>
+          <span class="topbar__user-name">김상담</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========== Body (LNB + Main) ========== -->
+    <div class="shell__body">
+      <aside class="shell__lnb" aria-label="주 메뉴">
+        <nav class="lnb">
+          <div class="lnb__brand" aria-label="신한라이프"></div>
+          <div class="lnb__nav" role="tablist">
+            <button type="button" class="lnb__btn is-active" data-page="1" aria-current="page" aria-label="메뉴 1">
+              <span class="lnb__icon-ph" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="lnb__btn" data-page="2" aria-label="메뉴 2">
+              <span class="lnb__icon-ph" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="lnb__btn" data-page="3" aria-label="메뉴 3">
+              <span class="lnb__icon-ph" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="lnb__btn" data-page="4" aria-label="스타일가이드" title="스타일가이드">
+              <span class="lnb__icon-ph" aria-hidden="true"></span>
+            </button>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- MainArea = MainContent(iframe, activePage에 따라 교체) + Footer(공통, static) -->
+      <section class="shell__main-area" aria-label="페이지 영역">
+        <div class="shell__main-content" role="region" aria-label="페이지 콘텐츠">
+          <iframe
+            id="page-frame"
+            src="index.html"
+            title="현재 페이지"
+            loading="eager"
+          ></iframe>
+        </div>
+
+        <!-- Footer (statusbar) : activePage 상태와 무관, 모든 페이지에서 동일 -->
+        <footer class="statusbar" aria-label="상태 표시줄">
+          <div class="statusbar__cluster">
+            <span class="statusbar__item">
+              <span class="status-dot" aria-hidden="true"></span>
+              <span><strong>통화 중</strong> · 14:25 (00:02:15)</span>
+            </span>
+            <span class="statusbar__item">TTFT <strong>1.8s</strong></span>
+            <span class="statusbar__item">Agent <strong>상담지원 · 요약 · 검수</strong> · 3 active</span>
+            <span class="statusbar__item">LLM <strong>GPT-4o</strong> · Latency 1.2s · Token 1,240</span>
+            <span class="statusbar__item">Tele-Pro 연동 <strong>✓</strong> · SOK 연동 <strong>✓</strong></span>
+          </div>
+          <span class="statusbar__keys" role="note">F1 도움말 / F2 접수 / F5 새로고침</span>
+        </footer>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * AppShell 상태:
+     *  - activePage 는 AppShell 만 소유
+     *  - LNB 클릭만 setActivePage 를 호출
+     *  - Header / Footer 는 activePage 를 받지 않음 (재렌더 없음)
+     *  - MainContent(iframe) src 만 교체
+     *  - URL hash (#page=2) 또는 query (?page=2) 로 초기 페이지 지정 가능
+     */
+    (function () {
+      var PAGES = {
+        '1': 'index.html',
+        '2': 'document-generator.html',
+        '3': 'inspection-review.html',
+        '4': 'style-guide.html'
+      };
+      var frame = document.getElementById('page-frame');
+      var buttons = document.querySelectorAll('.lnb__btn[data-page]');
+
+      function readInitialPage() {
+        var m = (location.hash || '').match(/page=(\d)/);
+        if (m && PAGES[m[1]]) return m[1];
+        m = (location.search || '').match(/page=(\d)/);
+        if (m && PAGES[m[1]]) return m[1];
+        return '1';
+      }
+
+      var activePage = readInitialPage();
+
+      function applyActive(page, opts) {
+        opts = opts || {};
+        activePage = page;
+        buttons.forEach(function (btn) {
+          var on = btn.dataset.page === page;
+          btn.classList.toggle('is-active', on);
+          if (on) btn.setAttribute('aria-current', 'page');
+          else btn.removeAttribute('aria-current');
+        });
+        if (opts.swapFrame !== false) frame.src = PAGES[page];
+        if (opts.updateHash !== false) {
+          try { history.replaceState(null, '', '#page=' + page); } catch (_) {}
+        }
+      }
+
+      // 초기 페이지: src 가 다르면 교체, 같으면 그대로 둔다
+      applyActive(activePage, { swapFrame: frame.getAttribute('src') !== PAGES[activePage] });
+
+      function setActive(page) {
+        if (!PAGES[page] || page === activePage) return;
+        applyActive(page);
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          setActive(btn.dataset.page);
+        });
+      });
+
+      // 뒤로/앞으로 또는 외부 hash 변경 시 동기화
+      window.addEventListener('hashchange', function () {
+        var p = readInitialPage();
+        if (p !== activePage) applyActive(p, { updateHash: false });
+      });
+    })();
+  </script>
+</body>
+</html>

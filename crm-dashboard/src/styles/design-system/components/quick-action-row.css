@@ -1,0 +1,69 @@
+/* ============================================================
+   QUICK ACTION ROW — 추천 질문 / 관련 화면 공통
+   - 좌측 라벨 + 우측 box 버튼 리스트
+   - 상담 어시스턴트 / SHINDY / STT 등 모든 추천 영역에서 사용
+   ============================================================ */
+.ds-quick-action-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+  min-height: var(--control-h-lg);
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  flex-wrap: nowrap;
+}
+
+.ds-quick-action-label {
+  flex: 0 0 auto;
+  min-width: 64px;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-default);
+  font-size: var(--type-label-fs);
+  font-weight: var(--type-label-fw);
+  line-height: 1;
+  color: var(--color-text-strong);
+  white-space: nowrap;
+}
+
+.ds-quick-action-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+}
+
+.ds-quick-action-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--control-h-md);
+  padding: 0 var(--space-md);
+  margin: 0;
+  border: var(--bw-1) solid var(--color-border-accent);
+  border-radius: var(--radius-control);
+  background: var(--color-brand-primary-softer);
+  color: var(--color-brand-primary);
+  font-family: var(--font-default);
+  font-size: var(--type-button-fs);
+  font-weight: var(--type-button-fw);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
+}
+.ds-quick-action-button:hover {
+  background: var(--color-brand-primary-soft);
+  border-color: var(--c-blue-300);
+}
+.ds-quick-action-button:active {
+  background: var(--color-action-primary-active);
+}

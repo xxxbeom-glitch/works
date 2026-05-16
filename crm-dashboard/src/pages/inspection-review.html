@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>신한라이프 AI · 안내/업무 검수 처리</title>
+  <script>
+    /* 단독 진입 시 AppShell(app.html) 로 자동 이동 (iframe 안에서는 그대로 렌더) */
+    (function () {
+      try {
+        if (window.self === window.top) {
+          window.location.replace('app.html#page=3');
+        }
+      } catch (_) { /* 무시하고 단독 렌더 */ }
+    })();
+  </script>
+  <style>
+    @import url("../styles/design-system/components/column-header.css");
+
+    /* ============================================================
+       디자인 토큰 (1열/2열 페이지와 동일)
+       ============================================================ */
+    :root {
+      --bg-app:            #EBEFF3;
+      --col-outer-bg:      rgba(255, 255, 255, 0.50);
+      --col-card-bg:       #FFFFFF;
+      --col-border:        #EBEBEB;
+      --col-border-strong: #DDE3EA;
+      --col-text:          #111111;
+      --col-text-2:        #333333;
+      --col-text-muted:    #666666;
+      --col-text-soft:     #999999;
+      --col-primary:       #0057FF;
+      --col-primary-bg:    #EEF4FF;
+      --col-primary-bg-2:  #F8FBFF;
+      --col-row-bg:        #F3F7FF;
+      --col-soft-bg:       #F8FAFC;
+      --col-danger:        #DC2626;
+      --col-danger-bg:     #FEE2E2;
+      --col-warn:          #EA580C;
+      --col-warn-bg:       #FFEDD5;
+      --col-info:          #0057FF;
+      --col-info-bg:       #DBEAFE;
+      --col-success:       #1E7E34;
+      --col-success-bg:    #DCFCE7;
+      --radius-outer:      20px;
+      --radius-card:       16px;
+      --radius-mini:       12px;
+      --radius-row:        8px;
+      --font-stack:        Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont,
+                           "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body {
+      background: var(--bg-app);
+      color: var(--col-text);
+      font-family: var(--font-stack);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input, textarea, select { font: inherit; color: inherit; }
+    button { cursor: pointer; background: none; border: 0; padding: 0; }
+    input:focus, textarea:focus, select:focus { outline: none; }
+    table { border-collapse: collapse; }
+
+    /* ============================================================
+       Page3 (content-only) 셸
+       - AppShell 안에 iframe으로 박혀 들어가는 page3 콘텐츠 전용
+       - Header / LNB / Footer / 모드 토글 / 사용자 영역 없음
+       ============================================================ */
+    .page3-content {
+      height: 100vh; max-height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      background: var(--bg-app);
+    }
+
+    /* ============================================================
+       2-column workspace
+       ============================================================ */
+    .ws {
+      flex: 1 1 auto; min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+      padding: 12px;
+    }
+
+    .col {
+      background: var(--col-outer-bg);
+      border-radius: var(--radius-outer);
+      padding: 0 12px 12px;
+      display: flex; flex-direction: column; gap: 8px;
+      min-width: 0; min-height: 0;
+    }
+    /* 내부 카드 (공통) */
+    .card {
+      background: var(--col-card-bg);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      min-width: 0;
+    }
+    .card__head {
+      flex-shrink: 0;
+      height: 56px; padding: 0 16px;
+      border-bottom: 1px solid var(--col-border);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .card__head-lead {
+      display: inline-flex; align-items: center; gap: 10px; min-width: 0;
+    }
+    .card__title {
+      margin: 0;
+      font-family: var(--font-stack);
+      font-size: 18px; font-weight: 700; color: #000;
+      line-height: 20px;
+    }
+    .card__title-sub {
+      margin-left: 4px;
+      color: var(--col-text-muted); font-size: 14px; font-weight: 500;
+    }
+    .card__body {
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 12px;
+      min-width: 0;
+    }
+    .card__body--flush { padding: 0; }
+
+    /* ============================================================
+       검수 현황 (3 stat boxes)
+       ============================================================ */
+    .stat-summary { font-size: 13px; color: var(--col-text-muted); }
+    .stat-summary strong { color: var(--col-text); font-weight: 700; }
+
+    .stat-list {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .stat {
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--col-border);
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .stat__label { font-size: 12px; font-weight: 600; color: var(--col-text-muted); }
+    .stat__value {
+      font-size: 22px; font-weight: 800;
+      line-height: 1.2;
+    }
+    .stat__value-unit { margin-left: 2px; font-size: 14px; font-weight: 600; }
+    .stat--high { background: #FEF2F2; border-color: #FCA5A5; }
+    .stat--high .stat__label { color: #B91C1C; }
+    .stat--high .stat__value { color: var(--col-danger); }
+    .stat--mid { background: #FFF7ED; border-color: #FED7AA; }
+    .stat--mid .stat__label { color: #C2410C; }
+    .stat--mid .stat__value { color: var(--col-warn); }
+    .stat--low { background: #EFF6FF; border-color: #BFDBFE; }
+    .stat--low .stat__label { color: #1D4ED8; }
+    .stat--low .stat__value { color: var(--col-info); }
+
+    /* ============================================================
+       검색 카드 (filter grid)
+       ============================================================ */
+    .filter-grid {
+      display: grid;
+      grid-template-columns: 88px minmax(0, 1fr);
+      column-gap: 16px; row-gap: 12px;
+      align-items: center;
+    }
+    .filter-grid__label {
+      font-size: 13px; font-weight: 600;
+      color: var(--col-text-muted);
+    }
+    .filter-grid__field {
+      display: inline-flex; align-items: center; flex-wrap: wrap; gap: 8px;
+    }
+
+    .input, .select {
+      height: 36px; padding: 0 12px;
+      border: 1px solid var(--col-border-strong);
+      border-radius: 8px;
+      background: #FFFFFF; color: var(--col-text);
+      font-size: 13px;
+    }
+    .input:focus, .select:focus { border-color: var(--col-primary); }
+    .input--date { width: 142px; padding-right: 8px; }
+    .input--name { min-width: 0; flex: 1 1 160px; }
+
+    .seg {
+      display: inline-flex;
+      border: 1px solid var(--col-border-strong);
+      border-radius: 8px; overflow: hidden;
+    }
+    .seg__btn {
+      height: 30px; padding: 0 12px;
+      background: #FFFFFF; color: var(--col-text-2);
+      font-size: 13px;
+    }
+    .seg__btn + .seg__btn { border-left: 1px solid var(--col-border-strong); }
+    .seg__btn:hover { background: var(--col-primary-bg-2); color: var(--col-primary); }
+    .seg__btn.is-active { background: var(--col-primary-bg); color: var(--col-primary); font-weight: 700; }
+
+    .check-list-h {
+      display: flex; flex-wrap: wrap; gap: 16px;
+    }
+    .check {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--col-text-2);
+      cursor: pointer;
+    }
+    .check input[type="checkbox"] {
+      width: 16px; height: 16px; margin: 0;
+      accent-color: var(--col-primary);
+    }
+    .check--all { font-weight: 700; color: var(--col-text); }
+
+    .filter-actions {
+      display: flex; justify-content: center; gap: 8px;
+      margin-top: 4px;
+    }
+    .btn-primary {
+      height: 38px; padding: 0 20px;
+      background: var(--col-primary); color: #FFFFFF;
+      border-radius: 8px;
+      font-size: 14px; font-weight: 700;
+    }
+    .btn-primary:hover { background: #003FC8; }
+    .btn-ghost {
+      height: 38px; padding: 0 20px;
+      background: #FFFFFF; color: var(--col-text-2);
+      border: 1px solid var(--col-border-strong);
+      border-radius: 8px;
+      font-size: 14px; font-weight: 600;
+    }
+    .btn-ghost:hover { border-color: var(--col-primary); color: var(--col-primary); }
+
+    /* ============================================================
+       1차 검수 리스트 (table)
+       ============================================================ */
+    .table-wrap { overflow-x: auto; }
+    .table {
+      width: 100%;
+      font-size: 13px;
+    }
+    .table thead th {
+      padding: 12px;
+      background: var(--col-soft-bg);
+      color: var(--col-text-2);
+      font-weight: 700; text-align: left;
+      border-bottom: 1px solid var(--col-border);
+      white-space: nowrap;
+    }
+    .table tbody td {
+      padding: 12px;
+      color: var(--col-text-2);
+      border-bottom: 1px solid var(--col-border);
+      white-space: nowrap;
+    }
+    .table tbody tr:hover { background: var(--col-primary-bg-2); cursor: pointer; }
+    .table tbody tr.is-active { background: var(--col-primary-bg); }
+    .table__num { color: var(--col-text-muted); }
+
+    /* 위험도 배지 */
+    .risk {
+      display: inline-flex; align-items: center;
+      padding: 2px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .risk--high { background: var(--col-danger-bg); color: var(--col-danger); }
+    .risk--mid  { background: var(--col-warn-bg);   color: var(--col-warn);   }
+    .risk--low  { background: var(--col-info-bg);   color: var(--col-info);   }
+
+    /* 검수상태 */
+    .status {
+      display: inline-flex; align-items: center;
+      font-size: 12px; font-weight: 600;
+    }
+    .status::before {
+      content: ""; width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor; margin-right: 6px;
+    }
+    .status--unchecked { color: #6B7280; }
+    .status--checking  { color: var(--col-primary); }
+    .status--done      { color: var(--col-success); }
+
+    /* pagination */
+    .pager {
+      display: flex; justify-content: center; align-items: center;
+      gap: 4px;
+      padding: 12px;
+      border-top: 1px solid var(--col-border);
+    }
+    .pager__btn {
+      min-width: 32px; height: 32px; padding: 0 8px;
+      border: 1px solid transparent;
+      background: transparent; color: var(--col-text-muted);
+      font-size: 13px; border-radius: 6px;
+    }
+    .pager__btn:hover { background: #F3F4F6; color: var(--col-text); }
+    .pager__btn.is-active {
+      background: var(--col-primary); color: #FFFFFF;
+      font-weight: 700;
+    }
+    .pager__btn--edge { color: var(--col-text-muted); font-weight: 600; }
+
+    /* ============================================================
+       우측 상세
+       ============================================================ */
+    .mini-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
+      grid-template-areas:
+        "customer stt"
+        "ai stt"
+        "history knowledge";
+      gap: 12px;
+      align-items: stretch;
+    }
+    .mini-card {
+      background: #FFFFFF;
+      border: 1px solid var(--col-border);
+      border-radius: var(--radius-mini);
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 10px;
+      min-width: 0;
+    }
+    .mini-card--customer { grid-area: customer; }
+    .mini-card--ai { grid-area: ai; }
+    .mini-card--history { grid-area: history; }
+    .mini-card--stt { grid-area: stt; }
+    .mini-card--knowledge { grid-area: knowledge; }
+    .mini-card__head {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    }
+    .mini-card__title {
+      margin: 0;
+      font-size: 14px; font-weight: 700; color: var(--col-text);
+      line-height: 1.4;
+    }
+
+    /* 고객 정보 */
+    .cust-head {
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .cust-name {
+      font-size: 16px; font-weight: 700; color: var(--col-text);
+    }
+    .cust-sub {
+      font-size: 12px; color: var(--col-text-muted);
+    }
+    .cust-list {
+      list-style: none; margin: 0; padding: 0;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .cust-list li {
+      display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 8px;
+      font-size: 13px;
+    }
+    .cust-list li.cust-list__phone {
+      grid-template-columns: 84px minmax(0, 1fr) auto;
+      align-items: center;
+    }
+    .cust-list dt, .cust-list .label { color: var(--col-text-muted); font-weight: 600; }
+    .cust-list dd, .cust-list .value { margin: 0; color: var(--col-text); overflow-wrap: anywhere; }
+    .btn-secondary {
+      height: 32px; padding: 0 12px;
+      border: 1px solid var(--col-border-strong);
+      background: #FFFFFF; color: var(--col-text-2);
+      border-radius: 8px;
+      font-size: 12px; font-weight: 600;
+    }
+    .btn-secondary:hover { border-color: var(--col-primary); color: var(--col-primary); }
+    .btn-secondary--inline {
+      height: 28px;
+      padding: 0 10px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    /* STT 미니 */
+    .stt-mini {
+      display: flex; flex-direction: column; gap: 8px;
+      max-height: 260px; overflow-y: auto;
+    }
+    .stt-mini__msg {
+      font-size: 13px; line-height: 20px; color: var(--col-text-2);
+    }
+    .stt-mini__sender {
+      font-weight: 700; margin-right: 6px;
+    }
+    .stt-mini__sender--agent { color: var(--col-primary); }
+    .stt-mini__sender--customer { color: var(--col-danger); }
+
+    /* AI 검수 결과 */
+    .ai-result {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .ai-result__row {
+      display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 8px;
+      font-size: 13px; align-items: center;
+    }
+    .ai-result__label { color: var(--col-text-muted); font-weight: 600; }
+    .reason-list {
+      list-style: none; margin: 0; padding: 0;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .reason-list li {
+      position: relative; padding-left: 14px;
+      font-size: 13px; color: var(--col-text-2); line-height: 20px;
+    }
+    .reason-list li::before {
+      content: ""; position: absolute; left: 0; top: 9px;
+      width: 4px; height: 4px; border-radius: 50%; background: var(--col-danger);
+    }
+
+    /* 최근 이력 */
+    .history {
+      list-style: none; margin: 0; padding: 0;
+      display: flex; flex-direction: column;
+    }
+    .history__item {
+      display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 8px;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--col-border);
+      font-size: 13px;
+    }
+    .history__item:last-child { border-bottom: 0; }
+    .history__date { color: var(--col-text-muted); font-weight: 600; }
+    .history__label { color: var(--col-text); }
+
+    /* empty state */
+    .empty {
+      padding: 28px 12px;
+      text-align: center;
+      color: var(--col-text-soft);
+      font-size: 13px;
+      background: var(--col-soft-bg);
+      border-radius: 8px;
+    }
+
+    /* 후속 조치 */
+    .form-row {
+      display: grid; grid-template-columns: 88px minmax(0, 1fr);
+      align-items: center; gap: 12px;
+    }
+    .form-row__label { font-size: 13px; color: var(--col-text-muted); font-weight: 600; }
+    .ta {
+      width: 100%; min-height: 96px;
+      padding: 10px 12px;
+      border: 1px solid var(--col-border-strong);
+      border-radius: 8px;
+      background: #FFFFFF;
+      font-size: 13px; color: var(--col-text);
+      resize: vertical;
+    }
+    .ta::placeholder { color: var(--col-text-soft); }
+    .ta:focus { border-color: var(--col-primary); }
+
+    .action-row {
+      display: flex; justify-content: flex-end; gap: 8px;
+    }
+
+    /* ============================================================
+       Responsive
+       ============================================================ */
+    @media (max-width: 1280px) {
+      .mini-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "customer"
+          "ai"
+          "stt"
+          "history"
+          "knowledge";
+      }
+    }
+    @media (max-width: 1080px) {
+      .ws { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ============================================================
+       Page3 Content (AppShell 의 MainContent 슬롯에만 들어감)
+       - Header / LNB / Footer / 사용자 영역 / 모드 토글 없음
+       - 오직 "검수 현황·검색·리스트 / 검수 상세·후속조치" 2-col 만 포함
+       ============================================================ -->
+  <div class="page3-content">
+      <main class="ws" aria-label="안내/업무 검수 처리">
+
+        <!-- ============================ 좌측 ============================ -->
+        <section class="col" aria-label="검수 현황 · 검색 · 리스트">
+          <header class="ds-col-head">
+            <span class="ds-col-head__lead">
+              <span class="ds-col-head__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect x="4" y="4" width="14" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                  <path d="M8 8h6M8 12h6M8 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <h2 class="ds-col-head__title">안내/업무 검수 처리</h2>
+            </span>
+          </header>
+
+          <!-- 1) 검수 현황 -->
+          <article class="card">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <h3 class="card__title">검수 현황</h3>
+              </span>
+            </header>
+            <div class="card__body">
+              <p class="stat-summary"><strong>2026-05-26</strong> 1차 검수 현황</p>
+              <div class="stat-list">
+                <div class="stat stat--high">
+                  <span class="stat__label">High</span>
+                  <span class="stat__value">20<span class="stat__value-unit">건</span></span>
+                </div>
+                <div class="stat stat--mid">
+                  <span class="stat__label">Medium</span>
+                  <span class="stat__value">10<span class="stat__value-unit">건</span></span>
+                </div>
+                <div class="stat stat--low">
+                  <span class="stat__label">Low</span>
+                  <span class="stat__value">0<span class="stat__value-unit">건</span></span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2) 검색 -->
+          <article class="card">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <h3 class="card__title">검색</h3>
+              </span>
+            </header>
+            <div class="card__body">
+              <div class="filter-grid">
+
+                <span class="filter-grid__label">접촉일자</span>
+                <span class="filter-grid__field">
+                  <input type="date" class="input input--date" value="2026-05-20" aria-label="시작일" />
+                  <span class="filter-grid__label" style="font-weight:500;">~</span>
+                  <input type="date" class="input input--date" value="2026-05-26" aria-label="종료일" />
+                  <span class="seg">
+                    <button type="button" class="seg__btn is-active">최근 일주일</button>
+                    <button type="button" class="seg__btn">최근 1개월</button>
+                    <button type="button" class="seg__btn">최근 3개월</button>
+                  </span>
+                </span>
+
+                <span class="filter-grid__label">센터 선택</span>
+                <span class="filter-grid__field">
+                  <select class="select" aria-label="센터 선택" style="min-width: 140px;">
+                    <option>서울</option>
+                    <option>부산</option>
+                    <option>대구</option>
+                  </select>
+                  <span class="seg">
+                    <button type="button" class="seg__btn is-active">전체</button>
+                    <button type="button" class="seg__btn">을지로</button>
+                    <button type="button" class="seg__btn">강남</button>
+                  </span>
+                </span>
+
+                <span class="filter-grid__label">상담유형</span>
+                <span class="filter-grid__field check-list-h">
+                  <label class="check check--all"><input type="checkbox" checked /> 전체</label>
+                  <label class="check"><input type="checkbox" checked /> 보험금</label>
+                  <label class="check"><input type="checkbox" checked /> 해지</label>
+                  <label class="check"><input type="checkbox" checked /> 대출</label>
+                </span>
+
+                <span class="filter-grid__label">위험도</span>
+                <span class="filter-grid__field check-list-h">
+                  <label class="check check--all"><input type="checkbox" checked /> 전체</label>
+                  <label class="check"><input type="checkbox" checked /> High</label>
+                  <label class="check"><input type="checkbox" checked /> Mid</label>
+                  <label class="check"><input type="checkbox" checked /> Low</label>
+                </span>
+
+                <span class="filter-grid__label">검수상태</span>
+                <span class="filter-grid__field check-list-h">
+                  <label class="check check--all"><input type="checkbox" checked /> 전체</label>
+                  <label class="check"><input type="checkbox" checked /> 미확인</label>
+                  <label class="check"><input type="checkbox" checked /> 확인중</label>
+                  <label class="check"><input type="checkbox" checked /> 조치 완료</label>
+                </span>
+
+                <span class="filter-grid__label">검색명</span>
+                <span class="filter-grid__field">
+                  <select class="select" aria-label="검색 기준" style="min-width: 110px;">
+                    <option>고객명</option>
+                    <option>고객번호</option>
+                    <option>계약번호</option>
+                  </select>
+                  <input type="text" class="input input--name" placeholder="검색어를 입력하세요" />
+                </span>
+
+              </div>
+              <div class="filter-actions">
+                <button type="button" class="btn-primary">조회</button>
+                <button type="button" class="btn-ghost">초기화</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3) 1차 검수 리스트 -->
+          <article class="card">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <h3 class="card__title">1차 검수 리스트<span class="card__title-sub">(총 5건)</span></h3>
+              </span>
+              <select class="select" aria-label="페이지당 행 수">
+                <option>20개씩 보기</option>
+                <option>50개씩 보기</option>
+                <option>100개씩 보기</option>
+              </select>
+            </header>
+            <div class="card__body card__body--flush">
+              <div class="table-wrap">
+                <table class="table" aria-label="1차 검수 리스트">
+                  <thead>
+                    <tr>
+                      <th>번호</th>
+                      <th>고객번호</th>
+                      <th>고객명</th>
+                      <th>계약번호</th>
+                      <th>상담센터명</th>
+                      <th>상담유형</th>
+                      <th>검수유형</th>
+                      <th>위험도</th>
+                      <th>검수상태</th>
+                      <th>접촉일자</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="is-active">
+                      <td class="table__num">1</td>
+                      <td>SL001234</td>
+                      <td>김신한</td>
+                      <td>12345678</td>
+                      <td>을지로센터</td>
+                      <td>보험금</td>
+                      <td>오안내</td>
+                      <td><span class="risk risk--high">High</span></td>
+                      <td><span class="status status--unchecked">미확인</span></td>
+                      <td>2026-05-20</td>
+                    </tr>
+                    <tr>
+                      <td class="table__num">2</td>
+                      <td>SL000456</td>
+                      <td>김민수</td>
+                      <td>99887766</td>
+                      <td>강남센터</td>
+                      <td>해지</td>
+                      <td>업무누락</td>
+                      <td><span class="risk risk--mid">Medium</span></td>
+                      <td><span class="status status--checking">확인중</span></td>
+                      <td>2026-05-20</td>
+                    </tr>
+                    <tr>
+                      <td class="table__num">3</td>
+                      <td>SL000143</td>
+                      <td>이서연</td>
+                      <td>55443322</td>
+                      <td>을지로센터</td>
+                      <td>대출</td>
+                      <td>오안내</td>
+                      <td><span class="risk risk--low">Low</span></td>
+                      <td><span class="status status--done">조치 완료</span></td>
+                      <td>2026-05-20</td>
+                    </tr>
+                    <tr>
+                      <td class="table__num">4</td>
+                      <td>SL001274</td>
+                      <td>홍길동</td>
+                      <td>12345456</td>
+                      <td>을지로센터</td>
+                      <td>보험금</td>
+                      <td>오안내</td>
+                      <td><span class="risk risk--high">High</span></td>
+                      <td><span class="status status--unchecked">미확인</span></td>
+                      <td>2026-05-20</td>
+                    </tr>
+                    <tr>
+                      <td class="table__num">5</td>
+                      <td>SL000486</td>
+                      <td>김은영</td>
+                      <td>99874766</td>
+                      <td>강남센터</td>
+                      <td>해지</td>
+                      <td>업무누락</td>
+                      <td><span class="risk risk--mid">Medium</span></td>
+                      <td><span class="status status--checking">확인중</span></td>
+                      <td>2026-05-20</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <nav class="pager" aria-label="페이지 네비게이션">
+                <button type="button" class="pager__btn pager__btn--edge">처음</button>
+                <button type="button" class="pager__btn pager__btn--edge">이전</button>
+                <button type="button" class="pager__btn is-active">1</button>
+                <button type="button" class="pager__btn">2</button>
+                <button type="button" class="pager__btn">3</button>
+                <button type="button" class="pager__btn">4</button>
+                <button type="button" class="pager__btn">5</button>
+                <button type="button" class="pager__btn">6</button>
+                <button type="button" class="pager__btn">7</button>
+                <button type="button" class="pager__btn">8</button>
+                <button type="button" class="pager__btn">9</button>
+                <button type="button" class="pager__btn">10</button>
+                <button type="button" class="pager__btn pager__btn--edge">다음</button>
+                <button type="button" class="pager__btn pager__btn--edge">마지막</button>
+              </nav>
+            </div>
+          </article>
+        </section>
+
+        <!-- ============================ 우측 ============================ -->
+        <section class="col" aria-label="업무 검수 상세">
+          <header class="ds-col-head">
+            <span class="ds-col-head__lead">
+              <span class="ds-col-head__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M5 5h11l3 3v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M9 14l2 2 4-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <h2 class="ds-col-head__title">업무 검수 상세</h2>
+            </span>
+          </header>
+
+          <!-- 상단 정보 그리드 -->
+          <article class="card">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <h3 class="card__title">검수 상세 정보</h3>
+              </span>
+              <span class="card__title-sub">접촉일자 2026-05-20 · 을지로센터</span>
+            </header>
+            <div class="card__body">
+              <div class="mini-grid">
+
+                <!-- 고객 정보 -->
+                <section class="mini-card mini-card--customer">
+                  <header class="mini-card__head">
+                    <h4 class="mini-card__title">고객 정보</h4>
+                  </header>
+                  <div class="cust-head">
+                    <span class="cust-name">김신한</span>
+                    <span class="cust-sub">남성 · 1970/09 · 55세</span>
+                  </div>
+                  <ul class="cust-list">
+                    <li><span class="label">고객번호</span><span class="value">1234-5678 (Family)</span></li>
+                    <li><span class="label">연락처</span><span class="value">010-1234-5678</span></li>
+                    <li><span class="label">주소</span><span class="value">서울 종로구 신문로2가 28 5층 503호</span></li>
+                    <li class="cust-list__phone">
+                      <span class="label">발신번호</span>
+                      <span class="value">010-2231-4567</span>
+                      <button type="button" class="btn-secondary btn-secondary--inline">변경 저장</button>
+                    </li>
+                  </ul>
+                </section>
+
+                <!-- 상담 내용 (STT) -->
+                <section class="mini-card mini-card--stt">
+                  <header class="mini-card__head">
+                    <h4 class="mini-card__title">상담 내용 (STT)</h4>
+                  </header>
+                  <div class="stt-mini">
+                    <p class="stt-mini__msg"><span class="stt-mini__sender stt-mini__sender--agent">상담사</span>고객님 해당 특약은 지금 바로 보장 가능합니다.</p>
+                    <p class="stt-mini__msg"><span class="stt-mini__sender stt-mini__sender--customer">고객</span>면책기간은 없는 건가요?</p>
+                    <p class="stt-mini__msg"><span class="stt-mini__sender stt-mini__sender--agent">상담사</span>네 가능합니다. 별도의 면책기간 없이 청구 가능하세요.</p>
+                  </div>
+                </section>
+
+                <!-- AI 1차 검수 결과 -->
+                <section class="mini-card mini-card--ai">
+                  <header class="mini-card__head">
+                    <h4 class="mini-card__title">AI 1차 검수 결과</h4>
+                  </header>
+                  <div class="ai-result">
+                    <div class="ai-result__row">
+                      <span class="ai-result__label">위험도</span>
+                      <span><span class="risk risk--high">High</span></span>
+                    </div>
+                    <div class="ai-result__row">
+                      <span class="ai-result__label">검수 유형</span>
+                      <span style="font-weight:600;color:var(--col-text);">오안내</span>
+                    </div>
+                    <div class="ai-result__row" style="align-items: flex-start;">
+                      <span class="ai-result__label">검수 사유</span>
+                      <ul class="reason-list">
+                        <li>약관상 면책기간 안내 누락 감지</li>
+                        <li>보장범위 설명 불충분</li>
+                      </ul>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- 최근 이력 -->
+                <section class="mini-card mini-card--history">
+                  <header class="mini-card__head">
+                    <h4 class="mini-card__title">최근 이력</h4>
+                  </header>
+                  <ul class="history">
+                    <li class="history__item">
+                      <span class="history__date">2026-03</span>
+                      <span class="history__label">계약 변경</span>
+                    </li>
+                    <li class="history__item">
+                      <span class="history__date">2025-12</span>
+                      <span class="history__label">보험료 연체</span>
+                    </li>
+                    <li class="history__item">
+                      <span class="history__date">2025-08</span>
+                      <span class="history__label">보장 추가</span>
+                    </li>
+                  </ul>
+                </section>
+
+                <!-- 연관 지식 (SOK) -->
+                <section class="mini-card mini-card--knowledge">
+                  <header class="mini-card__head">
+                    <h4 class="mini-card__title">연관 지식 (SOK)</h4>
+                  </header>
+                  <div class="empty">연관 지식이 표시됩니다.</div>
+                </section>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- 후속 조치 -->
+          <article class="card">
+            <header class="card__head">
+              <span class="card__head-lead">
+                <h3 class="card__title">후속 조치</h3>
+              </span>
+            </header>
+            <div class="card__body">
+              <div class="form-row">
+                <span class="form-row__label">조치 유형</span>
+                <select class="select" aria-label="후속 조치 유형">
+                  <option>재상담 요청</option>
+                  <option>고객 통지</option>
+                  <option>내부 검토 요청</option>
+                  <option>업무 종결</option>
+                </select>
+              </div>
+              <div class="form-row" style="align-items: flex-start;">
+                <span class="form-row__label" style="padding-top: 8px;">메모</span>
+                <textarea class="ta" placeholder="조치 내용 또는 특이사항을 입력하세요."></textarea>
+              </div>
+              <div class="action-row">
+                <button type="button" class="btn-ghost">저장</button>
+                <button type="button" class="btn-primary">업무 종결</button>
+              </div>
+            </div>
+          </article>
+        </section>
+      </main>
+  </div><!-- /.page3-content -->
+
+  <script>
+    // seg toggle (단일 선택)
+    document.querySelectorAll('.page3-content .seg').forEach(function (seg) {
+      seg.addEventListener('click', function (e) {
+        var t = e.target.closest('.seg__btn');
+        if (!t) return;
+        seg.querySelectorAll('.seg__btn').forEach(function (b) { b.classList.remove('is-active'); });
+        t.classList.add('is-active');
+      });
+    });
+
+    // 전체 선택 체크박스 → 같은 행의 형제 체크박스 토글
+    document.querySelectorAll('.page3-content .check--all input[type="checkbox"]').forEach(function (allChk) {
+      allChk.addEventListener('change', function () {
+        var field = allChk.closest('.filter-grid__field');
+        if (!field) return;
+        field.querySelectorAll('.check:not(.check--all) input[type="checkbox"]').forEach(function (chk) {
+          chk.checked = allChk.checked;
+        });
+      });
+    });
+
+    // 테이블 row 클릭 시 활성 표시
+    document.querySelectorAll('.page3-content .table tbody tr').forEach(function (row) {
+      row.addEventListener('click', function () {
+        document.querySelectorAll('.page3-content .table tbody tr.is-active').forEach(function (r) {
+          r.classList.remove('is-active');
+        });
+        row.classList.add('is-active');
+      });
+    });
+
+    // pagination 활성 토글
+    document.querySelectorAll('.page3-content .pager').forEach(function (pager) {
+      pager.addEventListener('click', function (e) {
+        var t = e.target.closest('.pager__btn');
+        if (!t || t.classList.contains('pager__btn--edge')) return;
+        pager.querySelectorAll('.pager__btn').forEach(function (b) { b.classList.remove('is-active'); });
+        t.classList.add('is-active');
+      });
+    });
+  </script>
+</body>
+</html>

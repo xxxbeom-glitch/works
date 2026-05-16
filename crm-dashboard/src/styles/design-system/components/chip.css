@@ -1,0 +1,63 @@
+/* ============================================================
+   CHIP — chip / pill / filled chip / outline chip
+   - 다중 선택 chip-group / 단일 선택 radio-chip 모두 지원
+   ============================================================ */
+.ds-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.ds-chip {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  height: var(--control-h-md);
+  padding: 0 var(--space-md);
+  background: var(--color-surface-card);
+  border: var(--bw-1) solid var(--color-border-default);
+  border-radius: var(--radius-control);
+  color: var(--color-text-secondary);
+  font-family: var(--font-default);
+  font-size: var(--type-button-fs);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
+}
+.ds-chip:hover {
+  background: var(--color-brand-primary-soft);
+  border-color: var(--color-border-accent);
+  color: var(--color-brand-primary);
+}
+.ds-chip.is-selected,
+.ds-chip[aria-pressed="true"] {
+  background: var(--color-action-primary);
+  border-color: var(--color-action-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--fw-semibold);
+}
+.ds-chip.is-selected:hover,
+.ds-chip[aria-pressed="true"]:hover {
+  background: var(--color-action-primary-hover);
+  border-color: var(--color-action-primary-hover);
+  color: var(--color-text-inverse);
+}
+
+.ds-chip--sm { height: var(--control-h-sm); padding: 0 var(--space-md); font-size: var(--fs-12); }
+.ds-chip--pill { border-radius: var(--radius-pill); }
+
+/* Tint chip (옅은 톤만, 선택 표시) */
+.ds-chip--tint {
+  background: var(--color-brand-primary-softer);
+  border-color: var(--color-border-accent);
+  color: var(--color-brand-primary);
+}
+.ds-chip--tint:hover {
+  background: var(--color-brand-primary-soft);
+  border-color: var(--c-blue-300);
+}

@@ -1,0 +1,82 @@
+/* ============================================================
+   CHECKBOX / CHECK ROW
+   - .ds-check       : 단일 체크박스 + 라벨
+   - .ds-check-row   : full-width 선택 row (multi-select list)
+   ============================================================ */
+.ds-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-text-secondary);
+  font-family: var(--font-default);
+  font-size: var(--fs-13);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  cursor: pointer;
+}
+.ds-check input[type="checkbox"],
+.ds-check input[type="radio"] {
+  appearance: auto;
+  width: var(--icon-md);
+  height: var(--icon-md);
+  margin: 0;
+  accent-color: var(--color-action-primary);
+  cursor: pointer;
+}
+
+/* —— Multi-select row 형태 (RAG 선택 등) —— */
+.ds-check-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+.ds-check-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+  min-height: var(--control-h-lg);
+  padding: 0 var(--space-md);
+  border: var(--bw-1) solid transparent;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-family: var(--font-default);
+  font-size: var(--fs-13);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  cursor: pointer;
+  transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
+}
+.ds-check-row:hover { background: var(--color-surface-row-hover); }
+.ds-check-row.is-checked {
+  background: var(--color-brand-primary-softer);
+  border-color: var(--color-border-accent);
+  color: var(--color-brand-primary);
+  font-weight: var(--fw-semibold);
+}
+.ds-check-row input[type="checkbox"] {
+  width: var(--icon-md);
+  height: var(--icon-md);
+  margin: 0;
+  accent-color: var(--color-action-primary);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* 상단 고정 "전체 선택" */
+.ds-check-row--all {
+  font-weight: var(--fw-bold);
+  color: var(--color-text-strong);
+  margin-bottom: var(--space-xs);
+  padding-bottom: var(--space-sm);
+  border-bottom: var(--bw-1) solid var(--color-border-default);
+  border-radius: 0;
+}
+.ds-check-row--all:hover { background: transparent; }
+.ds-check-row--all.is-checked {
+  background: transparent;
+  border-color: transparent;
+  border-bottom: var(--bw-1) solid var(--color-border-accent);
+  color: var(--color-brand-primary);
+}

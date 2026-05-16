@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Design System Demo</title>
+  <link rel="stylesheet" href="../styles/design-system/index.css" />
+  <style>
+    /* 데모 전용 페이지 grid (디자인 시스템 외부 스타일 일체 없음) */
+    .demo {
+      max-width: var(--layout-content-max);
+      margin: 0 auto;
+      padding: var(--space-3xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3xl);
+    }
+    .demo__section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+    .demo__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: var(--space-lg);
+    }
+    .demo__row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .demo__swatch {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      padding: var(--space-md);
+      background: var(--color-surface-card);
+      border: var(--border-control);
+      border-radius: var(--radius-control);
+    }
+    .demo__swatch-color {
+      height: 56px;
+      border-radius: var(--radius-control);
+      border: var(--bw-1) solid var(--color-border-subtle);
+    }
+  </style>
+</head>
+<body>
+  <main class="demo">
+
+    <!-- Typography -->
+    <section class="demo__section">
+      <h2 class="ds-display">Display 22</h2>
+      <h3 class="ds-title">Title 18</h3>
+      <h4 class="ds-section-title">Section title 16</h4>
+      <h5 class="ds-card-title">Card title 15</h5>
+      <p class="ds-body">Body 14 — 본문 텍스트는 ds-body 를 사용합니다. <span class="ds-body--strong">강조</span> · <span class="ds-body--muted">muted</span></p>
+      <p class="ds-small">Small 13 — 보조 본문</p>
+      <p class="ds-caption">Caption 12 — meta / hint</p>
+      <span class="ds-label">Label</span>
+    </section>
+
+    <!-- Color (Semantic 일부) -->
+    <section class="demo__section">
+      <h4 class="ds-section-title">Semantic Colors</h4>
+      <div class="demo__grid">
+        <div class="demo__swatch">
+          <div class="demo__swatch-color" style="background: var(--color-brand-primary);"></div>
+          <span class="ds-caption">brand-primary</span>
+        </div>
+        <div class="demo__swatch">
+          <div class="demo__swatch-color" style="background: var(--color-brand-primary-soft);"></div>
+          <span class="ds-caption">brand-primary-soft</span>
+        </div>
+        <div class="demo__swatch">
+          <div class="demo__swatch-color" style="background: var(--color-status-success);"></div>
+          <span class="ds-caption">status-success</span>
+        </div>
+        <div class="demo__swatch">
+          <div class="demo__swatch-color" style="background: var(--color-status-warning);"></div>
+          <span class="ds-caption">status-warning</span>
+        </div>
+        <div class="demo__swatch">
+          <div class="demo__swatch-color" style="background: var(--color-status-danger);"></div>
+          <span class="ds-caption">status-danger</span>
+        </div>
+        <div class="demo__swatch">
+          <div class="demo__swatch-color" style="background: var(--color-surface-soft);"></div>
+          <span class="ds-caption">surface-soft</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <section class="demo__section">
+      <h4 class="ds-section-title">Buttons</h4>
+      <div class="demo__row">
+        <button class="ds-btn ds-btn--primary">Primary</button>
+        <button class="ds-btn ds-btn--secondary">Secondary</button>
+        <button class="ds-btn ds-btn--outline">Outline</button>
+        <button class="ds-btn ds-btn--ghost">Ghost</button>
+        <button class="ds-btn ds-btn--danger">Danger</button>
+        <button class="ds-btn ds-btn--primary" disabled>Disabled</button>
+      </div>
+      <div class="demo__row">
+        <button class="ds-btn ds-btn--primary ds-btn--sm">Sm</button>
+        <button class="ds-btn ds-btn--primary">Md</button>
+        <button class="ds-btn ds-btn--primary ds-btn--lg">Lg</button>
+      </div>
+    </section>
+
+    <!-- Chips -->
+    <section class="demo__section">
+      <h4 class="ds-section-title">Chips (radio-chip group)</h4>
+      <div class="ds-chip-group" role="group" aria-label="문서 유형">
+        <button class="ds-chip is-selected" aria-pressed="true">요약본 생성</button>
+        <button class="ds-chip">SOK 콘텐츠</button>
+        <button class="ds-chip">업무 매뉴얼</button>
+        <button class="ds-chip">교육자료</button>
+      </div>
+    </section>
+
+    <!-- Inputs -->
+    <section class="demo__section">
+      <h4 class="ds-section-title">Inputs</h4>
+      <div class="demo__row" style="align-items: flex-start;">
+        <label class="ds-field" style="max-width: 320px;">
+          <span class="ds-field__label">제목</span>
+          <input class="ds-input" type="text" placeholder="입력하세요" />
+          <span class="ds-field__hint">최대 50자</span>
+        </label>
+        <label class="ds-field" style="max-width: 320px;">
+          <span class="ds-field__label">상세 내용</span>
+          <textarea class="ds-textarea" placeholder="자유 입력"></textarea>
+        </label>
+      </div>
+    </section>
+
+    <!-- Quick Action Row -->
+    <section class="demo__section">
+      <h4 class="ds-section-title">QuickActionRow</h4>
+      <div class="ds-card"><div class="ds-card__body">
+        <div class="ds-quick-action-row">
+          <div class="ds-quick-action-label">추천 질문</div>
+          <div class="ds-quick-action-list">
+            <button class="ds-quick-action-button">청구 후 지급 기간은?</button>
+            <button class="ds-quick-action-button">자동이체 변경 가능 시점</button>
+            <button class="ds-quick-action-button">계약 상태 조회 방법</button>
+          </div>
+        </div>
+        <div class="ds-quick-action-row">
+          <div class="ds-quick-action-label">관련 화면</div>
+          <div class="ds-quick-action-list">
+            <button class="ds-quick-action-button">보험금 청구 접수</button>
+            <button class="ds-quick-action-button">자동이체 변경</button>
+          </div>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- Check Row -->
+    <section class="demo__section">
+      <h4 class="ds-section-title">Check Row (multi-select)</h4>
+      <article class="ds-card" style="max-width: 360px;">
+        <header class="ds-card__head">
+          <div class="ds-card__head-lead">
+            <span class="ds-card__title">참고 RAG 선택</span>
+          </div>
+        </header>
+        <div class="ds-card__body">
+          <label class="ds-check-row ds-check-row--all">
+            <input type="checkbox" /><span>전체 선택</span>
+          </label>
+          <div class="ds-check-list">
+            <label class="ds-check-row is-checked"><input type="checkbox" checked /><span>보험 약관</span></label>
+            <label class="ds-check-row is-checked"><input type="checkbox" checked /><span>FAQ</span></label>
+            <label class="ds-check-row"><input type="checkbox" /><span>SOK 콘텐츠</span></label>
+            <label class="ds-check-row"><input type="checkbox" /><span>법규/지침</span></label>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Status -->
+    <section class="demo__section">
+      <h4 class="ds-section-title">Status Pills / Dots</h4>
+      <div class="demo__row">
+        <span class="ds-status-pill ds-status-pill--success">완료</span>
+        <span class="ds-status-pill ds-status-pill--warning">경고</span>
+        <span class="ds-status-pill ds-status-pill--danger">처리불가</span>
+        <span class="ds-status-pill ds-status-pill--info">진행중</span>
+        <span class="ds-status-dot ds-status-dot--success" aria-hidden="true"></span>
+        <span class="ds-status-dot ds-status-dot--warning" aria-hidden="true"></span>
+        <span class="ds-status-dot ds-status-dot--danger" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <!-- Card variants -->
+    <section class="demo__section">
+      <h4 class="ds-section-title">Cards</h4>
+      <div class="demo__grid">
+        <article class="ds-card">
+          <header class="ds-card__head"><div class="ds-card__head-lead"><span class="ds-card__title">기본 카드</span></div></header>
+          <div class="ds-card__body"><p class="ds-body">흰 배경 + radius 16 + shadow sm</p></div>
+        </article>
+        <article class="ds-card ds-card--soft ds-card--flat">
+          <header class="ds-card__head"><div class="ds-card__head-lead"><span class="ds-card__title">Soft 카드</span></div></header>
+          <div class="ds-card__body"><p class="ds-body">옅은 회색 배경</p></div>
+        </article>
+        <article class="ds-card ds-card--status">
+          <header class="ds-card__head"><div class="ds-card__head-lead"><span class="ds-card__title">강조 카드</span></div></header>
+          <div class="ds-card__body"><p class="ds-body">accent border</p></div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* check-row 동작 데모 — 체크박스 상태와 .is-checked 동기화 */
+    document.querySelectorAll('.ds-check-row input[type="checkbox"]').forEach(function (chk) {
+      var row = chk.closest('.ds-check-row');
+      function sync() { row.classList.toggle('is-checked', chk.checked); }
+      chk.addEventListener('change', sync);
+      sync();
+    });
+
+    /* chip 단일 선택 데모 */
+    document.querySelectorAll('.ds-chip-group').forEach(function (group) {
+      group.addEventListener('click', function (e) {
+        var t = e.target.closest('.ds-chip');
+        if (!t) return;
+        group.querySelectorAll('.ds-chip').forEach(function (c) {
+          c.classList.remove('is-selected');
+          c.setAttribute('aria-pressed', 'false');
+        });
+        t.classList.add('is-selected');
+        t.setAttribute('aria-pressed', 'true');
+      });
+    });
+  </script>
+</body>
+</html>

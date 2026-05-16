@@ -1,0 +1,77 @@
+/* ============================================================
+   INPUT / TEXTAREA / SELECT — 통합 컨트롤
+   ============================================================ */
+.ds-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  width: 100%;
+}
+
+.ds-field__label {
+  font-family: var(--font-default);
+  font-size: var(--type-label-fs);
+  font-weight: var(--type-label-fw);
+  line-height: var(--type-label-lh);
+  color: var(--color-text-strong);
+}
+
+.ds-field__hint  { font-size: var(--fs-12); color: var(--color-text-muted); }
+.ds-field__error { font-size: var(--fs-12); color: var(--color-status-danger); }
+
+.ds-input,
+.ds-textarea,
+.ds-select {
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--control-h-md);
+  padding: 0 var(--space-md);
+  background: var(--color-surface-card);
+  border: var(--bw-1) solid var(--color-border-default);
+  border-radius: var(--radius-control);
+  color: var(--color-text-default);
+  font-family: var(--font-default);
+  font-size: var(--fs-13);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  transition: border-color var(--motion-fast), background var(--motion-fast);
+}
+
+.ds-input::placeholder,
+.ds-textarea::placeholder {
+  color: var(--color-text-soft);
+  font-weight: var(--fw-regular);
+}
+
+.ds-input:hover,
+.ds-textarea:hover,
+.ds-select:hover {
+  border-color: var(--color-border-strong);
+}
+
+.ds-input:focus,
+.ds-textarea:focus,
+.ds-select:focus {
+  border-color: var(--color-border-focus);
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.ds-input[disabled],
+.ds-textarea[disabled],
+.ds-select[disabled] {
+  background: var(--color-surface-soft);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.ds-textarea {
+  height: auto;
+  min-height: 80px;
+  padding: var(--space-md);
+  line-height: var(--lh-normal);
+  resize: vertical;
+}
+
+.ds-input--sm { height: var(--control-h-sm); font-size: var(--fs-12); }
+.ds-input--lg { height: var(--control-h-lg); font-size: var(--fs-14); }

@@ -1,29 +1,23 @@
-/* ============================================================
-   TABLE — 표준 데이터 테이블
-   ============================================================ */
-.ds-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-default);
-  font-size: var(--fs-13);
-  color: var(--color-text-default);
-  background: transparent;
+.ds-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+
+.ds-table th,
+.ds-table td {
+  height: 36px; padding: 0 10px;
+  text-align: left; vertical-align: middle;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  border-bottom: 1px solid var(--color-border-default);
 }
-.ds-table thead th {
-  text-align: left;
-  padding: var(--space-md) var(--space-lg);
-  background: var(--color-surface-soft);
-  color: var(--color-text-secondary);
-  font-weight: var(--fw-semibold);
-  font-size: var(--fs-12);
-  border-bottom: var(--bw-1) solid var(--color-border-default);
+.ds-table th:first-child,
+.ds-table td:first-child { padding-left: 14px; }
+
+.ds-table th {
+  font-size: var(--type-caption-fs); font-weight: var(--fw-semibold);
+  color: var(--color-text-muted); background: var(--color-surface-soft);
 }
-.ds-table tbody td {
-  padding: var(--space-md) var(--space-lg);
-  border-bottom: var(--bw-1) solid var(--color-border-default);
-  vertical-align: middle;
+.ds-table td {
+  font-size: var(--type-small-fs); color: var(--color-text-default);
 }
 .ds-table tbody tr { transition: background var(--motion-fast); cursor: pointer; }
-.ds-table tbody tr:hover { background: var(--color-surface-row-hover); }
-.ds-table tbody tr.is-active { background: var(--color-brand-primary-softer); }
+.ds-table tbody tr:hover  { background: var(--color-surface-soft); }
+.ds-table tbody tr.is-active { background: var(--color-surface-row); }
 .ds-table tbody tr:last-child td { border-bottom: 0; }

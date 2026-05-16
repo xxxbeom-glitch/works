@@ -1,57 +1,30 @@
-/* ============================================================
-   STATUS — Pill / Dot / Step icon
-   - 상태 표시 전용. 단계(처리완료/진행중/대기/처리불가) 등
-   ============================================================ */
 .ds-status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xxs);
-  height: 22px;
-  padding: 0 var(--space-sm);
+  display: inline-flex; align-items: center;
+  height: 18px; padding: 0 var(--space-xs);
   border-radius: var(--radius-pill);
-  font-family: var(--font-default);
-  font-size: var(--type-pill-fs);
-  font-weight: var(--type-pill-fw);
-  line-height: 1;
+  font-size: var(--fs-10); font-weight: var(--type-ui-label-fw); line-height: 1;
   white-space: nowrap;
-  background: var(--color-surface-soft);
-  color: var(--color-text-secondary);
-  border: var(--bw-1) solid transparent;
+  background: var(--c-neutral-100); color: var(--color-text-secondary);
 }
-
 .ds-status-pill--success { background: var(--color-status-success-soft); color: var(--color-status-success); }
 .ds-status-pill--warning { background: var(--color-status-warning-soft); color: var(--color-status-warning); }
-.ds-status-pill--danger  { background: var(--color-status-danger-soft);  color: var(--color-status-danger); }
-.ds-status-pill--info    { background: var(--color-status-info-soft);    color: var(--color-status-info); }
+.ds-status-pill--danger  { background: var(--color-status-danger-soft);  color: var(--color-status-danger);  }
+.ds-status-pill--info    { background: var(--color-status-info-soft);    color: var(--color-status-info);    }
 
-/* Dot 알림 */
 .ds-status-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-circle);
-  background: var(--color-status-success);
-  flex-shrink: 0;
+  display: inline-block; width: 8px; height: 8px;
+  border-radius: var(--radius-circle); background: var(--c-neutral-400); flex-shrink: 0;
 }
+.ds-status-dot--success { background: var(--color-status-success); }
 .ds-status-dot--warning { background: var(--color-status-warning); }
-.ds-status-dot--danger  { background: var(--color-status-danger); }
-.ds-status-dot--info    { background: var(--color-status-info); }
-.ds-status-dot--muted   { background: var(--color-text-disabled); }
+.ds-status-dot--danger  { background: var(--color-status-danger);  }
+.ds-status-dot--info    { background: var(--color-status-info);    }
+.ds-status-dot--muted   { background: var(--c-neutral-400);        }
 
-/* Step icon 컨테이너 (자동안내 단계 등에 사용) */
 .ds-step-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--icon-md);
-  height: var(--icon-md);
-  vertical-align: middle;
-  color: inherit;
-  flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; border-radius: var(--radius-circle); flex-shrink: 0;
 }
-.ds-step-icon > svg { width: var(--icon-md); height: var(--icon-md); color: inherit; }
-
-/* 4단계 색상 매핑 (텍스트=아이콘 동일 톤) */
 .ds-step-state--done     { color: var(--color-step-done); }
 .ds-step-state--wait     { color: var(--color-step-wait); }
 .ds-step-state--progress { color: var(--color-step-progress); }

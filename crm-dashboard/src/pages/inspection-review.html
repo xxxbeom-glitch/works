@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
@@ -14,51 +14,23 @@
       } catch (_) { /* 무시하고 단독 렌더 */ }
     })();
   </script>
+  <link rel="stylesheet" href="../styles/design-system/index.css">
   <style>
     @import url("../styles/design-system/components/column-header.css");
 
     /* ============================================================
        디자인 토큰 (1열/2열 페이지와 동일)
        ============================================================ */
-    :root {
-      --bg-app:            #EBEFF3;
-      --col-outer-bg:      rgba(255, 255, 255, 0.50);
-      --col-card-bg:       #FFFFFF;
-      --col-border:        #EBEBEB;
-      --col-border-strong: #DDE3EA;
-      --col-text:          #111111;
-      --col-text-2:        #333333;
-      --col-text-muted:    #666666;
-      --col-text-soft:     #999999;
-      --col-primary:       #0057FF;
-      --col-primary-bg:    #EEF4FF;
-      --col-primary-bg-2:  #F8FBFF;
-      --col-row-bg:        #F3F7FF;
-      --col-soft-bg:       #F8FAFC;
-      --col-danger:        #DC2626;
-      --col-danger-bg:     #FEE2E2;
-      --col-warn:          #EA580C;
-      --col-warn-bg:       #FFEDD5;
-      --col-info:          #0057FF;
-      --col-info-bg:       #DBEAFE;
-      --col-success:       #1E7E34;
-      --col-success-bg:    #DCFCE7;
-      --radius-outer:      20px;
-      --radius-card:       16px;
-      --radius-mini:       12px;
-      --radius-row:        8px;
-      --font-stack:        Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont,
-                           "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
-    }
+    
 
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; height: 100%; }
     body {
-      background: var(--bg-app);
-      color: var(--col-text);
-      font-family: var(--font-stack);
-      font-size: 14px;
-      line-height: 1.5;
+      background: var(--color-surface-app);
+      color: var(--color-text-strong);
+      font-family: var(--font-family-sans);
+      font-size: var(--type-body-fs);
+      line-height: var(--lh-normal);
       -webkit-font-smoothing: antialiased;
     }
     button, input, textarea, select { font: inherit; color: inherit; }
@@ -76,7 +48,7 @@
       width: 100%;
       overflow: hidden;
       display: flex; flex-direction: column;
-      background: var(--bg-app);
+      background: var(--color-surface-app);
     }
 
     /* ============================================================
@@ -86,20 +58,20 @@
       flex: 1 1 auto; min-height: 0;
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 12px;
+      gap: var(--space-md);
       padding: 12px;
     }
 
     .col {
-      background: var(--col-outer-bg);
+      background: var(--color-surface-outer);
       border-radius: var(--radius-outer);
       padding: 0 12px 12px;
-      display: flex; flex-direction: column; gap: 8px;
+      display: flex; flex-direction: column; gap: var(--space-sm);
       min-width: 0; min-height: 0;
     }
     /* 내부 카드 (공통) */
     .card {
-      background: var(--col-card-bg);
+      background: var(--color-surface-card);
       border-radius: var(--radius-card);
       overflow: hidden;
       display: flex; flex-direction: column;
@@ -107,61 +79,109 @@
     }
     .card__head {
       flex-shrink: 0;
-      height: 56px; padding: 0 16px;
-      border-bottom: 1px solid var(--col-border);
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      height: 44px; padding: 0 16px;
+      border-bottom: 1px solid var(--color-border-default);
+      display: flex; align-items: center; justify-content: space-between; gap: var(--space-md);
     }
     .card__head-lead {
-      display: inline-flex; align-items: center; gap: 10px; min-width: 0;
+      display: inline-flex; align-items: center; gap: var(--space-sm); min-width: 0;
     }
     .card__title {
       margin: 0;
-      font-family: var(--font-stack);
-      font-size: 18px; font-weight: 700; color: #000;
+      font-family: var(--font-family-sans);
+      font-size: var(--type-subheading-fs); font-weight: var(--fw-bold); color: var(--color-text-strong);
       line-height: 20px;
     }
     .card__title-sub {
       margin-left: 4px;
-      color: var(--col-text-muted); font-size: 14px; font-weight: 500;
+      color: var(--color-text-muted); font-size: var(--type-body-fs); font-weight: var(--fw-medium);
     }
     .card__body {
       padding: 16px;
-      display: flex; flex-direction: column; gap: 12px;
+      display: flex; flex-direction: column; gap: var(--space-md);
       min-width: 0;
     }
     .card__body--flush { padding: 0; }
 
     /* ============================================================
-       검수 현황 (3 stat boxes)
+       검수 현황 — compact summary row
        ============================================================ */
-    .stat-summary { font-size: 13px; color: var(--col-text-muted); }
-    .stat-summary strong { color: var(--col-text); font-weight: 700; }
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: 8px 14px;
+      background: var(--color-surface-card);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--color-border-default);
+      flex-shrink: 0;
+    }
 
-    .stat-list {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
+    .stat-row__label {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      padding-right: 10px;
+      border-right: 1px solid var(--color-border-default);
+      margin-right: 4px;
+      min-width: 0;
     }
-    .stat {
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid var(--col-border);
-      display: flex; flex-direction: column; gap: 4px;
+    .stat-row__label-title {
+      font-size: var(--type-caption-fs); font-weight: var(--fw-bold);
+      color: var(--color-text-strong);
+      white-space: nowrap;
     }
-    .stat__label { font-size: 12px; font-weight: 600; color: var(--col-text-muted); }
-    .stat__value {
-      font-size: 22px; font-weight: 800;
-      line-height: 1.2;
+    .stat-row__label-date {
+      font-size: var(--fs-10); font-weight: var(--fw-regular);
+      color: var(--color-text-muted);
+      white-space: nowrap;
     }
-    .stat__value-unit { margin-left: 2px; font-size: 14px; font-weight: 600; }
-    .stat--high { background: #FEF2F2; border-color: #FCA5A5; }
-    .stat--high .stat__label { color: #B91C1C; }
-    .stat--high .stat__value { color: var(--col-danger); }
-    .stat--mid { background: #FFF7ED; border-color: #FED7AA; }
-    .stat--mid .stat__label { color: #C2410C; }
-    .stat--mid .stat__value { color: var(--col-warn); }
-    .stat--low { background: #EFF6FF; border-color: #BFDBFE; }
-    .stat--low .stat__label { color: #1D4ED8; }
-    .stat--low .stat__value { color: var(--col-info); }
+
+    .stat-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 2px;
+      padding: 5px 12px;
+      border-radius: var(--r-sm);
+      border: 1px solid transparent;
+      flex: 1;
+    }
+    .stat-cell__name {
+      font-size: var(--type-caption-fs); font-weight: var(--fw-semibold);
+      white-space: nowrap;
+    }
+    .stat-cell__val {
+      font-size: var(--type-body-fs); font-weight: var(--fw-bold);
+      line-height: 1;
+    }
+    .stat-cell__unit {
+      font-size: var(--fs-10); font-weight: var(--fw-medium);
+      margin-left: 1px;
+    }
+
+    .stat-cell--high {
+      background: var(--color-status-danger-soft);
+      border-color: var(--color-status-danger-soft);
+    }
+    .stat-cell--high .stat-cell__name { color: var(--color-status-danger); }
+    .stat-cell--high .stat-cell__val  { color: var(--color-status-danger); }
+
+    .stat-cell--mid {
+      background: var(--color-status-warning-soft);
+      border-color: var(--color-status-warning-soft);
+    }
+    .stat-cell--mid .stat-cell__name { color: var(--color-status-warning); }
+    .stat-cell--mid .stat-cell__val  { color: var(--color-status-warning); }
+
+    .stat-cell--low {
+      background: var(--c-neutral-100);
+      border-color: var(--color-border-strong);
+    }
+    .stat-cell--low .stat-cell__name { color: var(--color-text-secondary); }
+    .stat-cell--low .stat-cell__val  { color: var(--color-text-secondary); }
 
     /* ============================================================
        검색 카드 (filter grid)
@@ -169,53 +189,52 @@
     .filter-grid {
       display: grid;
       grid-template-columns: 88px minmax(0, 1fr);
-      column-gap: 16px; row-gap: 12px;
+      column-gap: var(--space-lg); row-gap: var(--space-md);
       align-items: center;
     }
     .filter-grid__label {
-      font-size: 13px; font-weight: 600;
-      color: var(--col-text-muted);
+      font-size: var(--type-body-fs); font-weight: var(--fw-semibold);
+      color: var(--color-text-muted);
     }
     .filter-grid__field {
-      display: inline-flex; align-items: center; flex-wrap: wrap; gap: 8px;
+      display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--space-sm);
     }
 
     .input, .select {
-      height: 36px; padding: 0 12px;
-      border: 1px solid var(--col-border-strong);
-      border-radius: 8px;
-      background: #FFFFFF; color: var(--col-text);
-      font-size: 13px;
+      height: 30px; padding: 0 12px;
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-card); color: var(--color-text-strong);
+      font-size: var(--type-small-fs);
     }
-    .input:focus, .select:focus { border-color: var(--col-primary); }
+    .input:focus, .select:focus { border-color: var(--color-text-secondary); }
     .input--date { width: 142px; padding-right: 8px; }
     .input--name { min-width: 0; flex: 1 1 160px; }
 
     .seg {
       display: inline-flex;
-      border: 1px solid var(--col-border-strong);
-      border-radius: 8px; overflow: hidden;
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control); overflow: hidden;
     }
     .seg__btn {
       height: 30px; padding: 0 12px;
-      background: #FFFFFF; color: var(--col-text-2);
-      font-size: 13px;
+      background: var(--color-surface-card); color: var(--color-text-default);
+      font-size: var(--type-small-fs);
     }
-    .seg__btn + .seg__btn { border-left: 1px solid var(--col-border-strong); }
-    .seg__btn:hover { background: var(--col-primary-bg-2); color: var(--col-primary); }
-    .seg__btn.is-active { background: var(--col-primary-bg); color: var(--col-primary); font-weight: 700; }
+    .seg__btn + .seg__btn { border-left: 1px solid var(--color-border-strong); }
+    .seg__btn:hover { background: var(--color-surface-soft); color: var(--color-text-secondary); }
+    .seg__btn.is-active { background: var(--c-neutral-100); color: var(--color-text-secondary); font-weight: var(--fw-bold); }
 
     .check-list-h {
-      display: flex; flex-wrap: wrap; gap: 16px;
+      display: flex; flex-wrap: wrap; gap: var(--space-xs) 16px;
     }
 
-    /* 검색 카드 — 상담유형 / 위험도 / 검수상태: 고정 칼럼 그리드 */
+    /* 검색 카드 — 상담유형 / 위험도 / 검수상태: 인라인 체크박스 그룹 */
     .filter-check-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 96px);
-      column-gap: 12px;
-      row-gap: 10px;
+      display: flex;
+      flex-wrap: wrap;
       align-items: center;
+      gap: var(--space-xs) 16px;
       min-width: 0;
     }
     .filter-check-grid .check {
@@ -229,7 +248,7 @@
       display: flex;
       flex-wrap: nowrap;
       align-items: center;
-      gap: 8px;
+      gap: var(--space-sm);
       min-width: 0;
     }
     .filter-grid__field--center-split .select--center-tier {
@@ -238,35 +257,35 @@
       width: 140px;
     }
     .check {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 13px; color: var(--col-text-2);
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      font-size: var(--type-body-fs); color: var(--color-text-default);
       cursor: pointer;
     }
     .check input[type="checkbox"] {
       width: 16px; height: 16px; margin: 0;
-      accent-color: var(--col-primary);
+      accent-color: var(--color-text-secondary);
     }
-    .check--all { font-weight: 700; color: var(--col-text); }
+    .check--all { font-weight: var(--fw-bold); color: var(--color-text-strong); }
 
     .filter-actions {
-      display: flex; justify-content: center; gap: 8px;
+      display: flex; justify-content: center; gap: var(--space-sm);
       margin-top: 4px;
     }
     .btn-primary {
-      height: 38px; padding: 0 20px;
-      background: var(--col-primary); color: #FFFFFF;
-      border-radius: 8px;
-      font-size: 14px; font-weight: 700;
+      height: 36px; padding: 0 20px;
+      background: var(--color-text-secondary); color: var(--color-text-inverse);
+      border-radius: var(--radius-control);
+      font-size: var(--type-body-fs); font-weight: var(--fw-bold);
     }
-    .btn-primary:hover { background: #003FC8; }
+    .btn-primary:hover { background: var(--c-neutral-800); }
     .btn-ghost {
-      height: 38px; padding: 0 20px;
-      background: #FFFFFF; color: var(--col-text-2);
-      border: 1px solid var(--col-border-strong);
-      border-radius: 8px;
-      font-size: 14px; font-weight: 600;
+      height: 36px; padding: 0 20px;
+      background: var(--color-surface-card); color: var(--color-text-default);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      font-size: var(--type-body-fs); font-weight: var(--fw-semibold);
     }
-    .btn-ghost:hover { border-color: var(--col-primary); color: var(--col-primary); }
+    .btn-ghost:hover { border-color: var(--color-text-secondary); color: var(--color-text-secondary); }
 
     /* ============================================================
        1차 검수 리스트 (table)
@@ -274,72 +293,81 @@
     .table-wrap { overflow-x: auto; }
     .table {
       width: 100%;
-      font-size: 13px;
+      font-size: var(--type-body-fs);
     }
     .table thead th {
-      padding: 12px;
-      background: var(--col-soft-bg);
-      color: var(--col-text-2);
-      font-weight: 700; text-align: left;
-      border-bottom: 1px solid var(--col-border);
+      height: 36px;
+      padding: 0 10px;
+      background: var(--color-surface-soft);
+      color: var(--color-text-muted);
+      font-size: var(--type-caption-fs); font-weight: var(--fw-semibold); text-align: left;
+      border-bottom: 1px solid var(--color-border-default);
       white-space: nowrap;
+      vertical-align: middle;
     }
+    .table thead th:first-child { padding-left: 14px; }
     .table tbody td {
-      padding: 12px;
-      color: var(--col-text-2);
-      border-bottom: 1px solid var(--col-border);
+      height: 36px;
+      padding: 0 10px;
+      color: var(--color-text-default);
+      font-size: var(--type-small-fs);
+      border-bottom: 1px solid var(--color-border-default);
       white-space: nowrap;
+      vertical-align: middle;
     }
-    .table tbody tr:hover { background: var(--col-primary-bg-2); cursor: pointer; }
-    .table tbody tr.is-active { background: var(--col-primary-bg); }
-    .table__num { color: var(--col-text-muted); }
+    .table tbody td:first-child { padding-left: 14px; }
+    .table tbody tr:hover { background: var(--color-surface-soft); cursor: pointer; }
+    .table tbody tr.is-active { background: var(--c-neutral-100); }
+    .table__num { color: var(--color-text-muted); }
+
+    /* 위험도/검수상태 컬럼 중앙 정렬 */
+    .table thead th:nth-child(8),
+    .table thead th:nth-child(9) { text-align: center; }
+    .table tbody td:nth-child(8),
+    .table tbody td:nth-child(9) { text-align: center; }
 
     /* 위험도 배지 */
     .risk {
       display: inline-flex; align-items: center;
-      padding: 2px 10px; border-radius: 999px;
-      font-size: 11px; font-weight: 700;
+      padding: 2px 10px; border-radius: var(--radius-pill);
+      font-size: var(--type-caption-fs); font-weight: var(--fw-bold);
       letter-spacing: 0.3px;
     }
-    .risk--high { background: var(--col-danger-bg); color: var(--col-danger); }
-    .risk--mid  { background: var(--col-warn-bg);   color: var(--col-warn);   }
-    .risk--low  { background: var(--col-info-bg);   color: var(--col-info);   }
+    .risk--high { background: var(--color-status-danger-soft); color: var(--color-status-danger); }
+    .risk--mid  { background: var(--color-status-warning-soft); color: var(--color-status-warning); }
+    .risk--low  { background: var(--c-neutral-100); color: var(--color-text-secondary); }
 
-    /* 검수상태 */
+    /* 검수상태 — 아이콘 제거, neutral gray 통일 */
     .status {
       display: inline-flex; align-items: center;
-      font-size: 12px; font-weight: 600;
+      font-size: var(--type-small-fs); font-weight: var(--fw-semibold);
     }
-    .status::before {
-      content: ""; width: 6px; height: 6px; border-radius: 50%;
-      background: currentColor; margin-right: 6px;
-    }
-    .status--unchecked { color: #6B7280; }
-    .status--checking  { color: var(--col-primary); }
-    .status--done      { color: var(--col-success); }
+    .status--unchecked { color: var(--color-text-soft); }
+    .status--checking  { color: var(--color-text-muted); }
+    .status--done      { color: var(--color-text-secondary); }
 
     /* pagination */
     .pager {
       display: flex; justify-content: center; align-items: center;
-      gap: 4px;
+      gap: var(--space-xxs);
       padding: 12px;
-      border-top: 1px solid var(--col-border);
+      border-top: 1px solid var(--color-border-default);
     }
     .pager__btn {
       min-width: 32px; height: 32px; padding: 0 8px;
       border: 1px solid transparent;
-      background: transparent; color: var(--col-text-muted);
-      font-size: 13px; border-radius: 6px;
+      background: transparent; color: var(--color-text-muted);
+      font-size: var(--type-body-fs); border-radius: var(--r-sm);
     }
-    .pager__btn:hover { background: #F3F4F6; color: var(--col-text); }
+    .pager__btn:hover { background: var(--c-neutral-100); color: var(--color-text-strong); }
     .pager__btn.is-active {
-      background: var(--col-primary); color: #FFFFFF;
-      font-weight: 700;
+      background: var(--color-text-secondary); color: var(--color-text-inverse);
+      font-weight: var(--fw-bold);
     }
-    .pager__btn--edge { color: var(--col-text-muted); font-weight: 600; }
+    .pager__btn--edge { color: var(--color-text-muted); font-weight: var(--fw-semibold); }
 
     /* ============================================================
-       우측 상세
+       우측 상세 — divider-based layout (카드 외곽선 없음)
        ============================================================ */
     .mini-grid {
       display: grid;
@@ -348,48 +376,81 @@
         "customer stt"
         "ai stt"
         "history knowledge";
-      gap: 12px;
+      gap: 0;
       align-items: stretch;
     }
     .mini-card {
-      background: #FFFFFF;
-      border: 1px solid var(--col-border);
-      border-radius: var(--radius-mini);
-      padding: 16px;
-      display: flex; flex-direction: column; gap: 10px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0 16px 14px 0;
+      display: flex; flex-direction: column; gap: var(--space-sm);
       min-width: 0;
     }
-    .mini-card--customer { grid-area: customer; }
-    .mini-card--ai { grid-area: ai; }
-    .mini-card--history { grid-area: history; }
-    .mini-card--stt { grid-area: stt; }
-    .mini-card--knowledge { grid-area: knowledge; }
-    .mini-card__head {
-      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+
+    /* 좌측 컬럼 → 우측 분리선 */
+    .mini-card--customer,
+    .mini-card--ai,
+    .mini-card--history {
+      border-right: 1px solid var(--c-neutral-200);
     }
+
+    /* 우측 컬럼 → 좌측 여백 */
+    .mini-card--stt,
+    .mini-card--knowledge {
+      padding-left: 16px;
+      padding-right: 0;
+    }
+
+    /* 좌측 행간 구분선 (2행~) */
+    .mini-card--ai,
+    .mini-card--history {
+      border-top: 1px solid var(--c-neutral-200);
+      padding-top: 14px;
+    }
+
+    /* 우측 행간 구분선 (knowledge) */
+    .mini-card--knowledge {
+      border-top: 1px solid var(--c-neutral-200);
+      padding-top: 14px;
+    }
+
+    .mini-card--customer { grid-area: customer; }
+    .mini-card--ai       { grid-area: ai; }
+    .mini-card--history  { grid-area: history; }
+    .mini-card--stt      { grid-area: stt; }
+    .mini-card--knowledge{ grid-area: knowledge; }
+
+    .mini-card__head {
+      display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm);
+    }
+    /* 섹션 타이틀 — label 스타일 */
     .mini-card__title {
       margin: 0;
-      font-size: 14px; font-weight: 700; color: var(--col-text);
-      line-height: 1.4;
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-text-muted);
+      letter-spacing: 0.04em;
+      line-height: var(--lh-snug);
     }
 
     /* 고객 정보 */
     .cust-head {
-      display: flex; align-items: baseline; gap: 8px;
+      display: flex; align-items: baseline; gap: var(--space-sm);
     }
     .cust-name {
-      font-size: 16px; font-weight: 700; color: var(--col-text);
+      font-size: var(--type-subheading-fs); font-weight: var(--fw-bold); color: var(--color-text-strong);
     }
     .cust-sub {
-      font-size: 12px; color: var(--col-text-muted);
+      font-size: var(--type-small-fs); color: var(--color-text-muted);
     }
     .cust-list {
       list-style: none; margin: 0; padding: 0;
-      display: flex; flex-direction: column; gap: 6px;
+      display: flex; flex-direction: column; gap: var(--space-xs);
     }
     .cust-list li {
-      display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 8px;
-      font-size: 13px;
+      display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: var(--space-sm);
+      font-size: var(--type-body-fs);
     }
     .cust-list li.cust-list__phone {
       grid-template-columns: 84px minmax(0, 1fr);
@@ -398,61 +459,75 @@
     .cust-list__phone-value-row {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: var(--space-sm);
       flex-wrap: wrap;
       min-width: 0;
     }
-    .cust-list dt, .cust-list .label { color: var(--col-text-muted); font-weight: 600; }
-    .cust-list dd, .cust-list .value { margin: 0; color: var(--col-text); overflow-wrap: anywhere; }
-    .btn-secondary {
-      height: 32px; padding: 0 12px;
-      border: 1px solid var(--col-border-strong);
-      background: #FFFFFF; color: var(--col-text-2);
-      border-radius: 8px;
-      font-size: 12px; font-weight: 600;
+    .cust-list dt, .cust-list .label { color: var(--color-text-muted); font-weight: var(--fw-semibold); }
+    .cust-list dd, .cust-list .value { margin: 0; color: var(--color-text-strong); overflow-wrap: anywhere; }
+
+    /* info-kv 병기 시 새 그리드(72px) 우선 적용 */
+    .cust-list li.info-kv,
+    .history__item.info-kv {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      align-items: baseline;
+      gap: var(--space-sm);
+      min-height: 22px;
+      /* history__item 기존 flex/justify 무효화 */
+      justify-content: unset;
+      flex: unset;
     }
-    .btn-secondary:hover { border-color: var(--col-primary); color: var(--col-primary); }
+    .history__item.info-kv::before { display: none; } /* history 기존 dot 제거 */
+    .btn-secondary {
+      height: 30px; padding: 0 12px;
+      border: 1px solid var(--color-border-strong);
+      background: var(--color-surface-card); color: var(--color-text-default);
+      border-radius: var(--radius-control);
+      font-size: var(--type-small-fs); font-weight: var(--fw-semibold);
+    }
+    .btn-secondary:hover { border-color: var(--color-text-secondary); color: var(--color-text-secondary); }
     .btn-secondary--inline {
       height: 28px;
       padding: 0 10px;
-      font-size: 12px;
+      font-size: var(--type-small-fs);
       white-space: nowrap;
     }
 
     /* STT 미니 */
     .stt-mini {
-      display: flex; flex-direction: column; gap: 8px;
-      max-height: 260px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: var(--space-sm);
+      max-height: 220px; overflow-y: auto;
     }
     .stt-mini__msg {
-      font-size: 13px; line-height: 20px; color: var(--col-text-2);
+      font-size: var(--type-body-fs); line-height: 20px; color: var(--color-text-default);
     }
     .stt-mini__sender {
-      font-weight: 700; margin-right: 6px;
+      font-weight: var(--fw-bold); margin-right: 6px;
     }
-    .stt-mini__sender--agent { color: var(--col-primary); }
-    .stt-mini__sender--customer { color: var(--col-danger); }
+    .stt-mini__sender--agent { color: var(--color-text-secondary); }
+    .stt-mini__sender--customer { color: var(--color-status-danger); }
 
     /* AI 검수 결과 */
     .ai-result {
-      display: flex; flex-direction: column; gap: 8px;
+      display: flex; flex-direction: column; gap: var(--space-sm);
     }
     .ai-result__row {
-      display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 8px;
-      font-size: 13px; align-items: center;
+      display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: var(--space-sm);
+      font-size: var(--type-body-fs); align-items: center;
     }
-    .ai-result__label { color: var(--col-text-muted); font-weight: 600; }
+    .ai-result__label { color: var(--color-text-muted); font-weight: var(--fw-semibold); }
     .reason-list {
       list-style: none; margin: 0; padding: 0;
-      display: flex; flex-direction: column; gap: 6px;
+      display: flex; flex-direction: column; gap: var(--space-xs);
     }
     .reason-list li {
       position: relative; padding-left: 14px;
-      font-size: 13px; color: var(--col-text-2); line-height: 20px;
+      font-size: var(--type-body-fs); color: var(--color-text-default); line-height: 20px;
     }
     .reason-list li::before {
       content: ""; position: absolute; left: 0; top: 9px;
-      width: 4px; height: 4px; border-radius: 50%; background: var(--col-danger);
+      width: 4px; height: 4px; border-radius: 50%; background: var(--color-status-danger);
     }
 
     /* 최근 이력 */
@@ -461,45 +536,45 @@
       display: flex; flex-direction: column;
     }
     .history__item {
-      display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 8px;
-      padding: 8px 0;
-      border-bottom: 1px dashed var(--col-border);
-      font-size: 13px;
+      display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: var(--space-sm);
+      padding: 5px 0;
+      border-bottom: none;
+      font-size: var(--type-body-fs);
     }
     .history__item:last-child { border-bottom: 0; }
-    .history__date { color: var(--col-text-muted); font-weight: 600; }
-    .history__label { color: var(--col-text); }
+    .history__date { color: var(--color-text-muted); font-weight: var(--fw-semibold); }
+    .history__label { color: var(--color-text-strong); }
 
     /* empty state */
     .empty {
       padding: 28px 12px;
       text-align: center;
-      color: var(--col-text-soft);
-      font-size: 13px;
-      background: var(--col-soft-bg);
-      border-radius: 8px;
+      color: var(--color-text-soft);
+      font-size: var(--type-body-fs);
+      background: var(--color-surface-soft);
+      border-radius: var(--radius-control);
     }
 
     /* 후속 조치 */
     .form-row {
       display: grid; grid-template-columns: 88px minmax(0, 1fr);
-      align-items: center; gap: 12px;
+      align-items: center; gap: var(--space-md);
     }
-    .form-row__label { font-size: 13px; color: var(--col-text-muted); font-weight: 600; }
+    .form-row__label { font-size: var(--type-body-fs); color: var(--color-text-muted); font-weight: var(--fw-semibold); }
     .ta {
       width: 100%; min-height: 96px;
       padding: 10px 12px;
-      border: 1px solid var(--col-border-strong);
-      border-radius: 8px;
-      background: #FFFFFF;
-      font-size: 13px; color: var(--col-text);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-card);
+      font-size: var(--type-body-fs); color: var(--color-text-strong);
       resize: vertical;
     }
-    .ta::placeholder { color: var(--col-text-soft); }
-    .ta:focus { border-color: var(--col-primary); }
+    .ta::placeholder { color: var(--color-text-soft); }
+    .ta:focus { border-color: var(--color-text-secondary); }
 
     .action-row {
-      display: flex; justify-content: flex-end; gap: 8px;
+      display: flex; justify-content: flex-end; gap: var(--space-sm);
     }
 
     /* ============================================================
@@ -544,31 +619,25 @@
             </span>
           </header>
 
-          <!-- 1) 검수 현황 -->
-          <article class="card">
-            <header class="card__head">
-              <span class="card__head-lead">
-                <h3 class="card__title">검수 현황</h3>
-              </span>
-            </header>
-            <div class="card__body">
-              <p class="stat-summary"><strong>2026-05-26</strong> 1차 검수 현황</p>
-              <div class="stat-list">
-                <div class="stat stat--high">
-                  <span class="stat__label">High</span>
-                  <span class="stat__value">20<span class="stat__value-unit">건</span></span>
-                </div>
-                <div class="stat stat--mid">
-                  <span class="stat__label">Medium</span>
-                  <span class="stat__value">10<span class="stat__value-unit">건</span></span>
-                </div>
-                <div class="stat stat--low">
-                  <span class="stat__label">Low</span>
-                  <span class="stat__value">0<span class="stat__value-unit">건</span></span>
-                </div>
-              </div>
+          <!-- 1) 검수 현황 — compact summary row -->
+          <div class="stat-row" role="region" aria-label="검수 현황 요약">
+            <div class="stat-row__label">
+              <span class="stat-row__label-title">검수현황</span>
+              <span class="stat-row__label-date">2026-05-26 기준</span>
             </div>
-          </article>
+            <div class="stat-cell stat-cell--high">
+              <span class="stat-cell__name">High</span>
+              <span class="stat-cell__val">20<span class="stat-cell__unit">건</span></span>
+            </div>
+            <div class="stat-cell stat-cell--mid">
+              <span class="stat-cell__name">Medium</span>
+              <span class="stat-cell__val">10<span class="stat-cell__unit">건</span></span>
+            </div>
+            <div class="stat-cell stat-cell--low">
+              <span class="stat-cell__name">Low</span>
+              <span class="stat-cell__val">0<span class="stat-cell__unit">건</span></span>
+            </div>
+          </div>
 
           <!-- 2) 검색 -->
           <article class="card">
@@ -583,7 +652,7 @@
                 <span class="filter-grid__label">접촉일자</span>
                 <span class="filter-grid__field">
                   <input type="date" class="input input--date" value="2026-05-20" aria-label="시작일" />
-                  <span class="filter-grid__label" style="font-weight:500;">~</span>
+                  <span class="filter-grid__label" style="font-weight: var(--fw-medium);">~</span>
                   <input type="date" class="input input--date" value="2026-05-26" aria-label="종료일" />
                   <span class="seg">
                     <button type="button" class="seg__btn is-active">최근 일주일</button>
@@ -775,15 +844,14 @@
             </span>
           </header>
 
-          <!-- 상단 정보 그리드 -->
+          <!-- 검수 상세 정보 -->
           <article class="card">
             <header class="card__head">
               <span class="card__head-lead">
                 <h3 class="card__title">검수 상세 정보</h3>
               </span>
-              <span class="card__title-sub">접촉일자 2026-05-20 · 을지로센터</span>
             </header>
-            <div class="card__body">
+            <div class="card__body" style="padding-top: 12px; padding-bottom: 12px;">
               <div class="mini-grid">
 
                 <!-- 고객 정보 -->
@@ -795,14 +863,23 @@
                     <span class="cust-name">김신한</span>
                     <span class="cust-sub">남성 · 1970/09 · 55세</span>
                   </div>
-                  <ul class="cust-list">
-                    <li><span class="label">고객번호</span><span class="value">1234-5678 (Family)</span></li>
-                    <li><span class="label">연락처</span><span class="value">010-1234-5678</span></li>
-                    <li><span class="label">주소</span><span class="value">서울 종로구 신문로2가 28 5층 503호</span></li>
-                    <li class="cust-list__phone">
-                      <span class="label">발신번호</span>
+                  <ul class="cust-list info-section-block">
+                    <li class="info-kv">
+                      <span class="label info-kv__label">고객번호</span>
+                      <span class="value info-kv__value">1234-5678 (Family)</span>
+                    </li>
+                    <li class="info-kv">
+                      <span class="label info-kv__label">연락처</span>
+                      <span class="value info-kv__value">010-1234-5678</span>
+                    </li>
+                    <li class="info-kv">
+                      <span class="label info-kv__label">주소</span>
+                      <span class="value info-kv__value">서울 종로구 신문로2가 28 5층 503호</span>
+                    </li>
+                    <li class="info-kv cust-list__phone">
+                      <span class="label info-kv__label">발신번호</span>
                       <span class="cust-list__phone-value-row">
-                        <span class="value">010-2231-4567</span>
+                        <span class="value info-kv__value info-kv__value--danger">010-2231-4567</span>
                         <button type="button" class="btn-secondary btn-secondary--inline">변경 저장</button>
                       </span>
                     </li>
@@ -826,20 +903,20 @@
                   <header class="mini-card__head">
                     <h4 class="mini-card__title">AI 1차 검수 결과</h4>
                   </header>
-                  <div class="ai-result">
-                    <div class="ai-result__row">
-                      <span class="ai-result__label">위험도</span>
-                      <span><span class="risk risk--high">High</span></span>
+                  <div class="ai-result info-section-block">
+                    <div class="ai-result__row info-sv">
+                      <span class="ai-result__label info-sv__label">위험도</span>
+                      <span class="info-sv__value info-sv__value--danger"><span class="risk risk--high">High</span></span>
                     </div>
-                    <div class="ai-result__row">
-                      <span class="ai-result__label">검수 유형</span>
-                      <span style="font-weight:600;color:var(--col-text);">오안내</span>
+                    <div class="ai-result__row info-sv">
+                      <span class="ai-result__label info-sv__label">검수 유형</span>
+                      <span class="info-sv__value">오안내</span>
                     </div>
-                    <div class="ai-result__row" style="align-items: flex-start;">
-                      <span class="ai-result__label">검수 사유</span>
-                      <ul class="reason-list">
-                        <li>약관상 면책기간 안내 누락 감지</li>
-                        <li>보장범위 설명 불충분</li>
+                    <div class="info-bul">
+                      <span class="ai-result__label info-bul__label">검수 사유</span>
+                      <ul class="reason-list info-bul__list">
+                        <li class="info-bul__item">약관상 면책기간 안내 누락 감지</li>
+                        <li class="info-bul__item">보장범위 설명 불충분</li>
                       </ul>
                     </div>
                   </div>
@@ -850,18 +927,18 @@
                   <header class="mini-card__head">
                     <h4 class="mini-card__title">최근 이력</h4>
                   </header>
-                  <ul class="history">
-                    <li class="history__item">
-                      <span class="history__date">2026-03</span>
-                      <span class="history__label">계약 변경</span>
+                  <ul class="history info-section-block">
+                    <li class="history__item info-kv">
+                      <span class="history__date info-kv__label">2026-03</span>
+                      <span class="history__label info-kv__value">계약 변경</span>
                     </li>
-                    <li class="history__item">
-                      <span class="history__date">2025-12</span>
-                      <span class="history__label">보험료 연체</span>
+                    <li class="history__item info-kv">
+                      <span class="history__date info-kv__label">2025-12</span>
+                      <span class="history__label info-kv__value">보험료 연체</span>
                     </li>
-                    <li class="history__item">
-                      <span class="history__date">2025-08</span>
-                      <span class="history__label">보장 추가</span>
+                    <li class="history__item info-kv">
+                      <span class="history__date info-kv__label">2025-08</span>
+                      <span class="history__label info-kv__value">보장 추가</span>
                     </li>
                   </ul>
                 </section>

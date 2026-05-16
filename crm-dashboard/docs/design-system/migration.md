@@ -68,10 +68,29 @@
 
 | Before | After |
 |---|---|
-| `font-size: 13px; font-weight: 700` | 클래스 `.ds-label` 또는 `.ds-card-title` (혼동되면 토큰: `var(--type-button-fs)` + `var(--type-button-fw)`) |
-| `font-size: 14px; line-height: 1.5; color: #333` | `.ds-body` |
+| `font-size: 22px; font-weight: 700` | `.ds-heading` 또는 `var(--type-heading-fs)` + `var(--type-heading-fw)` |
+| `font-size: 18px; font-weight: 700` | `.ds-heading` 또는 `var(--type-heading-fs)` |
+| `font-size: 16px; font-weight: 700` | `.ds-subheading` 또는 `var(--type-subheading-fs)` |
+| `font-size: 15px; font-weight: 700` | `.ds-subheading` 또는 `var(--type-subheading-fs)` |
+| `font-size: 14px; line-height: 1.5` | `.ds-body` |
+| `font-size: 13px; line-height: 1.5; color: #333` | `.ds-small` |
 | `font-size: 12px; color: #666` | `.ds-caption` |
-| `font-size: 16px; font-weight: 700` | `.ds-section-title` |
+| `font-size: 11px; font-weight: 700` (pill/badge) | `.ds-ui-label` 또는 `var(--type-ui-label-fs)` |
+| `font-size: 13px; font-weight: 700` (버튼) | `.ds-ui-label` (sm) / `var(--type-button-fs)` (md·lg) |
+
+#### 구 토큰 → 신 토큰 치환
+
+| 구 토큰 | 신 토큰 |
+|---|---|
+| `--type-display-*` | `--type-heading-*` |
+| `--type-title-*` | `--type-heading-*` |
+| `--type-section-*` | `--type-subheading-*` |
+| `--type-card-title-*` | `--type-subheading-*` |
+| `--type-button-*` | `--type-ui-label-*` (sm) / `--type-button-*` (md·lg, 12px 유지) |
+| `--type-pill-*` | `--type-ui-label-*` |
+| `--type-label-*` | `--type-ui-label-*` |
+
+> 구 토큰은 alias로 유지 중이므로 즉시 교체 필수 아님. 여유 있는 파일부터 점진 치환.
 
 ### Shadow
 

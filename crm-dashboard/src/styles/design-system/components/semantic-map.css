@@ -1,0 +1,284 @@
+/* ================================================================
+   Semantic Map — 기존 페이지 클래스 → 디자인 시스템 토큰 연결
+   HTML 마크업 수정 없이 CSS만으로 시멘틱 계층 적용
+
+   L1 heading    18px/700  — 페이지·카드 최상위 제목
+   L2 subheading 14px/600  — 섹션 타이틀
+   L3 body       13px/400  — 본문 읽기 텍스트
+   L4 small      12px/400  — 보조 데이터
+   L5 caption    11px/500  — 레이블·메타
+   L6 ui-label   11px/700  — pill·badge·버튼
+
+   교정 기록
+   - col-header__title      → ds-col-head__title
+   - product-acc-card__title → ❌ 미존재 (주석 처리)
+   - card__step-title        → ❌ 미존재 (card__title로 통합)
+   - stt-utterance__text, stt-turn__text → stt-chat__bubble
+   - doc-editor__body, doc-content       → .editor-doc 및 하위 요소
+   - stt-body                → stt-mini__msg
+   - ai-result__reason       → .reason-list li
+   - doc-meta, card__meta-text → ❌ 미존재 (주석 처리)
+   - stt-turn__label         → stt-chat__sender
+   - know-acc-flow__step-label → know-acc-flow__answer-label
+   - metrics-label           → ❌ 미존재 (주석 처리)
+   - guide-check__state      → info-doc-guide__state
+   - file-status-badge       → file__status
+   - btn-download            → ❌ 미존재 (주석 처리)
+================================================================ */
+
+
+/* ── L1 heading (18px / bold) ── */
+
+/* index.html — 고객명 (info-acc-customer 섹션 최상위 제목) */
+.live-outer--info #info-acc-customer .info-sect-mini-head__title,
+.live-outer--info #info-acc-customer .left-accordion__pair:nth-child(1) dd {
+  font-size:   var(--type-heading-fs);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color:       var(--color-text-strong);
+}
+
+/* document-generator.html — 카드 스텝 타이틀 (① 문서 업로드 등) */
+.card__title {
+  font-size:   var(--type-heading-fs);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color:       var(--color-text-strong);
+}
+
+/* inspection-review.html — 열 헤더 제목 (ds-col-head__title 사용) */
+/* ※ col-header__title 미존재 → ds-col-head__title 로 교정 */
+.ds-col-head__title {
+  font-size:   var(--type-heading-fs);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color:       var(--color-text-strong);
+}
+
+
+/* ── L2 subheading (14px / semibold) ── */
+
+/* index.html — 정보패널 섹션 헤더 (최근 상담 이력, 계약 리스트 등) */
+.live-outer--info .info-sect-mini-head__title {
+  font-size:   var(--type-subheading-fs);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color:       var(--color-text-strong);
+}
+
+/* index.html — 2열 지식/상품 카드 타이틀 */
+.know-acc-card__title {
+  font-size:   var(--type-subheading-fs);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color:       var(--color-text-strong);
+}
+
+/* ※ product-acc-card__title 미존재 → product-acc-card__name 으로 매핑 */
+.live-composite .product-acc-card__name {
+  font-size:   var(--type-subheading-fs);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color:       var(--color-text-strong);
+}
+
+/* document-generator.html — card__title-sub (카드 제목 보조) */
+/* ※ card__step-title 미존재 → card__title-sub 사용 */
+.card__title-sub {
+  font-size:   var(--type-subheading-fs);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color:       var(--color-text-secondary);
+}
+
+/* inspection-review.html — 미니카드 타이틀 */
+.mini-card__title {
+  font-size:   var(--type-subheading-fs);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color:       var(--color-text-strong);
+}
+
+
+/* ── L3 body (13px / regular) ── */
+
+/* index.html — STT 대화 말풍선 */
+/* ※ stt-utterance__text, stt-turn__text 미존재 → stt-chat__bubble 로 교정 */
+.live-composite .stt-card__log .stt-chat__bubble {
+  font-size:   var(--type-body-fs);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-relaxed);
+  color:       var(--color-text-default);
+}
+
+/* index.html — 지식베이스 답변 본문 */
+.know-acc-flow__answer-body {
+  font-size:   var(--type-body-fs);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-relaxed);
+  color:       var(--color-text-default);
+}
+
+/* index.html — 계약 이름, 이력 제목 */
+.contract-list__title,
+.history-item__title {
+  font-size:   var(--type-body-fs);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-relaxed);
+  color:       var(--color-text-default);
+}
+
+/* document-generator.html — 에디터 문서 본문 */
+/* ※ doc-editor__body, doc-content 미존재 → .editor-doc 하위 요소 로 교정 */
+.editor-doc p,
+.editor-doc li {
+  font-size:   var(--type-body-fs);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-relaxed);
+  color:       var(--color-text-default);
+}
+
+/* inspection-review.html — STT 대화 내용 */
+/* ※ stt-body 미존재 → stt-mini__msg 로 교정 */
+.stt-mini__msg {
+  font-size:   var(--type-body-fs);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+  color:       var(--color-text-default);
+}
+
+/* inspection-review.html — AI 검수 사유 목록 */
+/* ※ ai-result__reason 미존재 → .reason-list li 로 교정 */
+.reason-list li {
+  font-size:   var(--type-body-fs);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+  color:       var(--color-text-default);
+}
+
+/* inspection-review.html — 테이블 데이터 셀 */
+.table tbody td {
+  font-size:   var(--type-body-fs);
+  font-weight: var(--fw-regular);
+  color:       var(--color-text-default);
+}
+
+
+/* ── L4 small (12px / regular) ── */
+
+/* index.html — 고객 상세 값, 날짜, 계약 메타 */
+.live-outer--info .left-accordion__pair dt,
+.live-outer--info .left-accordion__pair dd,
+.history-item__date,
+.contract-list__meta {
+  font-size:   var(--type-small-fs);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+  color:       var(--color-text-secondary);
+}
+
+/* document-generator.html — 생성일 / 페이지·글자수 푸터 */
+/* ※ doc-meta, card__meta-text 미존재 → .editor-foot 로 교정 */
+.editor-foot {
+  font-size:   var(--type-small-fs);
+  font-weight: var(--fw-regular);
+  color:       var(--color-text-muted);
+}
+
+/* inspection-review.html — 날짜, 고객번호 값, 기준일 */
+.stat-row__label-date,
+.cust-sub,
+.cust-list li {
+  font-size:   var(--type-small-fs);
+  font-weight: var(--fw-regular);
+  color:       var(--color-text-secondary);
+}
+
+
+/* ── L5 caption (11px / medium) ── */
+
+/* index.html — 레이블, 단계·출처 메타 */
+.info-sect-mini-head__meta {
+  font-size:   var(--type-caption-fs);
+  font-weight: var(--fw-medium);
+  color:       var(--color-text-muted);
+}
+
+/* index.html — STT 화자 레이블 */
+/* ※ stt-turn__label 미존재 → stt-chat__sender 로 교정 */
+.stt-chat__sender {
+  font-size:   var(--type-caption-fs);
+  font-weight: var(--fw-medium);
+  color:       var(--color-text-muted);
+}
+
+/* index.html — 지식 흐름 답변 레이블 */
+/* ※ know-acc-flow__step-label 미존재 → know-acc-flow__answer-label 로 교정 */
+.know-acc-flow__answer-label {
+  font-size:   var(--type-caption-fs);
+  font-weight: var(--fw-medium);
+  color:       var(--color-text-muted);
+}
+
+/* document-generator.html — 카드 헤더 우측 메타 텍스트 */
+/* ※ metrics-label 미존재 */
+.card__head-end {
+  font-size:   var(--type-caption-fs);
+  font-weight: var(--fw-medium);
+  color:       var(--color-text-muted);
+}
+
+/* inspection-review.html — 테이블 헤더, 필드 레이블 */
+.table thead th,
+.filter-grid__label,
+.cust-list dt,
+.stat-row__label-title {
+  font-size:   var(--type-caption-fs);
+  font-weight: var(--fw-medium);
+  color:       var(--color-text-muted);
+}
+
+
+/* ── L6 ui-label (11px / bold) ── */
+
+/* index.html — 안내 가이드 상태 pill */
+/* ※ guide-check__state 미존재 → info-doc-guide__state 로 교정 */
+.info-doc-guide__state {
+  font-size:   var(--type-ui-label-fs);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+}
+
+/* index.html — 모드 세그먼트 버튼 */
+.mode-segmented__btn {
+  font-size:   var(--type-ui-label-fs);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+}
+
+/* document-generator.html — 파일 상태 badge */
+/* ※ file-status-badge 미존재 → file__status 로 교정 */
+.file__status {
+  font-size:   var(--type-ui-label-fs);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+}
+
+/* document-generator.html — 주요 실행 버튼 */
+/* ※ btn-download 미존재 (btn-primary 사용) */
+.btn-primary {
+  font-size:   var(--type-ui-label-fs);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+}
+
+/* inspection-review.html — 위험도 pill, 검수상태, 버튼 류 */
+.risk,
+.status,
+.seg__btn,
+.btn-ghost,
+.pager__btn {
+  font-size:   var(--type-ui-label-fs);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+}

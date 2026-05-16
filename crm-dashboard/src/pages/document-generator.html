@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
@@ -14,33 +14,14 @@
       } catch (_) { /* 무시하고 단독 렌더 */ }
     })();
   </script>
+  <link rel="stylesheet" href="../styles/design-system/index.css">
   <style>
     @import url("../styles/design-system/components/column-header.css");
 
     /* ============================================================
        디자인 토큰 (1열 카드 톤 그대로 가져옴)
        ============================================================ */
-    :root {
-      --bg-app:            #EBEFF3;
-      --col-outer-bg:      rgba(255, 255, 255, 0.50);
-      --col-card-bg:       #FFFFFF;
-      --col-border:        #EBEBEB;
-      --col-border-strong: #DADDE3;
-      --col-text:          #111111;
-      --col-text-2:        #333333;
-      --col-text-muted:    #666666;
-      --col-text-soft:     #999999;
-      --col-primary:       #0057FF;
-      --col-primary-bg:    #EEF4FF;
-      --col-primary-bg-2:  #F8FBFF;
-      --col-row-bg:        #F3F7FF;
-      --col-soft-bg:       #F8FAFC;
-      --radius-outer:      20px;
-      --radius-card:       16px;
-      --radius-row:        8px;
-      --font-stack:        Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont,
-                           "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
-    }
+    
 
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
@@ -49,11 +30,11 @@
       overflow: hidden;
     }
     body {
-      background: var(--bg-app);
-      color: var(--col-text);
-      font-family: var(--font-stack);
-      font-size: 14px;
-      line-height: 1.5;
+      background: var(--color-surface-app);
+      color: var(--color-text-strong);
+      font-family: var(--font-family-sans);
+      font-size: var(--type-body-fs);
+      line-height: var(--lh-normal);
       -webkit-font-smoothing: antialiased;
     }
     button, input, textarea { font: inherit; color: inherit; }
@@ -62,14 +43,14 @@
 
     /* 얇고 연한 톤 공통 스크롤바 */
     .scroll-y { overflow-y: auto; overflow-x: hidden; }
-    .scroll-y::-webkit-scrollbar { width: 8px; height: 8px; }
+    .scroll-y::-webkit-scrollbar { width: 5px; height: 5px; }
     .scroll-y::-webkit-scrollbar-track { background: transparent; }
     .scroll-y::-webkit-scrollbar-thumb {
-      background: rgba(148, 163, 184, 0.35);
-      border-radius: 999px;
+      background: rgba(156, 163, 175, 0.30);
+      border-radius: var(--radius-pill);
     }
-    .scroll-y::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
-    .scroll-y { scrollbar-width: thin; scrollbar-color: rgba(148, 163, 184, 0.45) transparent; }
+    .scroll-y::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.52); }
+    .scroll-y { scrollbar-width: thin; scrollbar-color: rgba(156, 163, 175, 0.30) transparent; }
 
     /* ============================================================
        Page2 (content-only) 셸
@@ -81,7 +62,7 @@
       width: 100%;
       overflow: hidden;
       display: flex; flex-direction: column;
-      background: var(--bg-app);
+      background: var(--color-surface-app);
     }
 
     /* ============================================================
@@ -92,14 +73,14 @@
       min-width: 0; min-height: 0;
       display: grid;
       grid-template-columns: 360px minmax(0, 1fr) 380px;
-      gap: 12px;
+      gap: var(--space-md);
       padding: 12px;
       overflow: hidden;
     }
 
     /* ----- 외곽 카드 (1열 cinfo-panel과 동일 톤) ----- */
     .col {
-      background: var(--col-outer-bg);
+      background: var(--color-surface-outer);
       border-radius: var(--radius-outer);
       padding: 0 12px 12px;
       display: flex; flex-direction: column; gap: 0;
@@ -113,21 +94,21 @@
       flex: 1 1 auto;
       min-height: 0;
       display: flex; flex-direction: column;
-      gap: 8px;
+      gap: var(--space-sm);
       overflow-y: auto;
       overflow-x: hidden;
       padding-right: 4px;
       margin-right: -4px;
       scrollbar-width: thin;
-      scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+      scrollbar-color: rgba(156, 163, 175, 0.30) transparent;
     }
-    .col__scroll::-webkit-scrollbar { width: 8px; }
+    .col__scroll::-webkit-scrollbar { width: 5px; }
     .col__scroll::-webkit-scrollbar-track { background: transparent; }
     .col__scroll::-webkit-scrollbar-thumb {
-      background: rgba(148, 163, 184, 0.35);
-      border-radius: 999px;
+      background: rgba(156, 163, 175, 0.30);
+      border-radius: var(--radius-pill);
     }
-    .col__scroll::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
+    .col__scroll::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.52); }
 
     /* 중앙 컬럼: 카드 1개를 컬럼 전체 높이로 채움 (내부 본문에서 스크롤) */
     .col--stretch { gap: 0; }
@@ -139,13 +120,13 @@
       position: sticky;
       bottom: 0;
       padding: 12px;
-      background: var(--col-outer-bg);
+      background: var(--color-surface-outer);
       z-index: 10;
     }
 
     /* ----- 내부 카드 (#FFF / radius 16 / overflow hidden) ----- */
     .card {
-      background: var(--col-card-bg);
+      background: var(--color-surface-card);
       border-radius: var(--radius-card);
       overflow: hidden;
       display: flex; flex-direction: column;
@@ -163,38 +144,38 @@
       flex-shrink: 0;
       height: 56px;
       padding: 0 16px;
-      border-bottom: 1px solid var(--col-border);
+      border-bottom: 1px solid var(--color-border-default);
       display: flex; align-items: center; justify-content: space-between;
-      gap: 12px;
+      gap: var(--space-md);
     }
     .card__head-lead {
-      display: inline-flex; align-items: center; gap: 10px; min-width: 0;
+      display: inline-flex; align-items: center; gap: var(--space-sm); min-width: 0;
     }
     .card__num {
       flex-shrink: 0;
       width: 22px; height: 22px; border-radius: 50%;
-      background: var(--col-primary-bg); color: var(--col-primary);
+      background: var(--c-neutral-100); color: var(--color-text-secondary);
       display: inline-flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700; line-height: 1;
+      font-size: var(--type-small-fs); font-weight: var(--fw-bold); line-height: 1;
     }
     .card__title {
       margin: 0;
-      font-family: var(--font-stack);
-      font-size: 18px; font-weight: 700; color: #000;
+      font-family: var(--font-family-sans);
+      font-size: var(--type-heading-fs); font-weight: var(--fw-bold); color: var(--color-text-strong);
       line-height: 20px;
     }
     .card__title-sub {
       margin-left: 4px;
-      color: var(--col-text-muted); font-size: 14px; font-weight: 500;
+      color: var(--color-text-muted); font-size: var(--type-body-fs); font-weight: var(--fw-medium);
     }
     .card__head-end {
-      display: inline-flex; align-items: center; gap: 10px;
-      color: var(--col-text-muted); font-size: 13px;
+      display: inline-flex; align-items: center; gap: var(--space-sm);
+      color: var(--color-text-muted); font-size: var(--type-body-fs);
     }
 
     .card__body {
       padding: 16px;
-      display: flex; flex-direction: column; gap: 12px;
+      display: flex; flex-direction: column; gap: var(--space-md);
       min-width: 0;
     }
     .card__body--flex {
@@ -203,15 +184,15 @@
       overflow-y: auto;
       overflow-x: hidden;
       scrollbar-width: thin;
-      scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+      scrollbar-color: rgba(156, 163, 175, 0.30) transparent;
     }
-    .card__body--flex::-webkit-scrollbar { width: 8px; }
+    .card__body--flex::-webkit-scrollbar { width: 5px; }
     .card__body--flex::-webkit-scrollbar-track { background: transparent; }
     .card__body--flex::-webkit-scrollbar-thumb {
-      background: rgba(148, 163, 184, 0.35);
-      border-radius: 999px;
+      background: rgba(156, 163, 175, 0.30);
+      border-radius: var(--radius-pill);
     }
-    .card__body--flex::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
+    .card__body--flex::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.52); }
 
     /* ============================================================
        1열 - 카드별 위젯
@@ -219,41 +200,41 @@
 
     /* 업로드 드롭존 */
     .upload-drop {
-      border: 1.5px dashed #BFD0F5;
-      background: var(--col-primary-bg-2);
-      border-radius: 12px;
+      border: 1.5px dashed var(--color-border-default);
+      background: var(--color-surface-soft);
+      border-radius: var(--r-xl);
       padding: 18px; text-align: center;
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      display: flex; flex-direction: column; align-items: center; gap: var(--space-xs);
     }
-    .upload-drop__title { font-size: 14px; font-weight: 700; color: var(--col-text); }
-    .upload-drop__desc { font-size: 12px; color: var(--col-text-muted); }
+    .upload-drop__title { font-size: var(--type-body-fs); font-weight: var(--fw-bold); color: var(--color-text-strong); }
+    .upload-drop__desc { font-size: var(--type-small-fs); color: var(--color-text-muted); }
     .upload-drop__btn {
       margin-top: 4px; height: 32px; padding: 0 14px;
-      border: 1px solid #CFE0FF; background: #FFFFFF;
-      color: var(--col-primary); border-radius: 8px;
-      font-size: 13px; font-weight: 600;
+      border: 1px solid var(--color-border-default); background: var(--color-surface-card);
+      color: var(--color-text-secondary); border-radius: var(--radius-control);
+      font-size: var(--type-body-fs); font-weight: var(--fw-semibold);
     }
-    .upload-drop__btn:hover { background: var(--col-primary-bg); }
+    .upload-drop__btn:hover { background: var(--c-neutral-100); }
 
     /* 파일 목록 */
-    .file-list { display: flex; flex-direction: column; gap: 8px; }
+    .file-list { display: flex; flex-direction: column; gap: var(--space-sm); }
     .file-list__head {
       display: flex; align-items: center; justify-content: space-between;
-      font-size: 12px; color: var(--col-text-muted);
+      font-size: var(--type-small-fs); color: var(--color-text-muted);
     }
-    .file-list__clear { color: var(--col-text-soft); font-size: 12px; }
-    .file-list__clear:hover { color: var(--col-primary); }
+    .file-list__clear { color: var(--color-text-soft); font-size: var(--type-small-fs); }
+    .file-list__clear:hover { color: var(--color-text-secondary); }
     .file {
-      display: flex; align-items: center; gap: 10px;
+      display: flex; align-items: center; gap: var(--space-sm);
       height: 44px; padding: 0 12px;
-      background: var(--col-soft-bg);
-      border: 1px solid var(--col-border);
-      border-radius: var(--radius-row);
+      background: var(--color-surface-soft);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-control);
     }
-    .file__icon { width: 18px; height: 18px; color: var(--col-text-muted); flex-shrink: 0; }
+    .file__icon { width: 18px; height: 18px; color: var(--color-text-muted); flex-shrink: 0; }
     .file__name {
       flex: 1 1 auto; min-width: 0;
-      font-size: 13px; color: var(--col-text);
+      font-size: var(--type-body-fs); color: var(--color-text-strong);
       overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
     .file__status {
@@ -261,13 +242,13 @@
       align-items: center;
       gap: 5px;
       flex-shrink: 0;
-      font-size: 11px; font-weight: 600;
-      padding: 3px 8px; border-radius: 999px;
+      font-size: var(--type-caption-fs); font-weight: var(--fw-semibold);
+      padding: 3px 8px; border-radius: var(--radius-pill);
       line-height: 1;
     }
-    .file__status--ok { color: #1E7E34; background: #E3F5E5; }
-    .file__status--fail { color: #C0392B; background: #FDECEB; }
-    .file__status--loading { color: var(--col-primary); background: var(--col-primary-bg); }
+    .file__status--ok { color: var(--color-status-success); background: var(--color-status-success-soft); }
+    .file__status--fail { color: var(--color-status-danger); background: var(--color-status-danger-soft); }
+    .file__status--loading { color: var(--color-text-secondary); background: var(--c-neutral-100); }
     .file__status--loading::before {
       content: "";
       width: 10px;
@@ -285,16 +266,16 @@
       flex-shrink: 0;
       width: 28px;
       height: 28px;
-      border-radius: 6px;
-      color: var(--col-text-soft);
+      border-radius: var(--r-sm);
+      color: var(--color-text-soft);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       transition: background 120ms, color 120ms;
     }
     .file__delete:hover {
-      background: #FDECEB;
-      color: #C0392B;
+      background: var(--color-status-danger-soft);
+      color: var(--color-status-danger);
     }
     .file__delete svg {
       width: 16px;
@@ -302,244 +283,171 @@
     }
 
     /* ============================================================
-       공통 선택 컴포넌트 토큰
-       - 2번 RAG 선택(row+checkbox) / 3번 문서 유형(chip) 가 공유
-       - 차이는 형태(row vs chip)와 선택 상태(tint vs filled) 뿐
+       공통 다중 선택 버튼 박스
+       - 참조 RAG 선택 / 문서 유형 선택이 동일한 토큰/스타일 공유
+       - 미선택: white bg + neutral border
+       - 선택: dark filled (neutral-700) + white text
        ============================================================ */
     :root {
-      --sel-radius:        10px;
-      --sel-height:        36px;
-      --sel-font-size:     13px;
-      --sel-border:        #E5EAF3;
-      --sel-bg-hover:      #F4F7FB;
-      --sel-active-bg:     #EEF5FF;
-      --sel-active-color:  #2563EB;
-      --sel-active-border: #BFD7FF;
-      --sel-filled-bg:     #2563EB;
-      --sel-filled-color:  #FFFFFF;
+      --sel-h:       34px;
+      --sel-r:       var(--r-sm);        /* 6px */
+      --sel-border:  var(--color-border-default);
+      --sel-bg-on:   var(--c-neutral-700);
+      --sel-cl-on:   #ffffff;
     }
 
-    /* ----- 2번 RAG 선택 : multi-select list row ----- */
-    .check-list { display: flex; flex-direction: column; gap: 4px; }
-    .check {
-      display: flex; align-items: center; gap: 10px;
-      width: 100%;
-      min-height: var(--sel-height);
-      padding: 0 12px;
-      border: 1px solid transparent;
-      border-radius: var(--sel-radius);
-      background: transparent;
-      color: var(--col-text-2);
-      font-size: var(--sel-font-size); font-weight: 500;
-      cursor: pointer;
-      transition: background 120ms, border-color 120ms, color 120ms;
-    }
-    .check:hover { background: var(--sel-bg-hover); }
-    .check:focus-within {
-      background: var(--sel-active-bg);
-      border-color: var(--sel-active-border);
-    }
-    /* 체크된 row = 아주 연한 blue tint + blue accent text */
-    .check.is-checked {
-      background: var(--sel-active-bg);
-      border-color: var(--sel-active-border);
-      color: var(--sel-active-color);
-      font-weight: 600;
-    }
-    .check input[type="checkbox"] {
-      width: 16px; height: 16px; margin: 0;
-      accent-color: var(--sel-active-color);
-      flex-shrink: 0;
-      cursor: pointer;
-    }
-    /* "전체 선택" = 상단 고정 옵션처럼 살짝 구분 (하단 구분선 + 굵게) */
-    .check--all {
-      font-weight: 700;
-      color: var(--col-text);
-      margin-bottom: 6px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--col-border);
-      border-radius: 0;
-    }
-    .check--all:hover { background: transparent; }
-    .check--all.is-checked {
-      background: transparent;
-      border-color: transparent;
-      border-bottom: 1px solid var(--sel-active-border);
-      color: var(--sel-active-color);
-    }
-
-    /* ----- 2번 RAG 선택 : SB 3×3 button grid override ----- */
-    .rag-select-card .card__head { align-items: center; }
-    .rag-select-card .card__head-lead { gap: 0; }
-
-    .rag-select-card .check--all {
-      width: auto;
-      min-height: 32px;
-      margin: 0;
-      padding: 0 12px;
-      border: 1px solid var(--sel-border);
-      border-radius: var(--sel-radius);
-      background: #FFFFFF;
-      color: var(--col-text-muted);
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1;
-      white-space: nowrap;
-    }
-    .rag-select-card .check--all:hover {
-      background: var(--sel-bg-hover);
-      border-color: var(--sel-active-border);
-      color: var(--sel-active-color);
-    }
-    .rag-select-card .check--all.is-checked {
-      background: var(--sel-active-bg);
-      border-color: var(--sel-active-border);
-      color: var(--sel-active-color);
-    }
-
+    /* ── 참조 RAG 선택: 2열 그리드 ── */
     .rag-select-card .check-list {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+      gap: var(--space-sm);
     }
 
     .rag-select-card .check {
-      min-height: 36px;
-      height: 36px;
+      display: inline-flex; align-items: center; justify-content: center;
+      height: var(--sel-h);
       padding: 0 10px;
       border: 1px solid var(--sel-border);
-      border-radius: var(--sel-radius);
-      background: #FFFFFF;
-      color: var(--col-text-2);
-      justify-content: flex-start;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      line-height: 1;
-      text-align: left;
+      border-radius: var(--sel-r);
+      background: var(--color-surface-card);
+      color: var(--color-text-default);
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-semibold);
+      cursor: pointer;
+      text-align: center;
+      white-space: nowrap;
+      transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
     }
     .rag-select-card .check:hover {
-      background: var(--sel-bg-hover);
-      border-color: var(--sel-active-border);
-      color: var(--sel-active-color);
+      background: var(--c-neutral-100);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
     }
     .rag-select-card .check.is-checked {
-      background: var(--sel-active-bg);
-      border-color: var(--sel-active-border);
-      color: var(--sel-active-color);
+      background: var(--sel-bg-on);
+      border-color: var(--sel-bg-on);
+      color: var(--sel-cl-on);
+      font-weight: var(--fw-bold);
+    }
+    .rag-select-card .check.is-checked:hover {
+      background: var(--c-neutral-800);
+      border-color: var(--c-neutral-800);
     }
 
+    /* 체크박스 숨김 — 클릭 이벤트만 활용 */
     .rag-select-card .check input[type="checkbox"] {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
     }
-
+    /* 인디케이터 원 제거 */
+    .rag-select-card .check span::before { display: none !important; }
     .rag-select-card .check span {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .rag-select-card .check span::before {
-      content: "";
-      flex: 0 0 auto;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      border: 1px solid var(--sel-border);
-      background: #FFFFFF;
-      box-shadow: inset 0 0 0 2px #FFFFFF;
-    }
-    .rag-select-card .check.is-checked span::before {
-      border-color: var(--sel-active-color);
-      background: var(--sel-active-color);
+      display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
 
-    /* ----- 3번 문서 유형 : chip / button group (filled selected) ----- */
-    .chip-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    /* ── 문서 유형 선택: flex wrap ── */
+    .chip-list { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
     .chip {
       display: inline-flex; align-items: center; justify-content: center;
-      height: var(--sel-height);
+      height: var(--sel-h);
       padding: 0 14px;
       border: 1px solid var(--sel-border);
-      background: #FFFFFF;
-      color: var(--col-text-2);
-      border-radius: var(--sel-radius);
-      font-size: var(--sel-font-size); font-weight: 500;
+      border-radius: var(--sel-r);
+      background: var(--color-surface-card);
+      color: var(--color-text-default);
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-semibold);
       cursor: pointer;
-      transition: background 120ms, border-color 120ms, color 120ms;
+      white-space: nowrap;
+      transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
     }
     .chip:hover {
-      background: var(--sel-active-bg);
-      border-color: var(--sel-active-border);
-      color: var(--sel-active-color);
+      background: var(--c-neutral-100);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
     }
-    .chip:focus-visible {
-      outline: 2px solid var(--sel-active-border);
-      outline-offset: 2px;
-    }
-    /* 선택된 chip = filled blue */
     .chip.is-active {
-      background: var(--sel-filled-bg);
-      border-color: var(--sel-filled-bg);
-      color: var(--sel-filled-color);
-      font-weight: 600;
+      background: var(--sel-bg-on);
+      border-color: var(--sel-bg-on);
+      color: var(--sel-cl-on);
+      font-weight: var(--fw-bold);
     }
     .chip.is-active:hover {
-      background: var(--sel-filled-bg);
-      border-color: var(--sel-filled-bg);
-      color: var(--sel-filled-color);
+      background: var(--c-neutral-800);
+      border-color: var(--c-neutral-800);
+    }
+    .chip:focus-visible {
+      outline: 2px solid var(--c-neutral-400);
+      outline-offset: 2px;
+    }
+
+    /* ── 헤더 우측 액션 버튼 (전체 선택 / 문서 통합 공통) ── */
+    .card__head-action {
+      display: inline-flex; align-items: center;
+      height: 28px; padding: 0 10px;
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--r-sm);
+      background: var(--color-surface-card);
+      color: var(--color-text-muted);
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-semibold);
+      white-space: nowrap; cursor: pointer;
+      transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
+    }
+    .card__head-action:hover {
+      background: var(--c-neutral-100);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+    .card__head-action.is-active {
+      background: var(--c-neutral-700);
+      border-color: var(--c-neutral-700);
+      color: #ffffff;
+    }
+    .card__head-action.is-active:hover {
+      background: var(--c-neutral-800);
+      border-color: var(--c-neutral-800);
     }
 
     /* form row + segmented + number input */
     .form-row {
       display: grid;
       grid-template-columns: 84px minmax(0, 1fr);
-      align-items: center; gap: 12px;
+      align-items: center; gap: var(--space-md);
     }
-    .form-row__label { font-size: 13px; color: var(--col-text-muted); }
-    .form-row__field { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .form-row__label { font-size: var(--type-body-fs); color: var(--color-text-muted); }
+    .form-row__field { display: inline-flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
     .seg {
       display: inline-flex;
-      border: 1px solid var(--col-border-strong);
-      border-radius: 8px; overflow: hidden;
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control); overflow: hidden;
     }
     .seg__btn {
       height: 30px; padding: 0 12px;
-      background: #FFFFFF; color: var(--col-text-2);
-      font-size: 13px;
+      background: var(--color-surface-card); color: var(--color-text-default);
+      font-size: var(--type-body-fs);
     }
-    .seg__btn + .seg__btn { border-left: 1px solid var(--col-border-strong); }
-    .seg__btn:hover { background: var(--col-primary-bg-2); color: var(--col-primary); }
-    .seg__btn.is-active { background: var(--col-primary-bg); color: var(--col-primary); font-weight: 700; }
+    .seg__btn + .seg__btn { border-left: 1px solid var(--color-border-strong); }
+    .seg__btn:hover { background: var(--color-surface-soft); color: var(--color-text-secondary); }
+    .seg__btn.is-active { background: var(--c-neutral-100); color: var(--color-text-secondary); font-weight: var(--fw-bold); }
     .num-input {
       width: 64px; height: 30px; padding: 0 8px;
-      border: 1px solid var(--col-border-strong);
-      border-radius: 6px;
-      font-size: 13px; color: var(--col-text);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--r-sm);
+      font-size: var(--type-body-fs); color: var(--color-text-strong);
     }
-    .num-input:focus { border-color: var(--col-primary); }
-    .form-row__suffix { font-size: 13px; color: var(--col-text-muted); }
+    .num-input:focus { border-color: var(--color-text-secondary); }
+    .form-row__suffix { font-size: var(--type-body-fs); color: var(--color-text-muted); }
 
     /* primary 버튼 */
     .btn-primary {
       width: 100%; height: 44px; padding: 0 16px;
-      background: var(--col-primary); color: #FFFFFF;
-      border-radius: 10px;
-      font-size: 14px; font-weight: 700;
+      background: var(--color-text-secondary); color: var(--color-text-inverse);
+      border-radius: var(--r-lg);
+      font-size: var(--type-body-fs); font-weight: var(--fw-bold);
     }
-    .btn-primary:hover { background: #003FC8; }
+    .btn-primary:hover { background: var(--c-neutral-800); }
 
     /* ============================================================
        2열 - 에디터
@@ -547,55 +455,55 @@
     .pill {
       display: inline-flex; align-items: center;
       height: 26px; padding: 0 10px;
-      background: var(--col-primary-bg); color: var(--col-primary);
-      border-radius: 999px;
-      font-size: 12px; font-weight: 700;
+      background: var(--c-neutral-100); color: var(--color-text-secondary);
+      border-radius: var(--radius-pill);
+      font-size: var(--type-small-fs); font-weight: var(--fw-bold);
     }
     .editor-label {
-      font-size: 11px; color: var(--col-text-soft);
+      font-size: var(--type-caption-fs); color: var(--color-text-soft);
       letter-spacing: 0.6px; text-transform: uppercase;
       margin-bottom: 12px;
     }
     .editor-doc h1 {
       margin: 0 0 16px;
-      font-size: 24px; font-weight: 700; color: var(--col-text);
+      font-size: 24px; font-weight: var(--fw-bold); color: var(--color-text-strong);
       line-height: 1.3;
     }
     .editor-doc h2 {
       margin: 24px 0 8px;
-      font-size: 16px; font-weight: 700; color: var(--col-text);
-      line-height: 1.4;
+      font-size: var(--type-subheading-fs); font-weight: var(--fw-bold); color: var(--color-text-strong);
+      line-height: var(--lh-snug);
     }
     .editor-doc p, .editor-doc li {
-      font-size: 14px; color: var(--col-text-2);
+      font-size: var(--type-body-fs); color: var(--color-text-default);
       line-height: 22px; margin: 0 0 6px;
     }
     .editor-doc ul, .editor-doc ol { padding-left: 20px; margin: 0 0 12px; }
     .editor-doc .sub {
       margin: 14px 0 6px;
-      font-size: 14px; font-weight: 700; color: var(--col-text-2);
+      font-size: var(--type-body-fs); font-weight: var(--fw-bold); color: var(--color-text-default);
     }
     .editor-foot {
       flex-shrink: 0;
       display: flex; align-items: center; justify-content: space-between;
       padding: 10px 16px;
-      border-top: 1px solid var(--col-border);
-      background: var(--col-soft-bg);
-      color: var(--col-text-muted); font-size: 12px;
+      border-top: 1px solid var(--color-border-default);
+      background: var(--color-surface-soft);
+      color: var(--color-text-muted); font-size: var(--type-small-fs);
     }
     .editor-foot__group { display: inline-flex; gap: 18px; }
-    .editor-foot strong { color: var(--col-text); font-weight: 700; }
+    .editor-foot strong { color: var(--color-text-strong); font-weight: var(--fw-bold); }
     .editor-foot__save {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: var(--space-xs);
       white-space: nowrap;
     }
     .editor-foot__save-dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: #22C55E;
+      background: var(--color-status-success);
       box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.12);
       flex-shrink: 0;
     }
@@ -603,47 +511,47 @@
     /* ============================================================
        3열 - 출처 / 수정 / 다운로드
        ============================================================ */
-    .src-list { display: flex; flex-direction: column; gap: 8px; }
+    .src-list { display: flex; flex-direction: column; gap: var(--space-sm); }
     .src-item {
-      display: flex; align-items: center; gap: 10px;
+      display: flex; align-items: center; gap: var(--space-sm);
       height: 44px; padding: 0 12px;
-      background: var(--col-soft-bg);
-      border: 1px solid var(--col-border);
-      border-radius: var(--radius-row);
+      background: var(--color-surface-soft);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-control);
     }
-    .src-item__icon { width: 18px; height: 18px; color: var(--col-text-muted); flex-shrink: 0; }
+    .src-item__icon { width: 18px; height: 18px; color: var(--color-text-muted); flex-shrink: 0; }
     .src-item__name {
       flex: 1 1 auto; min-width: 0;
-      font-size: 13px; color: var(--col-text);
+      font-size: var(--type-body-fs); color: var(--color-text-strong);
       overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
     .icon-btn {
-      width: 28px; height: 28px; border-radius: 6px;
-      color: var(--col-text-muted);
+      width: 28px; height: 28px; border-radius: var(--r-sm);
+      color: var(--color-text-muted);
       display: inline-flex; align-items: center; justify-content: center;
     }
-    .icon-btn:hover { background: var(--col-primary-bg); color: var(--col-primary); }
+    .icon-btn:hover { background: var(--c-neutral-100); color: var(--color-text-secondary); }
     .icon-btn svg { width: 18px; height: 18px; }
 
     .link-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: var(--space-xs);
       height: 32px;
       padding: 0 10px;
-      border: 1px solid var(--col-border-strong);
-      border-radius: 8px;
-      background: #FFFFFF;
-      color: var(--col-text-2);
-      font-size: 13px; font-weight: 600;
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-card);
+      color: var(--color-text-default);
+      font-size: var(--type-body-fs); font-weight: var(--fw-semibold);
       line-height: 1;
       white-space: nowrap;
     }
     .link-btn:hover {
-      background: var(--col-soft-bg);
-      border-color: var(--col-border-strong);
-      color: var(--col-text);
+      background: var(--color-surface-soft);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-strong);
       text-decoration: none;
     }
     .link-btn__icon {
@@ -653,66 +561,102 @@
       color: currentColor;
     }
 
-    .pill-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill-list { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
     .pill-btn {
       display: inline-flex; align-items: center;
       height: 32px; padding: 0 12px;
-      border: 1px solid #CFE0FF;
-      background: var(--col-primary-bg-2);
-      color: var(--col-primary);
-      border-radius: 8px;
-      font-size: 13px; font-weight: 500;
+      border: 1px solid var(--color-border-strong);
+      background: var(--color-surface-soft);
+      color: var(--color-text-secondary);
+      border-radius: var(--radius-control);
+      font-size: var(--type-body-fs); font-weight: var(--fw-medium);
     }
-    .pill-btn:hover { background: var(--col-primary-bg); border-color: #B9D1FF; }
+    .pill-btn:hover { background: var(--c-neutral-100); border-color: var(--c-neutral-400); }
+
+    /* ── 다운로드 포맷 버튼 (아이콘 + 라벨 세로 정렬) ── */
+    .fmt-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+    .fmt-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 10px 4px 8px;
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-soft);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: background 120ms ease-out, border-color 120ms ease-out, color 120ms ease-out;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .fmt-btn:hover   { background: var(--c-neutral-100); border-color: var(--c-neutral-400); }
+    .fmt-btn:active  { background: var(--c-neutral-200); }
+    .fmt-btn:focus-visible { outline: 2px solid var(--c-neutral-400); outline-offset: 2px; }
+    .fmt-btn__icon {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      color: inherit;          /* stroke="currentColor" 가 버튼 color를 상속 */
+    }
+    .fmt-btn__label {
+      font-size: var(--fs-10); font-weight: var(--fw-bold);
+      line-height: 1; letter-spacing: 0.04em;
+      color: inherit;
+    }
 
     .ta {
       width: 100%; min-height: 96px;
       padding: 10px 12px;
-      border: 1px solid var(--col-border-strong);
-      border-radius: 8px;
-      background: #FFFFFF;
-      font-size: 14px; color: var(--col-text);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-card);
+      font-size: var(--type-body-fs); color: var(--color-text-strong);
       resize: vertical;
     }
-    .ta::placeholder { color: var(--col-text-soft); }
-    .ta:focus { border-color: var(--col-border-strong); }
+    .ta::placeholder { color: var(--color-text-soft); }
+    .ta:focus { border-color: var(--color-border-strong); }
 
-    .actions { display: flex; gap: 8px; }
+    .actions { display: flex; gap: var(--space-sm); }
     .btn-secondary {
       flex: 1 1 0;
       height: 40px; padding: 0 12px;
-      border: 1px solid var(--col-border-strong);
-      background: #FFFFFF; color: var(--col-text-2);
-      border-radius: 10px;
-      font-size: 13px; font-weight: 600;
+      border: 1px solid var(--color-border-strong);
+      background: var(--color-surface-card); color: var(--color-text-default);
+      border-radius: var(--r-lg);
+      font-size: var(--type-body-fs); font-weight: var(--fw-semibold);
     }
-    .btn-secondary:hover { border-color: var(--col-primary); color: var(--col-primary); }
+    .btn-secondary:hover { border-color: var(--color-text-secondary); color: var(--color-text-secondary); }
     .btn-secondary--primary {
-      background: var(--col-primary); color: #FFFFFF;
-      border-color: var(--col-primary);
+      background: var(--color-text-secondary); color: var(--color-text-inverse);
+      border-color: var(--color-text-secondary);
     }
-    .btn-secondary--primary:hover { background: #003FC8; color: #FFFFFF; }
+    .btn-secondary--primary:hover { background: var(--c-neutral-800); color: var(--color-text-inverse); }
 
     .input-text {
       width: 100%; height: 40px; padding: 0 12px;
-      border: 1px solid var(--col-border-strong);
-      background: #FFFFFF; color: var(--col-text);
-      border-radius: 8px; font-size: 14px;
+      border: 1px solid var(--color-border-strong);
+      background: var(--color-surface-card); color: var(--color-text-strong);
+      border-radius: var(--radius-control); font-size: var(--type-body-fs);
     }
-    .input-text:focus { border-color: var(--col-primary); }
+    .input-text:focus { border-color: var(--color-text-secondary); }
 
     .download-name-row {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: var(--space-sm);
       width: 100%;
     }
 
     .download-name-row__label {
       flex: 0 0 auto;
-      color: var(--col-text-2);
-      font-size: 13px;
-      font-weight: 600;
+      color: var(--color-text-default);
+      font-size: var(--type-body-fs);
+      font-weight: var(--fw-semibold);
       line-height: 1;
       white-space: nowrap;
     }
@@ -818,13 +762,14 @@
             </div>
           </article>
 
-          <!-- 2) 참고 RAG 선택 -->
+          <!-- 2) 참조 RAG 선택 -->
           <article class="card rag-select-card">
             <header class="card__head">
               <span class="card__head-lead">
-                <h3 class="card__title">② 참조 RAG 선택</h3>
+                <span class="card__num" aria-hidden="true">2</span>
+                <h3 class="card__title">참조 RAG 선택</h3>
               </span>
-              <label class="check check--all"><input type="checkbox" /><span>전체 선택</span></label>
+              <button type="button" class="card__head-action" id="rag-select-all">전체 선택</button>
             </header>
             <div class="card__body">
               <div class="check-list">
@@ -840,21 +785,21 @@
           </article>
 
           <!-- 3) 문서 유형 선택 -->
-          <article class="card">
+          <article class="card doctype-card">
             <header class="card__head">
               <span class="card__head-lead">
                 <span class="card__num" aria-hidden="true">3</span>
                 <h3 class="card__title">문서 유형 선택</h3>
               </span>
+              <button type="button" class="card__head-action is-active" id="doc-merge-btn">문서 통합</button>
             </header>
             <div class="card__body">
-              <label class="check is-checked"><input type="checkbox" checked /><span>문서 통합</span></label>
-              <div class="chip-list" role="radiogroup" aria-label="문서 유형">
-                <button type="button" class="chip is-active" role="radio" aria-checked="true">요약본 생성</button>
-                <button type="button" class="chip" role="radio" aria-checked="false">SOK 콘텐츠</button>
-                <button type="button" class="chip" role="radio" aria-checked="false">업무 매뉴얼</button>
-                <button type="button" class="chip" role="radio" aria-checked="false">교육자료</button>
-                <button type="button" class="chip" role="radio" aria-checked="false">기타</button>
+              <div class="chip-list" role="group" aria-label="문서 유형">
+                <button type="button" class="chip is-active" aria-pressed="true">요약본 생성</button>
+                <button type="button" class="chip" aria-pressed="false">SOK 콘텐츠</button>
+                <button type="button" class="chip" aria-pressed="false">업무 매뉴얼</button>
+                <button type="button" class="chip" aria-pressed="false">교육자료</button>
+                <button type="button" class="chip" aria-pressed="false">기타</button>
               </div>
             </div>
           </article>
@@ -1077,12 +1022,67 @@
                 <span class="download-name-row__label">문서명</span>
                 <input type="text" class="input-text" value="보험실효 안내방법" aria-label="문서명" />
               </label>
-              <div class="pill-list">
-                <button type="button" class="pill-btn">PPTX</button>
-                <button type="button" class="pill-btn">DOCX</button>
-                <button type="button" class="pill-btn">XLSX</button>
-                <button type="button" class="pill-btn">HWP</button>
-                <button type="button" class="pill-btn">PDF</button>
+              <div class="fmt-grid">
+                <!-- PPTX: 파일 + 막대 차트 (프레젠테이션) -->
+                <button type="button" class="fmt-btn" aria-label="PPTX로 다운로드">
+                  <svg class="fmt-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <!-- 막대 차트: 낮음-높음-중간 순 -->
+                    <line x1="9"  y1="18" x2="9"  y2="16"/>
+                    <line x1="12" y1="18" x2="12" y2="12"/>
+                    <line x1="15" y1="18" x2="15" y2="14"/>
+                  </svg>
+                  <span class="fmt-btn__label">PPTX</span>
+                </button>
+                <!-- DOCX: 파일 + 텍스트 줄 (문서) -->
+                <button type="button" class="fmt-btn" aria-label="DOCX로 다운로드">
+                  <svg class="fmt-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <!-- 텍스트 3줄 -->
+                    <line x1="8" y1="12" x2="16" y2="12"/>
+                    <line x1="8" y1="15" x2="16" y2="15"/>
+                    <line x1="8" y1="18" x2="13" y2="18"/>
+                  </svg>
+                  <span class="fmt-btn__label">DOCX</span>
+                </button>
+                <!-- XLSX: 파일 + 격자 테이블 (스프레드시트) -->
+                <button type="button" class="fmt-btn" aria-label="XLSX로 다운로드">
+                  <svg class="fmt-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <!-- 2×2 격자 테이블 -->
+                    <rect x="8" y="11.5" width="8" height="7" rx="0.5"/>
+                    <line x1="12" y1="11.5" x2="12" y2="18.5"/>
+                    <line x1="8"  y1="15"   x2="16" y2="15"/>
+                  </svg>
+                  <span class="fmt-btn__label">XLSX</span>
+                </button>
+                <!-- HWP: 파일 + ㅎ 자소 (한글 포맷) -->
+                <button type="button" class="fmt-btn" aria-label="HWP로 다운로드">
+                  <svg class="fmt-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <!-- ㅎ 자소: 짧은 수직선 + 수평선 + 원 -->
+                    <line x1="12" y1="10"   x2="12" y2="11.5"/>
+                    <line x1="9"  y1="11.5" x2="15" y2="11.5"/>
+                    <circle cx="12" cy="15.5" r="2.5"/>
+                  </svg>
+                  <span class="fmt-btn__label">HWP</span>
+                </button>
+                <!-- PDF: 파일 + 원형 씰 (고정 포맷) -->
+                <button type="button" class="fmt-btn" aria-label="PDF로 다운로드">
+                  <svg class="fmt-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <!-- 2줄 + 아래 원: sealed document -->
+                    <line x1="8" y1="12" x2="16" y2="12"/>
+                    <line x1="8" y1="15" x2="16" y2="15"/>
+                    <circle cx="12" cy="18.5" r="1.5"/>
+                  </svg>
+                  <span class="fmt-btn__label">PDF</span>
+                </button>
               </div>
             </div>
           </article>
@@ -1124,21 +1124,25 @@
     })();
 
     /* ============================================================
-       chip (radio-chip 단일 선택)
-       - role="radio" / aria-checked 동기화
+       chip (multi-select 다중 선택)
+       - aria-pressed 동기화
        ============================================================ */
     document.querySelectorAll('.page2-content .chip-list').forEach(function (list) {
       list.addEventListener('click', function (e) {
         var t = e.target.closest('.chip');
         if (!t) return;
-        list.querySelectorAll('.chip').forEach(function (c) {
-          c.classList.remove('is-active');
-          c.setAttribute('aria-checked', 'false');
-        });
-        t.classList.add('is-active');
-        t.setAttribute('aria-checked', 'true');
+        var active = t.classList.toggle('is-active');
+        t.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
     });
+
+    /* 문서 통합 헤더 버튼 토글 */
+    var mergeBtn = document.getElementById('doc-merge-btn');
+    if (mergeBtn) {
+      mergeBtn.addEventListener('click', function () {
+        mergeBtn.classList.toggle('is-active');
+      });
+    }
 
     /* segmented 단일 선택 */
     document.querySelectorAll('.page2-content .seg').forEach(function (seg) {
@@ -1151,9 +1155,8 @@
     });
 
     /* ============================================================
-       check row (multi-select)
-       - checkbox 상태 변경 시 .is-checked 동기화 → row tint
-       - "전체 선택"은 카드 내 모든 row 동시 토글
+       check row (multi-select) — RAG 선택
+       - checkbox 상태 변경 시 .is-checked 동기화
        ============================================================ */
     function syncCheckRow(input) {
       var row = input.closest('.check');
@@ -1162,20 +1165,26 @@
     }
 
     document.querySelectorAll('.page2-content .check input[type="checkbox"]').forEach(function (chk) {
-      syncCheckRow(chk); // 초기 상태 보정
+      syncCheckRow(chk);
       chk.addEventListener('change', function () { syncCheckRow(chk); });
     });
 
-    document.querySelectorAll('.page2-content .check--all input[type="checkbox"]').forEach(function (allChk) {
-      allChk.addEventListener('change', function () {
-        var card = allChk.closest('.card');
+    /* 전체 선택 버튼 — 카드 내 모든 체크 토글 */
+    var ragAllBtn = document.getElementById('rag-select-all');
+    if (ragAllBtn) {
+      ragAllBtn.addEventListener('click', function () {
+        var card = ragAllBtn.closest('.card');
         if (!card) return;
-        card.querySelectorAll('.check:not(.check--all) input[type="checkbox"]').forEach(function (chk) {
-          chk.checked = allChk.checked;
+        var checkboxes = card.querySelectorAll('.check input[type="checkbox"]');
+        var allChecked = Array.from(checkboxes).every(function (c) { return c.checked; });
+        checkboxes.forEach(function (chk) {
+          chk.checked = !allChecked;
           syncCheckRow(chk);
         });
+        ragAllBtn.classList.toggle('is-active', !allChecked);
+        ragAllBtn.textContent = !allChecked ? '전체 해제' : '전체 선택';
       });
-    });
+    }
   </script>
 </body>
 </html>

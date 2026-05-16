@@ -1,77 +1,44 @@
-/* ============================================================
-   INPUT / TEXTAREA / SELECT — 통합 컨트롤
-   ============================================================ */
-.ds-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  width: 100%;
-}
-
-.ds-field__label {
-  font-family: var(--font-default);
-  font-size: var(--type-label-fs);
-  font-weight: var(--type-label-fw);
-  line-height: var(--type-label-lh);
-  color: var(--color-text-strong);
-}
-
-.ds-field__hint  { font-size: var(--fs-12); color: var(--color-text-muted); }
-.ds-field__error { font-size: var(--fs-12); color: var(--color-status-danger); }
-
-.ds-input,
-.ds-textarea,
-.ds-select {
-  box-sizing: border-box;
-  width: 100%;
+.ds-input, .ds-select {
+  display: block; width: 100%;
   height: var(--control-h-md);
-  padding: 0 var(--space-md);
-  background: var(--color-surface-card);
-  border: var(--bw-1) solid var(--color-border-default);
+  padding: 0 var(--control-pad-x-md);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-control);
-  color: var(--color-text-default);
-  font-family: var(--font-default);
-  font-size: var(--fs-13);
-  font-weight: var(--fw-medium);
-  line-height: 1;
-  transition: border-color var(--motion-fast), background var(--motion-fast);
+  background: var(--color-surface-card);
+  font-family: inherit; font-size: var(--type-body-fs); font-weight: var(--type-body-fw);
+  color: var(--color-text-default); line-height: 1; outline: none;
+  transition: border-color var(--motion-fast);
+  -webkit-appearance: none; appearance: none;
 }
-
-.ds-input::placeholder,
-.ds-textarea::placeholder {
-  color: var(--color-text-soft);
-  font-weight: var(--fw-regular);
-}
-
-.ds-input:hover,
-.ds-textarea:hover,
-.ds-select:hover {
-  border-color: var(--color-border-strong);
-}
-
-.ds-input:focus,
-.ds-textarea:focus,
-.ds-select:focus {
-  border-color: var(--color-border-focus);
-  outline: none;
-  box-shadow: var(--shadow-focus);
-}
-
-.ds-input[disabled],
-.ds-textarea[disabled],
-.ds-select[disabled] {
+.ds-input::placeholder { color: var(--color-text-soft); }
+.ds-input:hover  { border-color: var(--color-border-default); }
+.ds-input:focus  { border-color: var(--color-border-focus); box-shadow: var(--shadow-focus); }
+.ds-select:focus { border-color: var(--color-border-focus); box-shadow: var(--shadow-focus); }
+.ds-input:disabled, .ds-select:disabled {
   background: var(--color-surface-soft);
   color: var(--color-text-disabled);
   cursor: not-allowed;
 }
 
-.ds-textarea {
-  height: auto;
-  min-height: 80px;
-  padding: var(--space-md);
-  line-height: var(--lh-normal);
-  resize: vertical;
-}
+input[type="date"].ds-input { padding-right: var(--space-xs); }
 
-.ds-input--sm { height: var(--control-h-sm); font-size: var(--fs-12); }
-.ds-input--lg { height: var(--control-h-lg); font-size: var(--fs-14); }
+.ds-textarea {
+  display: block; width: 100%; min-height: 80px;
+  padding: var(--space-sm) var(--control-pad-x-md);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-card);
+  font-family: inherit; font-size: var(--type-body-fs);
+  color: var(--color-text-default); line-height: var(--type-body-lh);
+  outline: none; resize: vertical;
+  transition: border-color var(--motion-fast);
+}
+.ds-textarea:focus { border-color: var(--color-border-focus); box-shadow: var(--shadow-focus); }
+
+.ds-input--sm { height: var(--control-h-sm); padding: 0 var(--control-pad-x-sm); font-size: var(--type-caption-fs); }
+.ds-input--lg { height: var(--control-h-lg); padding: 0 var(--control-pad-x-lg); font-size: var(--type-body-fs); }
+
+.ds-field { display: flex; flex-direction: column; gap: var(--space-xs); }
+.ds-field__label { font-size: var(--type-caption-fs); font-weight: var(--type-caption-fw); color: var(--color-text-muted); }
+.ds-field__hint  { font-size: var(--type-caption-fs); font-weight: var(--fw-regular); color: var(--color-text-soft); }
+.ds-field__error { font-size: var(--type-caption-fs); color: var(--color-status-danger); }

@@ -1,83 +1,30 @@
-/* ============================================================
-   CARD — 모든 카드의 공통 베이스
-   - .ds-card        : 기본 흰 카드 (radius 16, padding 16)
-   - .ds-card--outer : 외곽 반투명 카드 (radius 20, padding 12)
-   - .ds-card--soft  : 옅은 회색 배경 (소셜 가벼운 영역)
-   - .ds-card--status: 상태 강조 카드 (border 강조)
-   - .ds-card__head  : 카드 헤더 (left lead + right meta)
-   - .ds-card__title : 카드 헤더 타이틀
-   - .ds-card__body  : 카드 본문 (padding 16)
-   ============================================================ */
 .ds-card {
+  display: flex; flex-direction: column; min-width: 0;
   background: var(--color-surface-card);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
+  overflow: hidden;
 }
-
-.ds-card--outer {
-  background: var(--color-surface-outer);
-  border-radius: var(--radius-outer);
-  box-shadow: none;
-  padding: 0 var(--space-md) var(--space-md);
-  gap: var(--space-sm);
-}
-
-.ds-card--soft {
-  background: var(--color-surface-soft);
-  box-shadow: none;
-}
-
-.ds-card--status {
-  border: var(--bw-1) solid var(--color-border-accent);
-  box-shadow: none;
-}
-
-.ds-card--flat {
-  box-shadow: none;
-}
+.ds-card--outer  { border-radius: var(--radius-outer); background: var(--color-surface-outer); border-color: transparent; box-shadow: none; }
+.ds-card--soft   { background: var(--color-surface-soft); box-shadow: none; }
+.ds-card--flat   { box-shadow: none; }
+.ds-card--status { border-color: var(--color-border-accent); }
 
 .ds-card__head {
-  height: 56px;
-  padding: 0 var(--space-lg);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-md);
-  border-bottom: var(--bw-1) solid var(--color-border-default);
-}
-
-.ds-card__head-lead {
-  display: inline-flex;
-  align-items: center;
+  display: flex; align-items: center; justify-content: space-between;
   gap: var(--space-sm);
-  min-width: 0;
+  padding: var(--space-md) var(--layout-card-padding);
+  border-bottom: 1px solid var(--color-border-subtle);
+  flex-shrink: 0;
 }
-
-.ds-card__head-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
+.ds-card__head-lead { display: flex; align-items: center; gap: var(--space-sm); flex: 1 1 auto; min-width: 0; }
+.ds-card__head-meta { display: flex; align-items: center; gap: var(--space-xs); flex-shrink: 0; }
 .ds-card__title {
-  font-family: var(--font-default);
-  font-size: var(--type-card-title-fs);
-  font-weight: var(--type-card-title-fw);
-  line-height: var(--type-card-title-lh);
-  color: var(--color-text-strong);
+  font-size: var(--type-subheading-fs); font-weight: var(--type-subheading-fw);
+  line-height: var(--type-subheading-lh); color: var(--color-text-strong);
   margin: 0;
 }
-
-.ds-card__body {
-  padding: var(--space-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  min-height: 0;
-}
-
+.ds-card__body { padding: var(--layout-card-padding); flex: 1 1 auto; min-height: 0; }
 .ds-card__body--flush { padding: 0; }
 .ds-card__body--scroll { overflow-y: auto; }

@@ -1,23 +1,5 @@
-/* ============================================================
-   SEMANTIC TOKENS — 의미 기반 토큰 (Primitive 만 참조)
-   - 모든 컴포넌트 / 페이지 CSS 는 반드시 이 파일의 토큰만 사용한다
-   - "hex / px / font-weight 숫자" 직접 사용 금지
-   ============================================================ */
 :root {
-  /* —————— Color : Brand —————— */
-  --color-brand-primary:        var(--c-blue-strong);   /* SB blue */
-  --color-brand-primary-hover:  var(--c-blue-deep);
-  --color-brand-primary-soft:   var(--c-blue-75);
-  --color-brand-primary-softer: var(--c-blue-50);
-  --color-brand-accent-border:  var(--c-blue-200);
-
-  /* Action primary (UI button etc — 약간 더 진한 톤) */
-  --color-action-primary:        var(--c-blue-500);
-  --color-action-primary-hover:  var(--c-blue-600);
-  --color-action-primary-soft:   var(--c-blue-75);
-  --color-action-primary-active: var(--c-blue-100);
-
-  /* —————— Color : Text —————— */
+  /* ── Text ── */
   --color-text-strong:    var(--c-neutral-900);
   --color-text-default:   var(--c-neutral-800);
   --color-text-secondary: var(--c-neutral-700);
@@ -25,168 +7,268 @@
   --color-text-soft:      var(--c-neutral-400);
   --color-text-disabled:  var(--c-neutral-300);
   --color-text-inverse:   var(--c-neutral-0);
-  --color-text-link:      var(--color-brand-primary);
+  --color-text-link:      var(--c-neutral-600);
 
-  /* —————— Color : Surface (배경 레이어) —————— */
-  --color-surface-app:        var(--c-neutral-75);   /* 페이지 바깥 배경 */
-  --color-surface-outer:      rgba(255, 255, 255, 0.50); /* 1열 outer translucent */
-  --color-surface-card:       var(--c-neutral-0);    /* 내부 흰 카드 */
-  --color-surface-soft:       var(--c-neutral-25);   /* 옅은 회색 영역 */
-  --color-surface-row:        var(--c-blue-50);      /* 선택된 row tint */
-  --color-surface-row-hover:  var(--c-neutral-50);
-  --color-surface-selected:   var(--c-blue-75);
-  --color-surface-header:     var(--c-neutral-25);   /* topbar */
-  --color-surface-footer:     var(--c-neutral-600);  /* statusbar */
-  --color-surface-lnb:        #E4EAF2;
+  /* ── Brand / Action (neutral — blue 포인트 제거 정책) ── */
+  --color-brand-primary:        var(--c-neutral-700);
+  --color-brand-primary-hover:  var(--c-neutral-800);
+  --color-brand-primary-soft:   var(--c-neutral-100);
+  --color-brand-primary-softer: var(--c-neutral-50);
+  --color-brand-accent-border:  var(--c-neutral-300);
+  --color-action-primary:       var(--c-neutral-700);
+  --color-action-primary-hover: var(--c-neutral-800);
+  --color-action-primary-soft:  var(--c-neutral-100);
+  --color-action-primary-active:var(--c-neutral-150);
 
-  /* —————— Color : Border —————— */
-  --color-border-default:  var(--c-neutral-100);
-  --color-border-strong:   var(--c-neutral-150);
-  --color-border-subtle:   rgba(100, 116, 139, 0.12);
-  --color-border-focus:    var(--color-action-primary);
-  --color-border-accent:   var(--color-brand-accent-border);
+  /* ── Surface ── */
+  --color-surface-app:      #DADFE4;
+  --color-surface-outer:    rgba(241, 245, 249, 0.92);
+  --color-surface-card:     var(--c-neutral-0);
+  --color-surface-soft:     var(--c-neutral-50);
+  --color-surface-row:      var(--c-neutral-100);
+  --color-surface-row-hover:var(--c-neutral-50);
+  --color-surface-selected: var(--c-neutral-100);
+  --color-surface-header:   var(--c-neutral-0);
+  --color-surface-footer:   #475569;
+  --color-surface-lnb:      #D2D7DC;
 
-  /* —————— Color : Status —————— */
+  /* ── Border ── */
+  --color-border-default: #E5EAF3;
+  --color-border-strong:  #DADDE3;
+  --color-border-subtle:  rgba(220, 228, 238, 0.55);
+  --color-border-focus:   var(--c-neutral-400);
+  --color-border-accent:  var(--c-neutral-300);
+
+  /* ── Status ── */
   --color-status-success:      var(--c-green-500);
   --color-status-success-soft: var(--c-green-50);
   --color-status-warning:      var(--c-yellow-500);
-  --color-status-warning-soft: var(--c-yellow-100);
+  --color-status-warning-soft: var(--c-yellow-50);
   --color-status-danger:       var(--c-red-strong);
-  --color-status-danger-soft:  var(--c-red-100);
-  --color-status-info:         var(--c-blue-500);
-  --color-status-info-soft:    var(--c-blue-75);
+  --color-status-danger-soft:  var(--c-red-50);
+  --color-status-info:         var(--c-neutral-600);
+  --color-status-info-soft:    var(--c-neutral-100);
 
-  /* 상태 단계 (자동안내 단계, 검수 risk 등 공통) */
-  --color-step-done:     var(--c-neutral-400);   /* 처리완료 */
-  --color-step-wait:     var(--c-neutral-300);   /* 대기중 */
-  --color-step-progress: var(--color-brand-primary);  /* 진행중 */
-  --color-step-error:    var(--c-red-strong);    /* 처리불가 */
+  /* ── Step ── */
+  --color-step-done:     var(--c-neutral-400);
+  --color-step-wait:     var(--c-neutral-300);
+  --color-step-progress: var(--c-neutral-700);
+  --color-step-error:    var(--c-red-strong);
 
-  /* —————— Spacing 의미 토큰 —————— */
-  --space-xxs: var(--s-2);   /* 4 */
-  --space-xs:  var(--s-3);   /* 6 */
-  --space-sm:  var(--s-4);   /* 8 */
-  --space-md:  var(--s-6);   /* 12 */
-  --space-lg:  var(--s-8);   /* 16 */
-  --space-xl:  var(--s-10);  /* 20 */
-  --space-2xl: var(--s-12);  /* 24 */
-  --space-3xl: var(--s-16);  /* 32 */
-  --space-4xl: var(--s-20);  /* 40 */
+  /* ── Spacing ── */
+  --space-xxs: var(--s-2);
+  --space-xs:  var(--s-3);
+  --space-sm:  var(--s-4);
+  --space-md:  var(--s-6);
+  --space-lg:  var(--s-8);
+  --space-xl:  var(--s-10);
+  --space-2xl: var(--s-12);
+  --space-3xl: var(--s-16);
+  --space-4xl: var(--s-20);
 
-  /* —————— Radius 의미 토큰 —————— */
-  --radius-control:  var(--r-md);   /* button / chip / input — 8px */
-  --radius-card:     var(--r-2xl);  /* inner white card — 16px */
-  --radius-outer:    var(--r-3xl);  /* outer translucent card — 20px */
-  --radius-row:      var(--r-md);   /* table/list row — 8px */
-  --radius-pill:     var(--r-pill);
-  --radius-circle:   50%;
+  /* ── Radius ── */
+  --radius-control: var(--r-md);
+  --radius-card:    var(--r-2xl);
+  --radius-outer:   var(--r-3xl);
+  --radius-row:     var(--r-md);
+  --radius-pill:    var(--r-pill);
+  --radius-circle:  50%;
 
-  /* —————— Border —————— */
-  --border-control: var(--bw-1) solid var(--color-border-default);
-  --border-strong:  var(--bw-1) solid var(--color-border-strong);
-  --border-subtle:  var(--bw-1) solid var(--color-border-subtle);
-  --border-divider: var(--bw-1) solid var(--color-border-default);
+  /* ── Typography — 6단계 ── */
+  --type-heading-fs:    var(--fs-18);
+  --type-heading-fw:    var(--fw-bold);
+  --type-heading-lh:    var(--lh-tight);
 
-  /* —————— Shadow —————— */
-  --shadow-card:    var(--sh-sm);
-  --shadow-overlay: var(--sh-lg);
-  --shadow-focus:   var(--sh-focus-blue);
+  --type-subheading-fs: var(--fs-14);
+  --type-subheading-fw: var(--fw-semibold);
+  --type-subheading-lh: var(--lh-snug);
 
-  /* —————— Typography 의미 토큰 —————— */
-  --font-default: var(--font-family-sans);
+  --type-body-fs:       var(--fs-13);
+  --type-body-fw:       var(--fw-regular);
+  --type-body-lh:       1.55;
 
-  /* Display (가장 큰 헤딩) */
-  --type-display-fs: var(--fs-22);
-  --type-display-fw: var(--fw-bold);
-  --type-display-lh: var(--lh-tight);
+  --type-small-fs:      var(--fs-12);
+  --type-small-fw:      var(--fw-regular);
+  --type-small-lh:      var(--lh-normal);
 
-  /* Title (페이지/모달 타이틀) */
-  --type-title-fs: var(--fs-18);
-  --type-title-fw: var(--fw-bold);
-  --type-title-lh: var(--lh-tight);
+  --type-caption-fs:    var(--fs-11);
+  --type-caption-fw:    var(--fw-medium);
+  --type-caption-lh:    var(--lh-snug);
 
-  /* Section (열 헤더 / 카드 그룹 타이틀) */
-  --type-section-fs: var(--fs-16);
-  --type-section-fw: var(--fw-bold);
-  --type-section-lh: var(--lh-snug);
+  --type-ui-label-fs:   var(--fs-11);
+  --type-ui-label-fw:   var(--fw-bold);
+  --type-ui-label-lh:   1;
 
-  /* Card title (카드 헤더 텍스트) */
-  --type-card-title-fs: var(--fs-15);
-  --type-card-title-fw: var(--fw-bold);
-  --type-card-title-lh: var(--lh-snug);
+  --type-button-fs:     var(--fs-12);
+  --type-button-fw:     var(--fw-bold);
 
-  /* Body */
-  --type-body-fs: var(--fs-14);
-  --type-body-fw: var(--fw-regular);
-  --type-body-lh: var(--lh-normal);
-
-  /* Body strong */
+  /* ── 구 토큰 alias (점진 제거 예정) ── */
+  --type-display-fs:     var(--type-heading-fs);
+  --type-display-fw:     var(--type-heading-fw);
+  --type-display-lh:     var(--type-heading-lh);
+  --type-title-fs:       var(--type-heading-fs);
+  --type-title-fw:       var(--type-heading-fw);
+  --type-title-lh:       var(--type-heading-lh);
+  --type-section-fs:     var(--type-subheading-fs);
+  --type-section-fw:     var(--type-subheading-fw);
+  --type-section-lh:     var(--type-subheading-lh);
+  --type-card-title-fs:  var(--type-subheading-fs);
+  --type-card-title-fw:  var(--type-subheading-fw);
+  --type-card-title-lh:  var(--type-subheading-lh);
   --type-body-strong-fw: var(--fw-semibold);
+  --type-pill-fs:        var(--type-ui-label-fs);
+  --type-pill-fw:        var(--type-ui-label-fw);
+  --type-pill-lh:        var(--type-ui-label-lh);
+  --type-label-fs:       var(--type-ui-label-fs);
+  --type-label-fw:       var(--type-ui-label-fw);
+  --type-label-lh:       var(--type-ui-label-lh);
 
-  /* Small / meta */
-  --type-small-fs: var(--fs-13);
-  --type-small-fw: var(--fw-regular);
-  --type-small-lh: var(--lh-normal);
+  /* ── Control Sizing ── */
+  --control-h-sm:      26px;
+  --control-h-md:      30px;
+  --control-h-lg:      36px;
+  --control-h-xl:      48px;
+  --control-pad-x-sm:  10px;
+  --control-pad-x-md:  12px;
+  --control-pad-x-lg:  14px;
 
-  /* Caption (보조 텍스트) */
-  --type-caption-fs: var(--fs-12);
-  --type-caption-fw: var(--fw-medium);
-  --type-caption-lh: var(--lh-snug);
-
-  /* Pill / badge */
-  --type-pill-fs: var(--fs-11);
-  --type-pill-fw: var(--fw-bold);
-  --type-pill-lh: 1;
-
-  /* Button */
-  --type-button-fs: var(--fs-13);
-  --type-button-fw: var(--fw-bold);
-  --type-button-lh: 1;
-
-  /* Label */
-  --type-label-fs: var(--fs-13);
-  --type-label-fw: var(--fw-bold);
-  --type-label-lh: 1;
-
-  /* —————— Control sizing —————— */
-  --control-h-sm: 28px;
-  --control-h-md: 32px;
-  --control-h-lg: 40px;
-  --control-h-xl: 48px;
-
-  --control-pad-x-sm: var(--s-6);
-  --control-pad-x-md: var(--s-7);
-  --control-pad-x-lg: var(--s-8);
-
-  /* —————— Icon sizing —————— */
-  --icon-xs: 12px;
-  --icon-sm: 14px;
-  --icon-md: 16px;
-  --icon-lg: 18px;
-  --icon-xl: 20px;
+  /* ── Icon ── */
+  --icon-xs:  12px;
+  --icon-sm:  14px;
+  --icon-md:  16px;
+  --icon-lg:  18px;
+  --icon-xl:  20px;
   --icon-2xl: 24px;
   --icon-3xl: 28px;
 
-  /* —————— Motion —————— */
-  --motion-fast:   var(--dur-fast)   var(--ease-out);
-  --motion-normal: var(--dur-normal) var(--ease-out);
-  --motion-slow:   var(--dur-slow)   var(--ease-out);
+  /* ── Shadow ── */
+  --shadow-card:    0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-overlay: 0 8px 24px rgba(15,23,42,0.12), 0 2px 8px rgba(15,23,42,0.06);
+  --shadow-focus:   0 0 0 2px var(--c-neutral-300);
 
-  /* —————— Layout 의미 토큰 —————— */
-  --layout-header-height: var(--layout-header-h);
-  --layout-lnb-width:     var(--layout-lnb-w);
-  --layout-footer-height: var(--layout-footer-h);
-  --layout-gutter:        var(--layout-content-gap);
-  --layout-card-padding:  var(--layout-card-pad);
-  --layout-shell-pad-x:   var(--layout-page-pad-x);
+  /* legacy shadow aliases */
+  --sh-sm:         var(--shadow-card);
+  --sh-lg:         var(--shadow-overlay);
+  --sh-focus-blue: var(--shadow-focus);
 
-  /* AppShell 내부 컴포넌트 스케일 */
-  --layout-lnb-pad-top: clamp(12px, 0.83vw, 16px);
-  --layout-lnb-pad-bottom: clamp(10px, 0.63vw, 12px);
-  --layout-lnb-brand-size: clamp(32px, 1.875vw, 36px);
-  --layout-lnb-brand-gap: clamp(18px, 1.25vw, 24px);
-  --layout-lnb-nav-gap: clamp(8px, 0.63vw, 12px);
-  --layout-lnb-button-size: clamp(36px, 2.08vw, 40px);
-  --layout-header-pad-x: var(--layout-shell-pad-x);
-  --layout-header-gap: clamp(12px, 0.83vw, 16px);
+  /* ── Motion ── */
+  --motion-fast:   120ms ease-out;
+  --motion-normal: 200ms ease-out;
+  --motion-slow:   320ms ease-out;
+
+  /* ── Layout ── */
+  --layout-scale:           1;
+  --layout-header-h:        64px;
+  --layout-lnb-w:           96px;
+  --layout-footer-h:        40px;
+  --layout-page-pad-x:      32px;
+  --layout-content-max:     none;
+  --layout-content-gap:     14px;
+  --layout-card-gap:        12px;
+  --layout-card-pad:        18px;
+  --layout-section-gap:     20px;
+  --layout-lnb-button-size: 40px;
+  --layout-lnb-brand-size:  36px;
+
+  /* layout semantic aliases */
+  --layout-header-height:   var(--layout-header-h);
+  --layout-lnb-width:       var(--layout-lnb-w);
+  --layout-footer-height:   var(--layout-footer-h);
+  --layout-gutter:          var(--layout-content-gap);
+  --layout-card-padding:    var(--layout-card-pad);
+  --layout-shell-pad-x:     var(--layout-page-pad-x);
+  --layout-lnb-pad-top:     16px;
+  --layout-lnb-pad-bottom:  12px;
+  --layout-lnb-nav-gap:     12px;
+  --layout-lnb-brand-gap:   24px;
+  --layout-header-pad-x:    var(--layout-shell-pad-x);
+  --layout-header-gap:      16px;
+
+  /* ── Z-index ── */
+  --z-base:     1;
+  --z-sticky:   10;
+  --z-dropdown: 20;
+  --z-overlay:  30;
+  --z-modal:    40;
+  --z-tooltip:  50;
+  --z-toast:    60;
+
+  /* ════════════════════════════════════
+     LEGACY ALIAS — 기존 페이지/컴포넌트 호환
+     (파일별 마이그레이션 완료 후 순차 제거)
+  ════════════════════════════════════ */
+  --font-sans:        'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-default:     var(--font-sans);
+  --font-family-sans: var(--font-sans);
+  --font-regular:     var(--fw-regular);
+  --font-medium:      var(--fw-medium);
+  --font-semibold:    var(--fw-semibold);
+  --font-bold:        var(--fw-bold);
+
+  --text-xs:          var(--type-caption-fs);
+  --text-sm:          var(--type-small-fs);
+  --text-md:          var(--type-body-fs);
+  --text-base:        var(--type-body-fs);
+  --text-lg:          var(--type-subheading-fs);
+  --text-xl:          var(--type-heading-fs);
+
+  --leading-tight:    var(--lh-tight);
+  --leading-snug:     var(--lh-snug);
+  --leading-normal:   var(--lh-normal);
+  --line-relaxed:     var(--lh-relaxed);
+
+  --text-strong:      var(--color-text-strong);
+  --text-default:     var(--color-text-default);
+  --text-secondary:   var(--color-text-secondary);
+  --text-muted:       var(--color-text-muted);
+  --text-soft:        var(--color-text-soft);
+  --text-disabled:    var(--color-text-disabled);
+  --text-inverse:     var(--color-text-inverse);
+
+  --primary:          var(--color-brand-primary);
+  --primary-hover:    var(--color-brand-primary-hover);
+  --primary-soft:     var(--color-brand-primary-soft);
+  --primary-muted:    var(--c-neutral-400);
+  --info:             var(--color-status-info);
+  --info-soft:        var(--color-status-info-soft);
+  --ai-blue-soft:     var(--c-neutral-100);
+  --color-primary-700:var(--c-neutral-900);
+
+  --bg-app:           var(--color-surface-app);
+  --bg-panel:         var(--color-surface-app);
+  --bg-card:          var(--color-surface-card);
+  --bg-inner-content: var(--color-surface-card);
+  --bg-content-soft:  var(--color-surface-soft);
+  --bg-card-soft:     var(--color-surface-soft);
+
+  --surface-hover:    var(--c-neutral-100);
+  --surface-active:   var(--c-neutral-200);
+  --surface-selected: var(--c-neutral-100);
+
+  --divider-soft:     var(--color-border-subtle);
+  --divider:          var(--color-border-default);
+
+  --card-border:              1px solid var(--color-border-subtle);
+  --radius-md:                var(--r-md);
+  --radius-workspace-card:    var(--r-3xl);
+  --radius-inner-content:     var(--r-2xl);
+  --shadow-workspace-card:    var(--shadow-card);
+  --shadow-inner-content:     none;
+
+  --btn-height-sm:    var(--control-h-sm);
+  --btn-height-md:    var(--control-h-md);
+  --btn-height-lg:    var(--control-h-lg);
+  --input-height-sm:  var(--control-h-sm);
+  --input-height-md:  var(--control-h-md);
+
+  --page-padding-x:   var(--layout-page-pad-x);
+  --header-height:    var(--layout-header-h);
+  --statusbar-height: var(--layout-footer-h);
+  --lnb-width:        var(--layout-lnb-w);
+
+  --space-2: var(--s-1);
+  --space-3: var(--s-2);
+  --space-4: var(--s-3);
+
+  --padding-inner-content: var(--layout-card-pad);
 }

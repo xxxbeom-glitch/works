@@ -6,8 +6,8 @@
     'Segoe UI', sans-serif;
 
   /* —— Color: background layers —— */
-  --bg-app: #eef2f9;
-  --bg-panel: #eef2f9;
+  --bg-app: #f3f4f6;
+  --bg-panel: #f3f4f6;
   /* 워크스페이스 메인 카드(1·2·3열 outer) 공통 면 */
   --bg-card: #f8fafc;
   --radius-workspace-card: 16px;
@@ -29,19 +29,19 @@
   --card-border: none;
 
   /* —— Color: surface interaction —— */
-  --surface-hover: #f1f6fb;
-  --surface-active: #e8f0ff;
-  --surface-selected: #dfeaff;
+  --surface-hover: #f3f4f6;
+  --surface-active: #e5e7eb;
+  --surface-selected: #e5e7eb;
 
   /* —— Color: primary —— */
-  --primary: #2563eb;
-  --primary-soft: #eaf1ff;
-  --primary-muted: #9db7f5;
+  --primary: #374151;
+  --primary-soft: #f3f4f6;
+  --primary-muted: #9ca3af;
 
   /* —— Color: AI accents —— */
   --ai-purple: #6d5df6;
   --ai-purple-soft: #f0eeff;
-  --ai-blue-soft: #eaf4ff;
+  --ai-blue-soft: #f3f4f6;
 
   /* —— Color: semantic —— */
   --success: #12a150;
@@ -50,8 +50,8 @@
   --warning-soft: #fff4d8;
   --danger: #e5484d;
   --danger-soft: #fdecec;
-  --info: #2f80ed;
-  --info-soft: #eaf4ff;
+  --info: #4b5563;
+  --info-soft: #f3f4f6;
 
   /* —— Color: text —— */
   --text-strong: #101828;
@@ -119,7 +119,7 @@
   --color-primary-100: var(--surface-selected);
   --color-primary-500: var(--primary);
   --color-primary-600: var(--primary);
-  --color-primary-700: #1d4ed8;
+  --color-primary-700: #111827;
 
   --color-success: var(--success);
   --color-success-bg: var(--success-soft);

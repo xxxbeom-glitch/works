@@ -7,7 +7,7 @@
   flex-shrink: 0;
   gap: 8px;
   margin: 0;
-  padding: 24px 18px;
+  padding: var(--space-lg) var(--layout-card-padding);  /* 16px 상하 */
   background: transparent;
   border: 0;
 }

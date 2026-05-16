@@ -94,7 +94,7 @@
       flex: 1 1 auto;
       min-height: 0;
       display: flex; flex-direction: column;
-      gap: var(--space-sm);
+      gap: var(--space-md);
       overflow-y: auto;
       overflow-x: hidden;
       padding-right: 4px;
@@ -438,17 +438,27 @@
     .form-row__field { display: inline-flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
     .seg {
       display: inline-flex;
+      height: var(--control-h-md);
       border: 1px solid var(--color-border-strong);
-      border-radius: var(--radius-control); overflow: hidden;
+      border-radius: var(--radius-control);
+      overflow: hidden;
     }
     .seg__btn {
-      height: 30px; padding: 0 12px;
-      background: var(--color-surface-card); color: var(--color-text-default);
-      font-size: var(--type-body-fs);
+      height: var(--control-h-md);
+      padding: 0 var(--control-pad-x-md);
+      background: var(--color-surface-card);
+      color: var(--color-text-default);
+      font-size: var(--type-ui-label-fs);
+      font-weight: var(--fw-medium);
+      line-height: 1;
     }
     .seg__btn + .seg__btn { border-left: 1px solid var(--color-border-strong); }
     .seg__btn:hover { background: var(--color-surface-soft); color: var(--color-text-secondary); }
-    .seg__btn.is-active { background: var(--c-neutral-100); color: var(--color-text-secondary); font-weight: var(--fw-bold); }
+    .seg__btn.is-active {
+      background: var(--c-neutral-100);
+      color: var(--color-text-secondary);
+      font-weight: var(--fw-bold);
+    }
     .num-input {
       width: 64px; height: 30px; padding: 0 8px;
       border: 1px solid var(--color-border-strong);
@@ -460,12 +470,17 @@
 
     /* primary 버튼 */
     .btn-primary {
-      width: 100%; height: 44px; padding: 0 16px;
-      background: var(--color-text-secondary); color: var(--color-text-inverse);
-      border-radius: var(--r-lg);
-      font-size: var(--type-body-fs); font-weight: var(--fw-bold);
+      width: 100%;
+      height: var(--control-h-lg);
+      padding: 0 var(--control-pad-x-lg);
+      background: var(--c-neutral-800);
+      color: var(--color-text-inverse);
+      border-radius: var(--radius-control);
+      font-size: var(--type-ui-label-fs);
+      font-weight: var(--fw-bold);
+      line-height: 1;
     }
-    .btn-primary:hover { background: var(--c-neutral-800); }
+    .btn-primary:hover { background: var(--c-neutral-900); }
 
     /* ============================================================
        2열 - 에디터
@@ -481,6 +496,58 @@
       font-size: var(--type-caption-fs); color: var(--color-text-soft);
       letter-spacing: 0.6px; text-transform: uppercase;
       margin-bottom: 12px;
+    }
+    .editor-meta {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      margin: calc(var(--layout-card-padding) * -1) calc(var(--layout-card-padding) * -1) 16px;
+      padding: 10px var(--layout-card-padding);
+      border-bottom: 1px solid var(--color-border-default);
+      background: var(--color-surface-card);
+      color: var(--color-text-muted);
+      font-size: var(--type-small-fs);
+      line-height: var(--lh-snug);
+    }
+    .editor-meta__sep { color: var(--color-text-soft); }
+    .editor-status {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding: 9px var(--layout-card-padding);
+      border-top: 1px solid var(--color-border-default);
+      background: var(--color-surface-soft);
+      color: var(--color-text-muted);
+      font-size: var(--type-small-fs);
+      line-height: var(--lh-snug);
+    }
+    .editor-status__group {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-md);
+      min-width: 0;
+    }
+    .editor-status strong {
+      color: var(--color-text-strong);
+      font-weight: var(--fw-bold);
+    }
+    .editor-status__save {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      white-space: nowrap;
+    }
+    .editor-status__save-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--color-status-success);
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.12);
+      flex-shrink: 0;
     }
     .editor-doc h1 {
       margin: 0 0 16px;
@@ -501,31 +568,6 @@
       margin: 14px 0 6px;
       font-size: var(--type-body-fs); font-weight: var(--fw-bold); color: var(--color-text-default);
     }
-    .editor-foot {
-      flex-shrink: 0;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 16px;
-      border-top: 1px solid var(--color-border-default);
-      background: var(--color-surface-soft);
-      color: var(--color-text-muted); font-size: var(--type-small-fs);
-    }
-    .editor-foot__group { display: inline-flex; gap: 18px; }
-    .editor-foot strong { color: var(--color-text-strong); font-weight: var(--fw-bold); }
-    .editor-foot__save {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-xs);
-      white-space: nowrap;
-    }
-    .editor-foot__save-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--color-status-success);
-      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.12);
-      flex-shrink: 0;
-    }
-
     /* ============================================================
        3열 - 출처 / 수정 / 다운로드
        ============================================================ */
@@ -582,15 +624,28 @@
 
     .pill-list { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
     .pill-btn {
-      display: inline-flex; align-items: center;
-      height: 32px; padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      height: var(--control-h-md);
+      padding: 0 var(--control-pad-x-md);
       border: 1px solid var(--color-border-strong);
       background: var(--color-surface-soft);
       color: var(--color-text-secondary);
       border-radius: var(--radius-control);
+      font-size: var(--type-ui-label-fs);
+      font-weight: var(--fw-medium);
+      line-height: 1;
+      cursor: pointer;
+      border-radius: var(--radius-control);
       font-size: var(--type-body-fs); font-weight: var(--fw-medium);
     }
     .pill-btn:hover { background: var(--c-neutral-100); border-color: var(--c-neutral-400); }
+    .pill-btn.is-active,
+    .pill-btn[aria-pressed="true"] {
+      background: var(--c-neutral-800);
+      border-color: var(--c-neutral-800);
+      color: var(--color-text-inverse);
+    }
 
     /* ── 다운로드 포맷 버튼 (아이콘 + 라벨 세로 정렬) ── */
     .fmt-grid {
@@ -643,18 +698,24 @@
     .actions { display: flex; gap: var(--space-sm); }
     .btn-secondary {
       flex: 1 1 0;
-      height: 40px; padding: 0 12px;
+      height: var(--control-h-md);
+      padding: 0 var(--control-pad-x-md);
       border: 1px solid var(--color-border-strong);
-      background: var(--color-surface-card); color: var(--color-text-default);
-      border-radius: var(--r-lg);
+      background: var(--color-surface-card);
+      color: var(--color-text-default);
+      border-radius: var(--radius-control);
+      font-size: var(--type-ui-label-fs);
+      font-weight: var(--fw-semibold);
+      line-height: 1;
       font-size: var(--type-body-fs); font-weight: var(--fw-semibold);
     }
-    .btn-secondary:hover { border-color: var(--color-text-secondary); color: var(--color-text-secondary); }
+    .btn-secondary:hover { background: var(--color-surface-soft); border-color: var(--color-border-strong); }
     .btn-secondary--primary {
-      background: var(--color-text-secondary); color: var(--color-text-inverse);
-      border-color: var(--color-text-secondary);
+      background: var(--c-neutral-800);
+      color: var(--color-text-inverse);
+      border-color: var(--c-neutral-800);
     }
-    .btn-secondary--primary:hover { background: var(--c-neutral-800); color: var(--color-text-inverse); }
+    .btn-secondary--primary:hover { background: var(--c-neutral-900); border-color: var(--c-neutral-900); }
 
     .input-text {
       width: 100%; height: 40px; padding: 0 12px;
@@ -894,16 +955,11 @@
           <div class="col__scroll" style="overflow: hidden;">
 
           <article class="card card--stretch">
-            <header class="card__head">
-              <span class="card__head-lead">
-                <span class="card__num" aria-hidden="true">5</span>
-                <h3 class="card__title">문서 생성 결과</h3>
-                <span class="pill">요약본</span>
-              </span>
-              <span class="card__head-end">생성일 : 2026-05-14 00:00:00</span>
-            </header>
             <div class="card__body card__body--flex">
-              <div class="editor-label">Editor Area</div>
+              <div class="editor-meta" aria-label="문서 생성 결과 상태">
+                <span class="pill">요약본</span>
+                <span>생성일: 2026-05-14 00:00:00</span>
+              </div>
               <div class="editor-doc">
                 <h1>보험실효 안내방법</h1>
 
@@ -925,12 +981,12 @@
                 </ol>
               </div>
             </div>
-            <footer class="editor-foot">
-              <div class="editor-foot__group">
-                <span>페이지 수 : <strong>10</strong></span>
-                <span>글자 수 : <strong>80,000</strong></span>
+            <footer class="editor-status" aria-label="문서 편집 상태">
+              <div class="editor-status__group">
+                <span>페이지 수: <strong>10</strong></span>
+                <span>글자 수: <strong>80,000</strong></span>
               </div>
-              <span class="editor-foot__save"><span class="editor-foot__save-dot" aria-hidden="true"></span>자동 저장됨</span>
+              <span class="editor-status__save"><span class="editor-status__save-dot" aria-hidden="true"></span>자동 저장됨</span>
             </footer>
           </article>
 

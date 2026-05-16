@@ -1740,7 +1740,7 @@
       flex: 1 1 auto;
       display: flex;
       flex-direction: column;
-      gap: var(--space-lg);
+      gap: var(--space-md);
       min-width: 0;
       min-height: 0;
       height: 100%;
@@ -1785,7 +1785,7 @@
       height: 100%;
       min-height: 0;
       min-width: 0;
-      gap: var(--space-lg);
+      gap: var(--space-md);
     }
 
     .live-composite--stack.live-workspace-stack > .live-composite__stt,
@@ -1805,7 +1805,6 @@
 
     .live-composite--stack.live-workspace-stack .live-outer.workspace-main-card {
       background: var(--color-surface-soft);
-      border: 1px solid rgba(203, 213, 225, 0.55);
       border-radius: var(--radius-outer);
       padding: var(--card-padding, 18px 9px 9px);
       box-shadow: 0 1px 2px rgba(15, 39, 68, 0.05);
@@ -4689,7 +4688,7 @@
       flex-direction: column;
       align-items: stretch;
       justify-content: flex-start;
-      gap: var(--space-sm);
+      gap: 0;
       background: var(--color-surface-outer);
       border: 0;
       border-radius: var(--radius-outer);
@@ -4727,7 +4726,7 @@
       justify-content: space-between;
       gap: var(--space-sm);
       margin: 0;
-      padding: 24px 18px;
+      padding: var(--space-lg) var(--layout-card-padding);
     }
 
     .cinfo-panel__head-lead {
@@ -4742,17 +4741,18 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 44px;
-      height: 44px;
-      border-radius: var(--r-lg);
-      background: var(--color-surface-soft);
-      color: var(--color-text-muted);
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      border-radius: var(--r-sm);
+      background: var(--color-surface-footer);
+      color: var(--color-text-inverse);
     }
 
     .cinfo-panel__head-icon svg {
       display: block;
-      width: 26px;
-      height: 26px;
+      width: 16px;
+      height: 16px;
     }
 
     .cinfo-panel__head-title {
@@ -4808,7 +4808,7 @@
     }
 
     .cinfo-panel .cinfo-section + .cinfo-section {
-      margin-top: 0;
+      margin-top: var(--space-md);
     }
 
     /* 헤더가 있는 카드 (최근 상담 이력 / 계약 리스트 / 상담 안내 가이드)
@@ -5364,7 +5364,7 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      gap: var(--space-sm);
+      gap: 0;
       padding: 0 12px 12px 12px;
       border-radius: var(--radius-outer);
       background: var(--color-surface-outer);
@@ -5383,7 +5383,7 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      gap: var(--space-sm);
+      gap: var(--space-md);
       padding: 0;
       background: transparent;
       border: 0;
@@ -8420,7 +8420,7 @@
       line-height: 1.35 !important;
     }
 
-    /* ── 5-segment progress bar ── */
+    /* 프로그레스바 */
     .cinfo-panel .cinfo-guide__progress {
       display: flex !important;
       align-items: stretch !important;
@@ -8446,7 +8446,7 @@
       background: #2563eb !important;
     }
 
-    /* ── 5-column item grid ── */
+    /* 리스트 — 프로그레스와 동일한 grid, gap 맞춤 */
     .cinfo-panel .cinfo-guide__list {
       align-self: stretch !important;
       list-style: none !important;
@@ -8457,6 +8457,7 @@
       gap: 5px !important;
     }
 
+    /* 아이템 */
     .cinfo-panel .cinfo-guide__item {
       box-sizing: border-box !important;
       display: flex !important;
@@ -8469,7 +8470,6 @@
       height: auto !important;
       padding: 6px 4px !important;
       border: 1px solid var(--color-border-default) !important;
-      border-radius: var(--radius-control) !important;
       background: var(--color-surface-card) !important;
       color: var(--color-text-soft) !important;
       box-shadow: none !important;
@@ -8726,8 +8726,8 @@
     }
 
     .live-outer--info .cinfo-panel__head-icon {
-      background: var(--color-surface-soft) !important;
-      color: var(--color-text-muted) !important;
+      background: var(--color-surface-footer) !important;
+      color: var(--color-text-inverse) !important;
     }
 
     .ai-agent-composer__send:hover {
@@ -8848,6 +8848,84 @@
       color: var(--color-text-muted) !important;
     }
 
+    /* 질문 추천 영역을 STT 관련 화면 quick-action row와 동일하게 고정 */
+    .live-composite .live-outer--know .ka-doc__recommend.quick-action-row {
+      box-sizing: border-box !important;
+      flex: 0 0 auto !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      flex-wrap: nowrap !important;
+      gap: var(--space-md) !important;
+      width: 100% !important;
+      min-height: 44px !important;
+      margin: 0 !important;
+      padding: 8px 16px !important;
+      background: transparent !important;
+      border: 0 !important;
+      border-top: 1px solid var(--color-border-default) !important;
+      box-shadow: none !important;
+    }
+
+    .live-composite .live-outer--know .ka-doc__recommend-label.quick-action-label {
+      flex: 0 0 auto !important;
+      min-width: 64px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      color: var(--color-text-strong) !important;
+      font-family: var(--font-sans) !important;
+      font-size: var(--type-body-fs) !important;
+      font-weight: var(--fw-bold) !important;
+      line-height: 1 !important;
+      white-space: nowrap !important;
+    }
+
+    .live-composite .live-outer--know .ka-doc__recommend-pills.quick-action-list {
+      display: flex !important;
+      flex: 1 1 auto !important;
+      flex-wrap: wrap !important;
+      align-items: center !important;
+      gap: var(--space-sm) !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      background: transparent !important;
+      border: 0 !important;
+    }
+
+    .live-composite .live-outer--know .ka-doc__recommend-pill.quick-action-button,
+    .live-composite .live-outer--know .ka-doc__recommend-pill.knowledge-chip.quick-action-button {
+      box-sizing: border-box !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      height: 28px !important;
+      min-height: 28px !important;
+      max-height: 28px !important;
+      padding: 0 12px !important;
+      margin: 0 !important;
+      border: 1px solid var(--color-border-default) !important;
+      border-radius: var(--radius-control) !important;
+      background: var(--color-surface-soft) !important;
+      box-shadow: none !important;
+      color: var(--color-text-secondary) !important;
+      font-family: var(--font-sans) !important;
+      font-size: var(--type-small-fs) !important;
+      font-weight: var(--fw-semibold) !important;
+      line-height: 1 !important;
+      letter-spacing: 0 !important;
+      white-space: nowrap !important;
+      cursor: pointer !important;
+      transition: background 120ms, border-color 120ms, color 120ms !important;
+    }
+
+    .live-composite .live-outer--know .ka-doc__recommend-pill.quick-action-button:hover,
+    .live-composite .live-outer--know .ka-doc__recommend-pill.knowledge-chip.quick-action-button:hover {
+      background: var(--c-neutral-100) !important;
+      border-color: var(--c-neutral-400) !important;
+      color: var(--color-text-strong) !important;
+    }
+
     /* 상담 어시스턴트 단계 진행 UI — 4등분 라운딩 박스 + 연결선 */
     .live-composite .live-outer--know .ka-doc__steps {
       display: grid !important;
@@ -8921,7 +8999,7 @@
     .ds-col-head.ds-col-head--ai,
     .cinfo-panel__head {
       height: auto !important;
-      padding: 24px 18px !important;
+      padding: var(--space-lg) var(--layout-card-padding) !important;
       gap: var(--space-sm) !important;
     }
 
@@ -8937,18 +9015,19 @@
 
     .ds-col-head__icon,
     .cinfo-panel__head-icon {
-      width: 30px !important;
-      height: 30px !important;
-      flex: 0 0 30px !important;
-      border-radius: var(--radius-control) !important;
-      background: var(--color-surface-soft) !important;
-      color: var(--color-text-muted) !important;
+      width: 28px !important;
+      height: 28px !important;
+      min-width: 28px !important;
+      flex: 0 0 28px !important;
+      border-radius: var(--r-sm) !important;
+      background: var(--color-surface-footer) !important;
+      color: var(--color-text-inverse) !important;
     }
 
     .ds-col-head__icon svg,
     .cinfo-panel__head-icon svg {
-      width: 18px !important;
-      height: 18px !important;
+      width: 16px !important;
+      height: 16px !important;
     }
 
     .ds-col-head__title {
@@ -9298,7 +9377,11 @@
                             aria-expanded="true"
                             aria-controls="info-acc-guide-body"
                             aria-label="상담 안내 가이드 접기/펼치기"
-                          >^</button>
+                          >
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M4 10l4-4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </button>
                         </header>
                         <div class="cinfo-guide" id="info-acc-guide-body" aria-label="상담안내가이드 진행 상태">
                           <p class="cinfo-guide__progress-text" id="cinfo-guide-progress-text" aria-live="polite">필수 안내 5건 중 1건 완료</p>

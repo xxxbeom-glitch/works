@@ -75,25 +75,6 @@
   color:       var(--color-text-strong);
 }
 
-/* document-generator.html — 카드 스텝 타이틀 (공통 규칙과 동일) */
-.card__title {
-  font-size:   var(--type-subheading-fs);
-  font-weight: var(--fw-semibold);
-  line-height: var(--lh-snug);
-  color:       var(--color-text-strong);
-}
-
-/* inspection-review.html — 열 헤더 제목 (ds-col-head__title 사용) */
-/* ※ col-header__title 미존재 → ds-col-head__title 로 교정 */
-.ds-col-head__title {
-  font-size:   var(--type-subheading-fs) !important;
-  font-weight: var(--fw-semibold) !important;
-  line-height: var(--lh-snug) !important;
-  font-family: var(--font-sans) !important;
-  color:       var(--color-text-strong);
-}
-
-
 /* ── L2 subheading (14px / semibold) ── */
 
 /* index.html — 정보패널 섹션 헤더 (최근 상담 이력, 계약 리스트, 상담 안내 가이드 등) */

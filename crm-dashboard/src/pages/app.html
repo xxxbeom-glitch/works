@@ -129,7 +129,7 @@
     /* ============================================================
        Header (원본 SB 스타일 복원 — 모드 토글 중앙 / static UI)
        - .topbar: 3-구역 (modes 중앙, actions 우측)
-       - 토글은 클릭 불가(static), 활성값은 "학습·조회모드"로 고정
+       - 토글은 클릭 불가(static), 활성값은 "상담 모드 (통화 중)" 고정
        ============================================================ */
     .topbar {
       height: 100%;
@@ -186,7 +186,7 @@
     }
     .mode-segmented {
       display: inline-grid;
-      grid-template-columns: minmax(96px, 1fr) minmax(96px, 1fr);
+      grid-template-columns: minmax(160px, 1.35fr) minmax(96px, 1fr);
       align-items: center;
       column-gap: 2px;
       padding: 4px;
@@ -306,11 +306,11 @@
           </div>
         </div>
 
-        <!-- 중앙 모드 토글 (static UI — 클릭 불가, 활성값 "학습·조회모드" 고정) -->
+        <!-- 중앙 모드 토글 (static UI — 클릭 불가, 활성값 "상담 모드 (통화 중)" 고정) -->
         <div class="topbar__modes">
           <div class="mode-segmented" role="group" aria-label="화면 모드 (고정)">
-            <button type="button" class="mode-segmented__btn" aria-pressed="false" tabindex="-1">상담 모드</button>
-            <button type="button" class="mode-segmented__btn is-active" aria-pressed="true" tabindex="-1">학습·조회모드</button>
+            <button type="button" class="mode-segmented__btn is-active" aria-pressed="true" tabindex="-1">상담 모드 (통화 중)</button>
+            <button type="button" class="mode-segmented__btn" aria-pressed="false" tabindex="-1">학습·조회모드</button>
           </div>
         </div>
 

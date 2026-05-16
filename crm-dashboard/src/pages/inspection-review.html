@@ -208,6 +208,35 @@
     .check-list-h {
       display: flex; flex-wrap: wrap; gap: 16px;
     }
+
+    /* 검색 카드 — 상담유형 / 위험도 / 검수상태: 고정 칼럼 그리드 */
+    .filter-check-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 96px);
+      column-gap: 12px;
+      row-gap: 10px;
+      align-items: center;
+      min-width: 0;
+    }
+    .filter-check-grid .check {
+      min-width: 0;
+      max-width: 100%;
+      margin: 0;
+    }
+
+    /* 센터 선택 — 1·2차 드롭다운 한 줄 */
+    .filter-grid__field--center-split {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .filter-grid__field--center-split .select--center-tier {
+      flex: 0 0 auto;
+      min-width: 140px;
+      width: 140px;
+    }
     .check {
       display: inline-flex; align-items: center; gap: 6px;
       font-size: 13px; color: var(--col-text-2);
@@ -363,8 +392,15 @@
       font-size: 13px;
     }
     .cust-list li.cust-list__phone {
-      grid-template-columns: 84px minmax(0, 1fr) auto;
+      grid-template-columns: 84px minmax(0, 1fr);
       align-items: center;
+    }
+    .cust-list__phone-value-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-width: 0;
     }
     .cust-list dt, .cust-list .label { color: var(--col-text-muted); font-weight: 600; }
     .cust-list dd, .cust-list .value { margin: 0; color: var(--col-text); overflow-wrap: anywhere; }
@@ -557,21 +593,21 @@
                 </span>
 
                 <span class="filter-grid__label">센터 선택</span>
-                <span class="filter-grid__field">
-                  <select class="select" aria-label="센터 선택" style="min-width: 140px;">
-                    <option>서울</option>
+                <span class="filter-grid__field filter-grid__field--center-split">
+                  <select class="select select--center-tier" aria-label="센터(지역)" id="center-region">
+                    <option selected>서울</option>
                     <option>부산</option>
                     <option>대구</option>
                   </select>
-                  <span class="seg">
-                    <button type="button" class="seg__btn is-active">전체</button>
-                    <button type="button" class="seg__btn">을지로</button>
-                    <button type="button" class="seg__btn">강남</button>
-                  </span>
+                  <select class="select select--center-tier" aria-label="센터(세부 구역)" id="center-branch">
+                    <option selected>전체</option>
+                    <option>을지로</option>
+                    <option>강남</option>
+                  </select>
                 </span>
 
                 <span class="filter-grid__label">상담유형</span>
-                <span class="filter-grid__field check-list-h">
+                <span class="filter-grid__field filter-check-grid">
                   <label class="check check--all"><input type="checkbox" checked /> 전체</label>
                   <label class="check"><input type="checkbox" checked /> 보험금</label>
                   <label class="check"><input type="checkbox" checked /> 해지</label>
@@ -579,7 +615,7 @@
                 </span>
 
                 <span class="filter-grid__label">위험도</span>
-                <span class="filter-grid__field check-list-h">
+                <span class="filter-grid__field filter-check-grid">
                   <label class="check check--all"><input type="checkbox" checked /> 전체</label>
                   <label class="check"><input type="checkbox" checked /> High</label>
                   <label class="check"><input type="checkbox" checked /> Mid</label>
@@ -587,7 +623,7 @@
                 </span>
 
                 <span class="filter-grid__label">검수상태</span>
-                <span class="filter-grid__field check-list-h">
+                <span class="filter-grid__field filter-check-grid">
                   <label class="check check--all"><input type="checkbox" checked /> 전체</label>
                   <label class="check"><input type="checkbox" checked /> 미확인</label>
                   <label class="check"><input type="checkbox" checked /> 확인중</label>
@@ -765,8 +801,10 @@
                     <li><span class="label">주소</span><span class="value">서울 종로구 신문로2가 28 5층 503호</span></li>
                     <li class="cust-list__phone">
                       <span class="label">발신번호</span>
-                      <span class="value">010-2231-4567</span>
-                      <button type="button" class="btn-secondary btn-secondary--inline">변경 저장</button>
+                      <span class="cust-list__phone-value-row">
+                        <span class="value">010-2231-4567</span>
+                        <button type="button" class="btn-secondary btn-secondary--inline">변경 저장</button>
+                      </span>
                     </li>
                   </ul>
                 </section>

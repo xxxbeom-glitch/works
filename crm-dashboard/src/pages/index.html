@@ -4727,7 +4727,7 @@
       justify-content: space-between;
       gap: var(--space-sm);
       margin: 0;
-      padding: 16px 16px 8px 16px;
+      padding: 24px 18px;
     }
 
     .cinfo-panel__head-lead {
@@ -4857,9 +4857,7 @@
       justify-content: center;
       width: 20px;
       height: 20px;
-      color: var(--color-text-strong);
-      font-size: var(--type-heading-fs);
-      font-weight: var(--fw-medium);
+      color: var(--color-text-muted);
       line-height: 1;
     }
 
@@ -6217,7 +6215,7 @@
       box-shadow: none !important;
     }
 
-    /* 카드 헤더 타이틀 (단일 18/700/20/0.07/#000) */
+    /* 카드 헤더 타이틀: 1열 섹션 타이틀과 동일한 14/600 톤 */
     .live-composite .live-outer--know .card-header-title,
     .live-composite .live-outer--know .live-sect__title,
     .live-composite .live-outer--know h3.live-sect__title,
@@ -6227,12 +6225,12 @@
       margin: 0 !important;
       padding: 0 !important;
       color: var(--color-text-strong) !important;
-      font-family: Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif !important;
-      font-size: var(--type-heading-fs) !important;
+      font-family: var(--font-sans) !important;
+      font-size: var(--type-subheading-fs) !important;
       font-style: normal !important;
-      font-weight: var(--fw-bold) !important;
-      line-height: 20px !important;
-      letter-spacing: 0.07px !important;
+      font-weight: var(--fw-semibold) !important;
+      line-height: var(--lh-snug) !important;
+      letter-spacing: -0.01em !important;
     }
 
     /* 우측 chevron: 1열 cinfo-section__chev와 동일 (20x20 / #111 / 18px) */
@@ -6829,9 +6827,9 @@
     }
 
     .live-composite .live-outer--know .ka-doc__step--current {
-      background: var(--color-brand-primary-soft);
+      background: var(--c-neutral-100);
       border-color: var(--color-border-default);
-      color: var(--color-brand-primary);
+      color: var(--color-text-secondary);
       font-weight: var(--fw-semibold);
     }
 
@@ -8850,14 +8848,80 @@
       color: var(--color-text-muted) !important;
     }
 
+    /* 상담 어시스턴트 단계 진행 UI — 4등분 라운딩 박스 + 연결선 */
+    .live-composite .live-outer--know .ka-doc__steps {
+      display: grid !important;
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      gap: 10px !important;
+      width: 100% !important;
+      min-height: 26px !important;
+      margin: 0 0 6px !important;
+      padding: 0 !important;
+      list-style: none !important;
+      overflow: visible !important;
+    }
+
+    .live-composite .live-outer--know .ka-doc__step {
+      position: relative !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-width: 0 !important;
+      width: 100% !important;
+      height: 26px !important;
+      min-height: 26px !important;
+      padding: 0 8px !important;
+      border: 1px solid var(--color-border-default) !important;
+      border-radius: var(--radius-control) !important;
+      background: var(--color-surface-card) !important;
+      color: var(--color-text-muted) !important;
+      font-family: var(--font-sans) !important;
+      font-size: var(--type-caption-fs) !important;
+      font-weight: var(--fw-medium) !important;
+      line-height: 1 !important;
+      letter-spacing: -0.01em !important;
+      white-space: nowrap !important;
+      text-align: center !important;
+      z-index: 1 !important;
+    }
+
+    .live-composite .live-outer--know .ka-doc__step:not(:last-child)::after {
+      content: "" !important;
+      position: absolute !important;
+      top: 50% !important;
+      left: 100% !important;
+      display: block !important;
+      width: 10px !important;
+      height: 1px !important;
+      margin: 0 !important;
+      background: var(--color-border-default) !important;
+      transform: translateY(-50%) !important;
+      pointer-events: none !important;
+    }
+
+    .live-composite .live-outer--know .ka-doc__step--done {
+      color: var(--color-text-secondary) !important;
+      font-weight: var(--fw-medium) !important;
+      border-color: var(--color-border-default) !important;
+      background: var(--color-surface-card) !important;
+    }
+
+    .live-composite .live-outer--know .ka-doc__step--current {
+      color: var(--color-text-strong) !important;
+      font-weight: var(--fw-bold) !important;
+      background: var(--color-surface-soft) !important;
+      border-color: var(--color-border-strong) !important;
+    }
+
     /* Compact column headers: card-title scale, neutral icon blocks. */
     .ds-col-head,
     .ds-col-head.ds-col-head--live,
     .ds-col-head.ds-col-head--ai,
     .cinfo-panel__head {
-      min-height: 60px !important;
       height: auto !important;
-      padding: 16px 14px 16px !important;
+      padding: 24px 18px !important;
       gap: var(--space-sm) !important;
     }
 
@@ -8936,11 +9000,13 @@
     .live-composite .live-outer--product > .card-header,
     .live-composite .live-outer--product > header.card-header,
     .live-composite .live-outer--product .card-header.live-sect__head {
-      min-height: 52px !important;
-      height: auto !important;
-      max-height: none !important;
-      flex-basis: auto !important;
-      padding: 14px 14px 12px !important;
+      height: 56px !important;
+      min-height: 56px !important;
+      max-height: 56px !important;
+      flex: 0 0 56px !important;
+      padding: 0 16px !important;
+      margin: 0 !important;
+      border-bottom: 1px solid var(--color-border-default) !important;
     }
 
     .live-composite .live-outer--know .card-header-title,
@@ -8949,7 +9015,8 @@
     .live-composite .live-outer--product .live-sect__title {
       font-size: var(--type-subheading-fs) !important;
       font-weight: var(--fw-semibold) !important;
-      line-height: 20px !important;
+      line-height: var(--lh-snug) !important;
+      font-family: var(--font-sans) !important;
       letter-spacing: -0.01em !important;
     }
 
@@ -9158,7 +9225,11 @@
                             <h3 class="cinfo-section__title">최근 상담 이력</h3>
                             <span class="cinfo-history__pill">갱신 안내장 수령고객</span>
                               </div>
-                          <span class="cinfo-section__chev" aria-hidden="true">›</span>
+                          <span class="cinfo-section__chev" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </span>
                         </header>
                         <ul class="cinfo-history__list" aria-label="최근 상담 이력">
                           <li class="cinfo-history__row">
@@ -9186,7 +9257,11 @@
                             aria-expanded="true"
                             aria-controls="info-acc-contracts-body"
                             aria-label="계약 리스트 접기/펼치기"
-                          >^</button>
+                          >
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M4 10l4-4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </button>
                         </header>
                         <ul class="cinfo-contracts" id="info-acc-contracts-body" role="list">
                           <li class="cinfo-contract">
@@ -9313,10 +9388,10 @@
                 <div class="know-assistant-content scroll-area" id="know-assistant-content" aria-label="현재 상담 요청">
                   <article class="ka-doc">
                     <ol class="ka-doc__steps" aria-label="단계 진행 상태">
-                      <li class="ka-doc__step ka-doc__step--done">① 의도분석</li>
-                      <li class="ka-doc__step ka-doc__step--done">② 지식검색</li>
-                      <li class="ka-doc__step ka-doc__step--current">③ 답변생성</li>
-                      <li class="ka-doc__step">④ 검증</li>
+                      <li class="ka-doc__step ka-doc__step--done">1 의도분석</li>
+                      <li class="ka-doc__step ka-doc__step--done">2 지식검색</li>
+                      <li class="ka-doc__step ka-doc__step--current">3 답변생성</li>
+                      <li class="ka-doc__step">4 검증</li>
                     </ol>
                     <div class="ka-doc__question">
                       <button
@@ -10124,7 +10199,7 @@
           { id: 4, label: "검증" },
         ];
 
-        var KNOW_STEP_MARKS = ["①", "②", "③", "④"];
+        var KNOW_STEP_MARKS = ["1", "2", "3", "4"];
 
         var KNOW_ITEMS = [
           {

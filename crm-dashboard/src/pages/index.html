@@ -963,9 +963,6 @@
       min-width: 0;
       margin: 0;
       padding: 0;
-      font-size: var(--type-subheading-fs);
-      font-weight: var(--fw-bold);
-      line-height: var(--lh-snug);
       letter-spacing: -0.02em;
       color: var(--color-text-strong);
     }
@@ -1345,9 +1342,6 @@
     }
 
     .live-outer--info #info-acc-customer .info-sect-mini-head__title {
-      font-size: var(--type-heading-fs);
-      font-weight: var(--fw-bold);
-      line-height: var(--lh-tight);
       color: var(--color-text-strong);
     }
 
@@ -1494,9 +1488,6 @@
     }
 
     .live-outer--info .info-sect-mini-head__title {
-      font-size: var(--type-heading-fs);
-      font-weight: var(--fw-bold);
-      line-height: var(--lh-snug);
       color: var(--color-text-strong);
     }
 
@@ -2935,9 +2926,6 @@
       margin: 0;
       padding: 0;
       min-width: 0;
-      font-size: var(--text-card-title);
-      font-weight: var(--fw-semibold);
-      line-height: var(--line-card-title);
       letter-spacing: -0.01em;
       color: var(--color-text-strong);
     }
@@ -3773,7 +3761,6 @@
     }
 
     .ai-agent-title__name {
-      font-weight: var(--fw-bold);
       color: var(--color-text-strong);
     }
 
@@ -4327,9 +4314,6 @@
 
     .live-outer--info .info-sect-mini-head__title {
       flex: 0 1 auto;
-      font-size: var(--type-heading-fs);
-      font-weight: var(--fw-bold);
-      line-height: var(--lh-snug);
       letter-spacing: -0.02em;
       color: var(--color-text-strong);
     }
@@ -4761,8 +4745,8 @@
       width: 44px;
       height: 44px;
       border-radius: var(--r-lg);
-      background: var(--color-surface-footer);
-      color: #ffffff;
+      background: var(--color-surface-soft);
+      color: var(--color-text-muted);
     }
 
     .cinfo-panel__head-icon svg {
@@ -4774,12 +4758,12 @@
     .cinfo-panel__head-title {
       margin: 0;
       color: var(--color-text-strong);
-      font-family: Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
-      font-size: 24px;
+      font-family: var(--font-sans);
+      font-size: var(--type-subheading-fs);
       font-style: normal;
-      font-weight: var(--fw-bold);
-      line-height: 20px;
-      letter-spacing: 0.094px;
+      font-weight: var(--fw-semibold);
+      line-height: var(--lh-snug);
+      letter-spacing: -0.01em;
     }
 
     .live-outer--info .cinfo-panel__collapse {
@@ -4796,7 +4780,7 @@
       border-radius: var(--radius-control);
       background: transparent;
       color: var(--color-text-muted);
-      font-size: 20px;
+      font-size: var(--icon-xl);
       font-weight: var(--fw-medium);
       line-height: 1;
       cursor: pointer;
@@ -4862,11 +4846,7 @@
     .cinfo-panel .cinfo-section__title {
       margin: 0;
       color: var(--color-text-strong);
-      font-family: Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
-      font-size: var(--type-heading-fs);
       font-style: normal;
-      font-weight: var(--fw-bold);
-      line-height: 20px;
       letter-spacing: 0.07px;
     }
 
@@ -5185,11 +5165,7 @@
     .cinfo-panel .cinfo-guide__title {
       margin: 0;
       color: var(--color-text-strong);
-      font-family: Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
-      font-size: var(--type-heading-fs);
       font-style: normal;
-      font-weight: var(--fw-medium);
-      line-height: 20px;
       letter-spacing: 0.07px;
     }
 
@@ -5507,11 +5483,7 @@
     .workspace__col--ai .live-outer--ai .ai-agent-title__name {
       margin: 0;
       color: var(--color-text-strong);
-      font-family: Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
-      font-size: var(--type-heading-fs);
       font-style: normal;
-      font-weight: var(--fw-bold);
-      line-height: 20px;
       letter-spacing: 0.07px;
     }
 
@@ -8750,10 +8722,14 @@
     }
 
     .live-outer--info .info-doc-guide__progress-fill,
-    .ai-agent-composer__send,
-    .live-outer--info .cinfo-panel__head-icon {
+    .ai-agent-composer__send {
       background: var(--color-surface-footer) !important;
       color: #ffffff !important;
+    }
+
+    .live-outer--info .cinfo-panel__head-icon {
+      background: var(--color-surface-soft) !important;
+      color: var(--color-text-muted) !important;
     }
 
     .ai-agent-composer__send:hover {
@@ -8901,8 +8877,8 @@
       height: 30px !important;
       flex: 0 0 30px !important;
       border-radius: var(--radius-control) !important;
-      background: var(--color-surface-footer) !important;
-      color: #ffffff !important;
+      background: var(--color-surface-soft) !important;
+      color: var(--color-text-muted) !important;
     }
 
     .ds-col-head__icon svg,
@@ -8911,11 +8887,18 @@
       height: 18px !important;
     }
 
-    .ds-col-head__title,
+    .ds-col-head__title {
+      font-size: var(--type-subheading-fs) !important;
+      font-weight: var(--fw-semibold) !important;
+      line-height: var(--lh-snug) !important;
+      letter-spacing: -0.01em !important;
+      color: var(--color-text-strong) !important;
+    }
+
     .cinfo-panel__head-title {
       font-size: var(--type-subheading-fs) !important;
       font-weight: var(--fw-semibold) !important;
-      line-height: 20px !important;
+      line-height: var(--lh-snug) !important;
       letter-spacing: -0.01em !important;
       color: var(--color-text-strong) !important;
     }

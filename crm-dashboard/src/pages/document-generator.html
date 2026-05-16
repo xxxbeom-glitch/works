@@ -139,11 +139,11 @@
       height: 100%;
     }
 
-    /* 카드 헤더 (height 56 / padding 0 16 / border-bottom 1px #EBEBEB) */
+    /* 카드 헤더 */
     .card__head {
       flex-shrink: 0;
-      height: 56px;
-      padding: 0 16px;
+      height: 48px;
+      padding: 0 var(--layout-card-padding);
       border-bottom: 1px solid var(--color-border-default);
       display: flex; align-items: center; justify-content: space-between;
       gap: var(--space-md);
@@ -160,9 +160,8 @@
     }
     .card__title {
       margin: 0;
-      font-family: var(--font-family-sans);
-      font-size: var(--type-heading-fs); font-weight: var(--fw-bold); color: var(--color-text-strong);
-      line-height: 20px;
+      line-height: var(--lh-snug);
+      color: var(--color-text-strong);
     }
     .card__title-sub {
       margin-left: 4px;
@@ -174,7 +173,7 @@
     }
 
     .card__body {
-      padding: 16px;
+      padding: var(--layout-card-padding);
       display: flex; flex-direction: column; gap: var(--space-md);
       min-width: 0;
     }
@@ -222,8 +221,27 @@
       display: flex; align-items: center; justify-content: space-between;
       font-size: var(--type-small-fs); color: var(--color-text-muted);
     }
-    .file-list__clear { color: var(--color-text-soft); font-size: var(--type-small-fs); }
-    .file-list__clear:hover { color: var(--color-text-secondary); }
+    .file-list__clear {
+      display: inline-flex;
+      align-items: center;
+      height: var(--control-h-sm);
+      padding: 0 var(--control-pad-x-sm);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-control);
+      background: transparent;
+      color: var(--color-text-soft);
+      font-size: var(--type-ui-label-fs);
+      font-weight: var(--fw-semibold);
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
+    }
+    .file-list__clear:hover {
+      background: var(--color-surface-soft);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
     .file {
       display: flex; align-items: center; gap: var(--space-sm);
       height: 44px; padding: 0 12px;
@@ -293,7 +311,7 @@
       --sel-r:       var(--r-sm);        /* 6px */
       --sel-border:  var(--color-border-default);
       --sel-bg-on:   var(--c-neutral-700);
-      --sel-cl-on:   #ffffff;
+      --sel-cl-on:   var(--color-text-inverse);
     }
 
     /* ── 참조 RAG 선택: 2열 그리드 ── */
@@ -385,29 +403,30 @@
     /* ── 헤더 우측 액션 버튼 (전체 선택 / 문서 통합 공통) ── */
     .card__head-action {
       display: inline-flex; align-items: center;
-      height: 28px; padding: 0 10px;
+      height: var(--control-h-sm); padding: 0 var(--control-pad-x-sm);
       border: 1px solid var(--color-border-default);
-      border-radius: var(--r-sm);
+      border-radius: var(--radius-control);
       background: var(--color-surface-card);
       color: var(--color-text-muted);
-      font-size: var(--type-small-fs);
+      font-size: var(--type-ui-label-fs);
       font-weight: var(--fw-semibold);
+      line-height: 1;
       white-space: nowrap; cursor: pointer;
       transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
     }
     .card__head-action:hover {
-      background: var(--c-neutral-100);
+      background: var(--color-surface-soft);
       border-color: var(--color-border-strong);
       color: var(--color-text-secondary);
     }
     .card__head-action.is-active {
-      background: var(--c-neutral-700);
-      border-color: var(--c-neutral-700);
-      color: #ffffff;
-    }
-    .card__head-action.is-active:hover {
       background: var(--c-neutral-800);
       border-color: var(--c-neutral-800);
+      color: var(--color-text-inverse);
+    }
+    .card__head-action.is-active:hover {
+      background: var(--c-neutral-900);
+      border-color: var(--c-neutral-900);
     }
 
     /* form row + segmented + number input */
@@ -538,15 +557,16 @@
       align-items: center;
       justify-content: center;
       gap: var(--space-xs);
-      height: 32px;
-      padding: 0 10px;
+      height: var(--control-h-sm);
+      padding: 0 var(--control-pad-x-sm);
       border: 1px solid var(--color-border-strong);
       border-radius: var(--radius-control);
       background: var(--color-surface-card);
       color: var(--color-text-default);
-      font-size: var(--type-body-fs); font-weight: var(--fw-semibold);
+      font-size: var(--type-ui-label-fs); font-weight: var(--fw-semibold);
       line-height: 1;
       white-space: nowrap;
+      transition: background var(--motion-fast), color var(--motion-fast);
     }
     .link-btn:hover {
       background: var(--color-surface-soft);
@@ -555,8 +575,8 @@
       text-decoration: none;
     }
     .link-btn__icon {
-      width: 16px;
-      height: 16px;
+      width: var(--icon-md);
+      height: var(--icon-md);
       flex-shrink: 0;
       color: currentColor;
     }

@@ -1,4 +1,42 @@
 /* ================================================================
+   공통 섹션 타이틀 — 3페이지 전체 통일
+   모든 카드/섹션 헤더 타이틀 → subheading (14px/600)
+================================================================ */
+
+/* index.html */
+.info-sect-mini-head__title,
+.cinfo-section__title,
+.cinfo-guide__title,
+.ai-agent-title__name,
+.card-header-title,
+.live-sect__title,
+.know-acc-card__title,
+.product-acc-card__title,
+.product-acc-card__name,
+
+/* document-generator.html / inspection-review.html */
+.card__title,
+.mini-card__title {
+  font-size:   var(--type-subheading-fs) !important;
+  font-weight: var(--fw-semibold) !important;
+  line-height: var(--lh-snug) !important;
+  font-family: var(--font-sans) !important;
+  letter-spacing: -0.01em;
+  color: var(--color-text-strong);
+  font-style: normal;
+}
+
+/* column-header.css 타이틀 */
+.ds-col-head__title {
+  font-size:   var(--type-subheading-fs) !important;
+  font-weight: var(--fw-semibold) !important;
+  line-height: var(--lh-snug) !important;
+  font-family: var(--font-sans) !important;
+  letter-spacing: -0.01em;
+  color: var(--color-text-strong);
+}
+
+/* ================================================================
    Semantic Map — 기존 페이지 클래스 → 디자인 시스템 토큰 연결
    HTML 마크업 수정 없이 CSS만으로 시멘틱 계층 적용
 
@@ -29,8 +67,7 @@
 
 /* ── L1 heading (18px / bold) ── */
 
-/* index.html — 고객명 (info-acc-customer 섹션 최상위 제목) */
-.live-outer--info #info-acc-customer .info-sect-mini-head__title,
+/* index.html — 고객명 값 */
 .live-outer--info #info-acc-customer .left-accordion__pair:nth-child(1) dd {
   font-size:   var(--type-heading-fs);
   font-weight: var(--fw-bold);
@@ -38,20 +75,20 @@
   color:       var(--color-text-strong);
 }
 
-/* document-generator.html — 카드 스텝 타이틀 (① 문서 업로드 등) */
+/* document-generator.html — 카드 스텝 타이틀 (공통 규칙과 동일) */
 .card__title {
-  font-size:   var(--type-heading-fs);
-  font-weight: var(--fw-bold);
-  line-height: var(--lh-tight);
+  font-size:   var(--type-subheading-fs);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
   color:       var(--color-text-strong);
 }
 
 /* inspection-review.html — 열 헤더 제목 (ds-col-head__title 사용) */
 /* ※ col-header__title 미존재 → ds-col-head__title 로 교정 */
 .ds-col-head__title {
-  font-size:   var(--type-heading-fs);
-  font-weight: var(--fw-bold);
-  line-height: var(--lh-tight);
+  font-size:   var(--type-subheading-fs);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
   color:       var(--color-text-strong);
 }
 

@@ -28,8 +28,8 @@
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  background: var(--color-surface-footer);
-  color: #ffffff;
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
 }
 
 .ds-col-head__icon svg {
@@ -40,12 +40,12 @@
 
 .ds-col-head__title {
   margin: 0;
-  color: #000000;
-  font-family: Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
-  font-size: 17px;
+  color: var(--color-text-strong);
+  font-family: var(--font-sans);
+  font-size: var(--type-subheading-fs);
   font-style: normal;
-  font-weight: 600;
-  line-height: 20px;
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
   letter-spacing: -0.01em;
 }
 

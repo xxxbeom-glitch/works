@@ -27,8 +27,8 @@
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  background: var(--color-surface-soft);
-  color: var(--color-text-muted);
+  background: var(--color-surface-footer);
+  color: var(--color-text-inverse);
 }
 
 .ds-col-head__icon svg {

@@ -282,7 +282,10 @@
       line-height: 1;
     }
     .page2-content .editor-result-card > .card__head + .card__body {
-      padding: calc(var(--layout-card-padding) + 16px);
+      /* 상·좌·우: 레이아웃 패딩 + 16px(기존) + 16px(추가), 하단은 기존 유지 */
+      padding: calc(var(--layout-card-padding) + 32px)
+        calc(var(--layout-card-padding) + 32px)
+        calc(var(--layout-card-padding) + 16px);
     }
 
     /* ============================================================
@@ -782,6 +785,11 @@
     }
     .editor-doc {
       padding: 0;
+    }
+    /* 본문 텍스트 블록: 스크롤 안 실제 문단 영역 인셋(헤더·카드 패딩과 별도) */
+    .page2-content .editor-result-card .editor-doc {
+      padding: 16px 16px 20px;
+      box-sizing: border-box;
     }
     .editor-doc h1 {
       margin: 0 0 16px;

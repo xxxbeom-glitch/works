@@ -115,10 +115,13 @@
       min-height: 0;
     }
 
+    /* 좌측 스택(검수현황 + 검색): 2페이지 1열 .col--settings .col__content 과 동일 — 카드 사이 gap var(--space-md) */
     .review-layout__side {
       display: flex;
       flex-direction: column;
       gap: var(--space-md);
+      min-width: 0;
+      min-height: 0;
     }
 
     .review-layout__main {
@@ -168,7 +171,7 @@
     .filter-card--side {
       flex: 1 1 auto;
       min-height: 0;
-      height: 100%;
+      /* height: 100% 제거 — flex column+형제 카드 간 gap이 눌려 보이거나 2열과 리듬이 어긋나는 원인 방지 */
       /* 접촉일자·센터·2열 드롭다운: 동일 가로 간격 */
       --filter-dual-inline-gap: 5px;
     }
@@ -365,46 +368,26 @@
       width: auto !important;
     }
 
-    .filter-card--side .filter-grid__field--search {
+    /* 검색명: 셀렉트·텍스트 필드를 한 행에 두 개(각각 독립 테두리·라운드) */
+    .filter-card--side .filter-grid__field--search-row {
       display: flex;
-      align-items: center;
-      gap: 0;
-      height: var(--filter-control-height, 40px);
-      border: 1px solid var(--color-border-strong);
-      border-radius: var(--radius-control);
-      background: var(--color-surface-card);
-      overflow: hidden;
+      flex-direction: row;
+      align-items: stretch;
+      gap: var(--filter-dual-inline-gap);
+      min-height: var(--filter-control-height, 40px);
     }
 
-    .filter-card--side .filter-grid__field--search .select {
-      position: relative;
-      z-index: 1;
+    .filter-card--side .filter-grid__field--search-row .select--search-key {
       flex: 0 0 96px;
-      width: auto;
-      height: 100% !important;
-      border: 0;
-      border-radius: 0;
-      border-right: 1px solid var(--color-border-default);
-      background-color: transparent;
+      width: 96px !important;
+      min-width: 96px;
     }
 
-    .filter-card--side .filter-grid__field--search .input {
-      position: relative;
-      z-index: 2;
+    .filter-card--side .filter-grid__field--search-row .input {
       flex: 1 1 0 !important;
       min-width: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      border: 0;
-      border-radius: 0;
-      background: transparent;
+      width: auto !important;
       cursor: text;
-      pointer-events: auto;
-      caret-color: var(--color-text-strong);
-    }
-
-    .filter-card--side .filter-grid__field--search:focus-within {
-      border-color: var(--color-text-secondary);
     }
 
     .filter-card--side .filter-check-grid {
@@ -554,7 +537,8 @@
       flex: 1 1 auto;
       min-height: 0;
       display: block !important;
-      padding: 0 !important;
+      /* 본문 스크롤 끝: 카드 기본 패딩(--layout-card-padding)만큼 하단 여유 → 데이터가 테두리에 붙지 않음 */
+      padding: 0 0 var(--layout-card-padding) !important;
       gap: 0 !important;
       overflow-x: hidden;
       overflow-y: auto;
@@ -578,6 +562,24 @@
       font-weight: var(--fw-medium);
       line-height: var(--lh-tight);
       white-space: nowrap;
+    }
+
+    /* 검수현황·검색 카드 헤더 — 2페이지(.page2-content .card > .card__head)와 동일 톤 */
+    .page3-content .stat-summary-card > .card__head,
+    .page3-content .filter-card--side > .card__head {
+      border-bottom: none !important;
+      flex: 0 0 auto !important;
+      height: auto !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      padding: 16px var(--layout-card-padding) 0 !important;
+      overflow: visible;
+    }
+    .page3-content .stat-summary-card > .card__head + .stat-summary-card__body {
+      padding: calc(var(--layout-card-padding) + 16px) var(--layout-card-padding) var(--layout-card-padding) !important;
+    }
+    .page3-content .filter-card--side > .card__head + .card__body--filter {
+      padding: calc(var(--layout-card-padding) + 16px) var(--layout-card-padding) var(--space-2xl) !important;
     }
 
     .stat-row {
@@ -939,7 +941,7 @@
       height: calc((100% - 34px) / 20);
     }
     .table tbody td {
-      padding: 0 8px;
+      padding: 0 12px;
       color: var(--color-text-default);
       font-size: var(--type-caption-fs);
       line-height: 1.1;
@@ -963,20 +965,26 @@
       width: 10%;
       min-width: 92px;
     }
-    .table th:first-child,
-    .table td:first-child {
+    .table th:first-child {
       padding-left: calc(var(--space-md) + 4px);
       padding-right: var(--space-md);
     }
-    /* 번호~검수상태(9열): 왼쪽 여백 +4px (접촉일자 10열은 기존 유지) */
-    .table th:nth-child(n+2):nth-child(-n+9),
-    .table td:nth-child(n+2):nth-child(-n+9) {
+    .table tbody td:first-child {
+      padding-left: calc(var(--space-md) + 8px);
+      padding-right: calc(var(--space-md) + 4px);
+    }
+    /* 번호~검수상태(9열): 데이터 행만 좌우 +4px (헤더는 기존) */
+    .table th:nth-child(n+2):nth-child(-n+9) {
       padding-left: calc(8px + 4px);
     }
-    .table th:last-child,
-    .table td:last-child {
-      padding-left: var(--space-md);
-      padding-right: calc(var(--space-md) + 4px); /* 접촉일자 열만 우측 +4px */
+    .table tbody td:nth-child(n+2):nth-child(-n+9) {
+      padding-left: calc(8px + 8px);
+    }
+    /* 접촉일자(10열): 헤더·본문 동일 좌우 패딩 — 라벨과 연월일 열 정렬 일치 */
+    .review-list-card .table thead th:nth-child(10),
+    .review-list-card .table tbody td:nth-child(10) {
+      padding-left: calc(var(--space-md) - 4px) !important;
+      padding-right: calc(var(--space-md) + 12px) !important;
     }
     .table th:nth-child(8),
     .table td:nth-child(8),
@@ -1155,17 +1163,23 @@
     }
 
     .mini-card + .mini-card {
-      border-top: 1px solid var(--color-border-subtle);
+      border-top: none;
+    }
+    .mini-card + .mini-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: var(--detail-cell-pad);
+      right: var(--detail-cell-pad);
+      height: 1px;
+      background: var(--color-border-subtle);
+      pointer-events: none;
     }
 
     .mini-card--customer,
     .mini-card--ai,
     .mini-card--history {
       border-right: 0;
-    }
-
-    .mini-card--ai {
-      border-top: 0;
     }
 
     .mini-card--customer,
@@ -1251,21 +1265,11 @@
       white-space: nowrap;
     }
 
-    /* STT 미니 */
-    .stt-mini {
-      display: flex; flex-direction: column; gap: var(--space-xs);
-      max-height: 220px; overflow-y: auto;
+    /* STT: AI 1차 검수결과와 동일 label | value 그리드 */
+    .stt-mini.ai-result {
+      max-height: 220px;
+      overflow-y: auto;
     }
-    .stt-mini__msg {
-      max-width: 100%;
-      margin: 0;
-      font-size: var(--type-body-fs); font-weight: var(--type-body-fw); line-height: var(--type-body-lh); color: var(--color-text-default);
-    }
-    .stt-mini__sender {
-      font-weight: var(--type-body-strong-fw); margin-right: 6px;
-    }
-    .stt-mini__sender--agent { color: var(--color-text-secondary); }
-    .stt-mini__sender--customer { color: var(--color-text-secondary); }
 
     /* AI 검수 결과 */
     .ai-result {
@@ -1357,6 +1361,19 @@
       line-height: var(--type-caption-lh);
       background: transparent;
       border-radius: 0;
+    }
+
+    /* 후속 조치 — 2페이지 카드 헤더 톤(컴팩트, 헤더 하단 라인 없음, 본문 상단 간격) */
+    .page3-content .followup-card > .card__head {
+      border-bottom: none !important;
+      height: auto !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      flex: 0 0 auto !important;
+      padding: 16px var(--layout-card-padding) 0 !important;
+    }
+    .page3-content .followup-card > .card__head + .card__body {
+      padding-top: 16px !important;
     }
 
     /* 후속 조치 */
@@ -1635,13 +1652,13 @@
 
                 <div class="filter-group">
                   <span class="filter-grid__label">검색명</span>
-                  <span class="filter-grid__field filter-grid__field--search combined-search-field">
-                    <select class="select" aria-label="검색 기준">
+                  <span class="filter-grid__field filter-grid__field--search-row">
+                    <select class="select select--search-key" aria-label="검색 기준">
                       <option>고객명</option>
                       <option>고객번호</option>
                       <option>계약번호</option>
                     </select>
-                    <input type="text" class="input input--name" placeholder="검색어를 입력하세요" />
+                    <input type="text" class="input input--name" placeholder="검색어를 입력하세요" aria-label="검색어" />
                   </span>
                 </div>
 
@@ -2031,10 +2048,19 @@
                   <header class="mini-card__head">
                     <h4 class="mini-card__title">상담 내용 (STT)</h4>
                   </header>
-                  <div class="stt-mini">
-                    <p class="stt-mini__msg"><span class="stt-mini__sender stt-mini__sender--agent">상담사</span>고객님 해당 특약은 지금 바로 보장 가능합니다.</p>
-                    <p class="stt-mini__msg"><span class="stt-mini__sender stt-mini__sender--customer">고객</span>면책기간은 없는 건가요?</p>
-                    <p class="stt-mini__msg"><span class="stt-mini__sender stt-mini__sender--agent">상담사</span>네 가능합니다. 별도의 면책기간 없이 청구 가능하세요.</p>
+                  <div class="stt-mini ai-result info-section-block" aria-label="상담 STT 발화">
+                    <div class="ai-result__row">
+                      <span class="ai-result__label">상담사</span>
+                      <span class="ai-result__value">고객님 해당 특약은 지금 바로 보장 가능합니다.</span>
+                    </div>
+                    <div class="ai-result__row">
+                      <span class="ai-result__label">고객</span>
+                      <span class="ai-result__value">면책기간은 없는 건가요?</span>
+                    </div>
+                    <div class="ai-result__row">
+                      <span class="ai-result__label">상담사</span>
+                      <span class="ai-result__value">네 가능합니다. 별도의 면책기간 없이 청구 가능하세요.</span>
+                    </div>
                   </div>
                 </section>
 

@@ -159,7 +159,8 @@
 
 /* ?? ?? ?? ?? ?? ? ??? */
 .ds-col-head {
-  padding: var(--space-lg) var(--layout-card-padding) !important;  /* 16px ?? */
+  --ds-col-head-inline-offset: 0px;
+  padding: var(--space-lg) var(--ds-col-head-inline-offset) !important;  /* ??/?? ???? ?? */
   min-height: 0 !important;
 }
 
@@ -168,21 +169,29 @@
   font-weight: var(--fw-semibold) !important;
   line-height: var(--lh-snug) !important;
   font-family: var(--font-sans) !important;
-  color:       var(--color-text-strong) !important;
+  color:       var(--color-surface-footer) !important;
 }
 
 .ds-col-head__icon {
-  background:    var(--color-surface-footer) !important;
-  color:         var(--color-text-inverse) !important;
+  display:      flex !important;
+  align-items:  center !important;
+  justify-content: center !important;
+  background:    #DADFE4 !important;
+  color:         var(--color-surface-footer) !important;
   border-radius: var(--r-sm) !important;
   width:         28px !important;
   height:        28px !important;
   min-width:     28px !important;
+  flex:          0 0 28px !important;
 }
 
 .ds-col-head__icon svg {
-  width:  16px !important;
-  height: 16px !important;
+  display: block !important;
+  flex-shrink: 0 !important;
+  width:  18px !important;
+  height: 18px !important;
+  max-width: 18px !important;
+  max-height: 18px !important;
 }
 
 /* ?? ???? ???? ?? ?? (index.html) ?? ? ??? */

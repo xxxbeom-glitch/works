@@ -13,7 +13,8 @@
       --app-expanded-w: 1920px;
       --app-compact-w: 1360px;
       --app-h: 1080px;
-      --app-current-w: var(--app-expanded-w);
+      --page1-collapse-reduction: 0px;
+      --app-current-w: calc(var(--app-expanded-w) - var(--page1-collapse-reduction));
       /* 로컬 변수 복제 제거: 시맨틱 토큰을 그대로 사용 */
       --header-h: var(--layout-header-h);
       --lnb-w: var(--layout-lnb-w);
@@ -33,7 +34,7 @@
     }
 
     :root.is-shell-compact {
-      --app-current-w: var(--app-compact-w);
+      --page1-collapse-reduction: calc(var(--app-expanded-w) - var(--app-compact-w));
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -96,7 +97,7 @@
       height: 100%;
       min-height: 0;
     }
-    /* MainArea = MainContent(iframe) + Footer(statusbar), 세로 스택 */
+    /* MainArea = MainContent(iframe), 푸터 없음 */
     .shell__main-area {
       grid-column: 2;
       grid-row: 2;
@@ -363,6 +364,52 @@
       stroke-linejoin: round;
       fill: none;
     }
+    .lnb-collapse-btn {
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 32px;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      min-height: 32px;
+      margin: auto auto 24px;
+      padding: 0;
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-pill);
+      background: var(--color-surface-card);
+      color: var(--color-surface-footer);
+      box-shadow: none;
+      transition: background 120ms, border-color 120ms, color 120ms;
+    }
+    .lnb-collapse-btn:hover {
+      background: var(--c-neutral-50);
+      border-color: var(--color-border-default);
+      color: var(--color-surface-footer);
+    }
+    .lnb-collapse-btn:focus-visible {
+      outline: 2px solid var(--c-neutral-400);
+      outline-offset: 2px;
+    }
+    .lnb-collapse-btn__chev {
+      display: block;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: currentColor;
+      pointer-events: none;
+    }
+    .lnb-collapse-btn__chev path {
+      stroke-width: 2.5;
+    }
+    .lnb-collapse-btn__chev--2 {
+      margin-left: -9px;
+    }
+    /* 펼침(접기 가능): >> — 접힘(펼치기): << (기본 SVG는 좌측 <<) */
+    .lnb-collapse-btn[aria-expanded="true"] .lnb-collapse-btn__chev {
+      transform: scaleX(-1);
+    }
   </style>
 </head>
 <body>
@@ -445,10 +492,18 @@
               </svg>
             </button>
           </div>
+          <button
+            type="button"
+            class="lnb-collapse-btn"
+            id="lnb-collapse-btn"
+            aria-expanded="true"
+            aria-label="LNB 접기"
+            title="LNB 접기"
+          ><svg class="lnb-collapse-btn__chev" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="lnb-collapse-btn__chev lnb-collapse-btn__chev--2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </nav>
       </aside>
 
-      <!-- MainArea = MainContent(iframe, activePage에 따라 교체) + Footer(공통, static) -->
+      <!-- MainArea = MainContent(iframe, activePage에 따라 교체) -->
       <section class="shell__main-area" aria-label="페이지 영역">
         <div class="shell__main-content" role="region" aria-label="페이지 콘텐츠">
           <iframe
@@ -458,17 +513,6 @@
             loading="eager"
           ></iframe>
         </div>
-
-        <!-- Footer (statusbar) : activePage 상태와 무관, 모든 페이지에서 동일 -->
-        <footer class="statusbar" aria-label="상태 표시줄">
-          <div class="statusbar__cluster">
-            <span class="statusbar__item">TTFT <strong>1.8s</strong></span>
-            <span class="statusbar__item">Agent <strong>상담지원 · 요약 · 검수</strong> · 3 active</span>
-            <span class="statusbar__item">LLM <strong>GPT-4o</strong> · Latency 1.2s · Token 1,240</span>
-            <span class="statusbar__item">Tele-Pro 연동 <strong>✓</strong> · SOK 연동 <strong>✓</strong></span>
-          </div>
-          <span class="statusbar__keys" role="note">F1 도움말 / F2 접수 / F5 새로고침</span>
-        </footer>
       </section>
     </div>
   </div>
@@ -478,7 +522,7 @@
      * AppShell 상태:
      *  - activePage 는 AppShell 만 소유
      *  - LNB 클릭만 setActivePage 를 호출
-     *  - Header / Footer 는 activePage 를 받지 않음 (재렌더 없음)
+     *  - Header 는 activePage 를 받지 않음 (재렌더 없음)
      *  - MainContent(iframe) src 만 교체
      *  - URL hash (#page=2) 또는 query (?page=2) 로 초기 페이지 지정 가능
      */
@@ -491,6 +535,7 @@
       };
       var frame = document.getElementById('page-frame');
       var buttons = document.querySelectorAll('.lnb__btn[data-page]');
+      var lnbCollapseBtn = document.getElementById('lnb-collapse-btn');
 
       function readInitialPage() {
         var m = (location.hash || '').match(/page=(\d)/);
@@ -506,6 +551,7 @@
         opts = opts || {};
         activePage = page;
         document.documentElement.classList.remove('is-shell-compact');
+        document.documentElement.style.setProperty('--page1-collapse-reduction', '0px');
         buttons.forEach(function (btn) {
           var on = btn.dataset.page === page;
           btn.classList.toggle('is-active', on);
@@ -532,6 +578,16 @@
         });
       });
 
+      if (lnbCollapseBtn) {
+        lnbCollapseBtn.addEventListener('click', function () {
+          var collapsed = !document.documentElement.classList.contains('is-lnb-collapsed');
+          document.documentElement.classList.toggle('is-lnb-collapsed', collapsed);
+          lnbCollapseBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+          lnbCollapseBtn.setAttribute('aria-label', collapsed ? 'LNB 펼치기' : 'LNB 접기');
+          lnbCollapseBtn.setAttribute('title', collapsed ? 'LNB 펼치기' : 'LNB 접기');
+        });
+      }
+
       // 뒤로/앞으로 또는 외부 hash 변경 시 동기화
       window.addEventListener('hashchange', function () {
         var p = readInitialPage();
@@ -540,8 +596,18 @@
 
       window.addEventListener('message', function (event) {
         var data = event && event.data;
-        if (!data || data.type !== 'crm:page1-info-panel') return;
-        document.documentElement.classList.toggle('is-shell-compact', data.expanded === false);
+        if (!data) return;
+        if (data.type === 'crm:page1-collapse-state') {
+          var reduction = Number(data.widthReduction || 0);
+          if (!isFinite(reduction) || reduction < 0) reduction = 0;
+          document.documentElement.classList.remove('is-shell-compact');
+          document.documentElement.style.setProperty('--page1-collapse-reduction', reduction.toFixed(1) + 'px');
+          return;
+        }
+        if (data.type === 'crm:page1-info-panel') {
+          document.documentElement.classList.remove('is-shell-compact');
+          document.documentElement.style.setProperty('--page1-collapse-reduction', data.expanded === false ? '369px' : '0px');
+        }
       });
     })();
   </script>

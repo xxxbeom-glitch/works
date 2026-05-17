@@ -2991,6 +2991,41 @@
       display: none;
     }
 
+    .live-composite .live-outer--know .card-header--assistant {
+      cursor: pointer;
+    }
+
+    .live-composite .live-outer--know .know-assistant-toggle {
+      display: inline-flex;
+      flex: 0 0 20px;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      order: 99;
+      margin: 0;
+      padding: 0;
+      color: var(--color-text-muted);
+      line-height: 1;
+    }
+
+    .live-composite .live-outer--know .know-assistant-recommend {
+      flex: 0 0 auto !important;
+      margin-top: auto !important;
+    }
+
+    .live-composite .live-outer--know.is-collapsed > .know-assistant-inner {
+      display: none !important;
+    }
+
+    .live-composite .live-outer--know .know-assistant-toggle svg {
+      transition: transform var(--motion-fast);
+    }
+
+    .live-composite .live-outer--know.is-collapsed .know-assistant-toggle svg {
+      transform: rotate(180deg);
+    }
+
     .live-composite .know-acc-card.is-stt-linked {
       background: rgba(248, 250, 252, 0.98);
       border-color: var(--color-border-subtle);
@@ -5057,6 +5092,11 @@
       gap: var(--space-sm);
       min-height: var(--cinfo-row-min-h);
       padding: var(--cinfo-row-pad-y) 0;
+    }
+
+    .cinfo-panel .cinfo-history__row--pill .cinfo-history__pill {
+      grid-column: 1 / -1;
+      justify-self: start;
     }
 
     .cinfo-panel .cinfo-history__date {
@@ -7903,8 +7943,9 @@
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
+      gap: 6px !important;
       height: 28px !important;
-      padding: 0 12px !important;
+      padding: 0 8px 0 12px !important;
       margin: 0 !important;
       border: 1px solid var(--color-border-default) !important;
       border-radius: var(--radius-control) !important;
@@ -7917,6 +7958,35 @@
       line-height: 1 !important;
       cursor: pointer !important;
       transition: background 120ms, border-color 120ms, color 120ms !important;
+    }
+
+    .live-composite .live-outer--stt .stt-related__text,
+    .live-composite .live-outer--stt .stt-related__remove {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 0 !important;
+      background: transparent !important;
+      color: inherit !important;
+      font: inherit !important;
+      line-height: 1 !important;
+    }
+
+    .live-composite .live-outer--stt .stt-related__remove {
+      width: 16px !important;
+      height: 16px !important;
+      flex: 0 0 16px !important;
+      border-radius: var(--radius-pill) !important;
+      color: var(--color-text-muted) !important;
+      cursor: pointer !important;
+    }
+
+    .live-composite .live-outer--stt .stt-related__remove:hover {
+      background: var(--c-neutral-200) !important;
+      color: var(--color-text-strong) !important;
     }
 
     .live-composite .live-outer--stt .stt-related__btn:hover {
@@ -8887,6 +8957,7 @@
     }
 
     .page1-content {
+      --page1-expanded-content-w: 1824px;
       --col-1-w: 425px;
       --collapsed-panel-width: 56px;
       --panel-gap: 12px;
@@ -8996,37 +9067,102 @@
     .workspace__col--info.is-collapsed .cinfo-panel__head,
     .workspace__col--live-stack.is-collapsed > .ds-panel-head,
     .workspace__col--ai.is-collapsed > .ds-panel-head {
-      height: 56px !important;
-      min-height: 56px !important;
-      max-height: 56px !important;
-      flex-direction: row !important;
+      height: 94px !important;
+      min-height: 94px !important;
+      max-height: 94px !important;
+      flex-direction: column !important;
       align-items: center !important;
-      justify-content: center !important;
-      gap: 0 !important;
+      justify-content: flex-start !important;
+      gap: 8px !important;
       padding: 14px 0 0 !important;
+      overflow: visible !important;
+    }
+
+    /* 1열: .info-side 슬림 헤더(뒤쪽 !important 블록)보다 특이도를 높여 접힘 시 상단 여백·높이가 2·3열과 동일하게 유지되도록 함 */
+    .workspace__col--info.is-collapsed
+      .info-side:not(.is-side-expanded)
+      .live-outer--info.cinfo-panel
+      .cinfo-panel__head {
+      height: 94px !important;
+      min-height: 94px !important;
+      max-height: 94px !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 8px !important;
+      padding: 14px 0 0 !important;
+      overflow: visible !important;
+    }
+
+    .workspace__col--info.is-collapsed .cinfo-panel__head::after,
+    .workspace__col--live-stack.is-collapsed > .ds-panel-head::after,
+    .workspace__col--ai.is-collapsed > .ds-panel-head::after {
+      display: none !important;
     }
 
     .workspace__col--info.is-collapsed .cinfo-panel__head-lead,
     .workspace__col--live-stack.is-collapsed .ds-col-head__lead,
-    .workspace__col--ai.is-collapsed .ds-col-head__lead,
+    .workspace__col--ai.is-collapsed .ds-col-head__lead {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      flex: 0 0 auto !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      margin: 0 !important;
+      gap: 0 !important;
+      z-index: 2 !important;
+    }
+
+    .workspace__col--info.is-collapsed .cinfo-panel__head-icon,
+    .workspace__col--live-stack.is-collapsed .ds-col-head__icon,
+    .workspace__col--ai.is-collapsed .ds-col-head__icon {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      flex: 0 0 32px !important;
+    }
+
+    .workspace__col--info.is-collapsed .cinfo-panel__head-icon svg,
+    .workspace__col--live-stack.is-collapsed .ds-col-head__icon svg,
+    .workspace__col--ai.is-collapsed .ds-col-head__icon svg {
+      width: 20px !important;
+      height: 20px !important;
+      max-width: 20px !important;
+      max-height: 20px !important;
+    }
+
+    .workspace__col--live-stack.is-collapsed > .ds-panel-head .ds-col-head__end,
     .workspace__col--ai.is-collapsed .ds-col-head__end {
+      display: flex !important;
       gap: 0 !important;
       min-width: 0 !important;
       justify-content: center !important;
     }
 
     .workspace__col.is-collapsed .col-collapse-btn {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
       width: 32px !important;
       height: 32px !important;
       min-width: 32px !important;
+      min-height: 32px !important;
       flex: 0 0 32px !important;
-      margin: 0 !important;
+      margin: 0 auto !important;
       position: static !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-shrink: 0 !important;
+      z-index: 2 !important;
     }
 
-    .workspace__col--info.is-collapsed .cinfo-panel__head-lead,
-    .workspace__col--live-stack.is-collapsed .ds-col-head__lead,
-    .workspace__col--ai.is-collapsed .ds-col-head__lead,
     .workspace__col--info.is-collapsed .cinfo-panel__head-title,
     .workspace__col--info.is-collapsed .info-panel-stack,
     .workspace__col--info.is-collapsed .info-panel-card__body,
@@ -9738,8 +9874,7 @@
                         <header class="card__head cinfo-section__head">
                           <div class="card__head-lead cinfo-section__lead">
                             <h3 class="card__title cinfo-section__title">최근 상담 이력</h3>
-                            <span class="cinfo-history__pill">갱신 안내장 수령고객</span>
-                              </div>
+                          </div>
                           <span class="cinfo-section__chev" aria-hidden="true">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -9747,6 +9882,9 @@
                           </span>
                         </header>
                         <ul class="cinfo-history__list" aria-label="최근 상담 이력">
+                          <li class="cinfo-history__row cinfo-history__row--pill">
+                            <span class="cinfo-history__pill">갱신 안내장 수령고객</span>
+                          </li>
                           <li class="cinfo-history__row">
                             <time class="cinfo-history__date" datetime="2026-05-12">2026-05-12</time>
                             <span class="cinfo-history__title">계약 관계자 변경 접수</span>
@@ -9839,7 +9977,7 @@
                               <span class="cinfo-guide__item-title">본인확인</span>
                               <span class="cinfo-guide__item-status"></span>
                             </li>
-                            <li class="cinfo-guide__item cinfo-guide__item--current" data-guide-step="method">
+                            <li class="cinfo-guide__item cinfo-guide__item--wait" data-guide-step="method">
                               <span class="cinfo-guide__item-title">청구방법</span>
                               <span class="cinfo-guide__item-status"></span>
                             </li>
@@ -9905,8 +10043,20 @@
                   </button>
                   <span class="ka-keep__label">Keep</span>
                 </div>
+                <button
+                  type="button"
+                  class="cinfo-section__chev know-assistant-toggle"
+                  id="know-assistant-toggle"
+                  aria-expanded="true"
+                  aria-controls="know-assistant-body"
+                  aria-label="상담 어시스턴트 접기/펼치기"
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M4 10l4-4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
               </header>
-              <div class="card__body live-inner workspace-inner-card know-assistant-inner">
+              <div class="card__body live-inner workspace-inner-card know-assistant-inner" id="know-assistant-body">
                 <div class="card__body--scroll know-assistant-content scroll-area" id="know-assistant-content" aria-label="현재 상담 요청">
                   <article class="ka-doc">
                     <ol class="ka-doc__steps" aria-label="단계 진행 상태">
@@ -9945,17 +10095,17 @@
                         <p class="ka-doc__answer-detail">병원에서 영수증이나 진단서를 따로 뗄 필요가 없음</p>
                       </div>
                     </section>
-                    <section class="ka-doc__recommend quick-action-row" aria-label="질문 추천">
-                      <p class="ka-doc__recommend-label quick-action-label">질문 추천</p>
-                      <div class="ka-doc__recommend-pills quick-action-list" role="group" aria-label="추천 질문 목록">
-                        <button type="button" class="ka-doc__recommend-pill quick-action-button">청구 후 지급 기간은?</button>
-                        <button type="button" class="ka-doc__recommend-pill quick-action-button">자동이체 변경 가능 시점</button>
-                        <button type="button" class="ka-doc__recommend-pill quick-action-button">계약 상태 조회 방법</button>
-                      </div>
-                    </section>
                   </article>
                 </div>
                 <p class="know-assistant__empty" id="know-assistant-empty" hidden>처리할 요청이 없습니다.</p>
+                <section class="ka-doc__recommend quick-action-row know-assistant-recommend" id="know-assistant-recommend" aria-label="질문 추천">
+                  <p class="ka-doc__recommend-label quick-action-label">질문 추천</p>
+                  <div class="ka-doc__recommend-pills quick-action-list" id="know-assistant-recommend-pills" role="group" aria-label="추천 질문 목록">
+                    <button type="button" class="ka-doc__recommend-pill quick-action-button">청구 후 지급 기간은?</button>
+                    <button type="button" class="ka-doc__recommend-pill quick-action-button">자동이체 변경 가능 시점</button>
+                    <button type="button" class="ka-doc__recommend-pill quick-action-button">계약 상태 조회 방법</button>
+                  </div>
+                </section>
               </div>
             </section>
           </div>
@@ -10005,7 +10155,7 @@
                                     type="button"
                                     class="stt-chat__bubble stt-chat__bubble--selectable"
                                     data-msg-id="stt-msg-01"
-                                    aria-pressed="false"
+                                    aria-pressed="true"
                                     aria-label="고객 발화 선택: 보험금 청구 어떻게 해야되죠? 서류는 뭐가 필요하나요?"
                                   >보험금 청구 어떻게 해야되죠? 서류는 뭐가 필요하나요?</button>
                                   <div class="stt-chat__faq-links" role="group" aria-label="관련 추천 질문">
@@ -10042,8 +10192,18 @@
                 <div class="card__footer stt-related quick-action-row" role="group" aria-label="관련 화면" id="stt-related">
                   <span class="stt-related__label quick-action-label">관련 화면</span>
                   <div class="quick-action-list" id="stt-related-list" aria-live="polite">
-                    <button type="button" class="stt-related__btn quick-action-button">보험금 청구 접수</button>
-                    <button type="button" class="stt-related__btn quick-action-button">자동이체 변경</button>
+                    <span class="stt-related__btn quick-action-button" data-href="#claim-guide">
+                      <button type="button" class="stt-related__text">보험금 청구 안내</button>
+                      <button type="button" class="stt-related__remove" aria-label="보험금 청구 안내 삭제">×</button>
+                    </span>
+                    <span class="stt-related__btn quick-action-button" data-href="#claim-documents">
+                      <button type="button" class="stt-related__text">필요 서류 확인</button>
+                      <button type="button" class="stt-related__remove" aria-label="필요 서류 확인 삭제">×</button>
+                    </span>
+                    <span class="stt-related__btn quick-action-button" data-href="#claim-status">
+                      <button type="button" class="stt-related__text">청구 진행 현황</button>
+                      <button type="button" class="stt-related__remove" aria-label="청구 진행 현황 삭제">×</button>
+                    </span>
               </div>
                       </div>
                     </div>
@@ -10082,7 +10242,7 @@
                   </dl>
 
                   <div class="product-info-summary__note">
-                    현재 상담에서는 보험금 청구 안내와 자동이체 변경 문의가 함께 발생했습니다. 계약 상태와 납입 정보를 확인한 뒤 청구 서류 및 적용 시점을 안내합니다.
+                    자동이체 납입중, 보험금 접수증, 계약관계자변경 접수중
                   </div>
 
                   <div class="product-info-summary__chips" aria-label="업무 상태">
@@ -10339,9 +10499,34 @@
         }
       })();
 
+      (function () {
+        var root = document.getElementById("know-queue-root");
+        var header = root && root.querySelector(".card-header--assistant");
+        var toggle = document.getElementById("know-assistant-toggle");
+        var body = document.getElementById("know-assistant-body");
+        if (!root || !header || !toggle || !body) return;
+
+        function setCollapsed(collapsed) {
+          root.classList.toggle("is-collapsed", collapsed);
+          toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+          body.hidden = collapsed;
+        }
+
+        header.addEventListener("click", function (event) {
+          if (event.target && event.target.closest && event.target.closest(".ka-keep")) return;
+          setCollapsed(!root.classList.contains("is-collapsed"));
+        });
+
+        toggle.addEventListener("click", function (event) {
+          event.preventDefault();
+        });
+
+        setCollapsed(false);
+      })();
+
       /* ============================================================
          상담안내가이드 단계 상태
-         - 기본: 본인확인 완료 / 청구방법 진행
+         - 상태값은 완료 / 대기만 사용
          - STT 고객 발화 선택 이벤트에 따라 완료 단계가 하나씩 증가
          ============================================================ */
       (function () {
@@ -10362,7 +10547,7 @@
         var GUIDE_STATE_BY_FLOW = {
           initial: {
             identity: "done",
-            method: "active",
+            method: "pending",
             documents: "pending",
             period: "pending",
             closing: "pending"
@@ -10370,7 +10555,7 @@
           claim: {
             identity: "done",
             method: "done",
-            documents: "active",
+            documents: "pending",
             period: "pending",
             closing: "pending"
           },
@@ -10378,7 +10563,7 @@
             identity: "done",
             method: "done",
             documents: "done",
-            period: "active",
+            period: "pending",
             closing: "pending"
           },
           complete: {
@@ -10386,13 +10571,12 @@
             method: "done",
             documents: "done",
             period: "done",
-            closing: "active"
+            closing: "pending"
           }
         };
 
         function statusClass(status) {
           if (status === "done") return "cinfo-guide__item--done";
-          if (status === "active") return "cinfo-guide__item--current";
           return "cinfo-guide__item--wait";
         }
 
@@ -10426,9 +10610,9 @@
             if (!item) return;
             var status = map[step.id] || "pending";
             item.className = "cinfo-guide__item " + statusClass(status);
-            item.setAttribute("data-status", status);
+            item.setAttribute("data-status", status === "done" ? "done" : "pending");
             var state = item.querySelector(".cinfo-guide__item-status");
-            if (state) state.textContent = status === "done" ? "완료" : (status === "active" ? "진행" : "대기");
+            if (state) state.textContent = status === "done" ? "완료" : "대기";
           });
         }
 
@@ -10485,18 +10669,33 @@
         var selectedId = null;
 
         function makeLinkButton(link) {
-          var btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "stt-related__btn quick-action-button";
-          btn.textContent = link.label;
-          if (link.href) btn.setAttribute("data-href", link.href);
-          btn.addEventListener("click", function () {
+          var chip = document.createElement("span");
+          chip.className = "stt-related__btn quick-action-button";
+          if (link.href) chip.setAttribute("data-href", link.href);
+
+          var textBtn = document.createElement("button");
+          textBtn.type = "button";
+          textBtn.className = "stt-related__text";
+          textBtn.textContent = link.label;
+          textBtn.addEventListener("click", function () {
             /* 실제 라우팅은 추후 연동 — 현재는 hash 만 갱신 */
             if (link.href) {
               try { history.replaceState(null, "", link.href); } catch (_) {}
             }
           });
-          return btn;
+
+          var removeBtn = document.createElement("button");
+          removeBtn.type = "button";
+          removeBtn.className = "stt-related__remove";
+          removeBtn.setAttribute("aria-label", link.label + " 삭제");
+          removeBtn.textContent = "×";
+          removeBtn.addEventListener("click", function () {
+            chip.remove();
+          });
+
+          chip.appendChild(textBtn);
+          chip.appendChild(removeBtn);
+          return chip;
         }
 
         function renderLinks(links) {
@@ -10547,8 +10746,8 @@
           selectMessage(id);
         });
 
-        /* 초기 상태: 기본 링크 */
-        renderLinks(STT_DEFAULT_LINKS);
+        /* 초기 상태: 첫 번째 고객 발화 선택 */
+        selectMessage("stt-msg-01");
       })();
 
       (function () {
@@ -10794,6 +10993,8 @@
 
         var contentEl = document.getElementById("know-assistant-content");
         var emptyEl = document.getElementById("know-assistant-empty");
+        var recommendEl = document.getElementById("know-assistant-recommend");
+        var recommendPillsEl = document.getElementById("know-assistant-recommend-pills");
         function fillChips(container, labels) {
           if (!container) return;
           container.textContent = "";
@@ -10909,6 +11110,7 @@
 
           if (emptyEl) emptyEl.hidden = !showEmpty;
           contentEl.hidden = showEmpty;
+          if (recommendEl) recommendEl.hidden = showEmpty;
           if (showEmpty) return;
 
           state.activeIndex = activeIndex;
@@ -10972,20 +11174,7 @@
           buildAnswerSubtitleAndBody(item, answer);
           article.appendChild(answer);
 
-          var recommend = document.createElement("section");
-          recommend.className = "ka-doc__recommend quick-action-row";
-          recommend.setAttribute("aria-label", "질문 추천");
-          var recLabel = document.createElement("p");
-          recLabel.className = "ka-doc__recommend-label quick-action-label";
-          recLabel.textContent = "질문 추천";
-          var recPills = document.createElement("div");
-          recPills.className = "ka-doc__recommend-pills quick-action-list";
-          recPills.setAttribute("role", "group");
-          recPills.setAttribute("aria-label", "추천 질문 목록");
-          fillRecommendPills(recPills, item.faqs);
-          recommend.appendChild(recLabel);
-          recommend.appendChild(recPills);
-          article.appendChild(recommend);
+          fillRecommendPills(recommendPillsEl, item.faqs);
 
           contentEl.appendChild(article);
         }
@@ -11009,7 +11198,7 @@
             }, 2200);
           }
           if (faqIndex != null && faqIndex >= 0 && card) {
-            var chips = card.querySelectorAll(".ka-doc__recommend-pills .ka-doc__recommend-pill");
+            var chips = (recommendPillsEl || document).querySelectorAll(".ka-doc__recommend-pill");
             chips.forEach(function (chip, i) {
               chip.classList.toggle("is-active", i === faqIndex);
             });
@@ -11260,6 +11449,51 @@
           }, 0);
         }
 
+        function readCssPx(name, fallback) {
+          var source = document.querySelector(".page1-content") || workspace;
+          var raw = source ? getComputedStyle(source).getPropertyValue(name) : "";
+          var value = parseFloat(raw);
+          return Number.isFinite(value) ? value : fallback;
+        }
+
+        function collapsedKeys() {
+          return Object.keys(panels).filter(function (key) {
+            return !isExpanded(key);
+          });
+        }
+
+        function collapseWidthReduction(keys) {
+          var collapsedW = readCssPx("--collapsed-panel-width", 56);
+          var expandedContentW = readCssPx("--page1-expanded-content-w", 1824);
+          var workspacePad = readCssPx("--workspace-pad", 12);
+          var panelGap = readCssPx("--panel-gap", 12);
+          var infoW = readCssPx("--col-1-w", 425);
+          var trackTotalW = expandedContentW - (workspacePad * 2) - (panelGap * 2);
+          var flexibleW = Math.max(0, (trackTotalW - infoW) / 2);
+          var expandedWidths = {
+            info: infoW,
+            live: flexibleW,
+            ai: flexibleW
+          };
+
+          return keys.reduce(function (sum, key) {
+            return sum + Math.max(0, (expandedWidths[key] || collapsedW) - collapsedW);
+          }, 0);
+        }
+
+        function publishCollapseState() {
+          var keys = collapsedKeys();
+          try {
+            window.parent.postMessage({
+              type: "crm:page1-collapse-state",
+              collapsedKeys: keys,
+              collapsedCount: keys.length,
+              maxCollapsed: 2,
+              widthReduction: collapseWidthReduction(keys)
+            }, "*");
+          } catch (_) {}
+        }
+
         function syncButton(key, expanded) {
           var panel = panels[key];
           if (!panel || !panel.button) return;
@@ -11292,6 +11526,7 @@
 
           syncButton(key, expanded);
           syncDisabled();
+          publishCollapseState();
           return true;
         }
 
@@ -11332,6 +11567,7 @@
         }, true);
 
         syncDisabled();
+        publishCollapseState();
       })();
 
     </script>

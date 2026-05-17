@@ -411,10 +411,10 @@
       --sel-cl-on:     #111827;
     }
 
-    /* ── 참조 RAG 선택: 2열 그리드 ── */
+    /* ── 참조 RAG 선택: 3x2 그리드 ── */
     .rag-select-card .check-list {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: var(--space-sm);
     }
 
@@ -525,6 +525,27 @@
     .card__head-action.is-active:hover {
       background: var(--c-neutral-200);
       border-color: var(--sel-border-on);
+    }
+
+    .doc-merge-check {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      height: var(--control-h-sm);
+      color: var(--color-text-muted);
+      font-size: var(--type-ui-label-fs);
+      font-weight: var(--fw-semibold);
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .doc-merge-check input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: var(--c-neutral-800);
+      cursor: pointer;
     }
 
     /* form row + segmented + number input */
@@ -928,6 +949,9 @@
     .download-name-row .input-text {
       flex: 1 1 auto;
       min-width: 0;
+      height: var(--control-h-lg);
+      min-height: var(--control-h-lg);
+      line-height: var(--control-h-lg);
     }
 
     /* ============================================================
@@ -1072,7 +1096,6 @@
                 <label class="check"><input type="checkbox" /><span>법규/지침</span></label>
                 <label class="check"><input type="checkbox" /><span>업무 매뉴얼</span></label>
                 <label class="check"><input type="checkbox" /><span>VOC 사례</span></label>
-                <label class="check"><input type="checkbox" /><span>기타</span></label>
               </div>
             </div>
           </article>
@@ -1083,7 +1106,10 @@
               <span class="card__head-lead">
                 <h3 class="card__title card__title--step"><span class="card__title-step">3.</span> 문서 유형 선택</h3>
               </span>
-              <button type="button" class="card__head-action is-active" id="doc-merge-btn">문서 통합</button>
+              <label class="doc-merge-check" id="doc-merge-check">
+                <input type="checkbox" id="doc-merge-checkbox" checked />
+                <span>문서통합</span>
+              </label>
             </header>
             <div class="card__body">
               <div class="chip-list" role="group" aria-label="문서 유형">
@@ -1427,14 +1453,6 @@
         t.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
     });
-
-    /* 문서 통합 헤더 버튼 토글 */
-    var mergeBtn = document.getElementById('doc-merge-btn');
-    if (mergeBtn) {
-      mergeBtn.addEventListener('click', function () {
-        mergeBtn.classList.toggle('is-active');
-      });
-    }
 
     /* segmented 단일 선택 */
     document.querySelectorAll('.page2-content .seg').forEach(function (seg) {

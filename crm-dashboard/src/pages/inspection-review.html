@@ -176,9 +176,9 @@
       min-height: 0;
       display: flex;
       flex-direction: column;
-      gap: var(--space-lg);
+      gap: 18px;
       align-items: stretch;
-      justify-content: space-between;
+      justify-content: flex-start;
       padding: var(--layout-card-padding);
     }
 
@@ -220,6 +220,16 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .filter-card--side .filter-pair-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+
+    .filter-card--side .filter-pair-row .filter-group {
+      min-width: 0;
+    }
+
     .filter-card--side .filter-field {
       display: flex;
       flex-direction: column;
@@ -250,9 +260,29 @@
       width: 100% !important;
       min-width: 0;
       padding-left: var(--control-pad-x-sm);
-      padding-right: var(--control-pad-x-sm);
+      padding-right: 34px;
       text-align: center;
       cursor: pointer;
+    }
+
+    .filter-card--side .date-field {
+      position: relative;
+    }
+
+    .filter-card--side .date-field__icon {
+      position: absolute;
+      right: var(--control-pad-x-sm);
+      bottom: 10px;
+      width: 16px;
+      height: 16px;
+      color: var(--color-text-muted);
+      pointer-events: none;
+    }
+
+    .filter-card--side .date-field__icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
 
     .filter-card--side .input.input--date::-webkit-calendar-picker-indicator {
@@ -467,7 +497,7 @@
     .card__body--flush { padding: 0; }
     .detail-card {
       display: flex;
-      flex: 0.9 1 0;
+      flex: 1.395 1 0;
       flex-direction: column;
       min-height: 0;
       overflow: hidden;
@@ -765,27 +795,32 @@
     }
     .table {
       width: 100%;
+      height: 100%;
       table-layout: fixed;
       font-size: var(--type-body-fs);
     }
     .table thead th {
-      padding: 11px 6px;
+      height: 34px;
+      padding: 6px 6px;
       background: var(--color-surface-soft);
       color: var(--color-text-muted);
       font-size: var(--type-caption-fs); font-weight: var(--fw-bold); text-align: center;
       line-height: var(--lh-snug);
-      border-bottom: 1px solid var(--color-border-default);
+      border-bottom: 1px solid color-mix(in srgb, var(--color-border-default) 90%, transparent);
       white-space: nowrap;
       overflow: visible;
       text-overflow: clip;
       vertical-align: middle;
     }
+    .table tbody tr {
+      height: calc((100% - 34px) / 20);
+    }
     .table tbody td {
-      padding: calc(11px * 1.03) 6px;
+      padding: 0 6px;
       color: var(--color-text-default);
-      font-size: var(--type-small-fs);
-      line-height: var(--lh-snug);
-      border-bottom: 1px solid var(--color-border-default);
+      font-size: var(--type-caption-fs);
+      line-height: 1.2;
+      border-bottom: 1px solid color-mix(in srgb, var(--color-border-default) 90%, transparent);
       white-space: nowrap;
       overflow: visible;
       text-overflow: clip;
@@ -868,7 +903,7 @@
     .review-list-card .table-wrap {
       flex: 1 1 auto;
       min-height: 0;
-      overflow-y: auto;
+      overflow-y: hidden;
       overflow-x: hidden;
     }
     .review-list-card .pager {
@@ -879,7 +914,7 @@
     /* 위험도 배지 */
     .risk {
       display: inline-flex; align-items: center; justify-content: center;
-      padding: 2px 10px; border-radius: var(--radius-pill);
+      padding: 1px 8px; border-radius: var(--radius-pill);
       font-size: var(--type-caption-fs); font-weight: var(--fw-bold);
       letter-spacing: 0.3px;
     }
@@ -1185,7 +1220,7 @@
 
     /* 후속 조치 */
     .followup-card {
-      flex: 1.1 1 0;
+      flex: 0.605 1 0;
       min-height: 0;
     }
     .followup-card__body {
@@ -1199,6 +1234,7 @@
       grid-template-columns: repeat(2, minmax(0, 120px));
       justify-content: center;
       align-items: center;
+      padding-top: 12px;
     }
     .followup-card > .followup-card__footer .btn-primary,
     .followup-card > .followup-card__footer .btn-ghost {
@@ -1233,8 +1269,8 @@
       padding-top: 8px;
     }
     .followup-memo-row .ta {
-      height: 100%;
-      min-height: 96px;
+      height: 72px;
+      min-height: 72px;
       resize: none;
     }
 
@@ -1349,15 +1385,25 @@
               <div class="filter-grid">
 
                 <div class="filter-group">
-                  <span class="filter-grid__label">접수일자</span>
+                  <span class="filter-grid__label">접촉일자</span>
                   <span class="filter-grid__field filter-grid__field--stack filter-grid__field--date">
-                    <label class="filter-field">
+                    <label class="filter-field date-field">
                       <span class="filter-field__label">시작일</span>
                       <input type="date" class="input input--date" value="2026-05-20" aria-label="시작일" />
+                      <span class="date-field__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                          <path d="M7 3v3M17 3v3M4.75 9.25h14.5M6.75 5h10.5A2.75 2.75 0 0 1 20 7.75v9.5A2.75 2.75 0 0 1 17.25 20H6.75A2.75 2.75 0 0 1 4 17.25v-9.5A2.75 2.75 0 0 1 6.75 5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
                     </label>
-                    <label class="filter-field">
+                    <label class="filter-field date-field">
                       <span class="filter-field__label">종료일</span>
                       <input type="date" class="input input--date" value="2026-05-26" aria-label="종료일" />
+                      <span class="date-field__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                          <path d="M7 3v3M17 3v3M4.75 9.25h14.5M6.75 5h10.5A2.75 2.75 0 0 1 20 7.75v9.5A2.75 2.75 0 0 1 17.25 20H6.75A2.75 2.75 0 0 1 4 17.25v-9.5A2.75 2.75 0 0 1 6.75 5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
                     </label>
                   </span>
                 </div>
@@ -1390,51 +1436,55 @@
                   </span>
                 </div>
 
-                <div class="filter-group">
-                  <span class="filter-grid__label">상담유형</span>
-                  <span class="filter-grid__field">
-                    <select class="select" aria-label="상담유형">
-                      <option>전체</option>
-                      <option selected>보험금</option>
-                      <option>해지</option>
-                      <option>대출</option>
-                    </select>
-                  </span>
+                <div class="filter-pair-row">
+                  <div class="filter-group">
+                    <span class="filter-grid__label">상담유형</span>
+                    <span class="filter-grid__field">
+                      <select class="select" aria-label="상담유형">
+                        <option>전체</option>
+                        <option selected>보험금</option>
+                        <option>해지</option>
+                        <option>대출</option>
+                      </select>
+                    </span>
+                  </div>
+
+                  <div class="filter-group">
+                    <span class="filter-grid__label">검수유형</span>
+                    <span class="filter-grid__field">
+                      <select class="select" aria-label="검수유형">
+                        <option selected>전체</option>
+                        <option>오안내</option>
+                        <option>업무 누락</option>
+                      </select>
+                    </span>
+                  </div>
                 </div>
 
-                <div class="filter-group">
-                  <span class="filter-grid__label">검수유형</span>
-                  <span class="filter-grid__field">
-                    <select class="select" aria-label="검수유형">
-                      <option selected>전체</option>
-                      <option>오안내</option>
-                      <option>업무 누락</option>
-                    </select>
-                  </span>
-                </div>
+                <div class="filter-pair-row">
+                  <div class="filter-group">
+                    <span class="filter-grid__label">위험도</span>
+                    <span class="filter-grid__field">
+                      <select class="select" aria-label="위험도">
+                        <option>전체</option>
+                        <option selected>High</option>
+                        <option>Mid</option>
+                        <option>Low</option>
+                      </select>
+                    </span>
+                  </div>
 
-                <div class="filter-group">
-                  <span class="filter-grid__label">위험도</span>
-                  <span class="filter-grid__field">
-                    <select class="select" aria-label="위험도">
-                      <option>전체</option>
-                      <option selected>High</option>
-                      <option>Mid</option>
-                      <option>Low</option>
-                    </select>
-                  </span>
-                </div>
-
-                <div class="filter-group">
-                  <span class="filter-grid__label">검수상태</span>
-                  <span class="filter-grid__field">
-                    <select class="select" aria-label="검수상태">
-                      <option>전체</option>
-                      <option selected>미확인</option>
-                      <option>확인중</option>
-                      <option>조치 완료</option>
-                    </select>
-                  </span>
+                  <div class="filter-group">
+                    <span class="filter-grid__label">검수상태</span>
+                    <span class="filter-grid__field">
+                      <select class="select" aria-label="검수상태">
+                        <option>전체</option>
+                        <option selected>미확인</option>
+                        <option>확인중</option>
+                        <option>조치 완료</option>
+                      </select>
+                    </span>
+                  </div>
                 </div>
 
                 <div class="filter-group">
@@ -1466,8 +1516,8 @@
                 <h3 class="card__title">1차 검수 리스트<span class="card__title-sub">(총 20건)</span></h3>
               </span>
               <select class="select" aria-label="페이지당 행 수">
-                <option selected>10개씩 보기</option>
-                <option>20개씩 보기</option>
+                <option>10개씩 보기</option>
+                <option selected>20개씩 보기</option>
                 <option>50개씩 보기</option>
               </select>
             </header>

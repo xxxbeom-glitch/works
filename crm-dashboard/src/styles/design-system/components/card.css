@@ -6,7 +6,12 @@
   box-shadow: var(--shadow-card);
   overflow: hidden;
 }
-.ds-card--outer  { border-radius: var(--radius-outer); background: var(--color-surface-outer); border-color: transparent; box-shadow: none; }
+.ds-card--outer  {
+  border-radius: var(--radius-outer);
+  border-color: transparent;
+  box-shadow: none;
+  /* 배경·패널 blur: layer-glass.css (.ds-card--outer 공통 블록) */
+}
 .ds-card--soft   { background: var(--color-surface-soft); box-shadow: none; }
 .ds-card--flat   { box-shadow: none; }
 .ds-card--status { border-color: var(--color-border-accent); }

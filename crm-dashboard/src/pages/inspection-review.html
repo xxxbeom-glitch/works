@@ -76,8 +76,8 @@
     }
 
     .col {
-      background: var(--color-surface-outer);
       border-radius: var(--radius-outer);
+      /* 외곽 glass: .ds-outer-panel-glass */
       padding: 0 12px 12px;
       display: flex; flex-direction: column; gap: 0;
       min-width: 0; min-height: 0;
@@ -130,7 +130,7 @@
     }
 
     .review-layout__side .stat-row__risk {
-      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      grid-template-columns: minmax(0, 1fr) !important;
     }
 
     .review-layout__side .filter-grid {
@@ -184,7 +184,7 @@
       gap: 18px;
       align-items: stretch;
       justify-content: flex-start;
-      padding: var(--layout-card-padding);
+      padding: 16px var(--layout-card-padding) var(--layout-card-padding);
     }
 
     .filter-card--side .filter-group {
@@ -486,19 +486,42 @@
       gap: var(--space-md);
       overflow: hidden;
     }
-    .card-header > .select {
+    .card-header > .page-size-radios {
       flex: 0 0 auto;
-      max-height: var(--filter-control-height, 40px);
+      min-width: 0;
     }
 
-    .review-list-card .card-header > .select {
-      display: inline-flex !important;
-      align-items: center !important;
-      height: var(--filter-control-height, 40px) !important;
-      min-height: var(--filter-control-height, 40px) !important;
-      padding-top: 0 !important;
-      padding-bottom: 0 !important;
-      line-height: 1 !important;
+    /* 1차 검수 리스트 — 페이지당 행 수 (라디오 그룹) */
+    .page-size-radios {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm) var(--space-md);
+      max-width: 100%;
+    }
+    .page-size-radios__item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0;
+      cursor: pointer;
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-medium);
+      line-height: var(--type-small-lh);
+      color: var(--color-text-default);
+      user-select: none;
+      white-space: nowrap;
+    }
+    .page-size-radios__input {
+      width: 15px;
+      height: 15px;
+      margin: 0;
+      flex-shrink: 0;
+      accent-color: var(--color-brand-primary);
+      cursor: pointer;
+    }
+    .page-size-radios__label {
+      cursor: pointer;
     }
     .card__head-lead {
       display: inline-flex; align-items: center; gap: var(--space-sm); min-width: 0;
@@ -576,19 +599,19 @@
       overflow: visible;
     }
     .page3-content .stat-summary-card > .card__head + .stat-summary-card__body {
-      padding: calc(var(--layout-card-padding) + 16px) var(--layout-card-padding) var(--layout-card-padding) !important;
+      padding: 16px var(--layout-card-padding) var(--layout-card-padding) !important;
     }
     .page3-content .filter-card--side > .card__head + .card__body--filter {
-      padding: calc(var(--layout-card-padding) + 16px) var(--layout-card-padding) var(--space-2xl) !important;
+      padding: 0 !important;
     }
 
     .stat-row {
-      /* 카드 wrapper 안의 컨텐츠 — Total 바 + 위험도 3열 */
+      /* 카드 wrapper 안의 컨텐츠 — Total + High/Medium/Low 4행 */
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      gap: var(--space-sm);
+      gap: var(--space-xs);
       flex-shrink: 0;
     }
 
@@ -599,24 +622,24 @@
       justify-content: space-between;
       box-sizing: border-box;
       width: 100%;
-      min-height: calc(44px * 1.1);
-      padding: calc(10px * 1.1) 14px;
+      min-height: 50px;
+      padding: 0 14px;
       border-radius: var(--r-md);
       background: var(--color-surface-soft);
       border: 0;
     }
 
     .stat-total-bar__name {
-      font-size: var(--type-body-fs);
-      font-weight: var(--fw-bold);
-      line-height: var(--lh-snug);
+      font-size: var(--type-subheading-fs);
+      font-weight: var(--type-subheading-fw);
+      line-height: var(--type-subheading-lh);
       color: var(--color-text-strong);
     }
 
     .stat-total-bar__val {
-      font-size: var(--type-body-fs);
-      font-weight: var(--fw-bold);
-      line-height: var(--lh-snug);
+      font-size: var(--type-subheading-fs);
+      font-weight: var(--type-subheading-fw);
+      line-height: var(--type-subheading-lh);
       color: var(--color-text-strong);
       font-variant-numeric: tabular-nums;
     }
@@ -629,7 +652,7 @@
 
     .stat-row__risk {
       display: grid !important;
-      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      grid-template-columns: minmax(0, 1fr) !important;
       align-items: stretch;
       gap: var(--space-xs);
       min-width: 0;
@@ -637,12 +660,13 @@
 
     .stat-row__risk .stat-cell {
       display: flex;
-      flex-direction: column;
+      flex-direction: row-reverse;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: calc(6px * 1.15);
-      padding: calc(14px * 1.15) calc(10px * 1.15);
+      justify-content: space-between;
+      text-align: left;
+      gap: var(--space-sm);
+      min-height: 50px;
+      padding: 0 14px;
       border-radius: var(--r-md);
       border: 0;
       min-width: 0;
@@ -651,21 +675,21 @@
 
     .stat-row__risk .stat-cell__name {
       display: block;
-      width: 100%;
-      text-align: center !important;
-      font-size: var(--type-caption-fs);
-      font-weight: var(--fw-semibold);
-      line-height: var(--type-caption-lh);
+      width: auto;
+      text-align: left !important;
+      font-size: var(--type-subheading-fs);
+      font-weight: var(--type-subheading-fw);
+      line-height: var(--type-subheading-lh);
       white-space: nowrap;
     }
 
     .stat-row__risk .stat-cell__val {
       display: block;
-      width: 100%;
-      text-align: center !important;
-      font-size: var(--type-heading-fs);
-      font-weight: var(--fw-bold);
-      line-height: var(--lh-tight);
+      width: auto;
+      text-align: right !important;
+      font-size: var(--type-subheading-fs);
+      font-weight: var(--type-subheading-fw);
+      line-height: var(--type-subheading-lh);
     }
 
     .stat-row__risk .stat-cell__unit {
@@ -815,10 +839,15 @@
     }
     .filter-grid .seg__btn + .seg__btn { border-left: 1px solid var(--color-border-strong); }
     .filter-grid .seg__btn:hover { background: var(--color-surface-soft); color: var(--color-text-secondary); }
+    /* 선택값: 2페이지 참조 RAG(.check.is-checked) fill과 동일 톤 */
     .filter-grid .seg__btn.is-active {
-      background: var(--c-neutral-800);
-      color: var(--color-text-inverse);
+      background: var(--c-neutral-100);
+      color: var(--c-neutral-900);
       font-weight: var(--fw-bold);
+    }
+    .filter-grid .seg__btn.is-active:hover {
+      background: var(--c-neutral-200);
+      color: var(--c-neutral-900);
     }
 
     .check-list-h {
@@ -1484,7 +1513,7 @@
       <main class="ws" aria-label="안내/업무 검수 처리">
 
         <!-- ============================ 좌측 ============================ -->
-        <section class="col col--list" aria-label="검수 현황 · 검색 · 리스트">
+        <section class="col col--list ds-outer-panel-glass" aria-label="검수 현황 · 검색 · 리스트">
           <header class="ds-panel-head ds-col-head">
             <span class="ds-col-head__lead">
               <span class="ds-col-head__icon" aria-hidden="true">
@@ -1678,11 +1707,20 @@
               <span class="card__head-lead">
                 <h3 class="card__title">1차 검수 리스트<span class="card__title-sub">(총 20건)</span></h3>
               </span>
-              <select class="select" aria-label="페이지당 행 수">
-                <option>10개씩 보기</option>
-                <option selected>20개씩 보기</option>
-                <option>50개씩 보기</option>
-              </select>
+              <div class="page-size-radios" role="radiogroup" aria-label="페이지당 행 수">
+                <label class="page-size-radios__item">
+                  <input type="radio" class="page-size-radios__input" name="review-list-page-size" value="10" />
+                  <span class="page-size-radios__label">10개씩 보기</span>
+                </label>
+                <label class="page-size-radios__item">
+                  <input type="radio" class="page-size-radios__input" name="review-list-page-size" value="20" checked />
+                  <span class="page-size-radios__label">20개씩 보기</span>
+                </label>
+                <label class="page-size-radios__item">
+                  <input type="radio" class="page-size-radios__input" name="review-list-page-size" value="50" />
+                  <span class="page-size-radios__label">50개씩 보기</span>
+                </label>
+              </div>
             </header>
             <div class="card__body card__body--flush">
               <div class="table-wrap">
@@ -1986,7 +2024,7 @@
         </section>
 
         <!-- ============================ 우측 ============================ -->
-        <section class="col" aria-label="업무 검수 상세">
+        <section class="col ds-outer-panel-glass" aria-label="업무 검수 상세">
           <header class="ds-panel-head ds-col-head">
             <span class="ds-col-head__lead">
               <span class="ds-col-head__icon" aria-hidden="true">

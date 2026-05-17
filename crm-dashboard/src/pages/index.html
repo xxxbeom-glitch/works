@@ -423,7 +423,7 @@
       grid-template-columns: minmax(0, var(--col-1)) minmax(0, var(--col-2)) minmax(0, var(--col-3));
       gap: var(--grid-gap);
       padding: 12px;
-      background: var(--bg-panel);
+      /* 외곽 glass: .ds-outer-panel-glass (design-system) */
       overflow: hidden;
     }
 
@@ -826,6 +826,8 @@
       flex-direction: column;
       overflow: hidden;
       padding: var(--card-padding, 18px 9px 9px);
+    }
+    .live-outer--info.workspace-main-card:not(.cinfo-panel) {
       background: var(--color-surface-soft);
     }
 
@@ -1287,15 +1289,17 @@
       }
     }
 
-    /* 1열 상세 스펙 최종 우선 적용 */
+    /* 1열 상세 스펙 최종 우선 적용 — cinfo 외곽 glass(.ds-outer-panel-glass)와 충돌하지 않도록 배경 분리 */
     .live-outer--info.workspace-main-card {
-      background: var(--color-surface-card);
       border: 0;
       box-shadow: none;
       border-radius: 0;
       padding: 0;
       font-size: var(--type-body-fs);
       color: var(--color-text-strong);
+    }
+    .live-outer--info.workspace-main-card:not(.cinfo-panel) {
+      background: var(--color-surface-card);
     }
 
     .live-outer--info #info-panel-main {
@@ -4796,11 +4800,28 @@
       min-width: 0;
     }
 
-    /* cinfo-panel 안쪽 legacy wrapper(.info-panel-stack, #info-panel-main)는
-       layout 흐름에서 제거해 cinfo-section이 직접 외곽 박스의 자식처럼 stretch */
-    .cinfo-panel > .info-panel-stack,
-    .cinfo-panel .info-panel-stack > #info-panel-main {
-      display: contents;
+    /* cinfo: article = glass shell만 · 스크롤/거터/카드 스택은 #info-panel-main */
+    .cinfo-panel > .info-panel-stack {
+      flex: 1 1 auto;
+      min-height: 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .cinfo-panel #info-panel-main {
+      flex: 1 1 auto;
+      min-height: 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      padding: var(--layout-card-padding);
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      background: var(--color-surface-soft);
     }
 
     .live-outer--info.workspace-main-card.cinfo-panel {
@@ -4812,17 +4833,16 @@
       height: 100%;
       max-height: 100%;
       margin: 0;
-      padding: 0 12px 12px 12px;
+      padding: 0;
       flex-direction: column;
       align-items: stretch;
       justify-content: flex-start;
       gap: 0;
-      background: var(--color-surface-outer);
       border: 0;
       border-radius: var(--radius-outer);
       box-shadow: none;
-      overflow-x: hidden;
-      overflow-y: auto;
+      /* 외곽 glass: .ds-outer-panel-glass — 스크롤은 #info-panel-main */
+      overflow: hidden;
       color: var(--color-text-strong);
       font-family: inherit;
       font-size: var(--type-body-fs);
@@ -4846,7 +4866,7 @@
       box-sizing: border-box;
     }
 
-    /* 상단 헤더 (외곽 박스 안 최상단 — 헤드셋 + 고객정보 + « 토글) */
+    /* 상단 헤더: 2·3열 카드 헤더와 동일 톤(불투명 바 + 하단 라인) — 최종 스펙은 하단 !important 블록 */
     .cinfo-panel__head {
       display: flex;
       align-self: stretch;
@@ -4854,7 +4874,11 @@
       justify-content: space-between;
       gap: var(--space-sm);
       margin: 0;
-      padding: var(--space-lg) 0;
+      flex-shrink: 0;
+      padding: 0 var(--layout-card-padding);
+      background: var(--color-surface-card);
+      border-bottom: 1px solid var(--color-border-default);
+      border-radius: var(--radius-outer) var(--radius-outer) 0 0;
     }
 
     .cinfo-panel__head-lead {
@@ -4931,12 +4955,13 @@
       padding: 24px 16px 16px 16px;
       margin: 0;
       background: var(--color-surface-card);
-      border: 0;
+      border: 1px solid var(--color-border-default);
       border-radius: var(--radius-card);
+      box-shadow: var(--shadow-inner-content);
     }
 
-    .cinfo-panel .cinfo-section + .cinfo-section {
-      margin-top: var(--space-md);
+    .cinfo-panel #info-panel-main > .cinfo-section + .cinfo-section {
+      margin-top: 0;
     }
 
     .cinfo-panel {
@@ -4963,7 +4988,7 @@
 
     .cinfo-panel .cinfo-section--customer {
       padding: var(--cinfo-card-pad);
-      gap: var(--space-sm);
+      gap: 3px;
     }
 
     .cinfo-panel .cinfo-section__head {
@@ -4991,8 +5016,12 @@
     .cinfo-panel .cinfo-section__title {
       margin: 0;
       color: var(--color-text-strong);
+      font-family: var(--font-sans);
+      font-size: var(--type-subheading-fs);
       font-style: normal;
-      letter-spacing: 0.07px;
+      font-weight: var(--fw-semibold);
+      line-height: var(--lh-snug);
+      letter-spacing: -0.01em;
     }
 
     .cinfo-panel .cinfo-section__chev {
@@ -5050,7 +5079,7 @@
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: var(--cinfo-row-gap);
+      gap: 0;
     }
 
     .cinfo-panel .cinfo-customer__list > li {
@@ -5058,8 +5087,8 @@
       align-items: center;
       justify-content: space-between;
       gap: var(--space-lg);
-      min-height: var(--cinfo-row-min-h);
-      padding: var(--cinfo-row-pad-y) 0;
+      min-height: calc(var(--cinfo-row-min-h) - 5px);
+      padding: 0;
     }
 
     .cinfo-panel .cinfo-customer__label {
@@ -5099,7 +5128,7 @@
       align-items: center;
       justify-content: space-between;
       gap: var(--space-sm);
-      height: 40px;
+      height: 35px;
       margin: 0;
       padding: 0 12px;
       border-radius: var(--r-sm);
@@ -5134,10 +5163,10 @@
       min-height: 30px;
       padding: 0 10px;
       margin: 0;
-      border: 0;
+      border: 1px solid var(--color-status-danger);
       border-radius: var(--r-sm);
-      background: var(--color-status-danger);
-      color: var(--color-text-inverse);
+      background: transparent;
+      color: var(--color-status-danger);
       font-family: inherit;
       font-size: var(--type-small-fs);
       font-weight: var(--fw-semibold);
@@ -5147,7 +5176,7 @@
     }
 
     .cinfo-panel .cinfo-caller__save:hover {
-      background: var(--color-status-danger);
+      background: var(--color-status-danger-soft);
     }
 
     /* 2) 최근 상담 이력 */
@@ -5516,8 +5545,8 @@
       padding: var(--panel-collapsed-icon-top, 16px) 12px 12px 12px;
       align-items: stretch;
       justify-content: flex-start;
-      background: var(--color-surface-outer);
       border-radius: var(--radius-outer);
+      /* 외곽 glass: .ds-outer-panel-glass */
       overflow: hidden;
     }
 
@@ -5588,7 +5617,7 @@
       gap: 0;
       padding: 0 12px 12px 12px;
       border-radius: var(--radius-outer);
-      background: var(--color-surface-outer);
+      /* 외곽 glass: .ds-outer-panel-glass */
       height: 100%;
       min-height: 0;
       overflow: hidden;
@@ -8704,6 +8733,71 @@
       background: var(--color-surface-soft, #f8fafc);
     }
 
+    .product-info-summary__tasks {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-xs, 6px);
+      min-width: 0;
+    }
+
+    .product-info-summary__task {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs, 6px);
+      min-width: 0;
+      min-height: 28px;
+      padding: 0 var(--space-xs, 6px);
+      border-radius: var(--radius-control, 8px);
+      background: var(--color-surface-soft, #f8fafc);
+      color: var(--color-text-default, #1f2937);
+    }
+
+    .product-info-summary__task-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: var(--type-caption-fs, 11px);
+      font-weight: var(--fw-medium, 500);
+      line-height: 1;
+    }
+
+    .product-info-summary__status {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      height: 20px;
+      padding: 0 var(--space-xs, 6px);
+      border-radius: var(--radius-pill, 9999px);
+      font-size: var(--type-ui-label-fs, 11px);
+      font-weight: var(--fw-bold, 700);
+      line-height: 1;
+    }
+
+    .product-info-summary__status--ok {
+      background: var(--color-status-success-soft, #ecfdf5);
+      color: var(--color-status-success, #16a34a);
+    }
+
+    .product-info-summary__status--deny {
+      background: var(--color-status-danger-soft, #fef2f2);
+      color: var(--color-status-danger);
+    }
+
+    .cinfo-panel .cinfo-caller__save {
+      border: 1px solid var(--color-status-danger) !important;
+      background: transparent !important;
+      color: var(--color-status-danger) !important;
+    }
+
+    .cinfo-panel .cinfo-caller__save:hover {
+      background: var(--color-status-danger-soft) !important;
+      color: var(--color-status-danger) !important;
+    }
+
     /* 상품 및 업무정보 요약: 그리드/노트 박스 제거, 세로 간격만 균일 */
     .live-composite .live-outer--product .product-info-summary {
       gap: var(--space-md) !important;
@@ -9703,6 +9797,15 @@
       align-items: center !important;
     }
 
+    /* 펼침: 컬럼 헤더 ds-panel 스펙이 padding 0을 강제하므로 카드형 바는 여기서 복구 */
+    .info-side.is-side-expanded .live-outer--info.cinfo-panel .cinfo-panel__head {
+      background: var(--color-surface-card) !important;
+      border: 0 !important;
+      border-bottom: 1px solid var(--color-border-default) !important;
+      border-radius: var(--radius-outer) var(--radius-outer) 0 0 !important;
+      padding: 0 var(--layout-card-padding) !important;
+    }
+
     .info-side:not(.is-side-expanded) .live-outer--info.cinfo-panel .cinfo-panel__head {
       height: auto !important;
       min-height: 0 !important;
@@ -9765,7 +9868,12 @@
       font-weight: var(--fw-semibold) !important;
       line-height: var(--lh-snug) !important;
       letter-spacing: -0.01em !important;
-      color: var(--color-surface-footer) !important;
+      color: var(--color-text-strong) !important;
+    }
+
+    .info-side.is-side-expanded .live-outer--info.cinfo-panel .cinfo-panel__head .col-collapse-btn,
+    .info-side.is-side-expanded .live-outer--info.cinfo-panel .cinfo-panel__collapse {
+      color: var(--color-text-muted) !important;
     }
 
     .cinfo-panel__head .col-collapse-btn,
@@ -9959,13 +10067,13 @@
        - 오직 "고객·계약 / 상담 어시스턴트 + STT / 상품·SHINDY" 3-col 만 포함
        ============================================================ -->
   <div class="page1-content">
-    <main class="workspace main-grid" aria-label="워크스페이스">
+    <main class="workspace main-grid ds-outer-panel-glass" aria-label="워크스페이스">
       <div class="workspace__col workspace__col--info main-grid__col main-grid__col--1" aria-label="고객 및 계약 정보">
         <div class="info-side is-side-expanded" id="workspace-col-info">
           <div class="info-side__content">
             <div class="info-side__shell">
               <div class="info-side__drawer" id="info-side-drawer">
-                <article class="card live-outer live-outer--info workspace-main-card cinfo-panel" aria-label="고객 및 계약 정보">
+                <article class="card live-outer live-outer--info workspace-main-card cinfo-panel ds-outer-panel-glass" aria-label="고객 및 계약 정보">
                     <header class="card__head cinfo-panel__head ds-panel-head">
                       <span class="card__head-lead cinfo-panel__head-lead">
                         <span class="cinfo-panel__head-icon" aria-hidden="true">
@@ -10149,7 +10257,7 @@
         </div>
       </div>
 
-      <div class="workspace__col workspace__col--live-stack main-workspace main-grid__col main-grid__col--2" id="workspace-col-live-stack" aria-label="상담 워크스페이스">
+      <div class="workspace__col workspace__col--live-stack main-workspace main-grid__col main-grid__col--2 ds-outer-panel-glass" id="workspace-col-live-stack" aria-label="상담 워크스페이스">
         <header class="ds-panel-head ds-col-head ds-col-head--live">
           <span class="ds-col-head__lead">
             <span class="ds-col-head__icon ds-col-head__icon--live" aria-hidden="true">
@@ -10401,11 +10509,23 @@
                     자동이체 납입중, 보험금 접수증, 계약관계자변경 접수중
                   </div>
 
-                  <div class="product-info-summary__chips" aria-label="업무 상태">
-                    <span class="product-info-summary__chip product-info-summary__chip--ok">보험금 청구 / 가능</span>
-                    <span class="product-info-summary__chip product-info-summary__chip--ok">자동이체 계좌변경 / 가능</span>
-                    <span class="product-info-summary__chip product-info-summary__chip--deny">서비스 정지 / 불가</span>
-                    <span class="product-info-summary__chip product-info-summary__chip--deny">카드납 변경 / 불가</span>
+                  <div class="product-info-summary__tasks" aria-label="업무 가능 여부">
+                    <div class="product-info-summary__task">
+                      <span class="product-info-summary__task-name">보험금 청구</span>
+                      <span class="product-info-summary__status product-info-summary__status--ok">가능</span>
+                    </div>
+                    <div class="product-info-summary__task">
+                      <span class="product-info-summary__task-name">자동이체 계좌변경</span>
+                      <span class="product-info-summary__status product-info-summary__status--ok">가능</span>
+                    </div>
+                    <div class="product-info-summary__task">
+                      <span class="product-info-summary__task-name">서비스 정지</span>
+                      <span class="product-info-summary__status product-info-summary__status--deny">불가</span>
+                    </div>
+                    <div class="product-info-summary__task">
+                      <span class="product-info-summary__task-name">카드납 변경</span>
+                      <span class="product-info-summary__status product-info-summary__status--deny">불가</span>
+                    </div>
                   </div>
                 </section>
                 </div>
@@ -10413,7 +10533,7 @@
                         </div>
                           </div>
                         </div>
-      <div class="workspace__col workspace__col--ai main-grid__col main-grid__col--3" id="workspace-col-ai" aria-label="질의 및 에이전트">
+      <div class="workspace__col workspace__col--ai main-grid__col main-grid__col--3 ds-outer-panel-glass" id="workspace-col-ai" aria-label="질의 및 에이전트">
         <header class="ds-panel-head ds-col-head ds-col-head--ai">
           <span class="ds-col-head__lead">
             <span class="ds-col-head__icon ds-col-head__icon--ai" aria-hidden="true">

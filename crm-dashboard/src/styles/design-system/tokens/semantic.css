@@ -20,10 +20,38 @@
   --color-action-primary-soft:  var(--c-neutral-100);
   --color-action-primary-active:var(--c-neutral-150);
 
-  /* ── Surface ── */
-  --color-surface-app:      #DADFE4;
-  --color-surface-outer:    rgba(241, 245, 249, 0.92);
-  --color-surface-card:     var(--c-neutral-0);
+  /* ── Layer / Surface (glass 규칙) ──
+     · 투명도는 background-color의 alpha(rgba)로만 조절한다. 레이어 루트에 opacity를 쓰지 않는다.
+     · backdrop-filter는 앱 스테이지·AppShell 헤더(상단바)·LNB·큰 패널(외곽면)에만 둔다. 헤더는 iframe 본문과 같은 --layer-app-bg·동일 blur(--glass-blur-app-stage)로만 처리하고, 별도 톤·white bar·헤더 전용 blur 토큰을 쓰지 않는다. 내부 카드 본문에는 blur 없음.
+     · chrome: LNB blur는 앱 스테이지보다 크게, 큰 패널은 아주 약한 blur만 사용한다.
+     1) 배경 이미지: --layer-viewport-bg + .app-desktop-bg 의 cover 이미지
+     2) 앱 스테이지: --layer-app-bg + --glass-blur-app-stage (iframe 워크스페이스 배경과 동일 톤)
+     3) LNB: --layer-lnb-bg + chrome blur
+     4) 큰 패널: --layer-panel-bg + --glass-blur-panel (약한 blur, 본문 카드는 불투명 유지)
+     5) 내부 카드/표/폼: --layer-content-bg·--color-surface-soft 등 불투명
+     6) 텍스트·아이콘·컨트롤: 별도 opacity 처리 없이 100% 선명 */
+  --layer-viewport-bg:       #D9DEE5;
+  /* 앱 스테이지·iframe 본문·상단 헤더 동일 톤 — 알파를 너무 낮추면 배경 이미지가 헤더에서만 과하게 비침 */
+  --layer-app-bg:            rgba(220, 228, 236, 0.5);
+  --layer-panel-bg:          rgba(248, 250, 252, 0.40);
+  --layer-content-bg:        var(--c-neutral-0);
+  --layer-lnb-bg:            rgba(51, 65, 85, 0.62);
+  --layer-header-bg:         rgba(255, 255, 255, 0.64);
+  --layer-header-control-bg: rgba(255, 255, 255, 0.26);
+
+  --glass-blur-app-stage:        26px;
+  --glass-blur-chrome-header:    34px;
+  --glass-blur-chrome-lnb:       36px;
+  --glass-blur-chrome-control:   22px;
+  --glass-blur-bg-switcher:      16px;
+  --glass-blur-panel:            10px;
+  --glass-saturate-app:          1.09;
+  --glass-saturate-chrome:       1.12;
+  --glass-saturate-panel:        1.05;
+
+  --color-surface-app:      var(--layer-app-bg);
+  --color-surface-outer:    var(--layer-panel-bg);
+  --color-surface-card:     var(--layer-content-bg);
   --color-surface-soft:     var(--c-neutral-50);
   --color-surface-row:      var(--c-neutral-100);
   --color-surface-row-hover:var(--c-neutral-50);
@@ -240,7 +268,7 @@
   --color-primary-700:var(--c-neutral-900);
 
   --bg-app:           var(--color-surface-app);
-  --bg-panel:         var(--color-surface-app);
+  --bg-panel:         var(--color-surface-outer);
   --bg-card:          var(--color-surface-card);
   --bg-inner-content: var(--color-surface-card);
   --bg-content-soft:  var(--color-surface-soft);

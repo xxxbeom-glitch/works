@@ -1,0 +1,12 @@
+/* ============================================================
+   공통 glass 면 (1·2·3페이지 iframe + 공통 카드)
+   - 배경/블러는 semantic.css 토큰만 참조
+   - 이 클래스를 쓰는 요소에 opacity로 통째 투명 처리 금지
+   ============================================================ */
+
+.ds-outer-panel-glass,
+.ds-card--outer {
+  background: var(--color-surface-outer);
+  backdrop-filter: blur(var(--glass-blur-panel)) saturate(var(--glass-saturate-panel));
+  -webkit-backdrop-filter: blur(var(--glass-blur-panel)) saturate(var(--glass-saturate-panel));
+}

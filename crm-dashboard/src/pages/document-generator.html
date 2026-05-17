@@ -80,8 +80,8 @@
 
     /* ----- 외곽 카드 (1열 cinfo-panel과 동일 톤) ----- */
     .col {
-      background: var(--color-surface-outer);
       border-radius: var(--radius-outer);
+      /* 외곽 glass: .ds-outer-panel-glass */
       padding: 0 12px 12px;
       display: flex; flex-direction: column; gap: 0;
       min-width: 0; min-height: 0;
@@ -153,7 +153,7 @@
       position: sticky;
       bottom: 0;
       padding: var(--space-sm) 0 0;
-      background: var(--color-surface-outer);
+      /* 외곽 glass: .ds-outer-panel-glass */
       border-top: 1px solid var(--color-border-default);
       z-index: 10;
     }
@@ -439,10 +439,9 @@
     }
 
     /* ============================================================
-       공통 다중 선택 버튼 박스
-       - 참조 RAG 선택 / 문서 유형 선택이 동일한 토큰/스타일 공유
-       - 미선택: white bg + neutral border
-       - 선택: dark filled (neutral-700) + white text
+       공통 선택 버튼 박스 (토글 박스)
+       - 참조 RAG: label.check + 숨김 checkbox
+       - 문서 유형: button.check 단일 선택(라디오 아님), 시각은 RAG와 동일
        ============================================================ */
     :root {
       --sel-h:         var(--control-h-md);   /* 공통 form control 기준 (30px) */
@@ -453,14 +452,16 @@
       --sel-cl-on:     #111827;
     }
 
-    /* ── 참조 RAG 선택: 3x2 그리드 ── */
-    .rag-select-card .check-list {
+    /* ── 참조 RAG / 문서 유형: 3열 그리드 (문서 유형 5개 → 2행째 우측 빈 칸) ── */
+    .rag-select-card .check-list,
+    .doctype-card .check-list {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: var(--space-sm);
     }
 
-    .rag-select-card .check {
+    .rag-select-card .check,
+    .doctype-card .check {
       display: inline-flex; align-items: center; justify-content: center;
       height: var(--sel-h);
       padding: 0 10px;
@@ -475,20 +476,38 @@
       white-space: nowrap;
       transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
     }
-    .rag-select-card .check:hover {
+    .rag-select-card .check:hover,
+    .doctype-card .check:hover {
       background: var(--c-neutral-100);
       border-color: var(--color-border-strong);
       color: var(--color-text-secondary);
     }
-    .rag-select-card .check.is-checked {
+    .rag-select-card .check.is-checked,
+    .doctype-card .check.is-checked {
       background: var(--sel-bg-on);
       border-color: var(--sel-border-on);
       color: var(--sel-cl-on);
       font-weight: var(--fw-bold);
     }
-    .rag-select-card .check.is-checked:hover {
+    .rag-select-card .check.is-checked:hover,
+    .doctype-card .check.is-checked:hover {
       background: var(--c-neutral-200);
       border-color: var(--sel-border-on);
+    }
+
+    /* 문서 유형: 네이티브 button 리셋(RAG 라벨과 동일한 박스) */
+    .doctype-card .check {
+      appearance: none;
+      -webkit-appearance: none;
+      font: inherit;
+      margin: 0;
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .doctype-card .check:focus-visible {
+      outline: 2px solid var(--c-neutral-400);
+      outline-offset: 2px;
     }
 
     /* 체크박스 숨김 — 클릭 이벤트만 활용 */
@@ -501,42 +520,6 @@
     .rag-select-card .check span::before { display: none !important; }
     .rag-select-card .check span {
       display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
-
-    /* ── 문서 유형 선택: flex wrap ── */
-    .chip-list { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
-    .chip {
-      display: inline-flex; align-items: center; justify-content: center;
-      height: var(--sel-h);
-      padding: 0 14px;
-      border: 1px solid var(--sel-border);
-      border-radius: var(--sel-r);
-      background: var(--color-surface-card);
-      color: var(--color-text-default);
-      font-size: var(--type-small-fs);
-      font-weight: var(--fw-semibold);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
-    }
-    .chip:hover {
-      background: var(--c-neutral-100);
-      border-color: var(--color-border-strong);
-      color: var(--color-text-secondary);
-    }
-    .chip.is-active {
-      background: var(--sel-bg-on);
-      border-color: var(--sel-border-on);
-      color: var(--sel-cl-on);
-      font-weight: var(--fw-bold);
-    }
-    .chip.is-active:hover {
-      background: var(--c-neutral-200);
-      border-color: var(--sel-border-on);
-    }
-    .chip:focus-visible {
-      outline: 2px solid var(--c-neutral-400);
-      outline-offset: 2px;
     }
 
     /* ── 헤더 우측 액션 버튼 (전체 선택 / 문서 통합 공통) ── */
@@ -1037,7 +1020,7 @@
       <main class="ws" aria-label="문서 생성 워크스페이스">
 
         <!-- ============================ 1열 ============================ -->
-        <section class="col col--settings" aria-label="문서 생성 설정">
+        <section class="col col--settings ds-outer-panel-glass" aria-label="문서 생성 설정">
           <header class="ds-panel-head ds-col-head">
             <span class="ds-col-head__lead">
               <span class="ds-col-head__icon" aria-hidden="true">
@@ -1174,12 +1157,12 @@
               </label>
             </header>
             <div class="card__body">
-              <div class="chip-list" role="group" aria-label="문서 유형">
-                <button type="button" class="chip is-active" aria-pressed="true">요약본 생성</button>
-                <button type="button" class="chip" aria-pressed="false">SOK 콘텐츠</button>
-                <button type="button" class="chip" aria-pressed="false">업무 매뉴얼</button>
-                <button type="button" class="chip" aria-pressed="false">교육자료</button>
-                <button type="button" class="chip" aria-pressed="false">기타</button>
+              <div class="check-list" role="group" aria-label="문서 유형">
+                <button type="button" class="check is-checked" aria-pressed="true">요약본 생성</button>
+                <button type="button" class="check" aria-pressed="false">SOK 콘텐츠</button>
+                <button type="button" class="check" aria-pressed="false">업무 매뉴얼</button>
+                <button type="button" class="check" aria-pressed="false">교육자료</button>
+                <button type="button" class="check" aria-pressed="false">기타</button>
               </div>
             </div>
           </article>
@@ -1248,13 +1231,13 @@
           </div>
           
           <!-- CTA 영역: 좌측 컬럼 하단 고정 -->
-          <div class="col__cta">
+          <div class="col__cta ds-outer-panel-glass">
             <button type="button" class="btn-primary">문서 생성 실행</button>
           </div>
         </section>
 
         <!-- ============================ 2열 ============================ -->
-        <section class="col col--stretch" aria-label="문서 생성 결과">
+        <section class="col col--stretch ds-outer-panel-glass" aria-label="문서 생성 결과">
           <header class="ds-panel-head ds-col-head">
             <span class="ds-col-head__lead">
               <span class="ds-col-head__icon" aria-hidden="true">
@@ -1315,7 +1298,7 @@
         </section>
 
         <!-- ============================ 3열 ============================ -->
-        <section class="col" aria-label="참고 출처 · 수정 요청 · 다운로드">
+        <section class="col ds-outer-panel-glass" aria-label="참고 출처 · 수정 요청 · 다운로드">
           <header class="ds-panel-head ds-col-head">
             <span class="ds-col-head__lead">
               <span class="ds-col-head__icon" aria-hidden="true">
@@ -1531,21 +1514,7 @@
     })();
 
     /* ============================================================
-       chip (multi-select 다중 선택)
-       - aria-pressed 동기화
-       ============================================================ */
-    document.querySelectorAll('.page2-content .chip-list').forEach(function (list) {
-      list.addEventListener('click', function (e) {
-        var t = e.target.closest('.chip');
-        if (!t) return;
-        var active = t.classList.toggle('is-active');
-        t.setAttribute('aria-pressed', active ? 'true' : 'false');
-      });
-    });
-
-    /* ============================================================
-       check row (multi-select) — RAG 선택
-       - checkbox 상태 변경 시 .is-checked 동기화
+       check row — 참조 RAG(숨김 checkbox + .is-checked)
        ============================================================ */
     function syncCheckRow(input) {
       var row = input.closest('.check');
@@ -1553,9 +1522,23 @@
       row.classList.toggle('is-checked', input.checked);
     }
 
-    document.querySelectorAll('.page2-content .check input[type="checkbox"]').forEach(function (chk) {
-      syncCheckRow(chk);
-      chk.addEventListener('change', function () { syncCheckRow(chk); });
+    document.querySelectorAll('.page2-content .check input[type="checkbox"]').forEach(function (inp) {
+      syncCheckRow(inp);
+      inp.addEventListener('change', function () { syncCheckRow(inp); });
+    });
+
+    /* 문서 유형: 버튼 단일 선택(RAG와 동일 박스 스타일, 라디오 미사용) */
+    document.querySelectorAll('.page2-content .doctype-card .check-list').forEach(function (list) {
+      list.addEventListener('click', function (e) {
+        var btn = e.target.closest('.check');
+        if (!btn || btn.tagName !== 'BUTTON') return;
+        list.querySelectorAll('button.check').forEach(function (b) {
+          b.classList.remove('is-checked');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('is-checked');
+        btn.setAttribute('aria-pressed', 'true');
+      });
     });
 
     /* 전체 선택 버튼 — 카드 내 모든 체크 토글 */

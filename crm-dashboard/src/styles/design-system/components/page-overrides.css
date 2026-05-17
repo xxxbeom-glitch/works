@@ -279,7 +279,7 @@ html body .ds-select {
 .col__cta {
   padding: var(--space-sm) 0 0 !important;
   border-top: 1px solid var(--color-border-default) !important;
-  background: var(--color-surface-outer) !important;
+  /* ??·?? blur: .ds-outer-panel-glass (?? ?? ? ???? ??) */
 }
 .col__cta .btn-primary {
   width: 100% !important;

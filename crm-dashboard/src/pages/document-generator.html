@@ -72,7 +72,7 @@
       flex: 1 1 auto;
       min-width: 0; min-height: 0;
       display: grid;
-      grid-template-columns: 360px minmax(0, 1fr) 380px;
+      grid-template-columns: 425px minmax(900px, 1fr) 448px;
       gap: var(--space-md);
       padding: 12px;
       overflow: hidden;
@@ -152,7 +152,10 @@
     /* 카드 헤더 */
     .card__head {
       flex-shrink: 0;
-      padding: var(--space-lg) var(--layout-card-padding) !important;
+      height: 56px !important;
+      min-height: 56px !important;
+      max-height: 56px !important;
+      padding: 0 var(--layout-card-padding) !important;
       border-bottom: 1px solid var(--color-border-default);
       display: flex; align-items: center; justify-content: space-between;
       gap: var(--space-md);
@@ -164,6 +167,21 @@
       margin: 0;
       line-height: var(--lh-snug);
       color: var(--color-text-strong);
+    }
+    .card__title-step {
+      flex: 0 0 auto;
+      font-weight: var(--fw-bold);
+      line-height: inherit;
+    }
+    .card__title--step {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+      min-width: 0;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .card__title-sub {
       margin-left: 4px;
@@ -788,7 +806,7 @@
        Responsive (1열 톤 유지)
        ============================================================ */
     @media (max-width: 1280px) {
-      .ws { grid-template-columns: 340px minmax(0, 1fr) 340px; }
+      .ws { grid-template-columns: 360px minmax(500px, 1fr) 360px; }
     }
     @media (max-width: 1080px) {
       .ws { grid-template-columns: 1fr; }
@@ -822,7 +840,7 @@
           <article class="card">
             <header class="card__head">
               <span class="card__head-lead">
-                <h3 class="card__title">문서 업로드</h3>
+                <h3 class="card__title card__title--step"><span class="card__title-step">1.</span> 문서 업로드</h3>
               </span>
             </header>
             <div class="card__body">
@@ -883,7 +901,7 @@
           <article class="card rag-select-card">
             <header class="card__head">
               <span class="card__head-lead">
-                <h3 class="card__title">참조 RAG 선택</h3>
+                <h3 class="card__title card__title--step"><span class="card__title-step">2.</span> 참조 RAG 선택</h3>
               </span>
               <button type="button" class="card__head-action" id="rag-select-all">전체 선택</button>
             </header>
@@ -904,7 +922,7 @@
           <article class="card doctype-card">
             <header class="card__head">
               <span class="card__head-lead">
-                <h3 class="card__title">문서 유형 선택</h3>
+                <h3 class="card__title card__title--step"><span class="card__title-step">3.</span> 문서 유형 선택</h3>
               </span>
               <button type="button" class="card__head-action is-active" id="doc-merge-btn">문서 통합</button>
             </header>
@@ -923,7 +941,7 @@
           <article class="card">
             <header class="card__head">
               <span class="card__head-lead">
-                <h3 class="card__title">생성 옵션 선택</h3>
+                <h3 class="card__title card__title--step"><span class="card__title-step">4.</span> 문서 생성 옵션</h3>
               </span>
             </header>
             <div class="card__body">

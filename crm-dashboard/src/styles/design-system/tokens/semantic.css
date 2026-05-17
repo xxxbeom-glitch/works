@@ -181,7 +181,7 @@
   --layout-card-padding:    var(--layout-card-pad);
   --layout-shell-pad-x:     var(--layout-page-pad-x);
   /* LNB: 상단(브랜드)·하단(접기) 아이콘까지 동일 인셋 */
-  --layout-lnb-pad-y:       16px;
+  --layout-lnb-pad-y:       36px;
   --layout-lnb-pad-top:     var(--layout-lnb-pad-y);
   --layout-lnb-pad-bottom:  var(--layout-lnb-pad-y);
   --layout-lnb-nav-gap:     12px;

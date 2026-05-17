@@ -580,20 +580,38 @@
       margin: 0;
     }
 
-    /* 문서 생성 옵션: 검수 화면 검색 카드(.select)와 동일 톤 */
+    /* 문서 생성 옵션: 검색 카드(.select) 톤 + 검색명처럼 결합(간격 0·내부 구분선) */
     .doc-option-grid {
       --filter-control-height: 40px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: var(--space-md);
       width: 100%;
     }
-    .doc-option-grid .form-row {
+    .doc-option-row__labels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin: 0 0 var(--space-sm);
       min-width: 0;
     }
-    .doc-option-grid .form-row__field {
-      display: block;
-      width: 100%;
+    .doc-option-row__labels .form-row__label {
+      min-width: 0;
+    }
+    .doc-option-combined {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      height: var(--filter-control-height, 40px);
+      min-height: var(--filter-control-height, 40px);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-card);
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    .doc-option-combined:focus-within {
+      border-color: var(--color-text-secondary);
     }
     .doc-option-grid .select {
       width: 100%;
@@ -616,10 +634,32 @@
       -webkit-appearance: none !important;
       appearance: none !important;
     }
+    .doc-option-grid .doc-option-combined .select {
+      flex: 1 1 0 !important;
+      min-width: 0 !important;
+      width: auto !important;
+      height: 100% !important;
+      min-height: 0 !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background-color: transparent;
+    }
+    .doc-option-grid .doc-option-combined .select:not(:last-child) {
+      border-right: 1px solid var(--color-border-default) !important;
+    }
     .doc-option-grid .select:focus {
       border-color: var(--color-text-secondary) !important;
       outline: none;
       box-shadow: none !important;
+    }
+    .doc-option-grid .doc-option-combined .select:focus {
+      border-color: transparent !important;
+      border-right-color: var(--color-border-default) !important;
+      outline: none;
+      box-shadow: none !important;
+    }
+    .doc-option-grid .doc-option-combined .select:last-child:focus {
+      border-right-color: transparent !important;
     }
 
     /* primary 버튼 */
@@ -1122,37 +1162,33 @@
             </header>
             <div class="card__body">
               <div class="doc-option-grid" role="group" aria-label="문서 생성 옵션">
-                <div class="form-row">
-                  <label class="form-row__label" for="doc-opt-format">문서 형식</label>
-                  <div class="form-row__field">
+                <div class="doc-option-row">
+                  <div class="doc-option-row__labels">
+                    <label class="form-row__label" for="doc-opt-format">문서 형식</label>
+                    <label class="form-row__label" for="doc-opt-summary">요약 수준</label>
+                  </div>
+                  <div class="doc-option-combined">
                     <select class="select" id="doc-opt-format" name="doc-format" aria-label="문서 형식">
                       <option value="official" selected>공식형</option>
                       <option value="free">자유형</option>
                     </select>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <label class="form-row__label" for="doc-opt-summary">요약 수준</label>
-                  <div class="form-row__field">
                     <select class="select" id="doc-opt-summary" name="doc-summary" aria-label="요약 수준">
                       <option value="brief" selected>간단히 요약</option>
                       <option value="detailed">자세히 요약</option>
                     </select>
                   </div>
                 </div>
-                <div class="form-row">
-                  <label class="form-row__label" for="doc-opt-length">문서 길이</label>
-                  <div class="form-row__field">
+                <div class="doc-option-row">
+                  <div class="doc-option-row__labels">
+                    <label class="form-row__label" for="doc-opt-length">문서 길이</label>
+                    <label class="form-row__label" for="doc-opt-pages">페이지 수</label>
+                  </div>
+                  <div class="doc-option-combined">
                     <select class="select" id="doc-opt-length" name="doc-length" aria-label="문서 길이">
                       <option value="short">짧게</option>
                       <option value="medium" selected>중간</option>
                       <option value="long">길게</option>
                     </select>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <label class="form-row__label" for="doc-opt-pages">페이지 수</label>
-                  <div class="form-row__field">
                     <select class="select" id="doc-opt-pages" name="doc-pages" aria-label="페이지 수">
                       <option value="5">5페이지</option>
                       <option value="10" selected>10페이지</option>

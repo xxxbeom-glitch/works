@@ -1,4 +1,8 @@
+.ds-panel-head,
 .ds-col-head {
+  --ds-panel-head-h: 60px;
+  --ds-panel-head-action-w: 32px;
+  --ds-panel-head-gap: 8px;
   --ds-col-head-inline-offset: 0px;
   box-sizing: border-box;
   display: flex;
@@ -6,13 +10,38 @@
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  gap: 8px;
+  gap: var(--ds-panel-head-gap);
+  width: 100%;
+  height: var(--ds-panel-head-h);
+  min-height: var(--ds-panel-head-h);
+  max-height: var(--ds-panel-head-h);
   margin: 0;
-  padding: var(--space-lg) var(--ds-col-head-inline-offset);  /* 패널/컬럼 시작선과 정렬 */
+  padding: 0 var(--ds-col-head-inline-offset);  /* 패널/컬럼 시작선과 정렬 */
   background: transparent;
   border: 0;
 }
 
+.ds-panel-head::after,
+.ds-col-head::after {
+  content: "";
+  display: block;
+  flex: 0 0 var(--ds-panel-head-action-w);
+  width: var(--ds-panel-head-action-w);
+  height: var(--ds-panel-head-action-w);
+}
+
+.ds-panel-head:has(> .ds-panel-head__end)::after,
+.ds-panel-head:has(> .ds-col-head__end)::after,
+.ds-panel-head:has(> .ds-col-head__toggle)::after,
+.ds-panel-head:has(> .col-collapse-btn)::after,
+.ds-col-head:has(> .ds-panel-head__end)::after,
+.ds-col-head:has(> .ds-col-head__end)::after,
+.ds-col-head:has(> .ds-col-head__toggle)::after,
+.ds-col-head:has(> .col-collapse-btn)::after {
+  display: none;
+}
+
+.ds-panel-head__lead,
 .ds-col-head__lead {
   display: inline-flex;
   align-items: center;
@@ -20,6 +49,7 @@
   min-width: 0;
 }
 
+.ds-panel-head__icon,
 .ds-col-head__icon {
   flex-shrink: 0;
   display: flex;
@@ -33,6 +63,7 @@
   color: var(--color-surface-footer);
 }
 
+.ds-panel-head__icon svg,
 .ds-col-head__icon svg {
   display: block;
   flex-shrink: 0;
@@ -42,6 +73,7 @@
   max-height: 18px;
 }
 
+.ds-panel-head__title,
 .ds-col-head__title {
   margin: 0;
   color: var(--color-surface-footer);
@@ -53,6 +85,17 @@
   letter-spacing: -0.01em;
 }
 
+.ds-panel-head__end,
+.ds-col-head__end {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+  min-width: var(--ds-panel-head-action-w);
+}
+
+.ds-panel-head__toggle,
 .ds-col-head__toggle {
   flex-shrink: 0;
   display: inline-flex;

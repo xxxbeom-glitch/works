@@ -44,6 +44,8 @@
        - Header / LNB / Footer / 모드 토글 / 사용자 영역 없음
        ============================================================ */
     .page3-content {
+      --common-first-col-w: 425px;
+      --common-first-col-w-compact: 360px;
       height: 100vh; max-height: 100vh;
       width: 100%;
       overflow: hidden;
@@ -57,7 +59,7 @@
     .ws {
       flex: 1 1 auto; min-height: 0;
       display: grid;
-      grid-template-columns: minmax(0, 57fr) minmax(0, 43fr);
+      grid-template-columns: minmax(0, 60fr) minmax(0, 40fr);
       gap: var(--space-md);
       padding: 12px;
     }
@@ -85,7 +87,7 @@
       flex: 1 1 auto;
       min-height: 0;
       display: grid;
-      grid-template-columns: 425px minmax(0, 1fr);
+      grid-template-columns: var(--common-first-col-w) minmax(0, 1fr);
       gap: var(--space-md);
     }
 
@@ -107,7 +109,7 @@
     }
 
     .review-layout__side .stat-row__main {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     .review-layout__side .filter-grid {
@@ -374,7 +376,7 @@
 
     @media (max-width: 1280px) {
       .review-layout {
-        grid-template-columns: 360px minmax(0, 1fr);
+        grid-template-columns: var(--common-first-col-w-compact) minmax(0, 1fr);
       }
     }
     /* 내부 카드 (공통) */
@@ -479,7 +481,7 @@
 
     .stat-row__main {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       align-items: center;
       gap: var(--space-xs);
       min-width: 0;
@@ -497,6 +499,14 @@
       border: 1px solid transparent;
       min-width: 0;
     }
+
+    .stat-cell--total {
+      background: var(--color-status-success-soft);
+      border-color: var(--color-status-success);
+    }
+    .stat-cell--total .stat-cell__name { color: var(--color-status-success); font-weight: var(--fw-semibold); }
+    .stat-cell--total .stat-cell__val  { color: var(--color-status-success); }
+
     .stat-cell__name {
       display: block;
       width: 100%;
@@ -1265,7 +1275,7 @@
 
         <!-- ============================ 좌측 ============================ -->
         <section class="col col--list" aria-label="검수 현황 · 검색 · 리스트">
-          <header class="ds-col-head">
+          <header class="ds-panel-head ds-col-head">
             <span class="ds-col-head__lead">
               <span class="ds-col-head__icon" aria-hidden="true">
                 <svg id="Scroll-list" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1292,17 +1302,21 @@
             <div class="card__body stat-summary-card__body">
               <div class="stat-row" role="region" aria-label="검수 현황 요약">
                 <div class="stat-row__main">
+                  <div class="stat-cell stat-cell--total">
+                    <span class="stat-cell__name">Total</span>
+                    <span class="stat-cell__val">350<span class="stat-cell__unit">건</span></span>
+                  </div>
                   <div class="stat-cell stat-cell--high">
-                    <span class="stat-cell__val">20<span class="stat-cell__unit">건</span></span>
                     <span class="stat-cell__name">High</span>
+                    <span class="stat-cell__val">115<span class="stat-cell__unit">건</span></span>
                   </div>
                   <div class="stat-cell stat-cell--medium">
-                    <span class="stat-cell__val">10<span class="stat-cell__unit">건</span></span>
-                    <span class="stat-cell__name">Medium</span>
+                    <span class="stat-cell__name">Midium</span>
+                    <span class="stat-cell__val">110<span class="stat-cell__unit">건</span></span>
                   </div>
                   <div class="stat-cell stat-cell--low">
-                    <span class="stat-cell__val">0<span class="stat-cell__unit">건</span></span>
                     <span class="stat-cell__name">Low</span>
+                    <span class="stat-cell__val">125<span class="stat-cell__unit">건</span></span>
                   </div>
                 </div>
               </div>
@@ -1368,6 +1382,17 @@
                       <option selected>보험금</option>
                       <option>해지</option>
                       <option>대출</option>
+                    </select>
+                  </span>
+                </div>
+
+                <div class="filter-group">
+                  <span class="filter-grid__label">검수유형</span>
+                  <span class="filter-grid__field">
+                    <select class="select" aria-label="검수유형">
+                      <option selected>전체</option>
+                      <option>오안내</option>
+                      <option>업무 누락</option>
                     </select>
                   </span>
                 </div>
@@ -1733,7 +1758,7 @@
 
         <!-- ============================ 우측 ============================ -->
         <section class="col" aria-label="업무 검수 상세">
-          <header class="ds-col-head">
+          <header class="ds-panel-head ds-col-head">
             <span class="ds-col-head__lead">
               <span class="ds-col-head__icon" aria-hidden="true">
                 <svg id="Chart-circle" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

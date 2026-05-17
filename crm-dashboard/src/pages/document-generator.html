@@ -123,6 +123,11 @@
       margin-left: -12px;
       margin-right: -12px;
       scrollbar-gutter: stable;
+      scrollbar-width: none;
+    }
+
+    .col--settings > .col__scroll::-webkit-scrollbar {
+      display: none;
     }
 
     .col--settings .col__content {
@@ -947,7 +952,7 @@
 
         <!-- ============================ 1열 ============================ -->
         <section class="col col--settings" aria-label="문서 생성 설정">
-          <header class="ds-col-head">
+          <header class="ds-panel-head ds-col-head">
             <span class="ds-col-head__lead">
               <span class="ds-col-head__icon" aria-hidden="true">
                 <svg id="Setting" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1148,7 +1153,7 @@
 
         <!-- ============================ 2열 ============================ -->
         <section class="col col--stretch" aria-label="문서 생성 결과">
-          <header class="ds-col-head">
+          <header class="ds-panel-head ds-col-head">
             <span class="ds-col-head__lead">
               <span class="ds-col-head__icon" aria-hidden="true">
                 <svg id="Document" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1210,7 +1215,7 @@
 
         <!-- ============================ 3열 ============================ -->
         <section class="col" aria-label="참고 출처 · 수정 요청 · 다운로드">
-          <header class="ds-col-head">
+          <header class="ds-panel-head ds-col-head">
             <span class="ds-col-head__lead">
               <span class="ds-col-head__icon" aria-hidden="true">
                 <svg id="floppy-disk-save" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

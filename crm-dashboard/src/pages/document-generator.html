@@ -580,8 +580,9 @@
       margin: 0;
     }
 
-    /* 문서 생성 옵션: 2×2 + 스타일 가이드 select(.ds-select) */
+    /* 문서 생성 옵션: 검수 화면 검색 카드(.select)와 동일 톤 */
     .doc-option-grid {
+      --filter-control-height: 40px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-md);
@@ -594,9 +595,31 @@
       display: block;
       width: 100%;
     }
-    .doc-option-grid .ds-select {
+    .doc-option-grid .select {
       width: 100%;
       max-width: 100%;
+      height: var(--filter-control-height, 40px) !important;
+      min-height: var(--filter-control-height, 40px) !important;
+      padding: 0 14px !important;
+      padding-right: 40px !important;
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-card);
+      color: var(--color-text-strong);
+      font-size: var(--type-body-fs);
+      line-height: var(--type-body-lh);
+      font-weight: var(--fw-regular);
+      display: inline-flex !important;
+      align-items: center;
+      box-sizing: border-box;
+      vertical-align: middle;
+      -webkit-appearance: none !important;
+      appearance: none !important;
+    }
+    .doc-option-grid .select:focus {
+      border-color: var(--color-text-secondary) !important;
+      outline: none;
+      box-shadow: none !important;
     }
 
     /* primary 버튼 */
@@ -1102,7 +1125,7 @@
                 <div class="form-row">
                   <label class="form-row__label" for="doc-opt-format">문서 형식</label>
                   <div class="form-row__field">
-                    <select class="ds-select" id="doc-opt-format" name="doc-format" aria-label="문서 형식">
+                    <select class="select" id="doc-opt-format" name="doc-format" aria-label="문서 형식">
                       <option value="official" selected>공식형</option>
                       <option value="free">자유형</option>
                     </select>
@@ -1111,7 +1134,7 @@
                 <div class="form-row">
                   <label class="form-row__label" for="doc-opt-summary">요약 수준</label>
                   <div class="form-row__field">
-                    <select class="ds-select" id="doc-opt-summary" name="doc-summary" aria-label="요약 수준">
+                    <select class="select" id="doc-opt-summary" name="doc-summary" aria-label="요약 수준">
                       <option value="brief" selected>간단히 요약</option>
                       <option value="detailed">자세히 요약</option>
                     </select>
@@ -1120,7 +1143,7 @@
                 <div class="form-row">
                   <label class="form-row__label" for="doc-opt-length">문서 길이</label>
                   <div class="form-row__field">
-                    <select class="ds-select" id="doc-opt-length" name="doc-length" aria-label="문서 길이">
+                    <select class="select" id="doc-opt-length" name="doc-length" aria-label="문서 길이">
                       <option value="short">짧게</option>
                       <option value="medium" selected>중간</option>
                       <option value="long">길게</option>
@@ -1130,7 +1153,7 @@
                 <div class="form-row">
                   <label class="form-row__label" for="doc-opt-pages">페이지 수</label>
                   <div class="form-row__field">
-                    <select class="ds-select" id="doc-opt-pages" name="doc-pages" aria-label="페이지 수">
+                    <select class="select" id="doc-opt-pages" name="doc-pages" aria-label="페이지 수">
                       <option value="5">5페이지</option>
                       <option value="10" selected>10페이지</option>
                       <option value="15">15페이지</option>

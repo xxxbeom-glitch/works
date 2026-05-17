@@ -178,8 +178,10 @@
   --layout-gutter:          var(--layout-content-gap);
   --layout-card-padding:    var(--layout-card-pad);
   --layout-shell-pad-x:     var(--layout-page-pad-x);
-  --layout-lnb-pad-top:     16px;
-  --layout-lnb-pad-bottom:  12px;
+  /* LNB: 상단(브랜드)·하단(접기) 아이콘까지 동일 인셋 */
+  --layout-lnb-pad-y:       16px;
+  --layout-lnb-pad-top:     var(--layout-lnb-pad-y);
+  --layout-lnb-pad-bottom:  var(--layout-lnb-pad-y);
   --layout-lnb-nav-gap:     12px;
   --layout-lnb-brand-gap:   24px;
   --layout-header-pad-x:    var(--layout-shell-pad-x);

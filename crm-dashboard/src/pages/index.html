@@ -5272,10 +5272,29 @@
       font-weight: var(--fw-bold);
     }
 
-    /* 접힘 처리: 기존 JS가 .is-collapsed 토글 */
+    /* 접힘 처리: JS가 .is-collapsed 토글 */
     .cinfo-panel #info-acc-contracts.is-collapsed .cinfo-contracts,
     .cinfo-panel #info-acc-guide.is-collapsed .cinfo-guide {
       display: none;
+    }
+
+    /* 본문이 숨겨진 상태에서 헤더 하단 border만 남는 현상 제거 */
+    .cinfo-panel #info-acc-contracts.is-collapsed .cinfo-section__head,
+    .cinfo-panel #info-acc-guide.is-collapsed .cinfo-section__head {
+      border-bottom: 0;
+    }
+
+    .cinfo-panel #info-acc-contracts .cinfo-section__chev svg,
+    .cinfo-panel #info-acc-guide .cinfo-section__chev svg {
+      display: block;
+      transition: transform var(--motion-normal, 0.2s ease);
+    }
+
+    /* 펼침: 위쪽(접기), 접힘: 아래쪽(펼치기) */
+    .cinfo-panel #info-acc-contracts.is-collapsed .cinfo-section__chev svg,
+    .cinfo-panel #info-acc-guide.is-collapsed .cinfo-section__chev svg {
+      transform: rotate(180deg);
+      transform-origin: 50% 50%;
     }
 
     /* 4) 상담 안내 가이드 */
@@ -6494,15 +6513,11 @@
       box-shadow: none !important;
     }
 
-    /* 상담 어시스턴트: 본문 좌우 패딩은 스크롤 영역만 — 질문 추천 풋·구분선은 흰 카드 가로 풀폭 */
+    /* 상담 어시스턴트: 질문 추천 풋은 그대로 두고, 스크롤 본문만 FINAL OVERRIDE에서 좌우 인셋 */
     .live-composite .live-outer--know .live-inner.know-assistant-inner {
       padding-inline: 0 !important;
       /* 풀폭 풋 아래 본문 padding-bottom 제거 — 질문 추천 행 직후 불필요한 틈 방지 */
       padding-bottom: 0 !important;
-    }
-    .live-composite .live-outer--know .know-assistant-content {
-      padding-left: 16px !important;
-      padding-right: 16px !important;
     }
 
     /* 내부 카드 박스/border 완전 제거 (1열 row 톤) */
@@ -6994,14 +7009,15 @@
        FINAL OVERRIDE: 상담 어시스턴트 본문 영역별 구분 (ka-doc-*)
        ============================================================ */
 
-    /* 본문 컨테이너 강제 */
+    /* 본문 컨테이너 강제 — 단계/Q·A는 스크롤 영역에만 좌우 패딩 (질문 추천 풋은 별도 블록) */
     .live-composite .live-outer--know .know-assistant-content {
       box-sizing: border-box !important;
       display: flex !important;
       flex-direction: column !important;
       align-items: stretch !important;
       gap: var(--space-md) !important;
-      padding: 0 !important;
+      padding-block: 0 !important;
+      padding-inline: var(--padding-inner-content, 16px) !important;
       margin: 0 !important;
       background: transparent !important;
     }
@@ -9466,7 +9482,7 @@
       color: var(--color-text-muted) !important;
     }
 
-    /* 질문 추천 · 관련 화면: 동일 세로·배경. 어시스턴트 풋은 본문 좌우 패딩 없음(풀폭 라인·배경) */
+    /* 질문 추천 · 관련 화면: 동일 세로·배경 */
     .live-composite .live-outer--know .ka-doc__recommend.quick-action-row.know-assistant-recommend,
     .live-composite .live-outer--stt .stt-related.quick-action-row {
       box-sizing: border-box !important;
@@ -10509,11 +10525,12 @@
 
         function initContractsSectionAccordion() {
           var section = document.getElementById("info-acc-contracts");
-          var trigger = document.getElementById("info-sect-contracts-trigger");
-          if (!section || !trigger) return;
+          if (!section) return;
           hydrateChevrons(section);
-
-          trigger.addEventListener("click", function () {
+          var head = section.querySelector(".cinfo-section__head");
+          var trigger = document.getElementById("info-sect-contracts-trigger");
+          if (!head || !trigger) return;
+          head.addEventListener("click", function () {
             var collapsed = section.classList.toggle("is-collapsed");
             trigger.setAttribute("aria-expanded", collapsed ? "false" : "true");
           });
@@ -10559,11 +10576,13 @@
 
         function initGuideSectionAccordion() {
           var section = document.getElementById("info-acc-guide");
-          var trigger = document.getElementById("info-sect-guide-trigger");
-          if (!section || !trigger) return;
+          if (!section) return;
           hydrateChevrons(section);
-
-          trigger.addEventListener("click", function () {
+          var head = section.querySelector(".cinfo-section__head");
+          var trigger = document.getElementById("info-sect-guide-trigger");
+          if (!head || !trigger) return;
+          head.addEventListener("click", function (e) {
+            if (e.target && e.target.closest && e.target.closest(".cinfo-guide__progress-ring")) return;
             var collapsed = section.classList.toggle("is-collapsed");
             trigger.setAttribute("aria-expanded", collapsed ? "false" : "true");
           });

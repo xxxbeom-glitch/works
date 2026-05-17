@@ -50,8 +50,8 @@
   --glass-saturate-app:          var(--glass-saturate-app-shell);
   --glass-saturate-chrome:       var(--glass-saturate-app-shell);
   --glass-saturate-panel:        1.05;
-  /* 외곽 컬럼 글래스(.ds-outer-panel-glass): Fill 은 얇게, blur·채도는 셸보다 약하게 → 덜 찐한 유리 */
-  --layer-outer-glass-fill:      5%;
+  /* 외곽 컬럼 글래스: fill ~12% — 너무 낮으면 카드 사이에서 유리감이 약함 */
+  --layer-outer-glass-fill:      12%;
   --glass-blur-outer-column:     14px;
   --glass-saturate-outer-column: 1.02;
 

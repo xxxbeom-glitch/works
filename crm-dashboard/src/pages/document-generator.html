@@ -157,10 +157,7 @@
       border-top: 1px solid var(--color-border-default);
       z-index: 10;
     }
-    .col__cta .btn-primary {
-      height: 48px;
-      border-radius: var(--radius-control);
-    }
+    /* 버튼 fill: page-overrides.css .col__cta .btn-primary (그라데이션, !important로 글로벌 CTA 덮음) */
 
     /* ----- 내부 카드 (#FFF / radius 16 / overflow hidden) ----- */
     .card {
@@ -951,12 +948,7 @@
       font-size: var(--type-body-fs); font-weight: var(--fw-semibold);
     }
     .btn-secondary:hover { background: var(--color-surface-soft); border-color: var(--color-border-strong); }
-    .btn-secondary--primary {
-      background: var(--c-neutral-800);
-      color: var(--color-text-inverse);
-      border-color: var(--c-neutral-800);
-    }
-    .btn-secondary--primary:hover { background: var(--c-neutral-900); border-color: var(--c-neutral-900); }
+    /* filled variant — page-overrides: .page2-content .btn-secondary.btn-secondary--primary → #0046F9 */
 
     .input-text {
       width: 100%;

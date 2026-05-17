@@ -124,7 +124,7 @@
     }
 
     .review-layout__side .stat-row__risk {
-      grid-template-columns: minmax(0, 1fr) !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     }
 
     .review-layout__side .filter-grid {
@@ -570,6 +570,7 @@
     }
     .review-layout__side .stat-row__risk {
       align-items: stretch !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     }
     .stat-summary-card__meta {
       color: var(--color-text-muted);
@@ -644,7 +645,7 @@
 
     .stat-row__risk {
       display: grid !important;
-      grid-template-columns: minmax(0, 1fr) !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
       align-items: stretch;
       gap: var(--space-xs);
       min-width: 0;
@@ -652,13 +653,13 @@
 
     .stat-row__risk .stat-cell {
       display: flex;
-      flex-direction: row-reverse;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      text-align: left;
-      gap: var(--space-sm);
-      min-height: 50px;
-      padding: 0 14px;
+      justify-content: center;
+      text-align: center;
+      gap: 4px;
+      min-height: 75px;
+      padding: 10px 12px;
       border-radius: var(--r-md);
       border: 0;
       min-width: 0;
@@ -668,24 +669,27 @@
     .stat-row__risk .stat-cell__name {
       display: block;
       width: auto;
-      text-align: left !important;
-      font-size: var(--type-subheading-fs);
+      text-align: center !important;
+      font-size: var(--type-small-fs);
       font-weight: var(--type-subheading-fw);
-      line-height: var(--type-subheading-lh);
+      line-height: var(--type-small-lh);
       white-space: nowrap;
     }
 
     .stat-row__risk .stat-cell__val {
       display: block;
       width: auto;
-      text-align: right !important;
-      font-size: var(--type-subheading-fs);
-      font-weight: var(--type-subheading-fw);
-      line-height: var(--type-subheading-lh);
+      text-align: center !important;
+      font-size: var(--type-heading-fs);
+      font-weight: var(--type-heading-fw);
+      line-height: var(--type-heading-lh);
     }
 
     .stat-row__risk .stat-cell__unit {
       color: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
     }
 
     

@@ -69,6 +69,12 @@
       display: flex; flex-direction: column; gap: 0;
       min-width: 0; min-height: 0;
     }
+    /* 좌우 컬럼 하단 기준을 맞춘다.
+       좌측 컬럼도 grid stretch 높이를 사용하고, 남는 높이는 리스트 카드가 흡수한다.
+       바깥 회색 컬럼만 남지 않도록 리스트 카드 내부에서 pagination을 하단 footer처럼 배치한다. */
+    .col--list {
+      align-self: stretch;
+    }
 
     .col > .card + .card,
     .col > .stat-summary-card + .card {
@@ -147,21 +153,22 @@
     }
 
     .stat-row__main {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       align-items: center;
       gap: var(--space-xs);
       min-width: 0;
     }
 
     .stat-row__meta {
-      align-self: flex-end;
-      margin: 0 2px 0 0;
+      align-self: flex-start;
+      margin: var(--space-xxs) 0 0;
       font-size: var(--type-caption-fs);
       font-weight: var(--type-caption-fw);
       line-height: var(--type-caption-lh);
       color: var(--color-text-muted);
       white-space: nowrap;
-      text-align: right;
+      text-align: left;
     }
 
     .stat-row__label {
@@ -173,7 +180,7 @@
       padding-right: 10px;
       border-right: 1px solid var(--color-border-default);
       margin-right: 4px;
-      min-width: 96px;
+      min-width: 0;
       text-align: left;
     }
     .stat-row__label-title {
@@ -190,32 +197,33 @@
     .stat-cell {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      text-align: center;
-      gap: 2px;
-      padding: 5px 12px;
+      text-align: left;
+      gap: 3px;
+      padding: 7px 14px;
       border-radius: var(--r-sm);
       border: 1px solid transparent;
-      flex: 1;
+      min-width: 0;
     }
     .stat-cell__name {
       display: block;
       width: 100%;
       font-size: var(--type-caption-fs); font-weight: var(--fw-semibold);
+      line-height: var(--type-caption-lh);
       white-space: nowrap;
-      text-align: center;
+      text-align: left;
     }
     .stat-cell__val {
       display: block;
       width: 100%;
-      font-size: var(--type-body-fs); font-weight: var(--fw-bold);
-      line-height: 1;
-      text-align: center;
+      font-size: var(--type-heading-fs); font-weight: var(--fw-bold);
+      line-height: var(--lh-tight);
+      text-align: left;
     }
     .stat-cell__unit {
-      font-size: var(--fs-10); font-weight: var(--fw-medium);
-      margin-left: 1px;
+      font-size: var(--type-small-fs); font-weight: var(--fw-semibold);
+      margin-left: 2px;
     }
 
     .stat-cell--high {
@@ -444,6 +452,24 @@
     .table tbody tr.is-active { background: var(--c-neutral-100); }
     .table__num { color: var(--color-text-muted); }
 
+    .review-list-card {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .review-list-card > .card__body--flush {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    .review-list-card .table-wrap {
+      flex: 0 0 auto;
+    }
+    .review-list-card .pager {
+      margin-top: auto;
+      flex: 0 0 auto;
+    }
+
     /* 위험도 배지 */
     .risk {
       display: inline-flex; align-items: center; justify-content: center;
@@ -491,7 +517,19 @@
       color: var(--color-text-inverse);
       font-weight: var(--fw-bold);
     }
-    .pager__btn--edge { color: var(--color-text-muted); font-weight: var(--fw-semibold); }
+    .pager__btn--edge {
+      width: var(--control-h-sm);
+      padding: 0;
+      color: var(--color-text-strong);
+      font-weight: var(--fw-semibold);
+    }
+    .pager__icon {
+      width: 22px;
+      height: 22px;
+      display: block;
+      flex-shrink: 0;
+      margin: 0 auto;
+    }
 
     /* ============================================================
        우측 상세 — typography/spacing based layout
@@ -842,7 +880,7 @@
       <main class="ws" aria-label="안내/업무 검수 처리">
 
         <!-- ============================ 좌측 ============================ -->
-        <section class="col" aria-label="검수 현황 · 검색 · 리스트">
+        <section class="col col--list" aria-label="검수 현황 · 검색 · 리스트">
           <header class="ds-col-head">
             <span class="ds-col-head__lead">
               <span class="ds-col-head__icon" aria-hidden="true">
@@ -862,27 +900,27 @@
                 <div class="stat-row__main">
                   <div class="stat-row__label">
                     <span class="stat-row__label-title">검수현황</span>
+                    <span class="stat-row__meta">2026-05-26 기준</span>
                   </div>
                   <div class="stat-cell stat-cell--high">
-                    <span class="stat-cell__name">High</span>
                     <span class="stat-cell__val">20<span class="stat-cell__unit">건</span></span>
+                    <span class="stat-cell__name">High</span>
                   </div>
                   <div class="stat-cell stat-cell--medium">
-                    <span class="stat-cell__name">Medium</span>
                     <span class="stat-cell__val">10<span class="stat-cell__unit">건</span></span>
+                    <span class="stat-cell__name">Medium</span>
                   </div>
                   <div class="stat-cell stat-cell--low">
-                    <span class="stat-cell__name">Low</span>
                     <span class="stat-cell__val">0<span class="stat-cell__unit">건</span></span>
+                    <span class="stat-cell__name">Low</span>
                   </div>
                 </div>
-                <span class="stat-row__meta">2026-05-26 기준</span>
               </div>
             </div>
           </article>
 
           <!-- 2) 검색 -->
-          <article class="card">
+          <article class="card review-list-card">
             <header class="card__head">
               <span class="card__head-lead">
                 <h3 class="card__title">검색</h3>
@@ -919,26 +957,26 @@
 
                 <span class="filter-grid__label">상담유형</span>
                 <span class="filter-grid__field filter-check-grid">
-                  <label class="check check--all"><input type="checkbox" checked /> 전체</label>
+                  <label class="check check--all"><input type="checkbox" /> 전체</label>
                   <label class="check"><input type="checkbox" checked /> 보험금</label>
-                  <label class="check"><input type="checkbox" checked /> 해지</label>
-                  <label class="check"><input type="checkbox" checked /> 대출</label>
+                  <label class="check"><input type="checkbox" /> 해지</label>
+                  <label class="check"><input type="checkbox" /> 대출</label>
                 </span>
 
                 <span class="filter-grid__label">위험도</span>
                 <span class="filter-grid__field filter-check-grid">
-                  <label class="check check--all"><input type="checkbox" checked /> 전체</label>
+                  <label class="check check--all"><input type="checkbox" /> 전체</label>
                   <label class="check"><input type="checkbox" checked /> High</label>
-                  <label class="check"><input type="checkbox" checked /> Mid</label>
-                  <label class="check"><input type="checkbox" checked /> Low</label>
+                  <label class="check"><input type="checkbox" /> Mid</label>
+                  <label class="check"><input type="checkbox" /> Low</label>
                 </span>
 
                 <span class="filter-grid__label">검수상태</span>
                 <span class="filter-grid__field filter-check-grid">
-                  <label class="check check--all"><input type="checkbox" checked /> 전체</label>
+                  <label class="check check--all"><input type="checkbox" /> 전체</label>
                   <label class="check"><input type="checkbox" checked /> 미확인</label>
-                  <label class="check"><input type="checkbox" checked /> 확인중</label>
-                  <label class="check"><input type="checkbox" checked /> 조치 완료</label>
+                  <label class="check"><input type="checkbox" /> 확인중</label>
+                  <label class="check"><input type="checkbox" /> 조치 완료</label>
                 </span>
 
                 <span class="filter-grid__label">검색명</span>
@@ -1053,8 +1091,17 @@
                 </table>
               </div>
               <nav class="pager" aria-label="페이지 네비게이션">
-                <button type="button" class="pager__btn pager__btn--edge">처음</button>
-                <button type="button" class="pager__btn pager__btn--edge">이전</button>
+                <button type="button" class="pager__btn pager__btn--edge" aria-label="처음" title="처음">
+                  <svg class="pager__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M11 19L4 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M19 19L12 12L19 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <button type="button" class="pager__btn pager__btn--edge" aria-label="이전" title="이전">
+                  <svg class="pager__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
                 <button type="button" class="pager__btn is-active">1</button>
                 <button type="button" class="pager__btn">2</button>
                 <button type="button" class="pager__btn">3</button>
@@ -1065,8 +1112,17 @@
                 <button type="button" class="pager__btn">8</button>
                 <button type="button" class="pager__btn">9</button>
                 <button type="button" class="pager__btn">10</button>
-                <button type="button" class="pager__btn pager__btn--edge">다음</button>
-                <button type="button" class="pager__btn pager__btn--edge">마지막</button>
+                <button type="button" class="pager__btn pager__btn--edge" aria-label="다음" title="다음">
+                  <svg class="pager__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <button type="button" class="pager__btn pager__btn--edge" aria-label="마지막" title="마지막">
+                  <svg class="pager__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 5L12 12L5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M13 5L20 12L13 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
               </nav>
             </div>
           </article>

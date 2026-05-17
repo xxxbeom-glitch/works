@@ -328,6 +328,7 @@
       background: var(--color-surface-card);
     }
     .sg-inspect__frame.is-visible { display: block; }
+    .sg-inspect__frame.is-inspecting { cursor: crosshair; }
 
     .sg-inspect__loading {
       position: absolute; inset: 0;
@@ -533,7 +534,7 @@
     /* Floating Tooltip */
     .sg-tt {
       position: fixed;
-      z-index: 99999;
+      z-index: 2147483647;
       min-width: 240px; max-width: 340px;
       padding: var(--space-sm) var(--space-md);
       background: rgba(17, 24, 39, 0.97);
@@ -544,10 +545,11 @@
       line-height: 1.5;
       box-shadow: var(--shadow-overlay);
       pointer-events: none;
+      visibility: hidden;
       opacity: 0;
       transition: opacity 80ms;
     }
-    .sg-tt.is-visible { opacity: 1; }
+    .sg-tt.is-visible { opacity: 1; visibility: visible; }
     .sg-tt__header {
       margin-bottom: 6px;
       padding-bottom: 4px;
@@ -3448,6 +3450,7 @@
           if (!frameLoaded[src]) {
             loadingEl.classList.remove('is-hidden');
           } else {
+            attachInspector(frames[src]);
             hideLoading();
           }
           hideTooltip();
@@ -3459,7 +3462,14 @@
           btn.classList.toggle('is-on', inspectMode);
           btn.setAttribute('aria-pressed', inspectMode);
           document.getElementById('sgInspectStateLabel').textContent = inspectMode ? 'ON' : 'OFF';
-          if (!inspectMode) hideTooltip();
+          Object.values(frames).forEach(function (frame) {
+            frame.classList.toggle('is-inspecting', inspectMode);
+            if (frameLoaded[frame.dataset.page]) attachInspector(frame);
+          });
+          if (!inspectMode) {
+            clearHighlights();
+            hideTooltip();
+          }
         }
 
         function attachInspector(iframe) {
@@ -3472,6 +3482,9 @@
             return;
           }
 
+          if (doc.body.dataset.sgInspectorAttached === 'true') return;
+          doc.body.dataset.sgInspectorAttached = 'true';
+
           // Highlight stylesheet inject (한번만)
           if (!doc.getElementById('sgInspectorStyle')) {
             const style = doc.createElement('style');
@@ -3482,20 +3495,50 @@
 
           let lastHover = null;
 
-          doc.addEventListener('mousemove', function (e) {
+          function clearLocalHighlight() {
+            if (lastHover && lastHover.classList) lastHover.classList.remove('__sg-hl');
+            lastHover = null;
+          }
+
+          function getInspectableTarget(target) {
+            if (!target) return null;
+            if (target.nodeType !== 1) target = target.parentElement;
+            if (!target || !target.closest) return null;
+            return target.closest(
+              [
+                '.card', '.card__head', '.card__body', '.card__footer',
+                '.ds-col-head', '.ds-col-head__title',
+                '.btn-primary', '.btn-secondary', '.btn-ghost', '.card__head-action',
+                '.seg', '.seg__btn',
+                '.input', '.select', 'input', 'select', 'textarea',
+                '.check', '.risk', '.badge', '.tag',
+                '.table', 'thead', 'tbody', 'tr', 'th', 'td',
+                '.mini-grid', '.mini-card', '.detail-card',
+                '.pager', '.pager__btn',
+                '.quick-action-row', '.action-row', '.form-row',
+                '.scroll-area', '.card__body--scroll'
+              ].join(', ')
+            ) || target;
+          }
+
+          function handleHover(e) {
             if (!inspectMode) return;
-            const target = e.target;
+            const target = getInspectableTarget(e.target);
+            if (!target) return;
             if (target && target !== lastHover) {
               if (lastHover) lastHover.classList.remove('__sg-hl');
               if (target.classList) target.classList.add('__sg-hl');
               lastHover = target;
             }
             updateTooltip(target, iframe, e);
-          }, true);
+          }
 
-          doc.addEventListener('mouseleave', function () {
-            if (lastHover && lastHover.classList) lastHover.classList.remove('__sg-hl');
-            lastHover = null;
+          doc.addEventListener('mouseover', handleHover, true);
+          doc.addEventListener('mousemove', handleHover, true);
+
+          doc.addEventListener('mouseout', function (e) {
+            if (e.relatedTarget) return;
+            clearLocalHighlight();
             hideTooltip();
           }, true);
 
@@ -3504,8 +3547,28 @@
             if (!inspectMode) return;
             e.preventDefault();
             e.stopPropagation();
-            pinElement(e.target, iframe);
+            const target = getInspectableTarget(e.target);
+            if (target) pinElement(target, iframe);
           }, true);
+
+          doc.addEventListener('scroll', function () {
+            if (!inspectMode) return;
+            hideTooltip();
+          }, true);
+        }
+
+        function clearHighlights() {
+          Object.values(frames).forEach(function (iframe) {
+            try {
+              const doc = iframe.contentDocument;
+              if (!doc) return;
+              doc.querySelectorAll('.__sg-hl').forEach(function (el) {
+                el.classList.remove('__sg-hl');
+              });
+            } catch (err) {
+              // ignore cross-origin/inaccessible frames
+            }
+          });
         }
 
         function getComputedInfo(el) {

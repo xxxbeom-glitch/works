@@ -436,7 +436,7 @@ html body .ds-select {
   font-weight: var(--fw-bold) !important;
 }
 
-/* ???? ??? segmented control? ?? input? ??? 40px form height ??? ?? ?? */
+/* ?? ?? segmented control? input? ??? 40px form height ??? ??? */
 .filter-grid .seg {
   height: var(--filter-control-height, 40px) !important;
   min-height: var(--filter-control-height, 40px) !important;
@@ -459,7 +459,7 @@ html body .ds-select {
 }
 .pager__btn:hover { background: var(--c-neutral-100) !important; color: var(--color-text-strong) !important; }
 .pager__btn.is-active { background: var(--c-neutral-800) !important; color: var(--color-text-inverse) !important; font-weight: var(--fw-bold) !important; }
-.pager__btn--edge { color: var(--color-text-soft) !important; }
+.pager__btn--edge { color: var(--color-text-strong) !important; }
 
 /* ?? Case 6: Icon ?? */
 .ds-icon-btn,

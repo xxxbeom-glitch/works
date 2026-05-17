@@ -458,27 +458,57 @@
 
     /* form row + segmented + number input */
     .form-row {
-      display: grid;
-      grid-template-columns: 84px minmax(0, 1fr);
-      align-items: center; gap: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-sm);
+      min-width: 0;
+      width: 100%;
     }
-    .form-row__label { font-size: var(--type-body-fs); color: var(--color-text-muted); }
-    .form-row__field { display: inline-flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
+    .form-row__label {
+      display: block;
+      width: auto;
+      margin: 0;
+      align-self: flex-start;
+      text-align: left;
+      font-size: var(--type-body-fs);
+      font-weight: var(--fw-semibold);
+      line-height: var(--lh-snug);
+      color: var(--color-text-strong);
+    }
+    .form-row__field {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      min-width: 0;
+      width: 100%;
+      margin: 0;
+    }
     .seg {
       display: inline-flex;
-      height: var(--control-h-md);
+      align-items: stretch;
+      width: 100%;
+      height: 40px !important;
+      min-height: 40px !important;
       border: 1px solid var(--color-border-strong);
       border-radius: var(--radius-control);
       overflow: hidden;
+      box-sizing: border-box;
     }
     .seg__btn {
-      height: var(--control-h-md);
+      flex: 1 1 0 !important;
+      min-width: 0 !important;
+      height: 40px !important;
+      min-height: 40px !important;
       padding: 0 var(--control-pad-x-md);
       background: var(--color-surface-card);
       color: var(--color-text-default);
       font-size: var(--type-ui-label-fs);
       font-weight: var(--fw-medium);
       line-height: 1;
+      white-space: nowrap;
     }
     .seg__btn + .seg__btn { border-left: 1px solid var(--color-border-strong); }
     .seg__btn:hover { background: var(--color-surface-soft); color: var(--color-text-secondary); }
@@ -490,14 +520,24 @@
     }
     .num-input {
       width: 64px;
-      height: var(--control-h-md);
+      height: 40px;
+      min-height: 40px;
       padding: 0 var(--control-pad-x-sm);
       border: 1px solid var(--color-border-strong);
       border-radius: var(--r-sm);
       font-size: var(--type-body-fs); color: var(--color-text-strong);
+      line-height: 40px;
+      text-align: center;
     }
     .num-input:focus { border-color: var(--color-text-secondary); }
-    .form-row__suffix { font-size: var(--type-body-fs); color: var(--color-text-muted); }
+    .form-row__suffix {
+      display: inline-flex;
+      align-items: center;
+      height: 40px;
+      font-size: var(--type-body-fs);
+      line-height: 1;
+      color: var(--color-text-muted);
+    }
 
     /* primary 버튼 */
     .btn-primary {
@@ -517,11 +557,12 @@
        2열 - 에디터
        ============================================================ */
     .pill {
-      display: inline-flex; align-items: center;
+      display: inline-flex; align-items: center; justify-content: center;
       height: 26px; padding: 0 10px;
       background: var(--c-neutral-100); color: var(--color-text-secondary);
       border-radius: var(--radius-pill);
       font-size: var(--type-small-fs); font-weight: var(--fw-bold);
+      line-height: 1;
     }
     .editor-label {
       font-size: var(--type-caption-fs); color: var(--color-text-soft);
@@ -529,19 +570,23 @@
       margin-bottom: 12px;
     }
     .editor-meta {
+      position: relative;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: nowrap;
       gap: var(--space-xs);
+      height: 24px;
+      min-height: 24px;
       margin: 0;
-      padding: 0 0 var(--space-md);
+      padding: 0 var(--layout-card-padding);
+      border-top: 0;
       border-bottom: 1px solid var(--color-border-default);
       background: var(--color-surface-card);
       color: var(--color-text-muted);
       font-size: var(--type-small-fs);
-      line-height: var(--lh-snug);
+      line-height: 1;
     }
     .editor-meta__left {
       display: inline-flex;
@@ -549,6 +594,12 @@
       flex-wrap: wrap;
       gap: var(--space-xs);
       min-width: 0;
+      line-height: 1;
+    }
+    .editor-meta__left > span {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
     }
     .editor-meta__sep { color: var(--color-text-soft); }
     .editor-status {
@@ -579,6 +630,7 @@
       align-items: center;
       gap: var(--space-xs);
       white-space: nowrap;
+      line-height: 1;
     }
     .editor-status__save-dot {
       width: 7px;
@@ -587,6 +639,10 @@
       background: var(--color-status-success);
       box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.12);
       flex-shrink: 0;
+      align-self: center;
+    }
+    .editor-doc {
+      padding: 0;
     }
     .editor-doc h1 {
       margin: 0 0 16px;
@@ -752,7 +808,8 @@
     }
     .btn-secondary {
       flex: 1 1 0;
-      height: var(--control-h-md);
+      height: var(--control-h-lg);
+      min-height: var(--control-h-lg);
       padding: 0 var(--control-pad-x-md);
       border: 1px solid var(--color-border-strong);
       background: var(--color-surface-card);
@@ -950,7 +1007,7 @@
               <div class="form-row">
                 <span class="form-row__label">문서 형식</span>
                 <span class="form-row__field">
-                  <span class="seg">
+                  <span class="seg seg--count-2">
                     <button type="button" class="seg__btn is-active">공식형</button>
                     <button type="button" class="seg__btn">자유형</button>
                   </span>
@@ -959,7 +1016,7 @@
               <div class="form-row">
                 <span class="form-row__label">요약 수준</span>
                 <span class="form-row__field">
-                  <span class="seg">
+                  <span class="seg seg--count-2">
                     <button type="button" class="seg__btn is-active">간단히 요약</button>
                     <button type="button" class="seg__btn">자세히 요약</button>
                   </span>
@@ -968,7 +1025,7 @@
               <div class="form-row">
                 <span class="form-row__label">문서 길이</span>
                 <span class="form-row__field">
-                  <span class="seg">
+                  <span class="seg seg--count-3">
                     <button type="button" class="seg__btn">짧게</button>
                     <button type="button" class="seg__btn is-active">중간</button>
                     <button type="button" class="seg__btn">길게</button>
@@ -1015,14 +1072,14 @@
                 <h3 class="card__title">문서 생성 결과</h3>
               </span>
             </header>
+            <div class="editor-meta" aria-label="문서 생성 결과 상태">
+              <span class="editor-meta__left">
+                <span class="pill">요약본</span>
+                <span>생성일: 2026-05-14 00:00:00</span>
+              </span>
+              <span class="editor-status__save"><span class="editor-status__save-dot" aria-hidden="true"></span>자동 저장됨</span>
+            </div>
             <div class="card__body card__body--scroll card__body--flex">
-              <div class="editor-meta" aria-label="문서 생성 결과 상태">
-                <span class="editor-meta__left">
-                  <span class="pill">요약본</span>
-                  <span>생성일: 2026-05-14 00:00:00</span>
-                </span>
-                <span class="editor-status__save"><span class="editor-status__save-dot" aria-hidden="true"></span>자동 저장됨</span>
-              </div>
               <div class="editor-doc">
                 <h1>보험실효 안내방법</h1>
 

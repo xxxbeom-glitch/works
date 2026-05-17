@@ -566,8 +566,8 @@ html body .ds-select {
 .file__status--loading,
 .ds-badge--neutral,
 .risk--low {
-  background: var(--c-neutral-100) !important;
-  color:      var(--color-text-secondary) !important;
+  background: var(--c-blue-100) !important;
+  color:      var(--c-blue-700) !important;
 }
 
 .ds-badge--info {

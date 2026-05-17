@@ -3034,6 +3034,37 @@
       transform: rotate(180deg);
     }
 
+    /* 상품 및 업무정보 헤더 — 상담 어시스턴트와 동일 아코디언 토글 */
+    .live-composite .live-outer--product .card-header--product {
+      cursor: pointer;
+    }
+
+    .live-composite .live-outer--product .product-info-toggle {
+      display: inline-flex;
+      flex: 0 0 20px;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      order: 99;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--color-text-muted);
+      line-height: 1;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .live-composite .live-outer--product .product-info-toggle svg {
+      transition: transform var(--motion-fast);
+    }
+
+    .live-composite .live-outer--product.is-collapsed .product-info-toggle svg {
+      transform: rotate(180deg);
+    }
+
     .live-composite .know-acc-card.is-stt-linked {
       background: rgba(248, 250, 252, 0.98);
       border-color: var(--color-border-subtle);
@@ -3513,7 +3544,7 @@
       background: transparent;
       -webkit-overflow-scrolling: touch;
       box-sizing: border-box;
-      padding: calc(var(--padding-inner-content) + 14px) 32px 0 0;
+      padding: calc(var(--padding-inner-content) + 14px + 18px) 32px 0 0;
       mask-image: linear-gradient(
         180deg,
         transparent 0%,
@@ -6871,7 +6902,7 @@
       color: var(--color-brand-primary) !important;
     }
 
-    /* 3) 입력 영역 */
+    /* 3) 입력 영역 — 추천 질문과 사이 구분선 제거, 상단 여백만 10px 축소 */
     .workspace__col--ai .live-outer--ai .ai-agent-composer {
       box-sizing: border-box !important;
       display: flex !important;
@@ -6879,10 +6910,10 @@
       align-items: stretch !important;
       gap: 0 !important;
       margin: 0 !important;
-      padding: 10px 16px 12px !important;
+      padding: 0 16px 12px !important;
       background: var(--color-surface-card) !important;
       border: 0 !important;
-      border-top: 1px solid var(--color-border-default) !important;
+      border-top: 0 !important;
       box-shadow: none !important;
     }
 
@@ -8508,7 +8539,7 @@
        - 외부 카드 크기와 컬럼 비율은 유지하고 내부 표현만 정보 그룹화
        ============================================================ */
     .live-composite .live-outer--product .card-header--product {
-      justify-content: flex-start !important;
+      justify-content: space-between !important;
     }
 
     .live-composite .live-outer--product .product-info__toggle,
@@ -8671,6 +8702,30 @@
     .product-info-summary__chip--muted {
       color: var(--color-text-muted, #64748b);
       background: var(--color-surface-soft, #f8fafc);
+    }
+
+    /* 상품 및 업무정보 요약: 그리드/노트 박스 제거, 세로 간격만 균일 */
+    .live-composite .live-outer--product .product-info-summary {
+      gap: var(--space-md) !important;
+    }
+
+    .live-composite .live-outer--product .product-info-summary__grid {
+      margin: 0 !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      gap: var(--space-md) var(--space-sm) !important;
+    }
+
+    .live-composite .live-outer--product .product-info-summary__note {
+      margin: 0 !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      color: var(--color-text-secondary, #334155) !important;
+      font-size: var(--type-small-fs, 13px) !important;
+      font-weight: var(--fw-medium, 500) !important;
+      line-height: var(--lh-snug, 1.35) !important;
     }
 
     /* ============================================================
@@ -9842,7 +9897,7 @@
     /* 4. 스크롤 영역 — 상단 padding으로 채팅 영역 시작 */
     .live-composite .live-outer--stt .stt-card__log > .chat-scroll-area,
     .live-workspace-stack .live-outer--stt .stt-card__log > .chat-scroll-area {
-      padding: 14px 16px 12px !important;
+      padding: 32px 16px 12px !important;
     }
 
     /* 5. 고객 말풍선 → neutral (blue 계열 제거) */
@@ -10299,9 +10354,21 @@
                   </div>
                 </div>
           <div class="live-stack-row live-stack-row--product live-composite__product">
-            <div class="card live-outer live-outer--product workspace-main-card" id="product-info-root">
+            <div class="card live-outer live-outer--product workspace-main-card" id="product-info-root" aria-labelledby="live-sect-title-product">
               <header class="card__head card-header card-header--product live-sect__head">
                 <h3 class="card__title card-header-title live-sect__title" id="live-sect-title-product">상품 및 업무정보</h3>
+                <button
+                  type="button"
+                  class="cinfo-section__chev product-info-toggle"
+                  id="product-info-toggle"
+                  aria-expanded="true"
+                  aria-controls="product-info-body"
+                  aria-label="상품 및 업무정보 접기/펼치기"
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M4 10l4-4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
               </header>
               <div class="card__body live-inner workspace-inner-card product-info-card" id="product-info-body">
                 <section class="product-info-summary" aria-label="상품 및 업무정보 요약">
@@ -10618,6 +10685,30 @@
 
         header.addEventListener("click", function (event) {
           if (event.target && event.target.closest && event.target.closest(".ka-keep")) return;
+          setCollapsed(!root.classList.contains("is-collapsed"));
+        });
+
+        toggle.addEventListener("click", function (event) {
+          event.preventDefault();
+        });
+
+        setCollapsed(false);
+      })();
+
+      (function () {
+        var root = document.getElementById("product-info-root");
+        var header = root && root.querySelector(".card-header--product");
+        var toggle = document.getElementById("product-info-toggle");
+        var body = document.getElementById("product-info-body");
+        if (!root || !header || !toggle || !body) return;
+
+        function setCollapsed(collapsed) {
+          root.classList.toggle("is-collapsed", collapsed);
+          toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+          body.hidden = collapsed;
+        }
+
+        header.addEventListener("click", function () {
           setCollapsed(!root.classList.contains("is-collapsed"));
         });
 

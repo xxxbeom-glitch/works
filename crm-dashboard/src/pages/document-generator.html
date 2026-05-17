@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
@@ -245,6 +245,45 @@
     }
     .card__body--flex::-webkit-scrollbar-thumb:hover,
     .card__body--scroll::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.52); }
+
+    /* ============================================================
+       Page2 예외(document-generator만): 모든 내부 .card 헤더 = 업로드 카드와 동일
+       — index(1p)·inspection-review(3p)에는 이 파일 미포함, 적용 안 됨
+       ============================================================ */
+    .page2-content .card > .card__head {
+      border-bottom: none;
+      height: auto !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      padding: 16px var(--layout-card-padding) 0 !important;
+    }
+    .page2-content .card > .card__head + .card__body {
+      padding-top: 16px;
+    }
+
+    /* 문서 생성 결과 카드: 메타(요약본·생성일·자동저장)를 헤더 우측 + 구분선은 헤더 하단만 */
+    .page2-content .editor-result-card > .card__head {
+      flex-wrap: nowrap;
+      align-items: center;
+      border-bottom: 1px solid var(--color-border-default);
+      padding: 16px var(--layout-card-padding) 14px !important;
+      gap: var(--space-md);
+    }
+    .page2-content .editor-result-card .editor-meta-inline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      min-width: 0;
+      margin-left: auto;
+      color: var(--color-text-muted);
+      font-size: var(--type-small-fs);
+      line-height: 1;
+    }
+    .page2-content .editor-result-card > .card__head + .card__body {
+      padding: calc(var(--layout-card-padding) + 16px);
+    }
 
     /* ============================================================
        1열 - 카드별 위젯
@@ -580,9 +619,10 @@
       margin: 0;
     }
 
-    /* 문서 생성 옵션: 검수 검색 filter-pair-row와 동일(양쪽 flex:1·gap:space-sm·date-range-sep 트랙) */
+    /* 문서 생성 옵션: 검수 검색과 동일 — 5px gap·가운데 1ch 트랙 */
     .doc-option-grid {
       --filter-control-height: 40px;
+      --filter-dual-inline-gap: 5px;
       display: flex;
       flex-direction: column;
       gap: 18px;
@@ -593,7 +633,7 @@
       flex-direction: row;
       align-items: flex-end;
       flex-wrap: nowrap;
-      gap: var(--space-sm);
+      gap: var(--filter-dual-inline-gap);
       width: 100%;
     }
     .doc-option-pair-row .doc-option-group {
@@ -617,11 +657,15 @@
     .doc-option-pair-row .date-range-sep.doc-option-field-width-gutter {
       flex: 0 0 auto;
       align-self: center;
+      box-sizing: border-box;
+      min-width: 1ch;
+      width: 1ch;
+      padding: 0;
+      text-align: center;
+      line-height: 1;
       color: transparent;
       font-size: var(--type-body-fs);
       font-weight: var(--fw-medium);
-      line-height: 1;
-      padding: 0 var(--space-xs);
       user-select: none;
       pointer-events: none;
     }
@@ -682,23 +726,6 @@
       font-size: var(--type-caption-fs); color: var(--color-text-soft);
       letter-spacing: 0.6px; text-transform: uppercase;
       margin-bottom: 12px;
-    }
-    .editor-meta {
-      position: relative;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: nowrap;
-      gap: var(--space-xs);
-      margin: 0;
-      padding: 10px var(--layout-card-padding);
-      border-top: 0;
-      border-bottom: 1px solid var(--color-border-default);
-      background: var(--color-surface-card);
-      color: var(--color-text-muted);
-      font-size: var(--type-small-fs);
-      line-height: 1;
     }
     .editor-meta__left {
       display: inline-flex;
@@ -950,28 +977,35 @@
     }
     .input-text:focus { border-color: var(--color-text-secondary); }
 
-    .download-name-row {
+    /* 다운로드 카드 — 문서명: 문서 생성 옵션과 동일(라벨 상단·필드 하단) */
+    .download-card {
+      --filter-control-height: 40px;
+    }
+    .download-card .doc-option-group {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: var(--space-sm);
       width: 100%;
+      min-width: 0;
     }
-
-    .download-name-row__label {
-      flex: 0 0 auto;
-      color: var(--color-text-default);
+    .download-card .doc-option-group .form-row__label {
       font-size: var(--type-body-fs);
       font-weight: var(--fw-semibold);
-      line-height: 1;
-      white-space: nowrap;
+      line-height: var(--type-body-lh);
+      color: var(--color-text-muted);
     }
-
-    .download-name-row .input-text {
-      flex: 1 1 auto;
+    .download-card .doc-option-group .form-row__field {
+      display: block;
+      width: 100%;
       min-width: 0;
-      height: var(--control-h-lg);
-      min-height: var(--control-h-lg);
-      line-height: var(--control-h-lg);
+    }
+    .download-card .doc-option-group .input-text {
+      width: 100%;
+      height: var(--filter-control-height, 40px) !important;
+      min-height: var(--filter-control-height, 40px) !important;
+      padding: 0 14px;
+      line-height: var(--type-body-lh);
+      box-sizing: border-box;
     }
 
     /* ============================================================
@@ -1227,19 +1261,18 @@
           </header>
           <div class="col__scroll col__scroll--contained">
 
-          <article class="card card--stretch">
+          <article class="card card--stretch editor-result-card">
             <header class="card__head">
               <span class="card__head-lead">
-                <h3 class="card__title">문서 생성 결과</h3>
-              </span>
-            </header>
-            <div class="editor-meta" aria-label="문서 생성 결과 상태">
-              <span class="editor-meta__left">
                 <span class="pill">요약본</span>
-                <span>생성일: 2026-05-14 00:00:00</span>
               </span>
-              <span class="editor-status__save"><span class="editor-status__save-dot" aria-hidden="true"></span>자동 저장됨</span>
-            </div>
+              <div class="editor-meta-inline" aria-label="문서 생성 결과 상태">
+                <span class="editor-meta__left">
+                  <span>생성일: 2026-05-14 00:00:00</span>
+                </span>
+                <span class="editor-status__save"><span class="editor-status__save-dot" aria-hidden="true"></span>자동 저장됨</span>
+              </div>
+            </header>
             <div class="card__body card__body--scroll card__body--flex">
               <div class="editor-doc">
                 <h1>보험실효 안내방법</h1>
@@ -1375,17 +1408,19 @@
           </article>
 
           <!-- 8) 다운로드 -->
-          <article class="card">
+          <article class="card download-card">
             <header class="card__head">
               <span class="card__head-lead">
                 <h3 class="card__title">다운로드</h3>
               </span>
             </header>
             <div class="card__body">
-              <label class="download-name-row">
-                <span class="download-name-row__label">문서명</span>
-                <input type="text" class="input-text" value="보험실효 안내방법" aria-label="문서명" />
-              </label>
+              <div class="doc-option-group" role="group" aria-label="문서명">
+                <label class="form-row__label" for="download-doc-name">문서명</label>
+                <div class="form-row__field">
+                  <input type="text" class="input-text" id="download-doc-name" value="보험실효 안내방법" aria-label="문서명" />
+                </div>
+              </div>
               <div class="fmt-grid">
                 <!-- PPTX: 파일 + 막대 차트 (프레젠테이션) -->
                 <button type="button" class="fmt-btn" aria-label="PPTX로 다운로드">

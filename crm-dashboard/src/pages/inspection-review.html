@@ -126,8 +126,8 @@
       flex-direction: column;
     }
 
-    .review-layout__side .stat-row__main {
-      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    .review-layout__side .stat-row__risk {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     }
 
     .review-layout__side .filter-grid {
@@ -169,6 +169,8 @@
       flex: 1 1 auto;
       min-height: 0;
       height: 100%;
+      /* 접촉일자·센터·2열 드롭다운: 동일 가로 간격 */
+      --filter-dual-inline-gap: 5px;
     }
 
     .filter-card--side .filter-grid {
@@ -221,21 +223,34 @@
       flex-direction: row;
       align-items: center;
       flex-wrap: nowrap;
-      gap: var(--space-sm);
+      gap: var(--filter-dual-inline-gap);
       width: 100%;
     }
     .filter-card--side .filter-grid__field--date > .date-field {
       flex: 1 1 0;
       min-width: 0;
     }
-    .filter-card--side .date-range-sep {
+
+    /* 날짜 / 드롭다운 2열: 동일 gap·가운데 트랙 1ch → 좌·우 컨트롤 너비 정렬 */
+    .filter-card--side .filter-grid__field--date .date-range-sep,
+    .filter-card--side .filter-grid__field--center-split > .date-range-sep,
+    .filter-card--side .filter-pair-row > .date-range-sep.filter-field-width-gutter {
       flex: 0 0 auto;
+      box-sizing: border-box;
+      min-width: 1ch;
+      width: 1ch;
+      padding: 0;
+      text-align: center;
+      line-height: 1;
+    }
+    .filter-card--side .filter-grid__field--date .date-range-sep {
       color: var(--color-text-muted);
       font-size: var(--type-body-fs);
       font-weight: var(--fw-medium);
-      line-height: 1;
-      padding: 0 var(--space-xs);
       user-select: none;
+    }
+    .filter-card--side .filter-grid__field--center-split > .date-range-sep.filter-field-width-gutter {
+      color: transparent;
     }
 
     .filter-card--side .filter-pair-row {
@@ -243,7 +258,7 @@
       flex-direction: row;
       align-items: flex-end;
       flex-wrap: nowrap;
-      gap: var(--space-sm);
+      gap: var(--filter-dual-inline-gap);
       width: 100%;
     }
 
@@ -340,14 +355,14 @@
       flex-direction: row;
       align-items: center;
       flex-wrap: nowrap;
-      gap: var(--space-sm);
+      gap: var(--filter-dual-inline-gap);
       width: 100%;
     }
 
     .filter-card--side .filter-grid__field--center-split .select--center-tier {
       flex: 1 1 0 !important;
       min-width: 0 !important;
-      width: 100% !important;
+      width: auto !important;
     }
 
     .filter-card--side .filter-grid__field--search {
@@ -554,17 +569,8 @@
       padding: var(--layout-card-padding) !important;
       gap: var(--space-xs) !important;
     }
-    /* 좌측 열: 검수현황 4칸 카드 행 세로 +15% (검색 카드는 flex:1 이라 동일 픽셀만큼 자연 감소) */
-    .review-layout__side .stat-summary-card__body {
-      padding: calc(var(--layout-card-padding) * 1.15) var(--layout-card-padding) !important;
-    }
-    .review-layout__side .stat-row__main {
+    .review-layout__side .stat-row__risk {
       align-items: stretch !important;
-    }
-    .review-layout__side .stat-cell {
-      padding: calc(7px * 1.15) 14px;
-      gap: calc(3px * 1.15);
-      justify-content: center;
     }
     .stat-summary-card__meta {
       color: var(--color-text-muted);
@@ -575,42 +581,113 @@
     }
 
     .stat-row {
-      /* 카드 wrapper 안의 컨텐츠 row — 시각 스타일은 .card가 제공 */
+      /* 카드 wrapper 안의 컨텐츠 — Total 바 + 위험도 3열 */
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      gap: var(--space-xs);
+      gap: var(--space-sm);
       flex-shrink: 0;
     }
 
-    .stat-row__main {
-      display: grid !important;
-      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    .stat-total-bar {
+      display: flex;
+      flex-direction: row;
       align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      width: 100%;
+      min-height: calc(44px * 1.1);
+      padding: calc(10px * 1.1) 14px;
+      border-radius: var(--r-md);
+      background: var(--color-surface-soft);
+      border: 0;
+    }
+
+    .stat-total-bar__name {
+      font-size: var(--type-body-fs);
+      font-weight: var(--fw-bold);
+      line-height: var(--lh-snug);
+      color: var(--color-text-strong);
+    }
+
+    .stat-total-bar__val {
+      font-size: var(--type-body-fs);
+      font-weight: var(--fw-bold);
+      line-height: var(--lh-snug);
+      color: var(--color-text-strong);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-total-bar__val .stat-cell__unit {
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-semibold);
+      margin-left: 2px;
+    }
+
+    .stat-row__risk {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      align-items: stretch;
       gap: var(--space-xs);
       min-width: 0;
     }
 
-    .stat-cell {
+    .stat-row__risk .stat-cell {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       justify-content: center;
-      text-align: left;
-      gap: 3px;
-      padding: 7px 14px;
-      border-radius: var(--r-sm);
-      border: 1px solid transparent;
+      text-align: center;
+      gap: calc(6px * 1.15);
+      padding: calc(14px * 1.15) calc(10px * 1.15);
+      border-radius: var(--r-md);
+      border: 0;
       min-width: 0;
+      box-sizing: border-box;
     }
 
-    .stat-cell--total {
-      background: var(--color-status-success-soft);
-      border-color: var(--color-status-success);
+    .stat-row__risk .stat-cell__name {
+      display: block;
+      width: 100%;
+      text-align: center !important;
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-semibold);
+      line-height: var(--type-caption-lh);
+      white-space: nowrap;
     }
-    .stat-cell--total .stat-cell__name { color: var(--color-status-success); font-weight: var(--fw-semibold); }
-    .stat-cell--total .stat-cell__val  { color: var(--color-status-success); }
+
+    .stat-row__risk .stat-cell__val {
+      display: block;
+      width: 100%;
+      text-align: center !important;
+      font-size: var(--type-heading-fs);
+      font-weight: var(--fw-bold);
+      line-height: var(--lh-tight);
+    }
+
+    .stat-row__risk .stat-cell__unit {
+      color: inherit;
+    }
+
+    /* 3열 카드: 등급별 배경·글자색만 (테두리 없음) */
+    .stat-row__risk .stat-cell--high {
+      background: var(--color-status-danger-soft);
+    }
+    .stat-row__risk .stat-cell--high .stat-cell__name { color: var(--color-status-danger); }
+    .stat-row__risk .stat-cell--high .stat-cell__val { color: var(--color-status-danger); }
+
+    .stat-row__risk .stat-cell--medium {
+      background: var(--color-status-warning-soft);
+    }
+    .stat-row__risk .stat-cell--medium .stat-cell__name { color: var(--color-status-warning); }
+    .stat-row__risk .stat-cell--medium .stat-cell__val { color: var(--color-status-warning); }
+
+    .stat-row__risk .stat-cell--low {
+      background: var(--c-blue-100);
+    }
+    .stat-row__risk .stat-cell--low .stat-cell__name { color: var(--c-blue-700); }
+    .stat-row__risk .stat-cell--low .stat-cell__val { color: var(--c-blue-700); }
 
     .stat-cell__name {
       display: block;
@@ -846,11 +923,12 @@
     }
     .table thead th {
       height: 34px;
-      padding: 6px 6px;
+      padding: 6px 8px;
       background: var(--color-surface-soft);
       color: var(--color-text-muted);
       font-size: var(--type-caption-fs); font-weight: var(--fw-bold); text-align: center;
-      line-height: var(--lh-snug);
+      /* 행 높이·구분선은 유지, 텍스트 라인 박스만 조금 타이트 */
+      line-height: 1.2;
       border-bottom: 1px solid color-mix(in srgb, var(--color-border-default) 63%, transparent);
       white-space: nowrap;
       overflow: visible;
@@ -861,10 +939,10 @@
       height: calc((100% - 34px) / 20);
     }
     .table tbody td {
-      padding: 0 6px;
+      padding: 0 8px;
       color: var(--color-text-default);
       font-size: var(--type-caption-fs);
-      line-height: 1.2;
+      line-height: 1.1;
       border-bottom: 1px solid color-mix(in srgb, var(--color-border-default) 63%, transparent);
       white-space: nowrap;
       overflow: visible;
@@ -872,27 +950,33 @@
       vertical-align: middle;
       text-align: center;
     }
-    .table th:nth-child(1), .table td:nth-child(1) { width: 4%; }
-    .table th:nth-child(2), .table td:nth-child(2) { width: 11%; }
-    .table th:nth-child(3), .table td:nth-child(3) { width: 9%; }
+    .table th:nth-child(1), .table td:nth-child(1) { width: 5%; }
+    .table th:nth-child(2), .table td:nth-child(2) { width: 12%; }
+    .table th:nth-child(3), .table td:nth-child(3) { width: 10%; }
     .table th:nth-child(4), .table td:nth-child(4) { width: 11%; }
     .table th:nth-child(5), .table td:nth-child(5) { width: 12%; }
-    .table th:nth-child(6), .table td:nth-child(6) { width: 9%; }
-    .table th:nth-child(7), .table td:nth-child(7) { width: 9%; }
+    .table th:nth-child(6), .table td:nth-child(6) { width: 10%; }
+    .table th:nth-child(7), .table td:nth-child(7) { width: 10%; }
     .table th:nth-child(8), .table td:nth-child(8) { width: 8%; }
-    .table th:nth-child(9), .table td:nth-child(9) { width: 11%; }
+    .table th:nth-child(9), .table td:nth-child(9) { width: 12%; }
     .table th:nth-child(10), .table td:nth-child(10) {
-      width: 16%;
+      width: 10%;
+      min-width: 92px;
     }
     .table th:first-child,
     .table td:first-child {
-      padding-left: var(--space-md);
+      padding-left: calc(var(--space-md) + 4px);
       padding-right: var(--space-md);
+    }
+    /* 번호~검수상태(9열): 왼쪽 여백 +4px (접촉일자 10열은 기존 유지) */
+    .table th:nth-child(n+2):nth-child(-n+9),
+    .table td:nth-child(n+2):nth-child(-n+9) {
+      padding-left: calc(8px + 4px);
     }
     .table th:last-child,
     .table td:last-child {
       padding-left: var(--space-md);
-      padding-right: var(--space-md);
+      padding-right: calc(var(--space-md) + 4px); /* 접촉일자 열만 우측 +4px */
     }
     .table th:nth-child(8),
     .table td:nth-child(8),
@@ -945,6 +1029,7 @@
       display: flex !important;
       flex-direction: column !important;
     }
+    /* 테이블·행 배경은 카드 본문 좌우 100% (래퍼 패딩 없음 — 셀 패딩으로만 텍스트 여백) */
     .review-list-card .table-wrap {
       flex: 1 1 auto;
       min-height: 0;
@@ -967,6 +1052,13 @@
     .risk--medium { background: var(--color-status-warning-soft); color: var(--color-status-warning); }
     .risk--low    { background: var(--c-blue-100); color: var(--c-blue-700); }
 
+    /* 리스트 테이블 내: 배경 행(fill)·라인은 그대로, 라벨(텍스트) 박스만 소폭 축소 */
+    .table .risk {
+      padding: 0 7px;
+      line-height: 1.15;
+      letter-spacing: 0.2px;
+    }
+
     /* 검수상태 — 일반 데이터 텍스트로 통일 */
     .status {
       display: inline-flex; align-items: center; justify-content: center;
@@ -982,6 +1074,10 @@
     .status--unchecked,
     .status--checking,
     .status--done { color: inherit; font-weight: inherit; }
+
+    .table .status {
+      line-height: 1.1;
+    }
 
     /* pagination */
     .pager {
@@ -1388,7 +1484,7 @@
 
           <div class="review-layout">
             <div class="review-layout__side">
-          <!-- 1) 검수 현황 — compact summary row (DS .card 구조 적용) -->
+          <!-- 1) 검수 현황 — Total 바 + High/Medium/Low 3열 카드 -->
           <article class="card stat-summary-card" aria-label="검수 현황 요약">
             <header class="card__head card-header">
               <span class="card__head-lead">
@@ -1398,22 +1494,22 @@
             </header>
             <div class="card__body stat-summary-card__body">
               <div class="stat-row" role="region" aria-label="검수 현황 요약">
-                <div class="stat-row__main">
-                  <div class="stat-cell stat-cell--total">
-                    <span class="stat-cell__name">Total</span>
-                    <span class="stat-cell__val">350<span class="stat-cell__unit">건</span></span>
-                  </div>
+                <div class="stat-total-bar">
+                  <span class="stat-total-bar__name">Total</span>
+                  <span class="stat-total-bar__val">350<span class="stat-cell__unit">건</span></span>
+                </div>
+                <div class="stat-row__risk">
                   <div class="stat-cell stat-cell--high">
-                    <span class="stat-cell__name">High</span>
                     <span class="stat-cell__val">115<span class="stat-cell__unit">건</span></span>
+                    <span class="stat-cell__name">High</span>
                   </div>
                   <div class="stat-cell stat-cell--medium">
-                    <span class="stat-cell__name">Midium</span>
                     <span class="stat-cell__val">110<span class="stat-cell__unit">건</span></span>
+                    <span class="stat-cell__name">Medium</span>
                   </div>
                   <div class="stat-cell stat-cell--low">
-                    <span class="stat-cell__name">Low</span>
                     <span class="stat-cell__val">125<span class="stat-cell__unit">건</span></span>
+                    <span class="stat-cell__name">Low</span>
                   </div>
                 </div>
               </div>

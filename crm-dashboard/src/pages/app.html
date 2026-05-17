@@ -385,11 +385,13 @@
 
     /* 우측 사용자 영역 */
     .topbar__actions {
+      --topbar-action-h: calc(var(--control-h-md) + 6px);
       display: flex;
       align-items: center;
       gap: var(--space-sm);
       flex-shrink: 0;
       min-width: 0;
+      height: var(--topbar-action-h);
     }
     .topbar__icon-btn,
     .topbar__avatar {
@@ -398,10 +400,10 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      width: 36px;
-      height: 36px;
-      min-width: 36px;
-      min-height: 36px;
+      width: var(--topbar-action-h);
+      height: var(--topbar-action-h);
+      min-width: var(--topbar-action-h);
+      min-height: var(--topbar-action-h);
       border: 1px solid var(--color-border-default);
       border-radius: var(--radius-control);
       background: var(--color-surface-card);
@@ -424,6 +426,41 @@
     .topbar__icon-btn:focus-visible {
       outline: 2px solid var(--c-neutral-400);
       outline-offset: 2px;
+    }
+    .topbar__user-group {
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      height: var(--topbar-action-h);
+      padding: 0 10px 0 0;
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-card);
+      color: var(--color-text-muted);
+      flex-shrink: 0;
+    }
+    .topbar__user-group .topbar__avatar {
+      width: calc(var(--topbar-action-h) - 2px);
+      height: calc(var(--topbar-action-h) - 2px);
+      min-width: calc(var(--topbar-action-h) - 2px);
+      min-height: calc(var(--topbar-action-h) - 2px);
+      border: 0;
+      border-radius: var(--radius-control);
+      background: transparent;
+    }
+    .topbar__user-group .topbar__avatar:hover {
+      background: transparent;
+      border-color: transparent;
+      color: inherit;
+    }
+    .topbar__user-group:hover {
+      background: var(--color-surface-soft);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+    .topbar__user-group .topbar__user-name {
+      margin-left: 0;
     }
     .topbar__icon {
       width: 16px;
@@ -520,6 +557,9 @@
     .lnb__tab-group[data-active-index="2"]::before {
       transform: translateY(calc(var(--lnb-button-size) + var(--lnb-button-size)));
     }
+    .lnb__tab-group[data-active-index="3"]::before {
+      transform: translateY(calc(var(--lnb-button-size) * 3));
+    }
     .lnb__btn {
       box-sizing: border-box;
       width: var(--lnb-button-size);
@@ -550,6 +590,11 @@
       color: var(--color-text-strong);
       opacity: 1;
       box-shadow: none;
+    }
+    .lnb__btn:disabled,
+    .lnb__btn[aria-disabled="true"] {
+      cursor: default;
+      pointer-events: none;
     }
     .lnb__icon {
       display: block;
@@ -645,13 +690,15 @@
               <path d="M10.1 18.25a2.1 2.1 0 0 0 3.8 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
             </svg>
           </button>
-          <span class="topbar__avatar" role="img" aria-label="프로필">
-            <svg class="topbar__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle cx="12" cy="9" r="3.1" stroke="currentColor" stroke-width="1.7"/>
-              <path d="M6.75 18.25c.78-2.32 2.67-3.5 5.25-3.5s4.47 1.18 5.25 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-            </svg>
+          <span class="topbar__user-group" aria-label="상담사 김상담">
+            <span class="topbar__avatar" role="img" aria-label="프로필">
+              <svg class="topbar__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="9" r="3.1" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M6.75 18.25c.78-2.32 2.67-3.5 5.25-3.5s4.47 1.18 5.25 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="topbar__user-name">김상담</span>
           </span>
-          <span class="topbar__user-name">김상담</span>
         </div>
       </div>
     </header>
@@ -688,6 +735,12 @@
                   <circle cx="12" cy="12" r="7.25"/>
                   <path d="M12 11.25v4.25"/>
                   <path d="M12 8.25h.01"/>
+                </svg>
+              </button>
+              <button type="button" class="lnb__btn" aria-label="메시지" title="메시지" aria-disabled="true" disabled>
+                <svg class="lnb__icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M16.8307 9.55516C16.8307 8.28637 15.7987 7.25781 14.5256 7.25781H5.30512C4.03204 7.25781 3 8.28637 3 9.55516V16.2813C3 17.55 4.03204 18.5786 5.30512 18.5786H6.96633C7.272 18.5786 7.56516 18.6996 7.78131 18.915L9.10037 20.2297C9.55047 20.6782 10.2802 20.6782 10.7303 20.2297L12.0494 18.915C12.2655 18.6996 12.5587 18.5786 12.8644 18.5786H14.5256C15.7987 18.5786 16.8307 17.55 16.8307 16.2813V9.55516Z"/>
+                  <path d="M16.8758 14.7554H18.695C19.9681 14.7554 21.0001 13.7268 21.0001 12.458V5.73192C21.0001 4.46313 19.9681 3.43457 18.695 3.43457H9.47455C8.20147 3.43457 7.16943 4.46313 7.16943 5.73192V7.15142"/>
                 </svg>
               </button>
             </div>

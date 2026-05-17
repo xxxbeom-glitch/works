@@ -9223,6 +9223,27 @@
       padding: 0 !important;
     }
 
+    .workspace__col--info.is-collapsed {
+      padding: 0 !important;
+    }
+
+    .workspace__col--info.is-collapsed .info-side,
+    .workspace__col--info.is-collapsed .info-side__content,
+    .workspace__col--info.is-collapsed .info-side__shell,
+    .workspace__col--info.is-collapsed .info-side__drawer {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      align-self: stretch !important;
+    }
+
+    .workspace__col--info.is-collapsed .live-outer--info.cinfo-panel {
+      background: transparent !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+
     .workspace__col--live-stack.is-collapsed,
     .workspace__col--ai.is-collapsed {
       padding: 0 !important;
@@ -9984,21 +10005,24 @@
 
     
     .page1-content .workspace__col--info {
-      padding: 12px !important;
+      padding: 0 12px 12px 12px !important;
     }
 
     .page1-content .cinfo-panel__head {
+      --ds-panel-head-h: 60px;
+      --ds-panel-head-action-w: 32px;
+      --ds-col-head-inline-offset: 0px;
       display: flex !important;
       align-self: stretch !important;
       align-items: center !important;
       justify-content: space-between !important;
       gap: var(--space-sm) !important;
-      height: 40px !important;
-      min-height: 40px !important;
-      max-height: 40px !important;
-      flex: 0 0 40px !important;
-      margin: 0 0 12px !important;
-      padding: 0 4px !important;
+      height: var(--ds-panel-head-h) !important;
+      min-height: var(--ds-panel-head-h) !important;
+      max-height: var(--ds-panel-head-h) !important;
+      flex: 0 0 var(--ds-panel-head-h) !important;
+      margin: 0 !important;
+      padding: 0 var(--ds-col-head-inline-offset) !important;
       background: transparent !important;
       border: 0 !important;
       border-radius: 0 !important;
@@ -10246,6 +10270,12 @@
       align-items: center !important;
       justify-content: stretch !important;
       column-gap: 8px !important;
+      height: 64px !important;
+      min-height: 64px !important;
+      max-height: 64px !important;
+      flex-basis: 64px !important;
+      padding-top: 4px !important;
+      padding-bottom: 4px !important;
     }
 
     .cinfo-panel #info-acc-guide .cinfo-guide__head-copy {
@@ -10270,15 +10300,17 @@
     
     .live-composite .live-outer--stt .stt-chat__bubble--selectable[aria-pressed="true"],
     .live-composite .live-outer--stt .stt-chat__bubble--selectable[aria-pressed="true"]:hover {
-      background: #658AF3 !important;
-      border-color: transparent !important;
-      color: var(--color-text-inverse) !important;
+      background: var(--color-surface-card) !important;
+      border-color: #658AF3 !important;
+      color: #658AF3 !important;
     }
 
     .live-composite .live-outer--know .ka-doc__step--current {
       background: #658AF3 !important;
+      border-color: transparent !important;
       color: var(--color-text-inverse) !important;
       font-weight: var(--fw-semibold) !important;
+      box-shadow: none !important;
     }
 
     .workspace__col--ai .live-outer--ai .ai-agent-tool.is-on,

@@ -302,7 +302,7 @@
     .upload-drop__btn {
       margin-top: 4px; height: 32px; padding: 0 14px;
       border: 1px solid var(--color-border-default); background: var(--color-surface-card);
-      color: var(--color-text-secondary); border-radius: var(--radius-control);
+      color: var(--color-text-secondary); border-radius: 4px;
       font-size: var(--type-body-fs); font-weight: var(--fw-semibold);
     }
     .upload-drop__btn:hover { background: var(--c-neutral-100); }
@@ -335,7 +335,7 @@
       height: var(--control-h-sm);
       padding: 0 var(--control-pad-x-sm);
       border: 1px solid var(--color-border-default);
-      border-radius: var(--radius-control);
+      border-radius: 4px;
       background: transparent;
       color: var(--color-text-soft);
       font-size: var(--type-ui-label-fs);
@@ -473,6 +473,9 @@
       white-space: nowrap;
       transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
     }
+    .rag-select-card .check {
+      font-weight: var(--fw-regular);
+    }
     .rag-select-card .check:hover,
     .doctype-card .check:hover {
       background: var(--c-neutral-100);
@@ -524,7 +527,7 @@
       display: inline-flex; align-items: center;
       height: var(--control-h-sm); padding: 0 var(--control-pad-x-sm);
       border: 1px solid var(--color-border-default);
-      border-radius: var(--radius-control);
+      border-radius: 4px;
       background: var(--color-surface-card);
       color: var(--color-text-muted);
       font-size: var(--type-ui-label-fs);
@@ -823,7 +826,7 @@
       height: var(--control-h-sm);
       padding: 0 var(--control-pad-x-sm);
       border: 1px solid var(--color-border-strong);
-      border-radius: var(--radius-control);
+      border-radius: 4px;
       background: var(--color-surface-card);
       color: var(--color-text-default);
       font-size: var(--type-ui-label-fs); font-weight: var(--fw-semibold);
@@ -989,6 +992,13 @@
       padding: 0 14px;
       line-height: var(--type-body-lh);
       box-sizing: border-box;
+    }
+
+    .page2-content .upload-drop__btn,
+    .page2-content .file-list__clear,
+    .page2-content .card__head-action,
+    .page2-content .link-btn {
+      border-radius: 4px !important;
     }
 
     /* ============================================================

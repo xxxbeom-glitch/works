@@ -73,8 +73,8 @@
       background-size: cover;
     }
 
-    /* 2. 앱 배경 레이어
-       고정 앱 캔버스. 내부 CRM 화면은 이 1920×1080 안에서만 렌더한다. */
+    /* 2. 앱 배경 레이어 — 단일 화이트 glass (--layer-app-bg + 동일 blur/saturate 토큰).
+       LNB·헤더는 투명으로 두고 이 면만 깔아 경계가 생기지 않게 함 */
     .app-stage {
       position: relative;
       z-index: 1;
@@ -83,11 +83,9 @@
       height: var(--app-stage-h);
       overflow: hidden;
       background: var(--layer-app-bg);
-      backdrop-filter: blur(var(--glass-blur-app-stage)) saturate(var(--glass-saturate-app));
-      -webkit-backdrop-filter: blur(var(--glass-blur-app-stage)) saturate(var(--glass-saturate-app));
-      box-shadow:
-        0 18px 48px rgba(15, 23, 42, 0.16),
-        0 0 0 1px rgba(148, 163, 184, 0.18);
+      backdrop-filter: blur(var(--glass-blur-app-shell)) saturate(var(--glass-saturate-app-shell));
+      -webkit-backdrop-filter: blur(var(--glass-blur-app-shell)) saturate(var(--glass-saturate-app-shell));
+      box-shadow: none;
     }
     .bg-switcher {
       position: fixed;
@@ -154,16 +152,17 @@
       box-shadow: none;
       transition: width 240ms cubic-bezier(0.22, 1, 0.36, 1);
     }
-    /* 상단 헤더: app-stage와 동일 배경·blur(별도 바·경계·그림자 없음). iframe 본문과 겹이었던 투명도 차만 보정 */
+    /* 상단 헤더: app-stage 단일 glass 면(이중 blur·띠 제거). 경계선·그림자 없음 */
     .shell__header {
       grid-column: 2;
       grid-row: 1;
       min-width: 0;
       height: var(--header-h);
-      background: var(--layer-app-bg);
-      backdrop-filter: blur(var(--glass-blur-app-stage)) saturate(var(--glass-saturate-app));
-      -webkit-backdrop-filter: blur(var(--glass-blur-app-stage)) saturate(var(--glass-saturate-app));
-      border-bottom: none;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: 0;
+      outline: none;
       box-shadow: none;
     }
     .shell__body {
@@ -175,6 +174,9 @@
       width: var(--lnb-w);
       height: 100%;
       min-height: 0;
+      border: 0;
+      outline: none;
+      box-shadow: none;
     }
     /* MainArea = MainContent(iframe), 푸터 없음 */
     .shell__main-area {
@@ -185,6 +187,7 @@
       height: 100%;
       display: flex; flex-direction: column;
       overflow: hidden;
+      background: transparent;
     }
     .shell__main-content {
       flex: 1 1 auto;
@@ -254,6 +257,7 @@
       gap: var(--shell-gap);
       padding: 0 var(--shell-pad-x) 0 var(--layout-card-gap);
       background: transparent;
+      border: 0;
       border-bottom: none;
       box-shadow: none;
     }
@@ -405,14 +409,16 @@
     /* ============================================================
        LNB (placeholder 단순화 — 4개 메뉴, responsive width)
        ============================================================ */
-    /* 3. LNB — 패널보다 진한 유리판 (반투명 + 약한 blur) */
+    /* LNB: app-stage 단일 면에 포함(우측 경계선·독립 유리판 느낌 제거) */
     .lnb {
       width: 100%; height: 100%;
-      background: var(--layer-lnb-bg);
-      backdrop-filter: blur(var(--glass-blur-chrome-lnb)) saturate(var(--glass-saturate-chrome));
-      -webkit-backdrop-filter: blur(var(--glass-blur-chrome-lnb)) saturate(var(--glass-saturate-chrome));
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
       padding: var(--lnb-pad-top) 0 var(--lnb-pad-bottom);
       display: flex; flex-direction: column; align-items: center; gap: 0;
+      border: 0;
+      box-shadow: none;
     }
     .lnb__brand {
       flex-shrink: 0;
@@ -438,14 +444,22 @@
       height: var(--lnb-button-size);
       border-radius: var(--radius-pill);
       background: transparent;
-      color: var(--color-text-inverse);
+      color: var(--color-text-secondary);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       transition: background 120ms, color 120ms;
     }
-    .lnb__btn:hover { background: var(--c-neutral-600); color: var(--color-text-inverse); border-radius: var(--radius-pill); }
-    .lnb__btn.is-active { background: var(--c-neutral-800); color: var(--color-text-inverse); border-radius: var(--radius-pill); }
+    .lnb__btn:hover {
+      background: var(--color-surface-selected);
+      color: var(--color-text-strong);
+      border-radius: var(--radius-pill);
+    }
+    .lnb__btn.is-active {
+      background: var(--color-surface-row);
+      color: var(--color-text-strong);
+      border-radius: var(--radius-pill);
+    }
     .lnb__icon {
       display: block;
       width: 24px;
@@ -676,6 +690,7 @@
       }
 
       var activePage = readInitialPage();
+      applyBackground(0);
 
       function applyActive(page, opts) {
         opts = opts || {};
@@ -708,7 +723,6 @@
         });
       });
 
-      applyBackground(0);
       if (bgSwitcher && backgroundImages.length <= 1) {
         bgSwitcher.classList.add('is-hidden');
       }

@@ -21,12 +21,16 @@
     /* ============================================================
        디자인 토큰 (1열/2열 페이지와 동일)
        ============================================================ */
-    
 
     *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; height: 100%; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: transparent;
+    }
     body {
-      background: var(--color-surface-app);
+      background: transparent;
       color: var(--color-text-strong) !important;
       font-family: var(--font-family-sans);
       font-size: var(--type-body-fs);
@@ -61,7 +65,7 @@
       width: 100%;
       overflow: hidden;
       display: flex; flex-direction: column;
-      background: var(--color-surface-app);
+      background: transparent;
     }
 
     /* ============================================================

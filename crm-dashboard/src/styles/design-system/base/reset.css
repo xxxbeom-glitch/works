@@ -2,13 +2,19 @@
 
 html, body { margin: 0; padding: 0; height: 100%; }
 
+/* 기본 투명: AppShell iframe 안에서 부모 .app-stage 글래스가 비치게 함.
+   단독 페이지(style-guide 등)는 페이지 로컬 <style>에서 면 색을 지정. */
+html {
+  background: transparent;
+}
+
 body {
   font-family:             var(--font-sans);
   font-size:               var(--type-body-fs);
   font-weight:             var(--type-body-fw);
   line-height:             var(--type-body-lh);
   color:                   var(--color-text-default);
-  background:              var(--color-surface-app);
+  background:              transparent;
   -webkit-font-smoothing:  antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

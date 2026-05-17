@@ -51,7 +51,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      background: var(--color-bg, #EBEFF3);
+      background: transparent;
     }
     .page1-content > .workspace {
       flex: 1 1 auto;
@@ -195,7 +195,7 @@
       font-weight: var(--fw-medium);
       line-height: var(--lh-relaxed);
       color: var(--color-text-default);
-      background: var(--color-surface-app);
+      background: transparent;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -4782,9 +4782,9 @@
 
     .info-side__drawer { padding: 0; }
 
-    /* 외곽 배경(rgba 0.5)이 살짝 비치도록 1열 영역에 메인 컨텐츠 배경 톤 */
+    /* 1열 드로어: 컬럼·메인 글래스가 이미 깔려 있으므로 래퍼는 투명 */
     .info-side.is-side-expanded {
-      background: var(--color-surface-app);
+      background: transparent;
     }
 
     /* 1열 wrapper들은 cinfo-panel만 stretch 되도록 (center 정렬 금지) */
@@ -4816,8 +4816,8 @@
       min-width: 0;
       display: flex;
       flex-direction: column;
-      gap: var(--space-md);
-      padding: var(--layout-card-padding);
+      gap: var(--space-lg);
+      padding: var(--space-lg) var(--layout-card-padding) var(--space-xl);
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
@@ -4952,7 +4952,7 @@
       flex-direction: column;
       align-items: flex-start;
       gap: var(--space-md);
-      padding: 24px 16px 16px 16px;
+      padding: var(--space-xl) var(--layout-card-padding) var(--layout-card-padding);
       margin: 0;
       background: var(--color-surface-card);
       border: 1px solid var(--color-border-default);
@@ -4965,9 +4965,9 @@
     }
 
     .cinfo-panel {
-      --cinfo-card-pad: 16px;
-      --cinfo-row-gap: var(--space-xxs);
-      --cinfo-row-min-h: 34px;
+      --cinfo-card-pad: var(--layout-card-padding);
+      --cinfo-row-gap: var(--space-xs);
+      --cinfo-row-min-h: 36px;
       --cinfo-row-pad-y: var(--space-xxs);
     }
 
@@ -4987,8 +4987,8 @@
     }
 
     .cinfo-panel .cinfo-section--customer {
-      padding: var(--cinfo-card-pad);
-      gap: 3px;
+      padding: var(--space-lg) var(--cinfo-card-pad) var(--cinfo-card-pad);
+      gap: var(--space-sm);
     }
 
     .cinfo-panel .cinfo-section__head {
@@ -5063,7 +5063,7 @@
 
     .cinfo-panel .cinfo-customer__meta {
       align-self: stretch;
-      margin: 0;
+      margin: 0 0 var(--space-md);
       padding-bottom: 0;
       border-bottom: 0;
       font-size: var(--type-body-fs);
@@ -5079,24 +5079,24 @@
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 0;
+      gap: var(--space-xs);
     }
 
     .cinfo-panel .cinfo-customer__list > li {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       gap: var(--space-lg);
-      min-height: calc(var(--cinfo-row-min-h) - 5px);
-      padding: 0;
+      min-height: var(--cinfo-row-min-h);
+      padding: var(--space-xs) 0;
     }
 
     .cinfo-panel .cinfo-customer__label {
       position: relative;
-      padding-left: var(--space-sm);
+      padding-left: var(--space-md);
       font-size: var(--type-body-fs);
-      font-weight: var(--fw-regular);
-      color: var(--color-text-muted);
+      font-weight: var(--fw-medium);
+      color: var(--color-text-soft);
       white-space: nowrap;
     }
 
@@ -5116,8 +5116,8 @@
       flex: 1 1 auto;
       text-align: right;
       font-size: var(--type-body-fs);
-      font-weight: var(--fw-regular);
-      color: var(--color-text-muted);
+      font-weight: var(--fw-medium);
+      color: var(--color-text-default);
       word-break: keep-all;
     }
 
@@ -5127,10 +5127,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: var(--space-sm);
-      height: 35px;
-      margin: 0;
-      padding: 0 12px;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      min-height: 40px;
+      margin: var(--space-md) 0 0;
+      padding: var(--space-sm) var(--layout-card-padding);
       border-radius: var(--r-sm);
       background: var(--color-surface-soft);
     }
@@ -5593,18 +5594,18 @@
        - 강한 그림자/두꺼운 border 제거
        ============================================================ */
 
-    /* 메인 콘텐츠 영역(카드 바깥) 배경 통일: #EBEFF3 */
+    /* 레거시 .console 경로만 앱 면 색 — 글래스 main 은 덮어쓰지 않음 */
     .console.app-shell,
     .console .app-main,
-    .console main.workspace,
-    .workspace.main-grid,
-    main.workspace.main-grid {
+    .console main.workspace {
       background: var(--color-surface-app);
     }
 
-    /* 1열은 .info-side가, 2열/3열은 컬럼 wrapper 자체가 외곽 배경 카드 역할 */
+    /* 외곽 glass: layer-glass.css (= app-stage 와 동일 토큰) — 여기서 surface-override 금지 */
+
+    /* 1열: 컬럼 래퍼는 투명 — 실제 glass 는 .cinfo-panel 이 담당 */
     .workspace__col--info {
-      background: var(--color-surface-app);
+      background: transparent;
     }
 
     /* 2열 컬럼 wrapper = 외곽 배경 카드 (rgba 0.5 / radius 20) */
@@ -9181,7 +9182,7 @@
       min-width: 0;
       min-height: 0;
       overflow: hidden;
-      background: var(--bg-panel);
+      background: transparent;
     }
 
     .page1-content {

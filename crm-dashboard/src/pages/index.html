@@ -5914,10 +5914,6 @@
       box-shadow: none;
     }
 
-    .workspace__col--ai .live-outer--ai .ai-agent-turn {
-      gap: var(--space-md);
-    }
-
     .workspace__col--ai .live-outer--ai .ai-agent-bubble {
       border-radius: var(--r-xl);
       border: 0;
@@ -6635,12 +6631,15 @@
       padding: 0 !important;
     }
 
-    /* 메시지 turn */
-    .workspace__col--ai .live-outer--ai .ai-agent-turn {
-      display: grid !important;
-      column-gap: var(--space-sm) !important;
-      row-gap: var(--ai-chat-gap-meta) !important;
+    /* 메시지 turn — bubble+time을 chat-row__line에서 한 그룹으로 정렬 */
+    .workspace__col--ai .live-outer--ai .ai-agent-turn.chat-row {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      align-self: stretch !important;
+      gap: var(--ai-chat-gap-meta) !important;
       width: 100% !important;
+      max-width: 100% !important;
       margin: 0 !important;
       padding: 0 !important;
       background: transparent !important;
@@ -6648,16 +6647,21 @@
       box-shadow: none !important;
     }
 
-    .workspace__col--ai .live-outer--ai .ai-agent-turn--user {
-      grid-template-columns: auto minmax(0, min(78%, 640px)) !important;
-      justify-content: end !important;
-      align-items: end !important;
+    .workspace__col--ai .live-outer--ai .chat-row__line {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: flex-end !important;
+      gap: 8px !important;
+      width: 100% !important;
+      min-width: 0 !important;
     }
 
-    .workspace__col--ai .live-outer--ai .ai-agent-turn--ai {
-      grid-template-columns: minmax(0, min(78%, 640px)) auto !important;
-      justify-content: start !important;
-      align-items: end !important;
+    .workspace__col--ai .live-outer--ai .chat-row--bot .chat-row__line {
+      justify-content: flex-start !important;
+    }
+
+    .workspace__col--ai .live-outer--ai .chat-row--user .chat-row__line {
+      justify-content: flex-end !important;
     }
 
     .workspace__col--ai .live-outer--ai .ai-agent-turn + .ai-agent-turn--ai {
@@ -6673,7 +6677,9 @@
       margin-top: var(--ai-chat-gap-group) !important;
     }
 
-    .workspace__col--ai .live-outer--ai .ai-agent-turn__time {
+    .workspace__col--ai .live-outer--ai .chat-row__line .ai-agent-turn__time {
+      flex: 0 0 auto !important;
+      white-space: nowrap !important;
       color: var(--color-text-soft) !important;
       font-family: Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif !important;
       font-size: var(--type-caption-fs) !important;
@@ -6684,26 +6690,10 @@
       padding: 0 !important;
     }
 
-    .workspace__col--ai .live-outer--ai .ai-agent-turn--user .ai-agent-turn__time {
-      grid-column: 1 !important;
-      grid-row: 1 !important;
-      align-self: end !important;
-      justify-self: end !important;
-      margin-bottom: 2px !important;
-    }
-
-    .workspace__col--ai .live-outer--ai .ai-agent-turn--ai .ai-agent-turn__time {
-      grid-column: 2 !important;
-      grid-row: 1 !important;
-      align-self: end !important;
-      justify-self: start !important;
-      margin-bottom: 2px !important;
-    }
-
-    .workspace__col--ai .live-outer--ai .ai-agent-bubble {
+    .workspace__col--ai .live-outer--ai .ai-agent-bubble.chat-bubble {
       display: block !important;
       width: fit-content !important;
-      max-width: 100% !important;
+      max-width: 58% !important;
       margin: 0 !important;
       border-radius: var(--r-xl) !important;
       box-shadow: none !important;
@@ -6716,28 +6706,17 @@
       white-space: normal !important;
       word-break: keep-all !important;
       overflow-wrap: break-word !important;
+      min-width: 0 !important;
     }
 
-    .workspace__col--ai .live-outer--ai .ai-agent-turn--user .ai-agent-bubble {
-      grid-column: 2 !important;
-      grid-row: 1 !important;
-      margin-left: auto !important;
-    }
-
-    .workspace__col--ai .live-outer--ai .ai-agent-turn--ai .ai-agent-bubble {
-      grid-column: 1 !important;
-      grid-row: 1 !important;
-      margin-right: auto !important;
-    }
-
-    .workspace__col--ai .live-outer--ai .ai-agent-turn--user .ai-agent-bubble {
+    .workspace__col--ai .live-outer--ai .ai-agent-turn--user .ai-agent-bubble.chat-bubble {
       background: var(--color-brand-primary-soft) !important;
       border: 0 !important;
       padding: 10px 14px !important;
       color: var(--color-text-strong) !important;
     }
 
-    .workspace__col--ai .live-outer--ai .ai-agent-turn--ai .ai-agent-bubble {
+    .workspace__col--ai .live-outer--ai .ai-agent-turn--ai .ai-agent-bubble.chat-bubble {
       background: var(--color-surface-card) !important;
       border: 1px solid var(--color-border-default) !important;
       padding: 12px 14px !important;
@@ -6770,8 +6749,6 @@
 
     /* 답변 메타 */
     .workspace__col--ai .live-outer--ai .ai-agent-meta {
-      grid-column: 1 !important;
-      grid-row: 2 !important;
       display: flex !important;
       flex-direction: column !important;
       gap: 2px !important;
@@ -6779,6 +6756,7 @@
       padding: 0 0 0 14px !important;
       width: fit-content !important;
       max-width: calc(100% - 14px) !important;
+      align-self: flex-start !important;
     }
 
     .workspace__col--ai .live-outer--ai .ai-agent-meta__line {
@@ -10380,35 +10358,47 @@
             <div class="ai-agent-panel__body">
               <div class="card__body--scroll ai-agent-panel__scroll scroll-area">
                 <div class="ai-agent-chat" id="ai-agent-chat" aria-live="polite" aria-label="AI 대화">
-                  <article class="ai-agent-turn ai-agent-turn--user">
-                    <div class="ai-agent-turn__time">14:35:28</div>
-                    <p class="ai-agent-bubble">암보험 면책기간이 어떻게 돼? 고객이 지금 바로 보장되는지 물어보고 있어.</p>
+                  <article class="ai-agent-turn ai-agent-turn--user chat-row chat-row--user">
+                    <div class="chat-row__line">
+                    <div class="ai-agent-turn__time chat-time">14:35:28</div>
+                    <p class="ai-agent-bubble chat-bubble">암보험 면책기간이 어떻게 돼? 고객이 지금 바로 보장되는지 물어보고 있어.</p>
+                    </div>
                   </article>
-                  <article class="ai-agent-turn ai-agent-turn--ai">
-                    <div class="ai-agent-turn__time">14:35:30</div>
-                    <p class="ai-agent-bubble">암 보장 개시일은 일반적으로 계약일 또는 보장 개시일로부터 90일이 지난 날의 다음 날부터 적용됩니다. 따라서 고객에게는 “암 보장은 계약 직후 바로 시작되는 것이 아니라, 약관상 정해진 면책기간 이후부터 보장이 시작됩니다”라고 안내하는 것이 좋습니다.<span class="ai-agent-bubble__source"><span class="source-links" role="group" aria-label="출처"><span class="source-label">출처</span><a class="source-chip" href="#" data-source-kind="sok" data-source-ref="3202">SOK#3202 약관 12</a><a class="source-chip" href="#" data-source-kind="faq" data-source-ref="87">FAQ #87</a></span></span></p>
+                  <article class="ai-agent-turn ai-agent-turn--ai chat-row chat-row--bot">
+                    <div class="chat-row__line">
+                    <p class="ai-agent-bubble chat-bubble">암 보장 개시일은 일반적으로 계약일 또는 보장 개시일로부터 90일이 지난 날의 다음 날부터 적용됩니다. 따라서 고객에게는 “암 보장은 계약 직후 바로 시작되는 것이 아니라, 약관상 정해진 면책기간 이후부터 보장이 시작됩니다”라고 안내하는 것이 좋습니다.<span class="ai-agent-bubble__source"><span class="source-links" role="group" aria-label="출처"><span class="source-label">출처</span><a class="source-chip" href="#" data-source-kind="sok" data-source-ref="3202">SOK#3202 약관 12</a><a class="source-chip" href="#" data-source-kind="faq" data-source-ref="87">FAQ #87</a></span></span></p>
+                    <div class="ai-agent-turn__time chat-time">14:35:30</div>
+                    </div>
                     <div class="ai-agent-meta">
                       <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">단계</span> 의도분석 → 약관검색 → 답변생성</p>
                         </div>
                   </article>
-                  <article class="ai-agent-turn ai-agent-turn--user">
-                    <div class="ai-agent-turn__time">14:35:56</div>
-                    <p class="ai-agent-bubble">예외 사항도 알려줘. 고객이 특정 암도 같은 기준인지 물어볼 수 있을 것 같아.</p>
+                  <article class="ai-agent-turn ai-agent-turn--user chat-row chat-row--user">
+                    <div class="chat-row__line">
+                    <div class="ai-agent-turn__time chat-time">14:35:56</div>
+                    <p class="ai-agent-bubble chat-bubble">예외 사항도 알려줘. 고객이 특정 암도 같은 기준인지 물어볼 수 있을 것 같아.</p>
+                    </div>
                   </article>
-                  <article class="ai-agent-turn ai-agent-turn--ai">
-                    <div class="ai-agent-turn__time">14:35:58</div>
-                    <p class="ai-agent-bubble">예외적으로 일부 특약이나 특정 진단 항목은 일반 암 보장과 다른 기준이 적용될 수 있습니다. 예를 들어 갑상선암, 기타피부암, 제자리암, 경계성종양 등은 상품별 약관에 따라 보장 개시일이나 지급 기준이 다를 수 있으니, 반드시 해당 계약의 특약 조건을 함께 확인해야 합니다.<span class="ai-agent-bubble__source"><span class="source-links" role="group" aria-label="출처"><span class="source-label">출처</span><a class="source-chip" href="#" data-source-kind="sok" data-source-ref="3203">SOK#3203 약관 12-2</a><a class="source-chip" href="#" data-source-kind="faq" data-source-ref="91">FAQ #91</a></span></span></p>
+                  <article class="ai-agent-turn ai-agent-turn--ai chat-row chat-row--bot">
+                    <div class="chat-row__line">
+                    <p class="ai-agent-bubble chat-bubble">예외적으로 일부 특약이나 특정 진단 항목은 일반 암 보장과 다른 기준이 적용될 수 있습니다. 예를 들어 갑상선암, 기타피부암, 제자리암, 경계성종양 등은 상품별 약관에 따라 보장 개시일이나 지급 기준이 다를 수 있으니, 반드시 해당 계약의 특약 조건을 함께 확인해야 합니다.<span class="ai-agent-bubble__source"><span class="source-links" role="group" aria-label="출처"><span class="source-label">출처</span><a class="source-chip" href="#" data-source-kind="sok" data-source-ref="3203">SOK#3203 약관 12-2</a><a class="source-chip" href="#" data-source-kind="faq" data-source-ref="91">FAQ #91</a></span></span></p>
+                    <div class="ai-agent-turn__time chat-time">14:35:58</div>
+                    </div>
                     <div class="ai-agent-meta">
                       <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">단계</span> 의도분석 → 지식검색 → 답변생성</p>
                           </div>
                   </article>
-                  <article class="ai-agent-turn ai-agent-turn--user">
-                    <div class="ai-agent-turn__time">14:36:10</div>
-                    <p class="ai-agent-bubble">그럼 고객에게 짧게 설명할 멘트로 정리해줘.</p>
+                  <article class="ai-agent-turn ai-agent-turn--user chat-row chat-row--user">
+                    <div class="chat-row__line">
+                    <div class="ai-agent-turn__time chat-time">14:36:10</div>
+                    <p class="ai-agent-bubble chat-bubble">그럼 고객에게 짧게 설명할 멘트로 정리해줘.</p>
+                    </div>
                   </article>
-                  <article class="ai-agent-turn ai-agent-turn--ai">
-                    <div class="ai-agent-turn__time">14:36:14</div>
-                    <p class="ai-agent-bubble">고객 안내 멘트는 이렇게 정리할 수 있습니다. “고객님, 암 보장은 일반적으로 계약 후 90일이 지난 다음 날부터 적용됩니다. 다만 암 종류나 가입하신 특약에 따라 기준이 다를 수 있어, 현재 계약의 보장 항목을 확인한 뒤 정확히 안내드리겠습니다.”<span class="ai-agent-bubble__source"><span class="source-links" role="group" aria-label="출처"><span class="source-label">출처</span><a class="source-chip" href="#" data-source-kind="script" data-source-ref="recommended">상담 스크립트 추천</a></span></span></p>
+                  <article class="ai-agent-turn ai-agent-turn--ai chat-row chat-row--bot">
+                    <div class="chat-row__line">
+                    <p class="ai-agent-bubble chat-bubble">고객 안내 멘트는 이렇게 정리할 수 있습니다. “고객님, 암 보장은 일반적으로 계약 후 90일이 지난 다음 날부터 적용됩니다. 다만 암 종류나 가입하신 특약에 따라 기준이 다를 수 있어, 현재 계약의 보장 항목을 확인한 뒤 정확히 안내드리겠습니다.”<span class="ai-agent-bubble__source"><span class="source-links" role="group" aria-label="출처"><span class="source-label">출처</span><a class="source-chip" href="#" data-source-kind="script" data-source-ref="recommended">상담 스크립트 추천</a></span></span></p>
+                    <div class="ai-agent-turn__time chat-time">14:36:14</div>
+                    </div>
                     <div class="ai-agent-meta">
                       <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">단계</span> 답변생성 → 검증</p>
                         </div>
@@ -11340,18 +11330,21 @@
         function appendUserMessage(text) {
           if (!chat || !text) return;
           var turn = document.createElement("article");
-          turn.className = "ai-agent-turn ai-agent-turn--user";
+          turn.className = "ai-agent-turn ai-agent-turn--user chat-row chat-row--user";
+          var line = document.createElement("div");
+          line.className = "chat-row__line";
           var time = document.createElement("div");
-          time.className = "ai-agent-turn__time";
+          time.className = "ai-agent-turn__time chat-time";
           var now = new Date();
           time.textContent = now.getHours().toString().padStart(2, '0') + ':' + 
                              now.getMinutes().toString().padStart(2, '0') + ':' + 
                              now.getSeconds().toString().padStart(2, '0');
           var bubble = document.createElement("p");
-          bubble.className = "ai-agent-bubble";
+          bubble.className = "ai-agent-bubble chat-bubble";
           bubble.textContent = text;
-          turn.appendChild(time);
-          turn.appendChild(bubble);
+          line.appendChild(time);
+          line.appendChild(bubble);
+          turn.appendChild(line);
           chat.appendChild(turn);
           var scrollRoot = document.querySelector(".ai-agent-panel__scroll");
           if (scrollRoot) scrollRoot.scrollTop = scrollRoot.scrollHeight;

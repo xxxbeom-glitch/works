@@ -57,7 +57,7 @@
     .ws {
       flex: 1 1 auto; min-height: 0;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
       gap: var(--space-md);
       padding: 12px;
     }
@@ -80,6 +80,258 @@
     .col > .stat-summary-card + .card {
       margin-top: var(--space-md);
     }
+
+    .review-layout {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(280px, 31.5%) minmax(0, 1fr);
+      gap: var(--space-md);
+    }
+
+    .review-layout__side,
+    .review-layout__main {
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .review-layout__side {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .review-layout__main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .review-layout__side .stat-row__main {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .review-layout__side .filter-grid {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--space-sm);
+    }
+
+    .review-layout__side .filter-grid__label {
+      align-self: end;
+    }
+
+    .review-layout__side .filter-grid__field {
+      width: 100%;
+      align-items: flex-start;
+    }
+
+    .review-layout__side .filter-grid__field .seg,
+    .review-layout__side .filter-grid__field .select,
+    .review-layout__side .filter-grid__field .input {
+      max-width: 100%;
+    }
+
+    .review-layout__side .filter-check-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-sm);
+    }
+
+    .filter-card--side .card__body--filter {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex !important;
+      flex-direction: column;
+      padding: 0 !important;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .filter-card--side {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+    }
+
+    .filter-card--side .filter-grid {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+      align-items: stretch;
+      justify-content: space-between;
+      padding: var(--layout-card-padding);
+    }
+
+    .filter-card--side .filter-group {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      width: 100%;
+      align-items: stretch;
+    }
+
+    .filter-card--side .filter-grid__label {
+      display: block;
+      width: auto;
+      margin: 0 0 var(--space-sm);
+      align-self: flex-start;
+      text-align: left;
+      font-size: var(--type-body-fs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-text-strong);
+      line-height: var(--lh-snug);
+    }
+
+    .filter-card--side .filter-grid__field {
+      width: 100%;
+      min-width: 0;
+      margin: 0;
+      justify-content: flex-start;
+      align-items: stretch;
+    }
+
+    .filter-card--side .filter-grid__field--stack {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-sm);
+    }
+
+    .filter-card--side .filter-grid__field--date {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .filter-card--side .filter-field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xxs);
+      min-width: 0;
+      width: 100%;
+      align-items: stretch;
+    }
+
+    .filter-card--side .filter-field__label {
+      display: block;
+      width: auto;
+      margin: 0;
+      text-align: left;
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-medium);
+      color: var(--color-text-soft);
+      line-height: var(--lh-tight);
+    }
+
+    .filter-card--side .input,
+    .filter-card--side .select {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .filter-card--side .seg {
+      width: 100%;
+      margin: 0;
+    }
+
+    .filter-card--side .seg__btn {
+      flex: 1 1 0;
+      min-width: 0;
+      padding-inline: var(--space-xs);
+    }
+
+    .filter-card--side .filter-grid__field--center-split {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+
+    .filter-card--side .filter-grid__field--search {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      height: var(--filter-control-height, 40px);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-control);
+      background: var(--color-surface-card);
+      overflow: hidden;
+    }
+
+    .filter-card--side .filter-grid__field--search .select {
+      flex: 0 0 96px;
+      width: auto;
+      height: 100% !important;
+      border: 0;
+      border-radius: 0;
+      border-right: 1px solid var(--color-border-default);
+      background-color: transparent;
+    }
+
+    .filter-card--side .filter-grid__field--search .input {
+      flex: 1 1 auto;
+      min-width: 0;
+      width: 100%;
+      height: 100% !important;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .filter-card--side .filter-grid__field--search:focus-within {
+      border-color: var(--color-text-secondary);
+    }
+
+    .filter-card--side .filter-check-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      min-height: 0;
+      margin: 0;
+      gap: var(--space-xs) var(--space-md);
+    }
+
+    .filter-card--side .filter-check-grid .check {
+      flex: 0 1 auto;
+      width: auto;
+      min-width: 0;
+      max-width: 100%;
+      margin: 0;
+      justify-content: flex-start;
+      white-space: nowrap;
+    }
+
+    .card-action-bar {
+      box-sizing: border-box;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--space-sm);
+      min-height: calc(var(--control-h-lg) + var(--space-sm) + var(--layout-card-padding));
+      padding: var(--space-sm) var(--layout-card-padding) var(--layout-card-padding);
+      border-top: 1px solid var(--color-border-default);
+      background: var(--color-surface-card);
+    }
+
+    .card-action-bar .btn-primary,
+    .card-action-bar .btn-ghost {
+      height: var(--control-h-lg);
+      min-height: var(--control-h-lg);
+      border-radius: var(--radius-control);
+      font-size: var(--type-ui-label-fs);
+      line-height: 1;
+    }
+
+    .review-layout__main .review-list-card {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+    }
+
+    @media (max-width: 1280px) {
+      .review-layout {
+        grid-template-columns: minmax(260px, 34%) minmax(0, 1fr);
+      }
+    }
     /* 내부 카드 (공통) */
     .card {
       background: var(--color-surface-card);
@@ -88,14 +340,25 @@
       display: flex; flex-direction: column;
       min-width: 0;
     }
-    .card__head {
-      flex-shrink: 0;
+    .card__head,
+    .card-header {
+      box-sizing: border-box;
+      flex: 0 0 56px;
       height: 56px !important;
       min-height: 56px !important;
+      max-height: 56px !important;
       padding: 0 16px !important;
       background: var(--color-surface-card);
       border-bottom: 1px solid var(--color-border-default);
-      display: flex; align-items: center; justify-content: space-between; gap: var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      overflow: hidden;
+    }
+    .card-header > .select {
+      flex: 0 0 auto;
+      max-height: var(--filter-control-height, 40px);
     }
     .card__head-lead {
       display: inline-flex; align-items: center; gap: var(--space-sm); min-width: 0;
@@ -138,8 +401,15 @@
        ============================================================ */
     .stat-summary-card { flex-shrink: 0; }
     .stat-summary-card__body {
-      padding: var(--space-sm) var(--layout-card-padding) !important;
+      padding: var(--layout-card-padding) !important;
       gap: var(--space-xs) !important;
+    }
+    .stat-summary-card__meta {
+      color: var(--color-text-muted);
+      font-size: var(--type-caption-fs);
+      font-weight: var(--fw-medium);
+      line-height: var(--lh-tight);
+      white-space: nowrap;
     }
 
     .stat-row {
@@ -154,45 +424,12 @@
 
     .stat-row__main {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       align-items: center;
       gap: var(--space-xs);
       min-width: 0;
     }
 
-    .stat-row__meta {
-      align-self: flex-start;
-      margin: var(--space-xxs) 0 0;
-      font-size: var(--type-caption-fs);
-      font-weight: var(--type-caption-fw);
-      line-height: var(--type-caption-lh);
-      color: var(--color-text-muted) !important;
-      white-space: nowrap;
-      text-align: left;
-    }
-
-    .stat-row__label {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 1px;
-      padding-right: 10px;
-      margin-right: 4px;
-      min-width: 0;
-      text-align: left;
-    }
-    .stat-row__label-title {
-      display: block;
-      width: 100%;
-      font-family: var(--font-sans) !important;
-      font-size: var(--type-subheading-fs) !important;
-      font-weight: var(--type-subheading-fw) !important;
-      line-height: var(--type-subheading-lh) !important;
-      color: var(--color-text-strong) !important;
-      white-space: nowrap;
-      text-align: left;
-    }
     .stat-cell {
       display: flex;
       flex-direction: column;
@@ -423,29 +660,47 @@
     /* ============================================================
        1차 검수 리스트 (table)
        ============================================================ */
-    .table-wrap { overflow-x: auto; }
+    .table-wrap {
+      width: 100%;
+      overflow-x: hidden;
+    }
     .table {
       width: 100%;
+      table-layout: fixed;
       font-size: var(--type-body-fs);
     }
     .table thead th {
-      padding: 10px 14px;
+      padding: 10px 8px;
       background: var(--color-surface-soft);
       color: var(--color-text-muted);
       font-size: var(--type-caption-fs); font-weight: var(--fw-semibold); text-align: center;
       border-bottom: 1px solid var(--color-border-default);
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       vertical-align: middle;
     }
     .table tbody td {
-      padding: 10px 14px;
+      padding: 10px 8px;
       color: var(--color-text-default);
       font-size: var(--type-small-fs);
       border-bottom: 1px solid var(--color-border-default);
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       vertical-align: middle;
       text-align: center;
     }
+    .table th:nth-child(1), .table td:nth-child(1) { width: 6%; }
+    .table th:nth-child(2), .table td:nth-child(2) { width: 12%; }
+    .table th:nth-child(3), .table td:nth-child(3) { width: 10%; }
+    .table th:nth-child(4), .table td:nth-child(4) { width: 12%; }
+    .table th:nth-child(5), .table td:nth-child(5) { width: 12%; }
+    .table th:nth-child(6), .table td:nth-child(6) { width: 10%; }
+    .table th:nth-child(7), .table td:nth-child(7) { width: 10%; }
+    .table th:nth-child(8), .table td:nth-child(8) { width: 8%; }
+    .table th:nth-child(9), .table td:nth-child(9) { width: 10%; }
+    .table th:nth-child(10), .table td:nth-child(10) { width: 10%; }
     .table tbody tr:last-child td { border-bottom: 0; }
     .table tbody tr:hover { background: var(--color-surface-soft); cursor: pointer; }
     .table tbody tr.is-active { background: var(--c-neutral-100); }
@@ -892,15 +1147,19 @@
             </span>
           </header>
 
+          <div class="review-layout">
+            <div class="review-layout__side">
           <!-- 1) 검수 현황 — compact summary row (DS .card 구조 적용) -->
           <article class="card stat-summary-card" aria-label="검수 현황 요약">
+            <header class="card__head card-header">
+              <span class="card__head-lead">
+                <h3 class="card__title">검수현황</h3>
+              </span>
+              <span class="stat-summary-card__meta">2026-05-26 기준</span>
+            </header>
             <div class="card__body stat-summary-card__body">
               <div class="stat-row" role="region" aria-label="검수 현황 요약">
                 <div class="stat-row__main">
-                  <div class="stat-row__label">
-                    <span class="stat-row__label-title">검수현황</span>
-                    <span class="stat-row__meta">2026-05-26 기준</span>
-                  </div>
                   <div class="stat-cell stat-cell--high">
                     <span class="stat-cell__val">20<span class="stat-cell__unit">건</span></span>
                     <span class="stat-cell__name">High</span>
@@ -919,8 +1178,8 @@
           </article>
 
           <!-- 2) 검색 -->
-          <article class="card review-list-card">
-            <header class="card__head">
+          <article class="card filter-card filter-card--side">
+            <header class="card__head card-header">
               <span class="card__head-lead">
                 <h3 class="card__title">검색</h3>
               </span>
@@ -928,77 +1187,108 @@
             <div class="card__body card__body--filter">
               <div class="filter-grid">
 
-                <span class="filter-grid__label">접촉일자</span>
-                <span class="filter-grid__field">
-                  <input type="date" class="input input--date" value="2026-05-20" aria-label="시작일" />
-                  <span class="filter-grid__label" style="font-weight: var(--fw-medium);">~</span>
-                  <input type="date" class="input input--date" value="2026-05-26" aria-label="종료일" />
+                <div class="filter-group">
+                  <span class="filter-grid__label">접수일자</span>
+                  <span class="filter-grid__field filter-grid__field--stack filter-grid__field--date">
+                    <label class="filter-field">
+                      <span class="filter-field__label">시작일</span>
+                      <input type="date" class="input input--date" value="2026-05-20" aria-label="시작일" />
+                    </label>
+                    <label class="filter-field">
+                      <span class="filter-field__label">종료일</span>
+                      <input type="date" class="input input--date" value="2026-05-26" aria-label="종료일" />
+                    </label>
+                  </span>
+                </div>
+
+                <div class="filter-group">
+                  <span class="filter-grid__label">기간</span>
+                  <span class="filter-grid__field">
                   <span class="seg">
                     <button type="button" class="seg__btn is-active">최근 일주일</button>
                     <button type="button" class="seg__btn">최근 1개월</button>
                     <button type="button" class="seg__btn">최근 3개월</button>
                   </span>
-                </span>
+                  </span>
+                </div>
 
-                <span class="filter-grid__label">센터 선택</span>
-                <span class="filter-grid__field filter-grid__field--center-split">
-                  <select class="select select--center-tier" aria-label="센터(지역)" id="center-region">
-                    <option selected>서울</option>
-                    <option>부산</option>
-                    <option>대구</option>
-                  </select>
-                  <select class="select select--center-tier" aria-label="센터(세부 구역)" id="center-branch">
-                    <option selected>전체</option>
-                    <option>을지로</option>
-                    <option>강남</option>
-                  </select>
-                </span>
+                <div class="filter-group">
+                  <span class="filter-grid__label">센터 선택</span>
+                  <span class="filter-grid__field filter-grid__field--center-split">
+                    <select class="select select--center-tier" aria-label="센터(지역)" id="center-region">
+                      <option selected>서울</option>
+                      <option>부산</option>
+                      <option>대구</option>
+                    </select>
+                    <select class="select select--center-tier" aria-label="센터(세부 구역)" id="center-branch">
+                      <option selected>전체</option>
+                      <option>을지로</option>
+                      <option>강남</option>
+                    </select>
+                  </span>
+                </div>
 
-                <span class="filter-grid__label">상담유형</span>
-                <span class="filter-grid__field filter-check-grid">
-                  <label class="check check--all"><input type="checkbox" /> 전체</label>
-                  <label class="check"><input type="checkbox" checked /> 보험금</label>
-                  <label class="check"><input type="checkbox" /> 해지</label>
-                  <label class="check"><input type="checkbox" /> 대출</label>
-                </span>
+                <div class="filter-group">
+                  <span class="filter-grid__label">상담유형</span>
+                  <span class="filter-grid__field">
+                    <select class="select" aria-label="상담유형">
+                      <option>전체</option>
+                      <option selected>보험금</option>
+                      <option>해지</option>
+                      <option>대출</option>
+                    </select>
+                  </span>
+                </div>
 
-                <span class="filter-grid__label">위험도</span>
-                <span class="filter-grid__field filter-check-grid">
-                  <label class="check check--all"><input type="checkbox" /> 전체</label>
-                  <label class="check"><input type="checkbox" checked /> High</label>
-                  <label class="check"><input type="checkbox" /> Mid</label>
-                  <label class="check"><input type="checkbox" /> Low</label>
-                </span>
+                <div class="filter-group">
+                  <span class="filter-grid__label">위험도</span>
+                  <span class="filter-grid__field">
+                    <select class="select" aria-label="위험도">
+                      <option>전체</option>
+                      <option selected>High</option>
+                      <option>Mid</option>
+                      <option>Low</option>
+                    </select>
+                  </span>
+                </div>
 
-                <span class="filter-grid__label">검수상태</span>
-                <span class="filter-grid__field filter-check-grid">
-                  <label class="check check--all"><input type="checkbox" /> 전체</label>
-                  <label class="check"><input type="checkbox" checked /> 미확인</label>
-                  <label class="check"><input type="checkbox" /> 확인중</label>
-                  <label class="check"><input type="checkbox" /> 조치 완료</label>
-                </span>
+                <div class="filter-group">
+                  <span class="filter-grid__label">검수상태</span>
+                  <span class="filter-grid__field">
+                    <select class="select" aria-label="검수상태">
+                      <option>전체</option>
+                      <option selected>미확인</option>
+                      <option>확인중</option>
+                      <option>조치 완료</option>
+                    </select>
+                  </span>
+                </div>
 
-                <span class="filter-grid__label">검색명</span>
-                <span class="filter-grid__field">
-                  <select class="select" aria-label="검색 기준" style="min-width: 110px;">
-                    <option>고객명</option>
-                    <option>고객번호</option>
-                    <option>계약번호</option>
-                  </select>
-                  <input type="text" class="input input--name" placeholder="검색어를 입력하세요" />
-                </span>
+                <div class="filter-group">
+                  <span class="filter-grid__label">검색명</span>
+                  <span class="filter-grid__field filter-grid__field--search combined-search-field">
+                    <select class="select" aria-label="검색 기준">
+                      <option>고객명</option>
+                      <option>고객번호</option>
+                      <option>계약번호</option>
+                    </select>
+                    <input type="text" class="input input--name" placeholder="검색어를 입력하세요" />
+                  </span>
+                </div>
 
-              </div>
-              <div class="filter-actions">
-                <button type="button" class="btn-primary">조회</button>
-                <button type="button" class="btn-ghost">초기화</button>
               </div>
             </div>
+            <footer class="card__footer action-row followup-card__footer card-action-bar">
+              <button type="button" class="btn-primary">조회</button>
+              <button type="button" class="btn-ghost">초기화</button>
+            </footer>
           </article>
+            </div>
 
+            <div class="review-layout__main">
           <!-- 3) 1차 검수 리스트 -->
-          <article class="card">
-            <header class="card__head">
+          <article class="card review-list-card">
+            <header class="card__head card-header">
               <span class="card__head-lead">
                 <h3 class="card__title">1차 검수 리스트<span class="card__title-sub">(총 5건)</span></h3>
               </span>
@@ -1125,6 +1415,8 @@
               </nav>
             </div>
           </article>
+            </div>
+          </div>
         </section>
 
         <!-- ============================ 우측 ============================ -->
@@ -1143,7 +1435,7 @@
 
           <!-- 검수 상세 정보 -->
           <article class="card detail-card">
-            <header class="card__head">
+            <header class="card__head card-header">
               <span class="card__head-lead">
                 <h3 class="card__title">검수 상세 정보</h3>
               </span>
@@ -1275,7 +1567,7 @@
                 <textarea class="ta" placeholder="조치 내용 또는 특이사항을 입력하세요."></textarea>
               </div>
             </div>
-            <footer class="card__footer action-row followup-card__footer">
+            <footer class="card__footer action-row followup-card__footer card-action-bar">
               <button type="button" class="btn-ghost">저장</button>
               <button type="button" class="btn-primary">업무 종결</button>
             </footer>

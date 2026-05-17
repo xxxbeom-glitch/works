@@ -104,8 +104,8 @@
 
   /* ── Radius ── */
   --radius-control: var(--r-md);
-  --radius-card:    var(--r-2xl);
-  --radius-outer:   var(--r-3xl);
+  --radius-card:    8px;
+  --radius-outer:   12px;
   --radius-row:     var(--r-md);
   --radius-pill:    var(--r-pill);
   --radius-circle:  50%;
@@ -204,8 +204,8 @@
   --layout-card-pad:        18px;
   --layout-section-gap:     20px;
   --panel-collapsed-icon-top: 16px;
-  --layout-lnb-button-size: 40px;
-  --layout-lnb-brand-size:  36px;
+  --layout-lnb-button-size: 56px;
+  --layout-lnb-brand-size:  64px;
 
   /* layout semantic aliases */
   --layout-header-height:   var(--layout-header-h);
@@ -290,7 +290,7 @@
   --card-border:              1px solid var(--color-border-subtle);
   --radius-md:                var(--r-md);
   --radius-workspace-card:    var(--r-3xl);
-  --radius-inner-content:     var(--r-2xl);
+  --radius-inner-content:     8px;
   --shadow-workspace-card:    var(--shadow-card);
   --shadow-inner-content:     none;
 

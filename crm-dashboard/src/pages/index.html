@@ -8238,7 +8238,7 @@
       align-items: center !important;
       justify-content: center !important;
       gap: 0 !important;
-      border: 1px solid var(--color-border-subtle) !important;
+      border: 0 !important;
       border-radius: var(--radius-pill) !important;
       background: var(--color-surface-card) !important;
       box-shadow: none !important;
@@ -8835,17 +8835,17 @@
       color: var(--color-status-danger) !important;
     }
 
-    /* 상품 및 업무정보 요약: 그리드/노트 박스 제거, 세로 간격만 균일 */
+    /* 상품 및 업무정보 요약: 핵심 수치 영역은 박스형 배경 유지 */
     .live-composite .live-outer--product .product-info-summary {
       gap: var(--space-md) !important;
     }
 
     .live-composite .live-outer--product .product-info-summary__grid {
       margin: 0 !important;
-      padding: 0 !important;
-      border-radius: 0 !important;
-      background: transparent !important;
-      gap: var(--space-md) var(--space-sm) !important;
+      padding: var(--space-md) !important;
+      border-radius: var(--radius-card) !important;
+      background: var(--color-surface-soft) !important;
+      gap: var(--space-sm) !important;
     }
 
     .live-composite .live-outer--product .product-info-summary__note {
@@ -10019,7 +10019,7 @@
     .live-stack-row--stt .live-outer--stt,
     .live-composite__stt .live-outer--stt {
       background: var(--color-surface-card) !important;
-      border: 1px solid var(--color-border-subtle) !important;
+      border: 0 !important;
       border-radius: var(--radius-card) !important;
       box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06) !important;
       padding: 0 !important;
@@ -10100,6 +10100,236 @@
     .live-composite .stt-card__log .stt-chat__avatar--initial {
       background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%) !important;
       color: var(--color-text-secondary) !important;
+    }
+
+    /* ============================================================
+       P1 cinfo card rhythm
+       - 1열 카드 간격/헤더/본문 리듬을 이미지 기준으로 고정
+       - 전역 .card__head 및 후순위 리스트 override 영향 차단
+       ============================================================ */
+    .page1-content .workspace__col--info {
+      padding: 12px !important;
+    }
+
+    .page1-content .cinfo-panel__head {
+      min-height: 40px !important;
+      margin: 0 0 12px !important;
+      padding: 0 4px !important;
+      align-items: center !important;
+    }
+
+    .page1-content .cinfo-panel #info-panel-main {
+      padding: 0 !important;
+      margin: 0 !important;
+      gap: 0 !important;
+      padding-right: 0 !important;
+      margin-right: 0 !important;
+      overflow-y: hidden !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+
+    .page1-content .cinfo-panel #info-panel-main::-webkit-scrollbar {
+      width: 0 !important;
+      height: 0 !important;
+      display: none !important;
+    }
+
+    .page1-content .cinfo-panel #info-panel-main > .cinfo-section {
+      flex: 0 0 auto !important;
+      width: 100% !important;
+      margin: 0 !important;
+      background: var(--color-surface-card) !important;
+      border: 0 !important;
+      border-radius: var(--radius-outer) !important;
+      box-shadow: none !important;
+      overflow: hidden !important;
+    }
+
+    .page1-content .cinfo-panel #info-panel-main > .cinfo-section + .cinfo-section {
+      margin-top: 12px !important;
+    }
+
+    .page1-content .cinfo-panel #info-panel-main::after {
+      height: 0 !important;
+    }
+
+    .page1-content .cinfo-panel #info-panel-main > #info-acc-guide.cinfo-section {
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+    }
+
+    .page1-content .cinfo-panel #info-acc-guide .guide-card-body {
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+    }
+
+    .cinfo-panel .cinfo-section--customer {
+      padding: 14px 16px 14px !important;
+      gap: 8px !important;
+    }
+
+    .cinfo-panel .cinfo-section--customer .cinfo-customer__list {
+      margin-top: 4px !important;
+      gap: 7px !important;
+    }
+
+    .cinfo-panel .cinfo-section--customer .cinfo-customer__list > li {
+      min-height: 28px !important;
+      gap: 12px !important;
+      padding: 0 !important;
+    }
+
+    .cinfo-panel .cinfo-section--customer .cinfo-caller {
+      min-height: 36px !important;
+      flex-wrap: nowrap !important;
+      gap: 8px !important;
+      padding: 6px 10px !important;
+      overflow: hidden !important;
+    }
+
+    .cinfo-panel .cinfo-section--customer .cinfo-caller__right {
+      min-width: 0 !important;
+      margin-left: auto !important;
+      gap: 8px !important;
+      flex-shrink: 1 !important;
+    }
+
+    .cinfo-panel .cinfo-section--customer .cinfo-caller__value {
+      min-width: 0 !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+    }
+
+    .cinfo-panel .cinfo-section--customer .cinfo-caller__save {
+      flex: 0 0 auto !important;
+      height: 28px !important;
+      min-height: 28px !important;
+      padding: 0 9px !important;
+    }
+
+    .cinfo-panel #dash-card-history-section > .cinfo-section__head,
+    .cinfo-panel #info-acc-contracts > .cinfo-section__head,
+    .cinfo-panel #info-acc-guide > .cinfo-section__head {
+      box-sizing: border-box !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: var(--space-sm) !important;
+      height: 56px !important;
+      min-height: 56px !important;
+      max-height: 56px !important;
+      flex: 0 0 56px !important;
+      margin: 0 !important;
+      padding: 0 16px !important;
+      border-bottom: 1px solid var(--color-border-default) !important;
+      background: transparent !important;
+    }
+
+    .cinfo-panel #dash-card-history-section .cinfo-section__title,
+    .cinfo-panel #info-acc-contracts .cinfo-section__title,
+    .cinfo-panel #info-acc-guide .cinfo-section__title {
+      margin: 0 !important;
+      font-family: var(--font-family-sans) !important;
+      font-size: var(--type-subheading-fs) !important;
+      font-weight: var(--fw-semibold) !important;
+      line-height: var(--lh-snug) !important;
+      letter-spacing: -0.01em !important;
+      color: var(--color-text-strong) !important;
+    }
+
+    .cinfo-panel #dash-card-history-section .cinfo-section__chev,
+    .cinfo-panel #info-acc-contracts .cinfo-section__chev,
+    .cinfo-panel #info-acc-guide .cinfo-section__chev {
+      width: 20px !important;
+      height: 20px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      color: var(--color-text-muted) !important;
+      line-height: 0 !important;
+    }
+
+    .cinfo-panel #dash-card-history-section .cinfo-history__list,
+    .cinfo-panel #info-acc-contracts .cinfo-contracts,
+    .cinfo-panel #info-acc-guide .cinfo-guide {
+      box-sizing: border-box !important;
+      align-self: stretch !important;
+      list-style: none !important;
+      margin: 0 !important;
+      padding: var(--cinfo-card-pad) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: var(--cinfo-row-gap) !important;
+    }
+
+    .cinfo-panel #dash-card-history-section .cinfo-history__list {
+      gap: 8px !important;
+    }
+
+    .cinfo-panel #dash-card-history-section .cinfo-history__row {
+      display: grid !important;
+      grid-template-columns: 110px minmax(0, 1fr) !important;
+      align-items: center !important;
+      gap: var(--space-sm) !important;
+      min-height: 28px !important;
+      padding: var(--cinfo-row-pad-y) 0 !important;
+      margin: 0 !important;
+    }
+
+    .cinfo-panel #dash-card-history-section .cinfo-history__row--pill .cinfo-history__pill {
+      grid-column: 1 / -1 !important;
+      justify-self: start !important;
+    }
+
+    .cinfo-panel #info-acc-contracts .cinfo-contract {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: var(--space-sm) !important;
+      min-height: 44px !important;
+      margin: 0 !important;
+      padding: var(--cinfo-row-pad-y) 12px !important;
+      border: 0 !important;
+      border-radius: var(--radius-control) !important;
+      box-shadow: none !important;
+    }
+
+    .cinfo-panel #info-acc-contracts.is-collapsed .cinfo-contracts {
+      display: none !important;
+    }
+
+    .cinfo-panel #info-acc-contracts.is-collapsed > .cinfo-section__head {
+      border-bottom: 0 !important;
+    }
+
+    .cinfo-panel #info-acc-guide .cinfo-guide__head {
+      display: grid !important;
+      grid-template-columns: auto minmax(0, 1fr) auto !important;
+      align-items: center !important;
+      justify-content: stretch !important;
+      column-gap: 8px !important;
+    }
+
+    .cinfo-panel #info-acc-guide .cinfo-guide__head-copy {
+      justify-self: start !important;
+    }
+
+    .workspace__col--ai .live-outer--ai .ai-agent-composer__send,
+    .workspace__col--ai .live-outer--ai #ai-agent-send {
+      background: linear-gradient(123deg, #4432e4 59.03%, #4059f4 102.77%) !important;
+      border-color: transparent !important;
+      color: var(--color-text-inverse) !important;
+      box-shadow: none !important;
+    }
+
+    .workspace__col--ai .live-outer--ai .ai-agent-composer__send:hover,
+    .workspace__col--ai .live-outer--ai #ai-agent-send:hover {
+      background: linear-gradient(123deg, #4432e4 59.03%, #4059f4 102.77%) !important;
+      color: var(--color-text-inverse) !important;
+      filter: brightness(0.93);
     }
   </style>
 </head>

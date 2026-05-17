@@ -845,13 +845,15 @@
     .filter-grid .seg__btn:hover { background: var(--color-surface-soft); color: var(--color-text-secondary); }
     /* 선택값: 2페이지 참조 RAG(.check.is-checked) fill과 동일 톤 */
     .filter-grid .seg__btn.is-active {
-      background: var(--c-neutral-100);
-      color: var(--c-neutral-900);
-      font-weight: var(--fw-bold);
+      background: #F3F4F6 !important;
+      color: #111827 !important;
+      font-weight: var(--fw-bold) !important;
+      box-shadow: none !important;
     }
     .filter-grid .seg__btn.is-active:hover {
-      background: var(--c-neutral-200);
-      color: var(--c-neutral-900);
+      background: var(--c-neutral-200) !important;
+      color: #111827 !important;
+      box-shadow: none !important;
     }
 
     .check-list-h {
@@ -927,6 +929,18 @@
       border: 1px solid transparent;
     }
     .btn-primary:hover { background: var(--c-neutral-900); }
+    .page3-content .filter-card--side .card-action-bar .btn-primary,
+    .page3-content .followup-card > .followup-card__footer .btn-primary {
+      background: linear-gradient(123deg, #4432e4 59.03%, #4059f4 102.77%) !important;
+      border-color: transparent !important;
+      color: var(--color-text-inverse) !important;
+    }
+    .page3-content .filter-card--side .card-action-bar .btn-primary:hover,
+    .page3-content .followup-card > .followup-card__footer .btn-primary:hover {
+      background: linear-gradient(123deg, #4432e4 59.03%, #4059f4 102.77%) !important;
+      border-color: transparent !important;
+      filter: brightness(0.93);
+    }
     .btn-ghost {
       height: var(--control-h-lg);
       padding: 0 var(--control-pad-x-lg);

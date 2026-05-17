@@ -287,11 +287,11 @@ html body .ds-select {
   height: 48px !important;
   border-radius: var(--radius-control) !important;
   /* ?? ?? ?? CTA ? Case1 dark fill ?? ?? ????? (?? .btn-primary !important ??) */
-  background: linear-gradient(96deg, #0046f9 0%, #658af3 101.89%) !important;
+  background: linear-gradient(123deg, #4432e4 59.03%, #4059f4 102.77%) !important;
   border-color: transparent !important;
 }
 .col__cta .btn-primary:hover {
-  background: linear-gradient(96deg, #0046f9 0%, #658af3 101.89%) !important;
+  background: linear-gradient(123deg, #4432e4 59.03%, #4059f4 102.77%) !important;
   border-color: transparent !important;
   filter: brightness(0.93);
 }
@@ -322,13 +322,13 @@ html body .ds-select {
 .btn-secondary.btn-secondary--primary:hover { background: var(--c-neutral-900) !important; border-color: var(--c-neutral-900) !important; }
 /* document-generator.html ? ??? ?? ???? ??? ?? ??? ?? */
 .page2-content .btn-secondary.btn-secondary--primary {
-  background: #0046f9 !important;
-  border-color: #0046f9 !important;
+  background: linear-gradient(123deg, #4432e4 59.03%, #4059f4 102.77%) !important;
+  border-color: transparent !important;
   color: var(--color-text-inverse) !important;
 }
 .page2-content .btn-secondary.btn-secondary--primary:hover {
-  background: #0046f9 !important;
-  border-color: #0046f9 !important;
+  background: linear-gradient(123deg, #4432e4 59.03%, #4059f4 102.77%) !important;
+  border-color: transparent !important;
   filter: brightness(0.93);
 }
 /* sm variant */

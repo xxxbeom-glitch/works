@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -6,27 +6,21 @@
   <title>신한라이프 AI 상담지원</title>
   <link rel="stylesheet" href="../styles/design-system/index.css">
   <script>
-    /* 단독 진입 시 AppShell(app.html) 로 자동 이동 (iframe 안에서는 그대로 렌더) */
+    
     (function () {
       try {
         if (window.self === window.top) {
           window.location.replace('app.html#page=1');
         }
-      } catch (_) { /* cross-origin 등 예외는 무시하고 단독 렌더 */ }
+      } catch (_) {  }
     })();
   </script>
   <style>
     @import url("../styles/design-system/components/column-header.css");
 
-    /* ============================================================
-       Page1 (content-only) 셸
-       - AppShell(app.html) 안에 iframe 으로 박혀 들어가는 page1 콘텐츠 전용
-       - Header / LNB / Footer / 모드 토글 / 사용자 영역 없음
-       - 원래 .console.app-shell 에 있던 컬럼 비율·workspace-height 변수는
-         이제 page1-content 가 자체 보유
-       ============================================================ */
+    
     .page1-content {
-      /* 컬럼/그리드 변수 (구 .console.app-shell 에서 이식) */
+      
       --lnb-width: 0px;
       --col-1: 23.1%;
       --col-2: 38.45%;
@@ -37,8 +31,7 @@
       --card-padding-x: clamp(7px, 0.47vw, 9px);
       --card-padding: var(--card-padding-y) var(--card-padding-x) var(--card-padding-x);
       --inner-padding: clamp(14px, 0.94vw, 18px);
-      /* iframe 내부에서는 Header/Footer 가 없음 (AppShell 이 소유)
-         → 두 값 모두 0 으로 두면 기존 calc() 들이 100vh 로 수렴 */
+      
       --header-height: 0px;
       --statusbar-height: 0px;
       --workspace-height: 100vh;
@@ -62,16 +55,13 @@
     }
   </style>
   <style>
-    /* 색·타이포·간격 토큰: docs/design-tokens.md, colors.md, typography.md, spacing.md · 소스: ../styles/tokens.css */
+    
 
-    /*
-     * 워크스페이스: 빈 카드 셸만 (tokens.css 변수만 사용)
-     * 카드 라운드: --radius-md (과한 둥글림 완화)
-     */
+    
 
     *, *::before, *::after { box-sizing: border-box; }
 
-    /* 재사용 chevron icon — 접힘: rotate(-90deg), 펼침: rotate(0deg) */
+    
     .icon-chevron {
       display: inline-flex;
       align-items: center;
@@ -108,7 +98,7 @@
       height: 24px;
     }
 
-    /* 점선 placeholder 아이콘 — 카드 헤더 · topbar · LNB */
+    
     .ui-icon-placeholder {
       box-sizing: border-box;
       display: inline-flex;
@@ -139,7 +129,7 @@
       color: var(--color-brand-primary);
     }
 
-    /* 대시보드 공통 스크롤바 — 전역 scrollbar.css 기준과 동일, 클래스 유틸 */
+    
     .scroll-area {
       scrollbar-width: thin;
       scrollbar-color: rgba(156, 163, 175, 0.30) transparent;
@@ -163,7 +153,7 @@
       background: rgba(156, 163, 175, 0.52);
     }
 
-    /* 워크스페이스 메인/inner 카드 — 1열 정보 패널 · 2열 STT/이력 · 3열 지식 공통 표면 */
+    
     .workspace-main-card {
       box-sizing: border-box;
       display: flex;
@@ -306,7 +296,7 @@
       display: block;
     }
 
-    /* —— Top Header (SB) —— */
+    
     .topbar {
       flex-shrink: 0;
       display: flex;
@@ -408,7 +398,7 @@
       background: var(--surface-hover);
     }
 
-    /* —— Main workspace: 1열 정보 + 2열(3행) + 3열 AI —— */
+    
     .workspace,
     .main-grid {
       flex: 1 1 auto;
@@ -423,7 +413,7 @@
       grid-template-columns: minmax(0, var(--col-1)) minmax(0, var(--col-2)) minmax(0, var(--col-3));
       gap: var(--grid-gap);
       padding: 12px;
-      /* 열 단위 외곽 glass: .workspace__col--* .ds-outer-panel-glass (2·3페이지 .col 과 동일) */
+      
       overflow: hidden;
     }
 
@@ -697,7 +687,7 @@
       outline-offset: 2px;
     }
 
-    /* —— 1열: 워크스페이스 좌측에 붙는 정보 패널(단일 카드) —— */
+    
     .info-side {
       --info-collapsed-w: 320px;
       --info-panel-bg: var(--bg-panel);
@@ -814,7 +804,7 @@
       pointer-events: auto;
     }
 
-    /* 1열: 2열 stack outer와 동일 --card-padding (내부 섹션 카드 padding은 별도) */
+    
     .live-outer--info.workspace-main-card {
       flex: 1 1 auto;
       min-height: 0;
@@ -884,7 +874,7 @@
       outline-offset: 2px;
     }
 
-    /* 접힘: 동일 UI를 유지하고 패널 폭만 축소 */
+    
     .info-side:not(.is-side-expanded) .live-outer--info .info-panel-stack {
       display: flex;
     }
@@ -906,7 +896,7 @@
       border: 1px solid rgba(203, 213, 225, 0.8);
     }
 
-    /* 1열 — 섹션 카드(미니 헤더 + 본문) */
+    
     .live-outer--info .info-section,
     .live-outer--info .info-doc-section {
       box-sizing: border-box;
@@ -1289,7 +1279,7 @@
       }
     }
 
-    /* 1열 상세 — cinfo.article 은 2·3페이지 .card 와 동일한 표면 토큰 사용 (공통 리셋은 non-cinfo 만) */
+    
     .live-outer--info.workspace-main-card {
       font-size: var(--type-body-fs);
       color: var(--color-text-strong);
@@ -1791,7 +1781,7 @@
       overflow: hidden;
     }
 
-    /* —— 2열 3행 스택: 디자인 시스템 연결 + 카드 표면 —— */
+    
     .main-workspace > .live-composite.live-composite--stack.live-workspace-stack {
       flex: 1 1 auto;
       height: 100%;
@@ -1866,7 +1856,7 @@
       font-size: var(--type-body-fs);
     }
 
-    /* 최근 상담 · 계약리스트 — row 높이 통일 (2줄 기준) */
+    
     .live-outer--info {
       --info-list-row-min-height: 56px;
       --info-list-row-pad: 10px 12px;
@@ -2003,7 +1993,7 @@
       padding: 16px;
     }
 
-    /* 03 계약리스트 — 섹션 헤더 accordion + 단순 row */
+    
     .live-outer--info #info-acc-contracts.info-doc-section--accordion.is-collapsed .info-section-card__body {
       display: grid;
     }
@@ -2270,7 +2260,7 @@
       background: transparent;
     }
 
-    /* 2열: STT(상) + 상품 및 업무정보(하) */
+    
     .live-composite--stack .live-composite__stt {
       flex: 0 1 auto;
       max-height: 58%;
@@ -2763,7 +2753,7 @@
       overflow: hidden;
     }
 
-    /* inner: 레이아웃만 — 면(색·radius·shadow)은 .workspace-inner-card */
+    
     .live-composite .live-inner {
       box-sizing: border-box;
       min-width: 0;
@@ -2772,7 +2762,7 @@
       overflow: hidden;
     }
 
-    /* STT 내부 컨텐츠 카드: 레이아웃만 */
+    
     .live-composite .stt-content-card {
       overflow: hidden;
       box-sizing: border-box;
@@ -2860,15 +2850,9 @@
       overflow: hidden;
     }
 
-    /* ============================================================
-       .card-header — 컬럼별 단일 정의 (직전 정리 후 책임 분리)
-       - info 컬럼: 아래 블록 (40px compact)
-       - stt 컬럼:  라인 5483 (auto-height, DS 토큰 padding)
-       - know/product: 라인 6223 (56px 고정, !important)
-       - ai 컬럼:   라인 6394 (display: none — 헤더 미사용)
-       ============================================================ */
+    
 
-    /* [info 컬럼] 카드 헤더 — 1열 고객정보 패널 */
+    
     .live-outer--info .card-header {
       box-sizing: border-box;
       margin: 0 0 4px;
@@ -2884,7 +2868,7 @@
       justify-content: flex-start;
     }
 
-    /* summary.card-header — info 컬럼 내 details/summary 패턴 */
+    
     .live-outer--info summary.card-header {
       list-style: none;
       justify-content: flex-start;
@@ -2914,7 +2898,7 @@
       border-radius: var(--r-sm);
       background: var(--bg-card-icon);
       border: none;
-      /* 인라인 SVG stroke="currentColor" — 하이라이트 키워드 텍스트 컬러 */
+      
       color: var(--color-brand-primary);
     }
 
@@ -2925,7 +2909,7 @@
       flex-shrink: 0;
     }
 
-    /* 헤더 아이콘 자리: 점선 프레임만 (내부 박스 없음) */
+    
     .live-composite .card-header-icon--placeholder,
     .live-outer--info .card-header-icon--placeholder {
       color: transparent;
@@ -3038,7 +3022,7 @@
       transform: rotate(180deg);
     }
 
-    /* 상품 및 업무정보 헤더 — 상담 어시스턴트와 동일 아코디언 토글 */
+    
     .live-composite .live-outer--product .card-header--product {
       cursor: pointer;
     }
@@ -3681,13 +3665,13 @@
       border: none;
     }
 
-    /* 고객(receive): neutral gray */
+    
     .live-composite .stt-card__log .stt-chat__msg--customer .stt-chat__bubble {
       background: var(--c-neutral-100);
       color: var(--color-text-strong);
     }
 
-    /* 상담사(send): neutral gray */
+    
     .live-composite .stt-card__log .stt-chat__msg--agent .stt-chat__bubble {
       background: var(--color-surface-soft);
       color: var(--color-text-strong);
@@ -3766,7 +3750,7 @@
       }
     }
 
-    /* —— Bottom Status Bar —— */
+    
     .statusbar {
       flex-shrink: 0;
       display: flex;
@@ -3820,7 +3804,7 @@
       opacity: 1;
     }
 
-    /* —— AI 질의 · 3열 고정 패널 —— */
+    
     .live-outer--ai .card-header--ai {
       min-height: 32px;
       padding: 6px 16px;
@@ -4141,7 +4125,7 @@
       font-weight: var(--fw-semibold);
     }
 
-    /* SHINDY 말풍선 출처 — 메타 링크 chip (본문보다 작고 차분) */
+    
     .ai-agent-bubble__source {
       display: block;
       margin-top: var(--space-xs);
@@ -4378,7 +4362,7 @@
       height: 18px;
     }
 
-    /* SB 기준 1열 고객정보 단일 패널 재구성 */
+    
     .info-side {
       --info-collapsed-w: 320px;
     }
@@ -4765,11 +4749,9 @@
       }
     }
 
-    /* ============================================================
-       1열 고객정보 패널 — 첨부 SB 이미지 기준 픽셀 카피 (최우선)
-       ============================================================ */
+    
 
-    /* 1열 외곽 컨테이너 리셋: 글래스는 .workspace__col--info — 내부 래퍼는 투명 */
+    
     .info-side,
     .info-side__content,
     .info-side__shell,
@@ -4781,12 +4763,12 @@
 
     .info-side__drawer { padding: 0; }
 
-    /* 1열 드로어: 컬럼·메인 글래스가 이미 깔려 있으므로 래퍼는 투명 */
+    
     .info-side.is-side-expanded {
       background: transparent;
     }
 
-    /* 1열 wrapper들은 cinfo-panel만 stretch 되도록 (center 정렬 금지) */
+    
     .info-side.is-side-expanded .info-side__content,
     .info-side.is-side-expanded .info-side__shell,
     .info-side.is-side-expanded .info-side__drawer {
@@ -4799,7 +4781,7 @@
       min-width: 0;
     }
 
-    /* cinfo: article = 내부 카드 shell · 외곽 글래스는 .workspace__col--info */
+    
     .cinfo-panel > .info-panel-stack {
       flex: 1 1 auto;
       min-height: 0;
@@ -4815,9 +4797,9 @@
       min-width: 0;
       display: flex;
       flex-direction: column;
-      /* 카드 간격: ::after 스페이서에는 gap이 붙지 않도록 margin으로만 처리 */
+      
       gap: 0;
-      /* 하단 여백은 ::after 스페이서로 고정(2열: 열 12px + 카드 하단 릴렉스에 대응) */
+      
       padding: 0;
       overflow-x: hidden;
       overflow-y: auto;
@@ -4826,7 +4808,7 @@
       scrollbar-color: rgba(156, 163, 175, 0.30) transparent;
       padding-right: 4px;
       margin-right: -4px;
-      /* 열 .ds-outer-panel-glass 가 카드 사이·스크롤 뒤로 비치도록 */
+      
       background: transparent;
     }
 
@@ -4834,7 +4816,7 @@
       margin-top: var(--space-md);
     }
 
-    /* 상담 진행 열과 동일한 글래스 하단 림: 스크롤 끝에서 마지막 카드 아래 확보 */
+    
     .page1-content .cinfo-panel #info-panel-main::after {
       content: "";
       flex: 0 0 auto;
@@ -4872,12 +4854,12 @@
       align-items: stretch;
       justify-content: flex-start;
       gap: 0;
-      /* 펼침: 바깥은 열 글래스만 — 내부는 섹션 카드가 면을 담당 */
+      
       background: transparent;
       border: 0;
       border-radius: 0;
       box-shadow: none;
-      /* 스크롤: #info-panel-main · 외곽 글래스는 열 래퍼 */
+      
       overflow: hidden;
       color: var(--color-text-strong);
       font-family: inherit;
@@ -4886,7 +4868,7 @@
       line-height: 1.45;
     }
 
-    /* cinfo-panel의 모든 직계 자식은 외곽 폭을 꽉 채움 (가운데 좁게 보임 방지) */
+    
     .cinfo-panel > .cinfo-panel__head,
     .cinfo-panel > .cinfo-section,
     .cinfo-panel .cinfo-section {
@@ -4902,7 +4884,7 @@
       box-sizing: border-box;
     }
 
-    /* 상단 헤더: 2·3열 .ds-panel-head / .ds-col-head 와 동일(열 글래스 위 투명) */
+    
     .cinfo-panel__head {
       display: flex;
       align-self: stretch;
@@ -4980,7 +4962,7 @@
       color: var(--color-text-strong);
     }
 
-    /* 안쪽 카드 박스 공통 — 외곽 테두리 없음(그림자만으로 깊이 없이 플랫) */
+    
     .cinfo-panel .cinfo-section {
       display: flex;
       box-sizing: border-box;
@@ -4996,19 +4978,17 @@
       box-shadow: none;
     }
 
-    /* 카드 세로 간격은 page1-content 블록에서 margin-top(space-md) + 하단 ::after로 통일 */
+    
 
     .cinfo-panel {
       --cinfo-card-pad: var(--layout-card-padding);
-      /* 고객 KV·상담 이력·계약 행: 동일한 수직 리듬 (목록 간격 단일 토큰) */
+      
       --cinfo-row-gap: var(--space-sm);
       --cinfo-row-min-h: 36px;
       --cinfo-row-pad-y: 0;
     }
 
-    /* 헤더가 있는 카드 (최근 상담 이력 / 계약 리스트 / 상담 안내 가이드)
-       - 카드 자체 padding/gap을 0으로 두고, header(padding:16)와
-         content(padding:16)이 각자 자기 여백을 책임진다. */
+    
     .cinfo-panel .cinfo-section--history,
     .cinfo-panel .cinfo-section--contracts,
     .cinfo-panel .cinfo-section--guide {
@@ -5079,14 +5059,14 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* 헤더 카드의 본문 영역 padding: 16 (헤더 아래 자체 padding으로 간격 처리) */
+    
     .cinfo-panel .cinfo-section--history .cinfo-history__list,
     .cinfo-panel .cinfo-section--contracts .cinfo-contracts,
     .cinfo-panel .cinfo-section--guide .cinfo-guide {
       padding: var(--cinfo-card-pad);
     }
 
-    /* 1) 고객정보 본문 */
+    
     .cinfo-panel .cinfo-customer__name {
       margin: 0;
       font-size: var(--type-heading-fs);
@@ -5156,7 +5136,7 @@
       word-break: keep-all;
     }
 
-    /* 발신번호 bar */
+    
     .cinfo-panel .cinfo-caller {
       align-self: stretch;
       display: flex;
@@ -5215,7 +5195,7 @@
       background: var(--color-status-danger-soft);
     }
 
-    /* 2) 최근 상담 이력 */
+    
     .cinfo-panel .cinfo-history__pill {
       display: inline-flex;
       box-sizing: border-box;
@@ -5281,7 +5261,7 @@
       letter-spacing: 0.063px;
     }
 
-    /* 3) 계약 리스트 */
+    
     .cinfo-panel .cinfo-contracts {
       align-self: stretch;
       list-style: none;
@@ -5368,13 +5348,13 @@
       font-weight: var(--fw-bold);
     }
 
-    /* 접힘 처리: JS가 .is-collapsed 토글 */
+    
     .cinfo-panel #info-acc-contracts.is-collapsed .cinfo-contracts,
     .cinfo-panel #info-acc-guide.is-collapsed .cinfo-guide {
       display: none;
     }
 
-    /* 본문이 숨겨진 상태에서 헤더 하단 border만 남는 현상 제거 */
+    
     .cinfo-panel #info-acc-contracts.is-collapsed .cinfo-section__head,
     .cinfo-panel #info-acc-guide.is-collapsed .cinfo-section__head {
       border-bottom: 0;
@@ -5386,14 +5366,14 @@
       transition: transform var(--motion-normal, 0.2s ease);
     }
 
-    /* 펼침: 위쪽(접기), 접힘: 아래쪽(펼치기) */
+    
     .cinfo-panel #info-acc-contracts.is-collapsed .cinfo-section__chev svg,
     .cinfo-panel #info-acc-guide.is-collapsed .cinfo-section__chev svg {
       transform: rotate(180deg);
       transform-origin: 50% 50%;
     }
 
-    /* 4) 상담 안내 가이드 */
+    
     .cinfo-panel .cinfo-guide {
       align-self: stretch;
       display: flex;
@@ -5515,7 +5495,7 @@
       white-space: nowrap;
     }
 
-    /* 상태 아이콘 컨테이너 — SVG 만 16x16으로 렌더, 배경원/텍스트 마크 제거 */
+    
     .cinfo-panel .cinfo-guide__item-icon {
       display: inline-flex;
       align-items: center;
@@ -5540,7 +5520,7 @@
       flex-shrink: 0;
     }
 
-    /* 상태별 row 배경/테두리 + 상태 텍스트·아이콘 색상 (텍스트=아이콘 동일 톤) */
+    
     .cinfo-panel .cinfo-guide__item--done {
       background: var(--c-neutral-100);
       border-color: var(--color-border-default);
@@ -5572,7 +5552,7 @@
     .cinfo-panel .cinfo-guide__item--wait .cinfo-guide__item-status,
     .cinfo-panel .cinfo-guide__item--wait .cinfo-guide__item-icon { color: var(--color-text-soft); }
 
-    /* 접힘 상태: 1페이지 고객정보 패널은 슬림 외부카드만 유지 */
+    
     .info-side:not(.is-side-expanded) .live-outer--info.cinfo-panel {
       height: 100%;
       padding: var(--panel-collapsed-icon-top, 16px) 12px 12px 12px;
@@ -5582,7 +5562,7 @@
       background: var(--color-surface-card);
       border: 1px solid var(--color-border-default);
       box-shadow: var(--shadow-card);
-      /* 외곽 glass: .workspace__col--info */
+      
       overflow: hidden;
     }
 
@@ -5622,28 +5602,23 @@
       display: none !important;
     }
 
-    /* ============================================================
-       2열 / 3열 디자인 시스템 통합 (1열 카드 톤과 동일하게 정렬)
-       - 반투명 외곽 + 흰색 카드 + EBEBEB 1px 라인 헤더
-       - Pretendard typography
-       - 강한 그림자/두꺼운 border 제거
-       ============================================================ */
+    
 
-    /* 레거시 .console 경로만 앱 면 색 — 글래스 main 은 덮어쓰지 않음 */
+    
     .console.app-shell,
     .console .app-main,
     .console main.workspace {
       background: var(--color-surface-app);
     }
 
-    /* AppShell iframe: 그리드 배경은 투명 — 열만 .ds-outer-panel-glass */
+    
     .page1-content > main.workspace {
       background: transparent;
     }
 
-    /* 외곽 glass: layer-glass.css — 여기서 surface-override 금지 */
+    
 
-    /* 1·2·3열 컬럼 wrapper — 2·3페이지 .col 과 동일 (padding·radius·ds-outer-panel-glass) */
+    
     .workspace__col--info,
     .workspace__col--live-stack,
     .workspace__col--ai {
@@ -5654,13 +5629,13 @@
       gap: 0;
       padding: 0 12px 12px 12px;
       border-radius: var(--radius-outer);
-      /* 외곽 glass: .ds-outer-panel-glass */
+      
       height: 100%;
       min-height: 0;
       overflow: hidden;
     }
 
-    /* 2열 안쪽 live-composite wrapper는 layout만 통과 (외곽 카드 역할 X) */
+    
     .workspace__col--live-stack .live-composite.live-workspace-stack,
     .workspace__col--live-stack .live-composite--stack.live-workspace-stack,
     .workspace__col--live-stack .live-composite--stack {
@@ -5678,7 +5653,7 @@
       box-shadow: none;
     }
 
-    /* live-stack-row 행 wrapper도 흐름만 (background/padding 무력화) */
+    
     .workspace__col--live-stack .live-stack-row,
     .workspace__col--live-stack .live-stack-row--know,
     .workspace__col--live-stack .live-stack-row--stt,
@@ -5697,7 +5672,7 @@
       box-shadow: none;
     }
 
-    /* 행 wrapper 안 카드는 wrapper를 100% 채움 */
+    
     .workspace__col--live-stack .live-stack-row > .live-outer,
     .workspace__col--live-stack .live-stack-row > section.live-outer,
     .workspace__col--live-stack .live-composite__stt > .live-outer,
@@ -5708,7 +5683,7 @@
       margin: 0;
     }
 
-    /* 3열 단일 카드는 외곽 카드(=컬럼 wrapper) 안에 그대로 stretch */
+    
     .workspace__col--ai .live-outer--ai {
       margin: 0;
       width: 100%;
@@ -5718,7 +5693,7 @@
       min-height: 0;
     }
 
-    /* 카드 컨테이너 공통 (live-outer--*): padding 0, gap 0, radius 16, white card */
+    
     .live-composite .live-outer--know.workspace-main-card,
     .live-composite .live-outer--stt.workspace-main-card,
     .live-composite .live-outer--product.workspace-main-card,
@@ -5737,9 +5712,7 @@
       overflow: hidden;
     }
 
-    /* [stt 컬럼] 카드 헤더 — DS 토큰 padding · auto height
-       (know/product는 라인 6223 FINAL OVERRIDE가 우선됨,
-        ai 컬럼은 라인 6394에서 display: none) */
+    
     .live-composite .live-outer--stt .card-header {
       box-sizing: border-box;
       display: flex;
@@ -5757,7 +5730,7 @@
       box-shadow: none;
     }
 
-    /* 카드 헤더 제목: 18/700/20/0.07/#000 Pretendard */
+    
     .live-composite .live-outer--know .card-header-title,
     .live-composite .live-outer--know .live-sect__title,
     .live-composite .live-outer--product .card-header-title,
@@ -5771,7 +5744,7 @@
       letter-spacing: 0.07px;
     }
 
-    /* 본문 영역 (live-inner) 공통: padding 16, transparent, 카드 시스템 통과 */
+    
     .live-composite .live-outer--know .live-inner.workspace-inner-card,
     .live-composite .live-outer--stt .live-inner.workspace-inner-card,
     .live-composite .live-outer--product .live-inner.workspace-inner-card,
@@ -5787,12 +5760,12 @@
       overflow: hidden;
     }
 
-    /* AI 카드 본문은 chat 영역 + composer 영역 분할 구조 → padding 0 / 내부 element가 padding 책임 */
+    
     .workspace__col--ai .live-outer--ai .live-inner.ai-agent-inner {
       padding: 0;
     }
 
-    /* 본문 기본 텍스트(typography 토큰) */
+    
     .live-composite .live-outer--know,
     .live-composite .live-outer--stt,
     .live-composite .live-outer--product,
@@ -5806,7 +5779,7 @@
       letter-spacing: 0.063px;
     }
 
-    /* ----- STT 카드: 헤더가 없으니 expand-btn을 우측 상단 코너에 배치 ----- */
+    
     .live-composite .live-outer--stt {
       position: relative;
     }
@@ -5835,7 +5808,7 @@
       color: var(--color-text-strong);
     }
 
-    /* STT 말풍선 미니멀화 */
+    
     .live-composite .live-outer--stt .stt-chat {
       gap: var(--space-md);
     }
@@ -5898,7 +5871,7 @@
       background: var(--color-surface-soft);
     }
 
-    /* ----- 상담 어시스턴트 카드: 단계 버튼/pill/answer를 미니멀하게 ----- */
+    
     .live-composite .live-outer--know .know-assistant-content,
     .live-composite .live-outer--know .know-assistant-inner {
       background: transparent;
@@ -5981,7 +5954,7 @@
       color: var(--color-brand-primary);
     }
 
-    /* ----- 상품 및 업무정보 카드: grid 간격과 항목 미니멀화 ----- */
+    
     .live-composite .live-outer--product .product-info-card,
     .live-composite .live-outer--product .product-info__body {
       background: transparent;
@@ -6023,7 +5996,7 @@
       letter-spacing: 0.055px;
     }
 
-    /* ----- AI Agent 카드: chat 영역 톤 정리 ----- */
+    
     .workspace__col--ai .live-outer--ai .ai-agent-inner {
       background: transparent;
       border: 0;
@@ -6086,7 +6059,7 @@
       color: var(--color-brand-primary);
     }
 
-    /* AI input composer 영역도 라이트 톤으로 */
+    
     .workspace__col--ai .live-outer--ai .ai-agent-composer,
     .workspace__col--ai .live-outer--ai .ai-agent-input-wrap {
       background: var(--color-surface-card);
@@ -6106,7 +6079,7 @@
       letter-spacing: 0.063px;
     }
 
-    /* ----- 보조 텍스트 공통 ----- */
+    
     .live-composite .live-outer--know .know-acc-card__meta,
     .live-composite .live-outer--stt .stt-chat__meta,
     .live-composite .live-outer--product .product-acc-card__meta,
@@ -6119,7 +6092,7 @@
       letter-spacing: 0.047px;
     }
 
-    /* statusbar/외곽 그림자 등 강한 톤 제거 (있을 경우만 무력화) */
+    
     .live-composite .live-outer--know.workspace-main-card,
     .live-composite .live-outer--stt.workspace-main-card,
     .live-composite .live-outer--product.workspace-main-card,
@@ -6127,14 +6100,9 @@
       filter: none;
     }
 
-    /* ============================================================
-       상담 어시스턴트 / 상품 및 업무정보를 1열 "계약 리스트" 톤으로
-       - 헤더 + 콘텐츠 영역 명확 분리
-       - 콘텐츠 영역: padding 16, flex column, gap 12
-       - 내부 box/border/shadow 모두 제거 (1px line만 사용)
-       ============================================================ */
+    
 
-    /* 콘텐츠 영역 (live-inner) */
+    
     .live-composite .live-outer--know .live-inner.workspace-inner-card,
     .live-composite .live-outer--know .live-inner.know-assistant-inner,
     .live-composite .live-outer--product .live-inner.workspace-inner-card,
@@ -6152,7 +6120,7 @@
       overflow: auto;
     }
 
-    /* 콘텐츠 내부 wrapper도 동일 흐름 통과 */
+    
     .live-composite .live-outer--know .know-assistant-content,
     .live-composite .live-outer--product .product-info__body,
     .live-composite .live-outer--product .product-info__list {
@@ -6166,7 +6134,7 @@
       box-shadow: none;
     }
 
-    /* ----- 상품 및 업무정보: 내부 박스 제거, 1열 row 톤으로 ----- */
+    
     .live-composite .live-outer--product .product-acc-card {
       background: transparent;
       border: 0;
@@ -6176,7 +6144,7 @@
       gap: var(--space-md);
     }
 
-    /* 상품 트리거(헤더) - 1열 contract row 느낌으로 미니멀화 */
+    
     .live-composite .live-outer--product .product-acc-card__trigger {
       box-sizing: border-box;
       display: flex;
@@ -6230,7 +6198,7 @@
       font-weight: var(--fw-medium);
     }
 
-    /* 펼침 패널 내부 콘텐츠 */
+    
     .live-composite .live-outer--product .product-acc-card__panel {
       padding: 0;
       background: transparent;
@@ -6285,7 +6253,7 @@
       box-shadow: none;
     }
 
-    /* cap pill 미니멀 통일 */
+    
     .live-composite .live-outer--product .product-acc-card__capabilities {
       display: flex;
       flex-wrap: wrap;
@@ -6325,7 +6293,7 @@
       color: var(--color-status-danger);
     }
 
-    /* 업무 안내 영역도 라이트 톤 */
+    
     .live-composite .live-outer--product .product-acc-card__block--notice {
       background: var(--color-surface-soft);
       border-radius: var(--r-lg);
@@ -6342,7 +6310,7 @@
       letter-spacing: 0.055px;
     }
 
-    /* 상품 전체 collapse toggle 헤더 톤 정리 (헤더 외 행 위쪽) */
+    
     .live-composite .live-outer--product .product-info__toggle {
       background: transparent;
       border: 0;
@@ -6354,7 +6322,7 @@
       color: var(--color-text-muted);
     }
 
-    /* ----- 상담 어시스턴트: 내부 know-card 박스 제거 + 라이트 흐름 ----- */
+    
     .live-composite .live-outer--know .know-assistant-content > *,
     .live-composite .live-outer--know .know-card,
     .live-composite .live-outer--know .know-acc-card,
@@ -6368,7 +6336,7 @@
       margin: 0;
     }
 
-    /* 단, 질문 추천 chip 형태(knowledge-chip)는 chip 시스템 유지 */
+    
     .live-composite .live-outer--know .knowledge-chip,
     .live-composite .live-outer--know .know-card__btn.knowledge-chip {
       display: inline-flex;
@@ -6396,7 +6364,7 @@
       background: var(--color-surface-card);
     }
 
-    /* 단계 표시 badge */
+    
     .live-composite .live-outer--know .know-queue__badge {
       display: inline-flex;
       align-items: center;
@@ -6450,13 +6418,9 @@
       background: var(--color-surface-card);
     }
 
-    /* ============================================================
-       FINAL OVERRIDE: 2열 카드(상담 어시스턴트 / 상품 및 업무정보)를
-       1열 카드 컴포넌트(.cinfo-section--history / --contracts)와
-       100% 동일한 시각 컴포넌트로 강제 매핑
-       ============================================================ */
+    
 
-    /* 카드 외곽: 흰색 + radius 16 + overflow hidden, padding/gap 0 */
+    
     .live-composite .live-outer--know.workspace-main-card,
     .live-composite .live-outer--product.workspace-main-card {
       display: flex !important;
@@ -6472,7 +6436,7 @@
       overflow: hidden !important;
     }
 
-    /* 카드 헤더 (1열 cinfo-section__head 톤 그대로 / height 56 고정) */
+    
     .live-composite .live-outer--know > .card-header,
     .live-composite .live-outer--know > header.card-header,
     .live-composite .live-outer--know .card-header.live-sect__head,
@@ -6497,7 +6461,7 @@
       box-shadow: none !important;
     }
 
-    /* 카드 헤더 타이틀: 1열 섹션 타이틀과 동일한 14/600 톤 */
+    
     .live-composite .live-outer--know .card-header-title,
     .live-composite .live-outer--know .live-sect__title,
     .live-composite .live-outer--know h3.live-sect__title,
@@ -6515,7 +6479,7 @@
       letter-spacing: -0.01em !important;
     }
 
-    /* 우측 chevron: 1열 cinfo-section__chev와 동일 (20x20 / #111 / 18px) */
+    
     .live-composite .live-outer--product .product-info__toggle {
       box-sizing: border-box !important;
       flex-shrink: 0 !important;
@@ -6538,7 +6502,7 @@
       cursor: pointer !important;
     }
 
-    /* product chevron span을 ^ 텍스트 형태로 시각화 (CSS 그려진 모양 무력화) */
+    
     .live-composite .live-outer--product .product-info__chevron {
       display: inline-flex !important;
       align-items: center !important;
@@ -6564,12 +6528,12 @@
       line-height: 1;
     }
 
-    /* 접힘 상태에서는 ⌄ 으로 토글 */
+    
     .live-composite .live-outer--product.is-collapsed .product-info__chevron::before {
-      content: "⌄" !important;
+      content: "?" !important;
     }
 
-    /* 카드 본문 영역: padding 16 / flex column / gap 12 / 흰색 */
+    
     .live-composite .live-outer--know > .live-inner,
     .live-composite .live-outer--know .live-inner.know-assistant-inner,
     .live-composite .live-outer--know .live-inner.workspace-inner-card,
@@ -6592,7 +6556,7 @@
       overflow: auto !important;
     }
 
-    /* 본문 안의 wrapper들도 background/border 제거 (중첩 박스 방지) */
+    
     .live-composite .live-outer--know .know-assistant-content,
     .live-composite .live-outer--product .product-info__body,
     .live-composite .live-outer--product .product-info__list,
@@ -6610,14 +6574,14 @@
       box-shadow: none !important;
     }
 
-    /* 상담 어시스턴트: 질문 추천 풋은 그대로 두고, 스크롤 본문만 FINAL OVERRIDE에서 좌우 인셋 */
+    
     .live-composite .live-outer--know .live-inner.know-assistant-inner {
       padding-inline: 0 !important;
-      /* 풀폭 풋 아래 본문 padding-bottom 제거 — 질문 추천 행 직후 불필요한 틈 방지 */
+      
       padding-bottom: 0 !important;
     }
 
-    /* 내부 카드 박스/border 완전 제거 (1열 row 톤) */
+    
     .live-composite .live-outer--know .know-card,
     .live-composite .live-outer--know .know-acc-card,
     .live-composite .live-outer--know [class*="know-card"],
@@ -6631,11 +6595,9 @@
       margin: 0 !important;
     }
 
-    /* ============================================================
-       FINAL OVERRIDE: 3열 SHINDY 카드를 1열 카드 톤으로 정리
-       ============================================================ */
+    
 
-    /* 카드 외곽 */
+    
     .workspace__col--ai .live-outer--ai.workspace-main-card {
       display: flex !important;
       flex-direction: column !important;
@@ -6650,13 +6612,13 @@
       overflow: hidden !important;
     }
 
-    /* 카드 헤더 — 분리 버튼만 있는 compact floating control */
+    
     .workspace__col--ai .live-outer--ai > .card-header,
     .workspace__col--ai .live-outer--ai .card-header.card-header--ai {
       display: none !important;
     }
 
-    /* 헤더 — 분리 버튼 focus */
+    
     .workspace__col--ai .live-outer--ai .ai-agent-header-btn:focus-visible {
       outline: 2px solid var(--c-neutral-400) !important;
       outline-offset: 2px !important;
@@ -6689,7 +6651,7 @@
       color: var(--color-text-muted) !important;
     }
 
-    /* 본문 구조: header / chat-scroll / suggest / composer */
+    
     .workspace__col--ai .live-outer--ai .live-inner.ai-agent-inner {
       box-sizing: border-box !important;
       flex: 1 1 auto !important;
@@ -6719,7 +6681,7 @@
       box-shadow: none !important;
     }
 
-    /* 1) 대화 로그 영역 */
+    
     .workspace__col--ai .live-outer--ai .ai-agent-panel__scroll {
       box-sizing: border-box !important;
       flex: 1 1 auto !important;
@@ -6743,7 +6705,7 @@
       padding: 0 !important;
     }
 
-    /* 메시지 turn — bubble+time을 chat-row__line에서 한 그룹으로 정렬 */
+    
     .workspace__col--ai .live-outer--ai .ai-agent-turn.chat-row {
       display: flex !important;
       flex-direction: column !important;
@@ -6859,7 +6821,7 @@
       background: #f1f5f9 !important;
     }
 
-    /* 답변 메타 */
+    
     .workspace__col--ai .live-outer--ai .ai-agent-meta {
       display: flex !important;
       flex-direction: column !important;
@@ -6888,7 +6850,7 @@
       margin-right: 6px !important;
     }
 
-    /* 2) 추천 질문 영역 — quick-action-row 공통 시스템에 편입 */
+    
     .workspace__col--ai .live-outer--ai .ai-agent-panel__bottom {
       box-sizing: border-box !important;
       flex: 0 0 auto !important;
@@ -6968,7 +6930,7 @@
       color: var(--color-brand-primary) !important;
     }
 
-    /* 3) 입력 영역 — 추천 질문과 사이 구분선 제거, 상단 여백만 10px 축소 */
+    
     .workspace__col--ai .live-outer--ai .ai-agent-composer {
       box-sizing: border-box !important;
       display: flex !important;
@@ -7102,11 +7064,9 @@
       color: var(--color-text-inverse) !important;
     }
 
-    /* ============================================================
-       FINAL OVERRIDE: 상담 어시스턴트 본문 영역별 구분 (ka-doc-*)
-       ============================================================ */
+    
 
-    /* 본문 컨테이너 강제 — 단계/Q·A는 스크롤 영역에만 좌우 패딩 (질문 추천 풋은 별도 블록) */
+    
     .live-composite .live-outer--know .know-assistant-content {
       box-sizing: border-box !important;
       display: flex !important;
@@ -7130,7 +7090,7 @@
       font-family: Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
     }
 
-    /* 1) 단계 상태 영역 */
+    
     .live-composite .live-outer--know .ka-doc__steps {
       display: flex;
       flex-wrap: wrap;
@@ -7172,7 +7132,7 @@
       font-weight: var(--fw-semibold);
     }
 
-    /* 2) 질문 영역 */
+    
     .live-composite .live-outer--know .ka-doc__question {
       box-sizing: border-box;
       margin: 0;
@@ -7188,7 +7148,7 @@
       letter-spacing: 0.063px;
     }
 
-    /* 3) 답변 영역 */
+    
     .live-composite .live-outer--know .ka-doc__answer {
       box-sizing: border-box;
       display: flex;
@@ -7236,7 +7196,7 @@
       letter-spacing: 0.055px;
     }
 
-    /* 4) 추가 안내 */
+    
     .live-composite .live-outer--know .ka-doc__notice {
       box-sizing: border-box;
       margin: 0;
@@ -7252,7 +7212,7 @@
       letter-spacing: 0.055px;
     }
 
-    /* 5) 질문 추천 영역 — quick-action-row 공통 시스템에 편입 */
+    
     .live-composite .live-outer--know .ka-doc__recommend {
       box-sizing: border-box;
       display: flex;
@@ -7315,11 +7275,9 @@
       color: var(--color-text-strong) !important;
     }
 
-    /* ============================================================
-       FINAL OVERRIDE: 상품 및 업무정보 row를 1열 "계약 리스트" 선택된 row 톤으로
-       ============================================================ */
+    
 
-    /* 카드 본문 자체는 padding 16/gap 12 (1열 contracts와 동일) */
+    
     .live-composite .live-outer--product .live-inner.product-info-card,
     .live-composite .live-outer--product .live-inner.workspace-inner-card {
       box-sizing: border-box !important;
@@ -7346,7 +7304,7 @@
       box-shadow: none !important;
     }
 
-    /* 상품 row 자체: 1열 contract row 선택 톤 (#F3F7FF + #0057FF) */
+    
     .live-composite .live-outer--product .product-acc-card {
       box-sizing: border-box !important;
       display: flex !important;
@@ -7362,7 +7320,7 @@
       box-shadow: none !important;
     }
 
-    /* 상단 row (트리거): 상품명 좌측 + 계약번호 우측, height auto, 펼침 상태 고정 */
+    
     .live-composite .live-outer--product .product-acc-card__trigger {
       box-sizing: border-box !important;
       display: flex !important;
@@ -7397,7 +7355,7 @@
       min-width: 0 !important;
     }
 
-    /* "|" sep 숨김, icon 숨김 */
+    
     .live-composite .live-outer--product .product-acc-card__sep,
     .live-composite .live-outer--product .product-acc-card__icon {
       display: none !important;
@@ -7433,7 +7391,7 @@
       font-variant-numeric: tabular-nums !important;
     }
 
-    /* 펼침 패널 항상 표시 */
+    
     .live-composite .live-outer--product .product-acc-card__panel {
       display: block !important;
       margin: 0 !important;
@@ -7458,7 +7416,7 @@
       box-shadow: none !important;
     }
 
-    /* 내부 block들: 박스/border/배경 모두 제거 */
+    
     .live-composite .live-outer--product .product-acc-card__block {
       box-sizing: border-box !important;
       margin: 0 !important;
@@ -7472,7 +7430,7 @@
       display: none !important;
     }
 
-    /* 정보 grid (4열) */
+    
     .live-composite .live-outer--product .product-acc-card__metrics {
       display: grid !important;
       grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
@@ -7513,7 +7471,7 @@
       font-variant-numeric: tabular-nums !important;
     }
 
-    /* 업무 가능 chip 4개 */
+    
     .live-composite .live-outer--product .product-acc-card__capabilities {
       display: flex !important;
       flex-wrap: wrap !important;
@@ -7552,16 +7510,14 @@
       color: var(--color-status-danger) !important;
     }
 
-    /* 업무 안내(notice) 영역은 이번 스펙에 없으므로 숨김 */
+    
     .live-composite .live-outer--product .product-acc-card__block--notice {
       display: none !important;
     }
 
-    /* ============================================================
-       FINAL OVERRIDE: 상담 어시스턴트 체크박스 UI (Keep / 질문 / 답변)
-       ============================================================ */
+    
 
-    /* 헤더 우측 Keep */
+    
     .live-composite .live-outer--know .ka-keep {
       display: inline-flex;
       align-items: center;
@@ -7594,7 +7550,7 @@
       font: inherit;
     }
 
-    /* 본문 체크박스 공통 (질문/답변) */
+    
     .live-composite .live-outer--know .ka-doc__check {
       box-sizing: border-box;
       flex-shrink: 0;
@@ -7606,7 +7562,7 @@
       cursor: pointer;
     }
 
-    /* 질문 항목: 북마크 버튼 + 텍스트 한 줄 flex */
+    
     .live-composite .live-outer--know .ka-doc__question {
       box-sizing: border-box !important;
       display: flex !important;
@@ -7626,7 +7582,7 @@
       cursor: default !important;
     }
 
-    /* 질문 체크박스를 첫 텍스트 라인 baseline과 맞추기 위해 살짝 띄움 */
+    
     .live-composite .live-outer--know .ka-doc__question .ka-doc__check {
       margin-top: 4px;
     }
@@ -7638,7 +7594,7 @@
       font: inherit;
     }
 
-    /* 답변 제목 (label 형태): 체크박스 + 제목 텍스트 한 줄 flex */
+    
     .live-composite .live-outer--know label.ka-doc__answer-title {
       display: flex !important;
       align-items: center !important;
@@ -7661,7 +7617,7 @@
       font: inherit;
     }
 
-    /* 답변 소제목/본문 들여쓰기: 체크박스 width(16) + gap(8) = 24px */
+    
     .live-composite .live-outer--know .ka-doc__answer-subtitle {
       padding-left: 24px;
     }
@@ -7670,16 +7626,9 @@
       margin-left: 24px;
     }
 
-    /* ============================================================
-       FINAL OVERRIDE: 답변 영역 UI 개선
-       - Q. 회색 작은 텍스트 / A. 레이블 시각적 제거
-       - 답변 블록 #F8FAFB / radius 12 / padding 20
-       - 단계 흐름 13/1.7 / → primary
-       - 안내 문구 ✓ + #555
-       - 추천 칩 pill (border 1px #E0E0E0 / radius 999 / padding 4 12)
-       ============================================================ */
+    
 
-    /* 1) Q. 레이블 처리 */
+    
     .live-composite .live-outer--know .ka-doc__question .ka-doc__question-text {
       display: inline;
     }
@@ -7705,7 +7654,7 @@
       letter-spacing: 0.063px;
     }
 
-    /* 2) 답변 블록 - 연한 배경 컨테이너 */
+    
     .live-composite .live-outer--know section.ka-doc__answer {
       box-sizing: border-box !important;
       display: flex !important;
@@ -7719,7 +7668,7 @@
       box-shadow: none !important;
     }
 
-    /* A. 레이블 시각적 제거 (마크업은 보존 / 화면에는 안 보이게) */
+    
     .live-composite .live-outer--know .ka-doc__a-label {
       position: absolute;
       width: 1px;
@@ -7743,7 +7692,7 @@
       font: inherit;
     }
 
-    /* 3) 번호 항목 (소제목) 강조 + 아래 4px 간격 */
+    
     .live-composite .live-outer--know .ka-doc__answer-subtitle {
       margin: 0 0 4px !important;
       padding-left: 24px !important;
@@ -7755,7 +7704,7 @@
       letter-spacing: 0.063px;
     }
 
-    /* 4) 단계 흐름 */
+    
     .live-composite .live-outer--know .ka-doc__answer-body {
       margin: 0 0 0 24px !important;
       padding: 0 !important;
@@ -7794,7 +7743,7 @@
       letter-spacing: 0.05px;
     }
 
-    /* 5) 안내 문구 - 체크 아이콘 + #555 */
+    
     .live-composite .live-outer--know .ka-doc__notice {
       display: flex;
       align-items: flex-start;
@@ -7835,7 +7784,7 @@
       font: inherit;
     }
 
-    /* 6) 질문 추천 칩 (round pill, border 1px #E0E0E0) */
+    
     .live-composite .live-outer--know .ka-doc__recommend-label {
       margin: 0 0 8px !important;
       color: var(--color-text-muted);
@@ -7872,12 +7821,7 @@
       color: var(--color-brand-primary) !important;
     }
 
-    /* ============================================================
-       FINAL OVERRIDE v2: 본문 누락사항 재수정
-       - Q/A 체크박스 16x16, gap 8, align center
-       - 1) 소제목 / 설명 문단 들여쓰기 24px, 폰트 명세 적용
-       - 추천 pill: 32x / radius 8 / border #CFE0FF / bg #F8FBFF
-       ============================================================ */
+    
 
     .live-composite .live-outer--know .ka-doc__check {
       box-sizing: border-box !important;
@@ -8021,13 +7965,7 @@
       color: var(--color-brand-primary) !important;
     }
 
-    /* ============================================================
-       Bookmark Button (상담진행 카드의 Keep / 질문 row 토글)
-       - 기존 체크박스를 대체. 24x24, 투명 배경, currentColor 아이콘
-       - 기본 = 옅음(0.35), hover = 진해짐, 활성(aria-pressed="true") = primary
-       - 디자인 시스템 토큰(--color-brand-primary, --radius-control, --shadow-focus,
-         --motion-fast) 사용
-       ============================================================ */
+    
     .ka-bookmark-btn {
       box-sizing: border-box;
       display: inline-flex;
@@ -8075,18 +8013,12 @@
       height: 24px;
       color: inherit;
     }
-    /* 질문 row 안에 위치할 때: 첫 줄 텍스트 baseline에 시각적으로 정렬 */
+    
     .live-composite .live-outer--know .ka-doc__question .ka-bookmark-btn--question {
       margin-top: 0 !important;
     }
 
-    /* ============================================================
-       STT 카드 하단 "관련 화면" 영역
-       - 영역 배경 없음, 위쪽 구분선만 유지
-       - .stt-content-card padding(16px)을 좌우/하단 마이너스 마진으로 상쇄
-         → border-top 라인이 카드 가장자리에서 가장자리까지 이어짐
-       - 버튼은 상담 어시스턴트 "질문 추천" pill과 동일 톤
-       ============================================================ */
+    
     .live-composite .live-outer--stt .stt-related {
       box-sizing: border-box !important;
       flex: 0 0 auto !important;
@@ -8171,12 +8103,7 @@
       color: var(--color-text-strong) !important;
     }
 
-    /* ============================================================
-       STT 고객 말풍선 선택 (button 형태, 디자인 시스템 톤으로 은은하게)
-       - 상담사 말풍선은 변경 없음 (<p> 그대로)
-       - 고객 말풍선만 <button class="stt-chat__bubble--selectable">
-       - 기본: 기존 회색 배경 유지, hover/focus/pressed 만 추가
-       ============================================================ */
+    
     .live-composite .live-outer--stt .stt-chat__bubble--selectable {
       box-sizing: border-box;
       display: block;
@@ -8192,7 +8119,7 @@
         background var(--motion-fast, 120ms ease-out),
         border-color var(--motion-fast, 120ms ease-out),
         box-shadow var(--motion-fast, 120ms ease-out);
-      /* 1px 투명 보더 → pressed 시 자연스러운 토글 (높이 변화 방지) */
+      
       border: 1px solid transparent;
     }
     .live-composite .live-outer--stt .stt-chat__bubble--selectable:hover {
@@ -8216,12 +8143,7 @@
       background: var(--c-neutral-100);
     }
 
-    /* ============================================================
-       각 열 상단 접기 토글 (1열 cinfo-panel__head, 2열/3열 ds-col-head)
-       - 36x36 라운드 정사각형, transparent + 1px #DADDE3
-       - 안쪽에 동일한 Chevron Left SVG 2개를 살짝 겹쳐 << 모양
-       - aria-expanded="false" 일 때는 가로 반전으로 >> 표현
-       ============================================================ */
+    
     .cinfo-panel__head .col-collapse-btn,
     .ds-col-head .col-collapse-btn,
     button.col-collapse-btn {
@@ -8264,7 +8186,7 @@
       outline-offset: 2px !important;
     }
 
-    /* 버튼 박스는 32×32 circle로 통일하고, 내부 chevron은 중앙 정렬 */
+    
     .col-collapse-btn .col-collapse-btn__chev {
       display: block !important;
       width: 16px !important;
@@ -8278,22 +8200,17 @@
       stroke-width: 2.5 !important;
     }
 
-    /* 16px 기준 겹침을 비례 축소(-9px) → << 형태 유지, 버튼 중앙 정렬 */
+    
     .col-collapse-btn .col-collapse-btn__chev--2 {
       margin-left: -9px !important;
     }
 
-    /* 펼침 → 접힘 전환 시 부모 aria-expanded="false" 일 때 좌우 반전 (<< → >>) */
+    
     .col-collapse-btn[aria-expanded="false"] .col-collapse-btn__chev {
       transform: scaleX(-1) !important;
     }
 
-    /* ============================================================
-       상품 및 업무정보: 1열 "계약 리스트" 선택 row와 동일한 행 스타일
-       - 카드 자체는 투명, 행 외형은 trigger 버튼에 부여
-       - 좌측 상품명 16/700/#0057FF, 우측 계약번호 12/400/#0057FF + chevron
-       - 기존 metrics/capabilities/notice 마크업은 제거됨 (트리거만 남김)
-       ============================================================ */
+    
     .live-composite .live-outer--product .product-accordion {
       display: flex !important;
       flex-direction: column !important;
@@ -8391,9 +8308,7 @@
       color: var(--color-brand-primary) !important;
     }
 
-    /* ============================================================
-       LNB 단순화 (로고 placeholder + 메뉴 아이콘 placeholder 3개)
-       ============================================================ */
+    
     .app-lnb,
     .app-shell__lnb {
       align-items: center !important;
@@ -8402,7 +8317,7 @@
       background: var(--color-surface-soft) !important;
     }
 
-    /* 상단 로고 placeholder (36x36 / 1px dashed #B8C3D1 / radius 8) */
+    
     .app-lnb__brand {
       width: 36px !important;
       height: 36px !important;
@@ -8421,7 +8336,7 @@
       height: 0 !important;
     }
 
-    /* 메뉴 그룹: 세로 정렬, 12px 간격 */
+    
     .app-lnb__nav {
       display: flex !important;
       flex-direction: column !important;
@@ -8431,7 +8346,7 @@
       flex: 0 0 auto !important;
     }
 
-    /* 메뉴 버튼: 40x40 / radius 10 / 기본 transparent + #4B5563 */
+    
     .app-lnb__btn {
       box-sizing: border-box !important;
       width: 40px !important;
@@ -8454,13 +8369,13 @@
       color: var(--color-brand-primary) !important;
     }
 
-    /* 활성 상태: 첫 번째 메뉴 (또는 .is-active) */
+    
     .app-lnb__btn.is-active {
       background: var(--c-neutral-100) !important;
       color: var(--color-brand-primary) !important;
     }
 
-    /* 메뉴 아이콘 placeholder: 24x24 dashed */
+    
     .app-lnb__icon-ph {
       display: block !important;
       width: 24px !important;
@@ -8471,12 +8386,7 @@
       box-sizing: border-box !important;
     }
 
-    /* ============================================================
-       QuickActionRow — 상담 어시스턴트 / SHINDY / STT 공통 컴포넌트
-       - 좌측 라벨 + 우측 box 버튼 리스트
-       - 3개 화면에서 높이·간격·폰트·버튼이 픽셀 단위로 동일
-       - 영역 배경/패딩/라인 모두 없음, 버튼만 박스
-       ============================================================ */
+    
     .quick-action-row {
       display: flex !important;
       align-items: center !important;
@@ -8564,14 +8474,7 @@
       border-color: var(--c-neutral-400) !important;
     }
 
-    /* ============================================================
-       기존 영역별 CSS 무력화
-       - .ka-doc__recommend / .stt-related / .ai-agent-suggest 의
-         background, padding, border, gap, flex-direction 을 모두 reset
-       - .ka-doc__recommend-label / .stt-related__label / .ai-agent-suggest__label
-         의 font-weight, color, margin 도 reset
-       - 버튼은 .quick-action-button 가 모든 시각 속성을 책임짐
-       ============================================================ */
+    
     .ka-doc__recommend.quick-action-row,
     .stt-related.quick-action-row,
     .ai-agent-suggest.quick-action-row {
@@ -8599,11 +8502,7 @@
       margin: 0 !important;
     }
 
-    /* ============================================================
-       상품 및 업무정보 — 바로 노출형 정보 블록
-       - 리스트/아코디언/+/− 제거
-       - 외부 카드 크기와 컬럼 비율은 유지하고 내부 표현만 정보 그룹화
-       ============================================================ */
+    
     .live-composite .live-outer--product .card-header--product {
       justify-content: space-between !important;
     }
@@ -8835,7 +8734,7 @@
       color: var(--color-status-danger) !important;
     }
 
-    /* 상품 및 업무정보 요약: 핵심 수치 영역은 박스형 배경 유지 */
+    
     .live-composite .live-outer--product .product-info-summary {
       gap: var(--space-md) !important;
     }
@@ -8859,12 +8758,8 @@
       line-height: var(--lh-snug, 1.35) !important;
     }
 
-    /* ============================================================
-       상담안내가이드 — SB 단계별 진행 체크 UI
-       - 내부 컴포넌트만 변경, 외부 카드/컬럼 크기 유지
-       - title → progress text → progress bar → 5-step compact list
-       ============================================================ */
-    /* ── 상담 안내 가이드 — compact 5-step strip ── */
+    
+    
     .cinfo-panel .cinfo-guide {
       align-self: stretch !important;
       display: flex !important;
@@ -8884,7 +8779,7 @@
       line-height: 1.35 !important;
     }
 
-    /* 프로그레스바 */
+    
     .cinfo-panel .cinfo-guide__progress {
       display: flex !important;
       align-items: stretch !important;
@@ -8910,7 +8805,7 @@
       background: var(--color-status-success) !important;
     }
 
-    /* 리스트 — 프로그레스와 동일한 grid, gap 맞춤 */
+    
     .cinfo-panel .cinfo-guide__list {
       align-self: stretch !important;
       list-style: none !important;
@@ -8921,7 +8816,7 @@
       gap: 5px !important;
     }
 
-    /* 아이템 */
+    
     .cinfo-panel .cinfo-guide__item {
       box-sizing: border-box !important;
       display: flex !important;
@@ -8939,12 +8834,12 @@
       box-shadow: none !important;
     }
 
-    /* closing 아이템 — 더 이상 full-span 불필요 */
+    
     .cinfo-panel .cinfo-guide__item[data-guide-step="closing"] {
       grid-column: auto !important;
     }
 
-    /* 아이콘 — 완료 상태는 칸 자체의 ::before 체크로 표시 */
+    
     .cinfo-panel .cinfo-guide__item-icon {
       display: none !important;
     }
@@ -8960,12 +8855,12 @@
       line-height: var(--lh-snug) !important;
     }
 
-    /* 상태 라벨은 사용하지 않는다. 완료 여부는 칸 전체와 체크 아이콘으로 표현 */
+    
     .cinfo-panel .cinfo-guide__item-status {
       display: none !important;
     }
 
-    /* ── done 상태 — 전체 칸 green state + 상단 체크 아이콘 ── */
+    
     .cinfo-panel .cinfo-guide__item--done {
       background: var(--color-status-success-soft) !important;
       border: none !important;
@@ -8983,7 +8878,7 @@
       -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.4 4.6 6.7 11.3 2.9 7.5l1.1-1.1 2.7 2.7 5.6-5.6 1.1 1.1Z'/%3E%3C/svg%3E") center / contain no-repeat !important;
     }
 
-    /* ── current(진행중) 상태 — neutral 강조, 라벨 없음 ── */
+    
     .cinfo-panel .cinfo-guide__item--current {
       background: var(--c-neutral-50) !important;
       border: none !important;
@@ -8991,14 +8886,14 @@
       box-shadow: none !important;
     }
 
-    /* ── wait 상태 — 기본 neutral ── */
+    
     .cinfo-panel .cinfo-guide__item--wait {
       background: var(--color-surface-card) !important;
       border: none !important;
       color: var(--color-text-soft) !important;
     }
 
-    /* ── 상담안내가이드 — vertical progress checklist ── */
+    
     .cinfo-panel #info-acc-guide.cinfo-section--guide {
       display: flex !important;
       flex-direction: column !important;
@@ -9205,12 +9100,7 @@
       font-weight: var(--fw-semibold) !important;
     }
 
-    /* ============================================================
-       1920×1080 fixed program canvas overrides
-       - iframe viewport is owned by app.html.
-       - Expanded content width: 1824px (1920 - 96 LNB)
-       - Compact content width: 1314px (2열 + 3열 + workspace padding/gap)
-       ============================================================ */
+    
     html,
     body {
       width: 100%;
@@ -9227,7 +9117,7 @@
       --collapsed-panel-width: 56px;
       --panel-gap: 12px;
       --workspace-pad: 12px;
-      /* 2·3열은 1fr 로 늘리지 않음 — 접힘 시 캔버스가 줄어들고 2열 픽셀 폭은 유지 */
+      
       --page1-track-inner-w: calc(var(--page1-expanded-content-w) - 2 * var(--workspace-pad));
       --col-flex-expanded: calc(
         (var(--page1-track-inner-w) - var(--col-1-w) - 2 * var(--panel-gap)) / 2
@@ -9352,7 +9242,7 @@
       overflow: visible !important;
     }
 
-    /* 1열: .info-side 슬림 헤더(뒤쪽 !important 블록)보다 특이도를 높여 접힘 시 상단 여백·높이가 2·3열과 동일하게 유지되도록 함 */
+    
     .workspace__col--info.is-collapsed
       .info-side:not(.is-side-expanded)
       .live-outer--info.cinfo-panel
@@ -9472,11 +9362,7 @@
       display: none;
     }
 
-    /* ============================================================
-       Neutral point-color override
-       - Remove blue accents from active, selected, hover, focus, badges,
-         chips, toggles, guide states, and AI action surfaces.
-       ============================================================ */
+    
     :root {
       --primary:         var(--c-neutral-700);
       --primary-soft:    var(--c-neutral-100);
@@ -9587,7 +9473,7 @@
       border-color: var(--color-border-strong) !important;
     }
 
-    /* 1열 계약 리스트 선택 행: 테두리 없음(공통 칩 강조 그룹에서는 제외됨) */
+    
     .cinfo-panel .cinfo-contract.is-selected {
       background: var(--c-neutral-100) !important;
       border: 0 !important;
@@ -9601,7 +9487,7 @@
       color: var(--color-text-secondary) !important;
     }
 
-    /* High-specificity neutral pass for late page-specific !important rules. */
+    
     .workspace__col--ai .live-outer--ai .ai-agent-title__status,
     .workspace__col--ai .live-outer--ai .ai-agent-suggest__pill,
     .workspace__col--ai .live-outer--ai .ai-agent-suggest__pill.knowledge-chip,
@@ -9674,7 +9560,7 @@
       color: var(--color-text-muted) !important;
     }
 
-    /* 질문 추천 · 관련 화면: 동일 세로·흰 배경(카드 면과 통일) */
+    
     .live-composite .live-outer--know .ka-doc__recommend.quick-action-row.know-assistant-recommend,
     .live-composite .live-outer--stt .stt-related.quick-action-row {
       box-sizing: border-box !important;
@@ -9753,7 +9639,7 @@
       color: var(--color-text-strong) !important;
     }
 
-    /* 상담 어시스턴트 단계 진행 UI — 4등분 라운딩 박스 + 연결선 */
+    
     .live-composite .live-outer--know .ka-doc__steps {
       display: grid !important;
       grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
@@ -9820,7 +9706,7 @@
       border-color: var(--color-border-strong) !important;
     }
 
-    /* Compact column headers: card-title scale, neutral icon blocks. */
+    
     .ds-panel-head,
     .ds-col-head,
     .ds-col-head.ds-col-head--live,
@@ -9840,7 +9726,7 @@
       align-items: center !important;
     }
 
-    /* 펼침: 2·3열 컬럼 헤더(.ds-col-head)와 동일 — 유리 열 위 투명 바, 하단 라인 없음 */
+    
     .info-side.is-side-expanded .live-outer--info.cinfo-panel .cinfo-panel__head {
       background: transparent !important;
       border: 0 !important;
@@ -9955,8 +9841,7 @@
       margin-left: -9px !important;
     }
 
-    /* NOTE: .card-header height/padding 컴팩트 정의는 line 6220-6243의 FINAL OVERRIDE와
-       완전 중복이라 제거했음. 단일 진실 출처는 라인 6220-6243을 따른다. */
+    
 
     .live-composite .live-outer--know .card-header-title,
     .live-composite .live-outer--know .live-sect__title,
@@ -9969,9 +9854,9 @@
       letter-spacing: -0.01em !important;
     }
 
-    /* SHINDY ai-agent-detach-btn은 메인 블록에서 이미 재정의됨 — 별도 오버라이드 불필요 */
+    
 
-    /* ── SHINDY 헤더 우측 컨트롤 그룹 [분리] [<<] ── */
+    
     .ds-col-head--ai .ds-col-head__end {
       display: inline-flex !important;
       align-items: center !important;
@@ -9979,7 +9864,7 @@
       flex-shrink: 0 !important;
     }
 
-    /* 분리 버튼 — << 토글과 동일한 라인형 박스 스타일, blue 없음 */
+    
     .ds-col-head--ai .ds-col-head__action-btn {
       display: inline-flex !important;
       align-items: center !important;
@@ -10007,14 +9892,9 @@
       outline-offset: 2px !important;
     }
 
-    /* ─────────────────────────────────────────────────────────────
-       STT 단일 카드 통합 정리
-       - 외곽 live-outer--stt 를 단일 카드로 확정
-       - 내부 stt-content-card 는 투명 레이아웃 컨테이너로 강제
-       - 말풍선 · 버튼 · 선택상태 blue 완전 제거
-       ───────────────────────────────────────────────────────────── */
+    
 
-    /* 1. 외곽 카드 단일 카드 확정 */
+    
     .live-composite .live-outer--stt.workspace-main-card,
     .live-stack-row--stt .live-outer--stt,
     .live-composite__stt .live-outer--stt {
@@ -10026,7 +9906,7 @@
       overflow: hidden !important;
     }
 
-    /* 2. 내부 stt-content-card — 시각 카드 없이 순수 레이아웃 */
+    
     .live-composite .live-outer--stt .stt-content-card,
     .live-composite .live-outer--stt .live-inner.stt-content-card,
     .live-workspace-stack .live-outer--stt .live-inner.stt-content-card {
@@ -10037,7 +9917,7 @@
       padding: 0 !important;
     }
 
-    /* 3. stt-card__log 도 레이아웃만 (시각 레이어 없음) */
+    
     .live-composite .stt-card__log,
     .live-workspace-stack .stt-card__log {
       background: transparent !important;
@@ -10045,27 +9925,27 @@
       box-shadow: none !important;
     }
 
-    /* 4. 스크롤 영역 — 상단 padding으로 채팅 영역 시작 */
+    
     .live-composite .live-outer--stt .stt-card__log > .chat-scroll-area,
     .live-workspace-stack .live-outer--stt .stt-card__log > .chat-scroll-area {
       padding: 32px 16px 12px !important;
     }
 
-    /* 5. 고객 말풍선 → neutral (blue 계열 제거) */
+    
     .live-composite .stt-card__log .stt-chat__msg--customer .stt-chat__bubble,
     .live-composite .live-outer--stt .stt-chat__msg--customer .stt-chat__bubble {
       background: var(--c-neutral-100) !important;
       color: var(--color-text-strong) !important;
     }
 
-    /* 6. 상담사 말풍선 → neutral */
+    
     .live-composite .stt-card__log .stt-chat__msg--agent .stt-chat__bubble,
     .live-composite .live-outer--stt .stt-chat__msg--agent .stt-chat__bubble {
       background: var(--color-surface-soft) !important;
       color: var(--color-text-strong) !important;
     }
 
-    /* 7. 선택 가능 말풍선 선택 상태 → neutral */
+    
     .live-composite .live-outer--stt .stt-chat__bubble--selectable[aria-pressed="true"] {
       background: var(--c-neutral-200) !important;
       border-color: var(--c-neutral-400) !important;
@@ -10076,7 +9956,7 @@
       border-color: var(--c-neutral-400) !important;
     }
 
-    /* 8. 관련 화면 버튼 hover → neutral (blue 제거) */
+    
     .live-composite .live-outer--stt .stt-faq-link:hover,
     .live-composite .live-outer--stt .knowledge-chip:hover {
       border-color: var(--c-neutral-400) !important;
@@ -10084,7 +9964,7 @@
       background: var(--color-surface-soft) !important;
     }
 
-    /* 9. 확대 버튼 → neutral */
+    
     .live-composite .live-outer--stt .stt-card__expand-btn:hover,
     .live-composite .stt-card__expand-btn:hover {
       background: var(--c-neutral-100) !important;
@@ -10096,26 +9976,81 @@
       outline-offset: 2px !important;
     }
 
-    /* 10. 고객 아바타 — blue gradient 제거 */
+    
     .live-composite .stt-card__log .stt-chat__avatar--initial {
       background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%) !important;
       color: var(--color-text-secondary) !important;
     }
 
-    /* ============================================================
-       P1 cinfo card rhythm
-       - 1열 카드 간격/헤더/본문 리듬을 이미지 기준으로 고정
-       - 전역 .card__head 및 후순위 리스트 override 영향 차단
-       ============================================================ */
+    
     .page1-content .workspace__col--info {
       padding: 12px !important;
     }
 
     .page1-content .cinfo-panel__head {
+      display: flex !important;
+      align-self: stretch !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: var(--space-sm) !important;
+      height: 40px !important;
       min-height: 40px !important;
+      max-height: 40px !important;
+      flex: 0 0 40px !important;
       margin: 0 0 12px !important;
       padding: 0 4px !important;
+      background: transparent !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+
+    .page1-content .cinfo-panel__head-lead {
+      display: inline-flex !important;
       align-items: center !important;
+      gap: 8px !important;
+      min-width: 0 !important;
+    }
+
+    .page1-content .cinfo-panel__head-icon {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 28px !important;
+      height: 28px !important;
+      min-width: 28px !important;
+      border-radius: var(--r-sm) !important;
+      background: #DADFE4 !important;
+      color: var(--color-surface-footer) !important;
+    }
+
+    .page1-content .cinfo-panel__head-icon svg {
+      width: 18px !important;
+      height: 18px !important;
+    }
+
+    .page1-content .cinfo-panel__head-title {
+      margin: 0 !important;
+      color: var(--color-surface-footer) !important;
+      font-size: var(--type-subheading-fs) !important;
+      font-weight: var(--fw-semibold) !important;
+      line-height: var(--lh-snug) !important;
+      letter-spacing: -0.01em !important;
+    }
+
+    .page1-content .cinfo-panel__head .col-collapse-btn,
+    .page1-content .cinfo-panel__collapse {
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      min-height: 32px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 0 !important;
+      border-radius: var(--radius-pill) !important;
+      background: var(--color-surface-card) !important;
+      color: var(--color-surface-footer) !important;
+      box-shadow: none !important;
     }
 
     .page1-content .cinfo-panel #info-panel-main {
@@ -10319,7 +10254,7 @@
 
     .workspace__col--ai .live-outer--ai .ai-agent-composer__send,
     .workspace__col--ai .live-outer--ai #ai-agent-send {
-      background: linear-gradient(123deg, #4432e4 59.03%, #4059f4 102.77%) !important;
+      background: linear-gradient(123deg, #0046f9 59.03%, #4059f4 102.77%) !important;
       border-color: transparent !important;
       color: var(--color-text-inverse) !important;
       box-shadow: none !important;
@@ -10327,9 +10262,30 @@
 
     .workspace__col--ai .live-outer--ai .ai-agent-composer__send:hover,
     .workspace__col--ai .live-outer--ai #ai-agent-send:hover {
-      background: linear-gradient(123deg, #4432e4 59.03%, #4059f4 102.77%) !important;
+      background: linear-gradient(123deg, #0046f9 59.03%, #4059f4 102.77%) !important;
       color: var(--color-text-inverse) !important;
       filter: brightness(0.93);
+    }
+
+    
+    .live-composite .live-outer--stt .stt-chat__bubble--selectable[aria-pressed="true"],
+    .live-composite .live-outer--stt .stt-chat__bubble--selectable[aria-pressed="true"]:hover {
+      background: #658AF3 !important;
+      border-color: transparent !important;
+      color: var(--color-text-inverse) !important;
+    }
+
+    .live-composite .live-outer--know .ka-doc__step--current {
+      background: #658AF3 !important;
+      color: var(--color-text-inverse) !important;
+      font-weight: var(--fw-semibold) !important;
+    }
+
+    .workspace__col--ai .live-outer--ai .ai-agent-tool.is-on,
+    .workspace__col--ai .live-outer--ai .ai-agent-tool[aria-pressed="true"] {
+      background: #658AF3 !important;
+      border-color: transparent !important;
+      color: var(--color-text-inverse) !important;
     }
   </style>
 </head>

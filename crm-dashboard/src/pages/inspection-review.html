@@ -1,26 +1,24 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>신한라이프 AI · 안내/업무 검수 처리</title>
   <script>
-    /* 단독 진입 시 AppShell(app.html) 로 자동 이동 (iframe 안에서는 그대로 렌더) */
+    
     (function () {
       try {
         if (window.self === window.top) {
           window.location.replace('app.html#page=3');
         }
-      } catch (_) { /* 무시하고 단독 렌더 */ }
+      } catch (_) {  }
     })();
   </script>
   <link rel="stylesheet" href="../styles/design-system/index.css">
   <style>
     @import url("../styles/design-system/components/column-header.css");
 
-    /* ============================================================
-       디자인 토큰 (1열/2열 페이지와 동일)
-       ============================================================ */
+    
 
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
@@ -42,11 +40,7 @@
     input:focus, textarea:focus, select:focus { outline: none; }
     table { border-collapse: collapse; }
 
-    /* ============================================================
-       Page3 (content-only) 셸
-       - AppShell 안에 iframe으로 박혀 들어가는 page3 콘텐츠 전용
-       - Header / LNB / Footer / 모드 토글 / 사용자 영역 없음
-       ============================================================ */
+    
     .page3-content {
       --page-gap: var(--space-md);
       --page-panel-inline-pad: 12px;
@@ -68,9 +62,7 @@
       background: transparent;
     }
 
-    /* ============================================================
-       2-column workspace
-       ============================================================ */
+    
     .ws {
       flex: 1 1 auto; min-height: 0;
       display: grid;
@@ -81,14 +73,12 @@
 
     .col {
       border-radius: var(--radius-outer);
-      /* 외곽 glass: .ds-outer-panel-glass */
+      
       padding: 0 12px 12px;
       display: flex; flex-direction: column; gap: 0;
       min-width: 0; min-height: 0;
     }
-    /* 좌우 컬럼 하단 기준을 맞춘다.
-       좌측 컬럼도 grid stretch 높이를 사용하고, 남는 높이는 리스트 카드가 흡수한다.
-       바깥 회색 컬럼만 남지 않도록 리스트 카드 내부에서 pagination을 하단 footer처럼 배치한다. */
+    
     .col--list {
       grid-column: 1;
       align-self: stretch;
@@ -119,7 +109,7 @@
       min-height: 0;
     }
 
-    /* 좌측 스택(검수현황 + 검색): 2페이지 1열 .col--settings .col__content 과 동일 — 카드 사이 gap var(--space-md) */
+    
     .review-layout__side {
       display: flex;
       flex-direction: column;
@@ -175,8 +165,8 @@
     .filter-card--side {
       flex: 1 1 auto;
       min-height: 0;
-      /* height: 100% 제거 — flex column+형제 카드 간 gap이 눌려 보이거나 2열과 리듬이 어긋나는 원인 방지 */
-      /* 접촉일자·센터·2열 드롭다운: 동일 가로 간격 */
+      
+      
       --filter-dual-inline-gap: 5px;
     }
 
@@ -238,7 +228,7 @@
       min-width: 0;
     }
 
-    /* 날짜 / 드롭다운 2열: 동일 gap·가운데 트랙 1ch → 좌·우 컨트롤 너비 정렬 */
+    
     .filter-card--side .filter-grid__field--date .date-range-sep,
     .filter-card--side .filter-grid__field--center-split > .date-range-sep,
     .filter-card--side .filter-pair-row > .date-range-sep.filter-field-width-gutter {
@@ -372,7 +362,7 @@
       width: auto !important;
     }
 
-    /* 검색명: 셀렉트·텍스트 필드를 한 행에 두 개(각각 독립 테두리·라운드) */
+    
     .filter-card--side .filter-grid__field--search-row {
       display: flex;
       flex-direction: row;
@@ -466,7 +456,7 @@
         grid-template-columns: var(--page3-filter-card-w-compact) minmax(0, 1fr);
       }
     }
-    /* 내부 카드 (공통) */
+    
     .card {
       background: var(--color-surface-card);
       border-radius: var(--radius-card);
@@ -495,7 +485,7 @@
       min-width: 0;
     }
 
-    /* 1차 검수 리스트 — 페이지당 행 수 (라디오 그룹) */
+    
     .page-size-radios {
       display: inline-flex;
       flex-wrap: wrap;
@@ -521,7 +511,7 @@
       height: 15px;
       margin: 0;
       flex-shrink: 0;
-      accent-color: var(--color-brand-primary);
+      accent-color: #658AF3;
       cursor: pointer;
     }
     .page-size-radios__label {
@@ -564,7 +554,7 @@
       flex: 1 1 auto;
       min-height: 0;
       display: block !important;
-      /* 본문 스크롤 끝: 카드 기본 패딩(--layout-card-padding)만큼 하단 여유 → 데이터가 테두리에 붙지 않음 */
+      
       padding: 0 0 var(--layout-card-padding) !important;
       gap: 0 !important;
       overflow-x: hidden;
@@ -572,9 +562,7 @@
       scrollbar-gutter: stable;
     }
 
-    /* ============================================================
-       검수 현황 — .card 시스템 위에 올라가는 compact summary
-       ============================================================ */
+    
     .stat-summary-card { flex-shrink: 0; }
     .stat-summary-card__body {
       padding: var(--layout-card-padding) !important;
@@ -591,7 +579,7 @@
       white-space: nowrap;
     }
 
-    /* 검수현황·검색 카드 헤더 — 2페이지(.page2-content .card > .card__head)와 동일 톤 */
+    
     .page3-content .stat-summary-card > .card__head,
     .page3-content .filter-card--side > .card__head {
       border-bottom: none !important;
@@ -610,7 +598,7 @@
     }
 
     .stat-row {
-      /* 카드 wrapper 안의 컨텐츠 — Total + High/Medium/Low 4행 */
+      
       position: relative;
       display: flex;
       flex-direction: column;
@@ -700,7 +688,7 @@
       color: inherit;
     }
 
-    /* 3열 카드: 등급별 배경·글자색만 (테두리 없음) */
+    
     .stat-row__risk .stat-cell--high {
       background: var(--color-status-danger-soft);
     }
@@ -760,9 +748,7 @@
     .stat-cell--low .stat-cell__name { color: var(--c-blue-700); font-weight: var(--fw-semibold); }
     .stat-cell--low .stat-cell__val  { color: var(--c-blue-700); }
 
-    /* ============================================================
-       검색 카드 (filter grid)
-       ============================================================ */
+    
     .filter-grid {
       --filter-control-height: 40px;
       display: grid;
@@ -843,16 +829,16 @@
     }
     .filter-grid .seg__btn + .seg__btn { border-left: 1px solid var(--color-border-strong); }
     .filter-grid .seg__btn:hover { background: var(--color-surface-soft); color: var(--color-text-secondary); }
-    /* 선택값: 2페이지 참조 RAG(.check.is-checked) fill과 동일 톤 */
+    
     .filter-grid .seg__btn.is-active {
-      background: #F3F4F6 !important;
-      color: #111827 !important;
+      background: #658AF3 !important;
+      color: var(--color-text-inverse) !important;
       font-weight: var(--fw-bold) !important;
       box-shadow: none !important;
     }
     .filter-grid .seg__btn.is-active:hover {
-      background: var(--c-neutral-200) !important;
-      color: #111827 !important;
+      background: #658AF3 !important;
+      color: var(--color-text-inverse) !important;
       box-shadow: none !important;
     }
 
@@ -860,7 +846,7 @@
       display: flex; flex-wrap: wrap; gap: var(--space-xs) 16px;
     }
 
-    /* 검색 카드 — 상담유형 / 위험도 / 검수상태: 인라인 체크박스 그룹 */
+    
     .filter-check-grid {
       --filter-option-width: 84px;
       display: grid;
@@ -880,7 +866,7 @@
       justify-content: flex-start;
     }
 
-    /* 센터 선택 — 1·2차 드롭다운 한 줄 */
+    
     .filter-grid__field--center-split {
       display: flex;
       flex-wrap: nowrap;
@@ -931,13 +917,13 @@
     .btn-primary:hover { background: var(--c-neutral-900); }
     .page3-content .filter-card--side .card-action-bar .btn-primary,
     .page3-content .followup-card > .followup-card__footer .btn-primary {
-      background: linear-gradient(123deg, #4432e4 59.03%, #4059f4 102.77%) !important;
+      background: linear-gradient(123deg, #0046f9 59.03%, #4059f4 102.77%) !important;
       border-color: transparent !important;
       color: var(--color-text-inverse) !important;
     }
     .page3-content .filter-card--side .card-action-bar .btn-primary:hover,
     .page3-content .followup-card > .followup-card__footer .btn-primary:hover {
-      background: linear-gradient(123deg, #4432e4 59.03%, #4059f4 102.77%) !important;
+      background: linear-gradient(123deg, #0046f9 59.03%, #4059f4 102.77%) !important;
       border-color: transparent !important;
       filter: brightness(0.93);
     }
@@ -957,9 +943,7 @@
     }
     .btn-ghost:hover { background: var(--color-surface-soft); border-color: var(--color-border-strong); }
 
-    /* ============================================================
-       1차 검수 리스트 (table)
-       ============================================================ */
+    
     .table-wrap {
       width: 100%;
       overflow-x: hidden;
@@ -976,7 +960,7 @@
       background: var(--color-surface-soft);
       color: var(--color-text-muted);
       font-size: var(--type-caption-fs); font-weight: var(--fw-bold); text-align: center;
-      /* 행 높이·구분선은 유지, 텍스트 라인 박스만 조금 타이트 */
+      
       line-height: 1.2;
       border-bottom: 1px solid color-mix(in srgb, var(--color-border-default) 63%, transparent);
       white-space: nowrap;
@@ -1020,14 +1004,14 @@
       padding-left: calc(var(--space-md) + 8px);
       padding-right: calc(var(--space-md) + 4px);
     }
-    /* 번호~검수상태(9열): 데이터 행만 좌우 +4px (헤더는 기존) */
+    
     .table th:nth-child(n+2):nth-child(-n+9) {
       padding-left: calc(8px + 4px);
     }
     .table tbody td:nth-child(n+2):nth-child(-n+9) {
       padding-left: calc(8px + 8px);
     }
-    /* 접촉일자(10열): 헤더·본문 동일 좌우 패딩 — 라벨과 연월일 열 정렬 일치 */
+    
     .review-list-card .table thead th:nth-child(10),
     .review-list-card .table tbody td:nth-child(10) {
       padding-left: calc(var(--space-md) - 4px) !important;
@@ -1084,7 +1068,7 @@
       display: flex !important;
       flex-direction: column !important;
     }
-    /* 테이블·행 배경은 카드 본문 좌우 100% (래퍼 패딩 없음 — 셀 패딩으로만 텍스트 여백) */
+    
     .review-list-card .table-wrap {
       flex: 1 1 auto;
       min-height: 0;
@@ -1096,7 +1080,7 @@
       flex: 0 0 auto;
     }
 
-    /* 위험도 배지 */
+    
     .risk {
       display: inline-flex; align-items: center; justify-content: center;
       padding: 1px 8px; border-radius: var(--radius-pill);
@@ -1107,14 +1091,14 @@
     .risk--medium { background: var(--color-status-warning-soft); color: var(--color-status-warning); }
     .risk--low    { background: var(--c-blue-100); color: var(--c-blue-700); }
 
-    /* 리스트 테이블 내: 배경 행(fill)·라인은 그대로, 라벨(텍스트) 박스만 소폭 축소 */
+    
     .table .risk {
       padding: 0 7px;
       line-height: 1.15;
       letter-spacing: 0.2px;
     }
 
-    /* 검수상태 — 일반 데이터 텍스트로 통일 */
+    
     .status {
       display: inline-flex; align-items: center; justify-content: center;
       font-size: inherit;
@@ -1134,7 +1118,7 @@
       line-height: 1.1;
     }
 
-    /* pagination */
+    
     .pager {
       display: flex; justify-content: center; align-items: center;
       gap: var(--space-xxs);
@@ -1173,9 +1157,7 @@
       margin: 0 auto;
     }
 
-    /* ============================================================
-       우측 상세 — typography/spacing based layout
-       ============================================================ */
+    
     .mini-grid {
       --detail-cell-pad: var(--space-lg);
       --detail-label-w: 76px;
@@ -1240,7 +1222,7 @@
     .mini-card__head {
       display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm);
     }
-    /* 섹션 타이틀 — 디자인 시스템 section title 토큰 */
+    
     .mini-card__title {
       margin: 0 0 var(--space-xs) !important;
       font-size: var(--type-subheading-fs) !important;
@@ -1250,7 +1232,7 @@
       line-height: var(--type-subheading-lh) !important;
     }
 
-    /* 고객 정보 */
+    
     .cust-head {
       display: flex; align-items: baseline; gap: var(--space-sm);
     }
@@ -1284,7 +1266,7 @@
     .cust-list dt, .cust-list .label { color: var(--color-text-muted); font-size: var(--type-caption-fs); font-weight: var(--type-caption-fw); line-height: var(--type-caption-lh); }
     .cust-list dd, .cust-list .value { margin: 0; color: var(--color-text-default); font-size: var(--type-body-fs); font-weight: var(--type-body-fw); line-height: var(--type-body-lh); overflow-wrap: anywhere; }
 
-    /* info-kv 병기 시 새 그리드(72px) 우선 적용 */
+    
     .cust-list li.info-kv,
     .history__item.info-kv {
       display: grid;
@@ -1292,11 +1274,11 @@
       align-items: baseline;
       gap: var(--space-sm);
       min-height: 22px;
-      /* history__item 기존 flex/justify 무효화 */
+      
       justify-content: unset;
       flex: unset;
     }
-    .history__item.info-kv::before { display: none; } /* history 기존 dot 제거 */
+    .history__item.info-kv::before { display: none; } 
     .btn-secondary {
       height: 30px; padding: 0 12px;
       border: 1px solid var(--color-border-strong);
@@ -1312,13 +1294,13 @@
       white-space: nowrap;
     }
 
-    /* STT: AI 1차 검수결과와 동일 label | value 그리드 */
+    
     .stt-mini.ai-result {
       max-height: 220px;
       overflow-y: auto;
     }
 
-    /* AI 검수 결과 */
+    
     .ai-result {
       display: flex; flex-direction: column; gap: var(--space-xs);
     }
@@ -1356,7 +1338,7 @@
       width: var(--space-xxs); height: var(--space-xxs); border-radius: 50%; background: var(--color-text-muted);
     }
 
-    /* 최근 이력 */
+    
     .history {
       list-style: none; margin: 0; padding: 0;
       display: flex; flex-direction: column; gap: var(--space-xxs);
@@ -1371,7 +1353,7 @@
     .history__date { color: var(--color-text-muted); font-size: var(--type-caption-fs); font-weight: var(--type-caption-fw); line-height: var(--type-caption-lh); }
     .history__label { color: var(--color-text-default); font-size: var(--type-body-fs); font-weight: var(--type-body-fw); line-height: var(--type-body-lh); }
 
-    /* SOK 링크 */
+    
     .sok-links {
       list-style: none;
       margin: 0;
@@ -1399,7 +1381,7 @@
       text-decoration-color: currentColor;
     }
 
-    /* empty state */
+    
     .empty {
       padding: var(--space-sm) 0;
       text-align: left;
@@ -1410,7 +1392,7 @@
       border-radius: 0;
     }
 
-    /* 후속 조치 — 2페이지 카드 헤더 톤(컴팩트, 헤더 하단 라인 없음, 본문 상단 간격) */
+    
     .page3-content .followup-card > .card__head {
       border-bottom: none !important;
       height: auto !important;
@@ -1423,7 +1405,7 @@
       padding-top: 16px !important;
     }
 
-    /* 후속 조치 */
+    
     .followup-card {
       flex: 0.605 1 0;
       min-height: 0;
@@ -1485,9 +1467,7 @@
       flex-shrink: 0;
     }
 
-    /* ============================================================
-       Responsive
-       ============================================================ */
+    
     @media (max-width: 1280px) {
       .mini-grid {
         grid-template-columns: 1fr;

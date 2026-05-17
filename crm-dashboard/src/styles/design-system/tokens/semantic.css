@@ -36,6 +36,8 @@
   --color-border-default: #E5EAF3;
   --color-border-strong:  #DADDE3;
   --color-border-subtle:  rgba(220, 228, 238, 0.55);
+  /* 메타·출처 칩 등 얇은 구분선 (alias) */
+  --line-subtle:          var(--color-border-subtle);
   --color-border-focus:   var(--c-neutral-400);
   --color-border-accent:  var(--c-neutral-300);
 

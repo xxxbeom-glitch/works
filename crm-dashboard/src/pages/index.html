@@ -4106,6 +4106,58 @@
       font-weight: var(--fw-semibold);
     }
 
+    /* SHINDY 말풍선 출처 — 메타 링크 chip (본문보다 작고 차분) */
+    .ai-agent-bubble__source {
+      display: block;
+      margin-top: var(--space-xs);
+    }
+    .ai-agent-bubble__source .source-links {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 8px;
+      max-width: 100%;
+    }
+    .ai-agent-bubble__source .source-label {
+      flex: 0 0 auto;
+      margin: 0;
+      padding: 0;
+      color: var(--color-text-soft);
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-medium);
+      line-height: 22px;
+    }
+    .ai-agent-bubble__source .source-chip {
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 22px;
+      padding: 1px 10px;
+      margin: 0;
+      border: 1px solid var(--line-subtle);
+      border-radius: 999px;
+      background: #f8fafc;
+      color: #64748b;
+      font-family: inherit;
+      font-size: var(--type-small-fs);
+      font-weight: var(--fw-medium);
+      line-height: 1.25;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .ai-agent-bubble__source .source-chip:hover {
+      background: #f1f5f9;
+    }
+    .ai-agent-bubble__source .source-chip:focus {
+      outline: none;
+    }
+    .ai-agent-bubble__source .source-chip:focus-visible {
+      outline: 2px solid var(--color-text-secondary);
+      outline-offset: 2px;
+    }
+
     .ai-agent-suggest {
       flex-shrink: 0;
       display: flex;
@@ -6695,11 +6747,25 @@
     .workspace__col--ai .live-outer--ai .ai-agent-bubble__source {
       display: block !important;
       margin-top: var(--space-xs) !important;
+    }
+    .workspace__col--ai .live-outer--ai .ai-agent-bubble__source .source-label {
       color: var(--color-text-soft) !important;
       font-size: var(--type-small-fs) !important;
-      font-weight: var(--fw-regular) !important;
-      line-height: 18px !important;
+      font-weight: var(--fw-medium) !important;
+      line-height: 22px !important;
       letter-spacing: 0.047px !important;
+    }
+    .workspace__col--ai .live-outer--ai .ai-agent-bubble__source .source-chip {
+      font-size: var(--type-small-fs) !important;
+      font-weight: var(--fw-regular) !important;
+      line-height: 1.25 !important;
+      letter-spacing: 0.047px !important;
+      border-color: var(--line-subtle) !important;
+      background: #f8fafc !important;
+      color: #64748b !important;
+    }
+    .workspace__col--ai .live-outer--ai .ai-agent-bubble__source .source-chip:hover {
+      background: #f1f5f9 !important;
     }
 
     /* 답변 메타 */
@@ -10320,7 +10386,7 @@
                   </article>
                   <article class="ai-agent-turn ai-agent-turn--ai">
                     <div class="ai-agent-turn__time">14:35:30</div>
-                    <p class="ai-agent-bubble">암 보장 개시일은 일반적으로 계약일 또는 보장 개시일로부터 90일이 지난 날의 다음 날부터 적용됩니다. 따라서 고객에게는 “암 보장은 계약 직후 바로 시작되는 것이 아니라, 약관상 정해진 면책기간 이후부터 보장이 시작됩니다”라고 안내하는 것이 좋습니다.<span class="ai-agent-bubble__source"><span class="ai-agent-meta__label">출처</span> SOK#3202 약관 12 / FAQ #87</span></p>
+                    <p class="ai-agent-bubble">암 보장 개시일은 일반적으로 계약일 또는 보장 개시일로부터 90일이 지난 날의 다음 날부터 적용됩니다. 따라서 고객에게는 “암 보장은 계약 직후 바로 시작되는 것이 아니라, 약관상 정해진 면책기간 이후부터 보장이 시작됩니다”라고 안내하는 것이 좋습니다.<span class="ai-agent-bubble__source"><span class="source-links" role="group" aria-label="출처"><span class="source-label">출처</span><a class="source-chip" href="#" data-source-kind="sok" data-source-ref="3202">SOK#3202 약관 12</a><a class="source-chip" href="#" data-source-kind="faq" data-source-ref="87">FAQ #87</a></span></span></p>
                     <div class="ai-agent-meta">
                       <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">단계</span> 의도분석 → 약관검색 → 답변생성</p>
                         </div>
@@ -10331,7 +10397,7 @@
                   </article>
                   <article class="ai-agent-turn ai-agent-turn--ai">
                     <div class="ai-agent-turn__time">14:35:58</div>
-                    <p class="ai-agent-bubble">예외적으로 일부 특약이나 특정 진단 항목은 일반 암 보장과 다른 기준이 적용될 수 있습니다. 예를 들어 갑상선암, 기타피부암, 제자리암, 경계성종양 등은 상품별 약관에 따라 보장 개시일이나 지급 기준이 다를 수 있으니, 반드시 해당 계약의 특약 조건을 함께 확인해야 합니다.<span class="ai-agent-bubble__source"><span class="ai-agent-meta__label">출처</span> SOK#3203 약관 12-2 / FAQ #91</span></p>
+                    <p class="ai-agent-bubble">예외적으로 일부 특약이나 특정 진단 항목은 일반 암 보장과 다른 기준이 적용될 수 있습니다. 예를 들어 갑상선암, 기타피부암, 제자리암, 경계성종양 등은 상품별 약관에 따라 보장 개시일이나 지급 기준이 다를 수 있으니, 반드시 해당 계약의 특약 조건을 함께 확인해야 합니다.<span class="ai-agent-bubble__source"><span class="source-links" role="group" aria-label="출처"><span class="source-label">출처</span><a class="source-chip" href="#" data-source-kind="sok" data-source-ref="3203">SOK#3203 약관 12-2</a><a class="source-chip" href="#" data-source-kind="faq" data-source-ref="91">FAQ #91</a></span></span></p>
                     <div class="ai-agent-meta">
                       <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">단계</span> 의도분석 → 지식검색 → 답변생성</p>
                           </div>
@@ -10342,7 +10408,7 @@
                   </article>
                   <article class="ai-agent-turn ai-agent-turn--ai">
                     <div class="ai-agent-turn__time">14:36:14</div>
-                    <p class="ai-agent-bubble">고객 안내 멘트는 이렇게 정리할 수 있습니다. “고객님, 암 보장은 일반적으로 계약 후 90일이 지난 다음 날부터 적용됩니다. 다만 암 종류나 가입하신 특약에 따라 기준이 다를 수 있어, 현재 계약의 보장 항목을 확인한 뒤 정확히 안내드리겠습니다.”<span class="ai-agent-bubble__source"><span class="ai-agent-meta__label">출처</span> 상담 스크립트 추천</span></p>
+                    <p class="ai-agent-bubble">고객 안내 멘트는 이렇게 정리할 수 있습니다. “고객님, 암 보장은 일반적으로 계약 후 90일이 지난 다음 날부터 적용됩니다. 다만 암 종류나 가입하신 특약에 따라 기준이 다를 수 있어, 현재 계약의 보장 항목을 확인한 뒤 정확히 안내드리겠습니다.”<span class="ai-agent-bubble__source"><span class="source-links" role="group" aria-label="출처"><span class="source-label">출처</span><a class="source-chip" href="#" data-source-kind="script" data-source-ref="recommended">상담 스크립트 추천</a></span></span></p>
                     <div class="ai-agent-meta">
                       <p class="ai-agent-meta__line"><span class="ai-agent-meta__label">단계</span> 답변생성 → 검증</p>
                         </div>
@@ -11248,6 +11314,24 @@
         var chat = document.getElementById("ai-agent-chat");
 
         if (!panel) return;
+
+        if (chat) {
+          chat.addEventListener("click", function (e) {
+            var chip = e.target && e.target.closest ? e.target.closest(".source-chip") : null;
+            if (!chip || !chat.contains(chip)) return;
+            e.preventDefault();
+            try {
+              window.dispatchEvent(new CustomEvent("crm:shindy-source", {
+                bubbles: true,
+                detail: {
+                  kind: chip.getAttribute("data-source-kind") || "",
+                  ref: chip.getAttribute("data-source-ref") || "",
+                  label: (chip.textContent || "").trim()
+                }
+              }));
+            } catch (err1) {}
+          });
+        }
 
         function setOpen(on) {
           if (on && input) input.focus();

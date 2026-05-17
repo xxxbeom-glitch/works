@@ -420,7 +420,7 @@
     }
 
     .workspace.workspace--info-collapsed {
-      grid-template-columns: minmax(var(--info-collapsed-w, 88px), auto) minmax(0, var(--col-2)) minmax(0, var(--col-3));
+      --info-collapsed-w: var(--collapsed-panel-width, 56px);
     }
 
     .main-grid__col--1,
@@ -560,7 +560,7 @@
       }
 
       .workspace.workspace--info-collapsed {
-        grid-template-columns: minmax(72px, auto) minmax(0, 1fr);
+        --info-collapsed-w: var(--collapsed-panel-width, 56px);
       }
 
       .workspace__col--ai {
@@ -5363,7 +5363,7 @@
     /* 접힘 상태: 1페이지 고객정보 패널은 슬림 외부카드만 유지 */
     .info-side:not(.is-side-expanded) .live-outer--info.cinfo-panel {
       height: 100%;
-      padding: 0 12px 12px 12px;
+      padding: var(--panel-collapsed-icon-top, 16px) 12px 12px 12px;
       align-items: stretch;
       justify-content: flex-start;
       background: var(--color-surface-outer);
@@ -8888,9 +8888,15 @@
 
     .page1-content {
       --col-1-w: 425px;
+      --collapsed-panel-width: 56px;
+      --panel-gap: 12px;
       --col-2-w: minmax(0, 1fr);
-      --col-3-w: minmax(0, 1fr);
-      --grid-gap: var(--space-md);
+      --col-3-w: var(--col-2-w);
+      --col-info: var(--col-1-w);
+      --col-live: var(--col-2-w);
+      --col-ai: var(--col-3-w);
+      --info-collapsed-w: var(--collapsed-panel-width);
+      --grid-gap: var(--panel-gap);
       --workspace-pad: 12px;
       --layout-scale: 1;
       --card-padding: 18px 9px 9px;
@@ -8910,7 +8916,7 @@
       width: 100%;
       height: 100vh;
       max-height: 100vh;
-      grid-template-columns: var(--col-1-w) var(--col-2-w) var(--col-3-w);
+      grid-template-columns: var(--col-info) var(--col-live) var(--col-ai);
       gap: var(--grid-gap);
       padding: var(--workspace-pad);
       transition:
@@ -8925,8 +8931,19 @@
     }
 
     .workspace.workspace--info-collapsed {
-      --info-collapsed-w: 112px;
-      grid-template-columns: var(--info-collapsed-w, 112px) var(--col-2-w) var(--col-3-w);
+      --info-collapsed-w: var(--collapsed-panel-width);
+    }
+
+    .workspace.is-info-collapsed {
+      --col-info: var(--collapsed-panel-width);
+    }
+
+    .workspace.is-live-collapsed {
+      --col-live: var(--collapsed-panel-width);
+    }
+
+    .workspace.is-ai-collapsed {
+      --col-ai: var(--collapsed-panel-width);
     }
 
     .workspace.workspace--info-collapsed .workspace__col--info {
@@ -8948,8 +8965,87 @@
         transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .workspace.workspace--info-collapsed .info-side {
-      --info-collapsed-w: 112px;
+    .workspace.workspace--info-collapsed .info-side,
+    .workspace.is-info-collapsed .info-side {
+      --info-collapsed-w: var(--collapsed-panel-width);
+    }
+
+    .workspace__col.is-collapsed {
+      width: 100%;
+      min-width: 0;
+      max-width: var(--collapsed-panel-width);
+      overflow: hidden;
+    }
+
+    .workspace__col--info.is-collapsed .info-side,
+    .workspace__col--live-stack.is-collapsed,
+    .workspace__col--ai.is-collapsed {
+      align-items: stretch;
+      justify-content: flex-start;
+    }
+
+    .workspace__col--info.is-collapsed .live-outer--info.cinfo-panel {
+      padding: 0 !important;
+    }
+
+    .workspace__col--live-stack.is-collapsed,
+    .workspace__col--ai.is-collapsed {
+      padding: 0 !important;
+    }
+
+    .workspace__col--info.is-collapsed .cinfo-panel__head,
+    .workspace__col--live-stack.is-collapsed > .ds-panel-head,
+    .workspace__col--ai.is-collapsed > .ds-panel-head {
+      height: 56px !important;
+      min-height: 56px !important;
+      max-height: 56px !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0 !important;
+      padding: 14px 0 0 !important;
+    }
+
+    .workspace__col--info.is-collapsed .cinfo-panel__head-lead,
+    .workspace__col--live-stack.is-collapsed .ds-col-head__lead,
+    .workspace__col--ai.is-collapsed .ds-col-head__lead,
+    .workspace__col--ai.is-collapsed .ds-col-head__end {
+      gap: 0 !important;
+      min-width: 0 !important;
+      justify-content: center !important;
+    }
+
+    .workspace__col.is-collapsed .col-collapse-btn {
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      flex: 0 0 32px !important;
+      margin: 0 !important;
+      position: static !important;
+    }
+
+    .workspace__col--info.is-collapsed .cinfo-panel__head-lead,
+    .workspace__col--live-stack.is-collapsed .ds-col-head__lead,
+    .workspace__col--ai.is-collapsed .ds-col-head__lead,
+    .workspace__col--info.is-collapsed .cinfo-panel__head-title,
+    .workspace__col--info.is-collapsed .info-panel-stack,
+    .workspace__col--info.is-collapsed .info-panel-card__body,
+    .workspace__col--info.is-collapsed #info-panel-main,
+    .workspace__col--live-stack.is-collapsed .ds-col-head__title,
+    .workspace__col--ai.is-collapsed .ds-col-head__title,
+    .workspace__col--ai.is-collapsed .ds-col-head__action-btn,
+    .workspace__col--live-stack.is-collapsed .live-composite,
+    .workspace__col--ai.is-collapsed .live-outer--ai {
+      display: none !important;
+    }
+
+    .col-collapse-btn:disabled,
+    .col-collapse-btn[aria-disabled="true"] {
+      opacity: 0.38 !important;
+      cursor: not-allowed !important;
+      background: var(--color-surface-soft) !important;
+      border-color: var(--color-border-default) !important;
+      color: var(--color-text-soft) !important;
     }
 
     .info-side-restore {
@@ -11119,6 +11215,123 @@
         window.addEventListener("resize", applyLayoutMode);
         if (mqTablet().addEventListener) mqTablet().addEventListener("change", applyLayoutMode);
         if (mqLaptop().addEventListener) mqLaptop().addEventListener("change", applyLayoutMode);
+      })();
+
+      (function () {
+        var workspace = document.querySelector(".workspace");
+        if (!workspace) return;
+
+        var panels = {
+          info: {
+            root: document.querySelector(".workspace__col--info"),
+            body: document.getElementById("workspace-col-info"),
+            button: document.getElementById("info-side-panel-toggle"),
+            workspaceClass: "is-info-collapsed",
+            legacyWorkspaceClass: "workspace--info-collapsed",
+            bodyExpandedClass: "is-side-expanded",
+            collapseLabel: "정보 패널 접기",
+            expandLabel: "정보 패널 펼치기"
+          },
+          live: {
+            root: document.getElementById("workspace-col-live-stack"),
+            button: document.getElementById("live-col-collapse-btn"),
+            workspaceClass: "is-live-collapsed",
+            collapseLabel: "상담 진행 패널 접기",
+            expandLabel: "상담 진행 패널 펼치기"
+          },
+          ai: {
+            root: document.getElementById("workspace-col-ai"),
+            button: document.getElementById("ai-col-collapse-btn"),
+            workspaceClass: "is-ai-collapsed",
+            collapseLabel: "SHINDY 패널 접기",
+            expandLabel: "SHINDY 패널 펼치기"
+          }
+        };
+
+        function isExpanded(key) {
+          var panel = panels[key];
+          if (!panel || !panel.root) return true;
+          return !panel.root.classList.contains("is-collapsed");
+        }
+
+        function collapsedCount() {
+          return Object.keys(panels).reduce(function (count, key) {
+            return count + (isExpanded(key) ? 0 : 1);
+          }, 0);
+        }
+
+        function syncButton(key, expanded) {
+          var panel = panels[key];
+          if (!panel || !panel.button) return;
+          var label = expanded ? panel.collapseLabel : panel.expandLabel;
+          panel.button.setAttribute("aria-expanded", expanded ? "true" : "false");
+          panel.button.setAttribute("aria-label", label);
+          panel.button.setAttribute("title", label);
+        }
+
+        function setExpanded(key, expanded) {
+          var panel = panels[key];
+          if (!panel || !panel.root) return false;
+          var wasExpanded = isExpanded(key);
+          if (!expanded && wasExpanded && collapsedCount() >= 2) return false;
+
+          panel.root.classList.toggle("is-collapsed", !expanded);
+          workspace.classList.toggle(panel.workspaceClass, !expanded);
+          if (panel.legacyWorkspaceClass) workspace.classList.toggle(panel.legacyWorkspaceClass, !expanded);
+
+          if (key === "info") {
+            if (panel.body) panel.body.classList.toggle(panel.bodyExpandedClass, expanded);
+            var restore = document.getElementById("info-side-panel-restore");
+            var drawer = document.getElementById("info-side-drawer");
+            if (restore) restore.hidden = true;
+            if (drawer) drawer.setAttribute("aria-hidden", "false");
+            try {
+              window.parent.postMessage({ type: "crm:page1-info-panel", expanded: expanded }, "*");
+            } catch (_) {}
+          }
+
+          syncButton(key, expanded);
+          syncDisabled();
+          return true;
+        }
+
+        function syncDisabled() {
+          var locked = collapsedCount() >= 2;
+          Object.keys(panels).forEach(function (key) {
+            var panel = panels[key];
+            if (!panel || !panel.button) return;
+            var disable = locked && isExpanded(key);
+            panel.button.disabled = disable;
+            panel.button.setAttribute("aria-disabled", disable ? "true" : "false");
+          });
+        }
+
+        Object.keys(panels).forEach(function (key) {
+          var panel = panels[key];
+          if (!panel || !panel.button) return;
+          if (key === "info" && panel.body) {
+            panel.root.classList.toggle("is-collapsed", !panel.body.classList.contains(panel.bodyExpandedClass));
+            workspace.classList.toggle(panel.workspaceClass, panel.root.classList.contains("is-collapsed"));
+            if (panel.legacyWorkspaceClass) workspace.classList.toggle(panel.legacyWorkspaceClass, panel.root.classList.contains("is-collapsed"));
+          }
+          syncButton(key, isExpanded(key));
+          panel.button.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            setExpanded(key, !isExpanded(key));
+          }, true);
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key !== "Escape") return;
+          if (isExpanded("info")) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            setExpanded("info", false);
+          }
+        }, true);
+
+        syncDisabled();
       })();
 
     </script>

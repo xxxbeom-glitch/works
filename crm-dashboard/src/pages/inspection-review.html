@@ -44,8 +44,19 @@
        - Header / LNB / Footer / 모드 토글 / 사용자 영역 없음
        ============================================================ */
     .page3-content {
-      --common-first-col-w: 425px;
-      --common-first-col-w-compact: 360px;
+      --page-gap: var(--space-md);
+      --page-panel-inline-pad: 12px;
+      --page-panel-inline-pad-total: calc(var(--page-panel-inline-pad) * 2);
+      --page2-col-1: 425px;
+      --page2-col-3: 448px;
+      --page2-col-2: calc(100% - var(--page2-col-1) - var(--page2-col-3) - (var(--page-gap) * 2));
+      --page-left-combined-width: calc(var(--page2-col-1) + var(--page-gap) + var(--page2-col-2));
+      --page3-filter-card-w: calc(var(--page2-col-1) - var(--page-panel-inline-pad-total));
+      --page2-col-1-compact: 360px;
+      --page2-col-3-compact: 360px;
+      --page2-col-2-compact: calc(100% - var(--page2-col-1-compact) - var(--page2-col-3-compact) - (var(--page-gap) * 2));
+      --page-left-combined-width-compact: calc(var(--page2-col-1-compact) + var(--page-gap) + var(--page2-col-2-compact));
+      --page3-filter-card-w-compact: calc(var(--page2-col-1-compact) - var(--page-panel-inline-pad-total));
       height: 100vh; max-height: 100vh;
       width: 100%;
       overflow: hidden;
@@ -59,8 +70,8 @@
     .ws {
       flex: 1 1 auto; min-height: 0;
       display: grid;
-      grid-template-columns: minmax(0, 60fr) minmax(0, 40fr);
-      gap: var(--space-md);
+      grid-template-columns: var(--page-left-combined-width) minmax(0, 1fr);
+      gap: var(--page-gap);
       padding: 12px;
     }
 
@@ -75,7 +86,14 @@
        좌측 컬럼도 grid stretch 높이를 사용하고, 남는 높이는 리스트 카드가 흡수한다.
        바깥 회색 컬럼만 남지 않도록 리스트 카드 내부에서 pagination을 하단 footer처럼 배치한다. */
     .col--list {
+      grid-column: 1;
       align-self: stretch;
+    }
+
+    .ws > .col:not(.col--list) {
+      grid-column: 2;
+      align-self: stretch;
+      overflow: hidden;
     }
 
     .col > .card + .card,
@@ -87,8 +105,8 @@
       flex: 1 1 auto;
       min-height: 0;
       display: grid;
-      grid-template-columns: var(--common-first-col-w) minmax(0, 1fr);
-      gap: var(--space-md);
+      grid-template-columns: var(--page3-filter-card-w) minmax(0, 1fr);
+      gap: var(--page-gap);
     }
 
     .review-layout__side,
@@ -109,7 +127,7 @@
     }
 
     .review-layout__side .stat-row__main {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     }
 
     .review-layout__side .filter-grid {
@@ -375,8 +393,12 @@
     }
 
     @media (max-width: 1280px) {
+      .ws {
+        grid-template-columns: var(--page-left-combined-width-compact) minmax(0, 1fr);
+      }
+
       .review-layout {
-        grid-template-columns: var(--common-first-col-w-compact) minmax(0, 1fr);
+        grid-template-columns: var(--page3-filter-card-w-compact) minmax(0, 1fr);
       }
     }
     /* 내부 카드 (공통) */
@@ -444,13 +466,21 @@
     }
     .card__body--flush { padding: 0; }
     .detail-card {
+      display: flex;
+      flex: 0.9 1 0;
+      flex-direction: column;
+      min-height: 0;
       overflow: hidden;
     }
     .detail-card__body {
+      flex: 1 1 auto;
+      min-height: 0;
       display: block !important;
       padding: 0 !important;
       gap: 0 !important;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
+      scrollbar-gutter: stable;
     }
 
     /* ============================================================
@@ -480,8 +510,8 @@
     }
 
     .stat-row__main {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      display: grid !important;
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
       align-items: center;
       gap: var(--space-xs);
       min-width: 0;
@@ -919,52 +949,24 @@
       --detail-cell-pad: var(--space-lg);
       --detail-label-w: 76px;
       position: relative;
-      display: grid;
-      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
-      grid-template-areas:
-        "customer stt"
-        "ai stt"
-        "history knowledge";
-      column-gap: 0;
-      row-gap: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
       align-items: stretch;
       overflow: hidden;
       isolation: isolate;
     }
     .mini-grid::before {
-      content: "";
-      grid-column: 2;
-      grid-row: 1 / -1;
-      justify-self: start;
-      align-self: stretch;
-      width: 1px;
-      background: var(--color-border-subtle);
-      pointer-events: none;
-      z-index: 2;
+      display: none;
     }
     .mini-grid::after {
-      content: "";
-      grid-column: 1 / -1;
-      grid-row: 3;
-      align-self: start;
-      justify-self: stretch;
-      height: 1px;
-      background: var(--color-border-subtle);
-      pointer-events: none;
-      z-index: 2;
+      display: none;
     }
     .mini-grid__divider {
-      background: var(--color-border-subtle);
-      pointer-events: none;
-      position: relative;
-      z-index: 2;
+      display: none;
     }
     .mini-grid__divider--h-left {
-      grid-column: 1;
-      grid-row: 2;
-      align-self: start;
-      justify-self: stretch;
-      height: 1px;
+      display: none;
     }
     .mini-card {
       background: transparent;
@@ -974,6 +976,10 @@
       display: flex; flex-direction: column; gap: var(--space-sm) !important;
       min-width: 0;
       position: relative;
+    }
+
+    .mini-card + .mini-card {
+      border-top: 1px solid var(--color-border-subtle);
     }
 
     .mini-card--customer,
@@ -986,11 +992,13 @@
       border-top: 0;
     }
 
-    .mini-card--customer { grid-area: customer; }
-    .mini-card--ai       { grid-area: ai; }
-    .mini-card--history  { grid-area: history; }
-    .mini-card--stt      { grid-area: stt; }
-    .mini-card--knowledge{ grid-area: knowledge; }
+    .mini-card--customer,
+    .mini-card--ai,
+    .mini-card--history,
+    .mini-card--stt,
+    .mini-card--knowledge {
+      grid-area: auto;
+    }
 
     .mini-card__head {
       display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm);
@@ -1177,7 +1185,7 @@
 
     /* 후속 조치 */
     .followup-card {
-      flex: 1 1 auto;
+      flex: 1.1 1 0;
       min-height: 0;
     }
     .followup-card__body {
@@ -1261,6 +1269,13 @@
     }
     @media (max-width: 1080px) {
       .ws { grid-template-columns: 1fr; }
+      .col--list,
+      .ws > .col:not(.col--list) {
+        grid-column: auto;
+      }
+      .review-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
     }
   </style>
 </head>
@@ -1350,8 +1365,9 @@
                 <div class="filter-group">
                   <span class="filter-grid__label">기간</span>
                   <span class="filter-grid__field">
-                  <span class="seg seg--count-3">
-                    <button type="button" class="seg__btn is-active">최근 일주일</button>
+                  <span class="seg seg--count-4">
+                    <button type="button" class="seg__btn is-active">당일</button>
+                    <button type="button" class="seg__btn">최근 일주일</button>
                     <button type="button" class="seg__btn">최근 1개월</button>
                     <button type="button" class="seg__btn">최근 3개월</button>
                   </span>

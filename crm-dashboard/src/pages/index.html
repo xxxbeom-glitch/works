@@ -8564,6 +8564,213 @@
       color: var(--color-text-soft) !important;
     }
 
+    /* ── 상담안내가이드 — vertical progress checklist ── */
+    .cinfo-panel #info-acc-guide.cinfo-section--guide {
+      display: flex !important;
+      flex-direction: column !important;
+      overflow: hidden !important;
+      max-height: 100% !important;
+    }
+
+    .cinfo-panel .cinfo-section--guide .cinfo-guide__head {
+      flex: 0 0 auto !important;
+      height: auto !important;
+      min-height: 72px !important;
+      padding: 12px 16px !important;
+      display: grid !important;
+      grid-template-columns: auto minmax(0, 1fr) auto !important;
+      align-items: center !important;
+      column-gap: var(--space-md) !important;
+    }
+
+    .cinfo-panel .cinfo-guide__progress-ring {
+      --guide-progress: 20%;
+      width: 42px !important;
+      height: 42px !important;
+      border-radius: var(--radius-pill) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-shrink: 0 !important;
+      background:
+        radial-gradient(circle, var(--color-surface-card) 0 58%, transparent 59%),
+        conic-gradient(var(--color-text-secondary) var(--guide-progress), var(--c-neutral-200) 0) !important;
+      color: var(--color-text-secondary) !important;
+      font-size: var(--type-caption-fs) !important;
+      font-weight: var(--fw-bold) !important;
+      line-height: 1 !important;
+    }
+
+    .cinfo-panel .cinfo-guide__head-copy {
+      min-width: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 3px !important;
+    }
+
+    .cinfo-panel .cinfo-guide__title {
+      margin: 0 !important;
+      color: var(--color-text-strong) !important;
+      font-size: var(--type-body-fs) !important;
+      font-weight: var(--fw-bold) !important;
+      line-height: var(--lh-snug) !important;
+    }
+
+    .cinfo-panel .cinfo-guide__progress-text {
+      margin: 0 !important;
+      color: var(--color-text-muted) !important;
+      font-size: var(--type-caption-fs) !important;
+      font-weight: var(--fw-medium) !important;
+      line-height: var(--lh-snug) !important;
+    }
+
+    .cinfo-panel .cinfo-guide {
+      padding: 12px 16px 16px !important;
+      gap: 0 !important;
+    }
+
+    .cinfo-panel #info-acc-guide .guide-card-body {
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+      max-height: calc(100% - 72px) !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      scrollbar-width: thin !important;
+      scrollbar-color: var(--color-border-strong) transparent !important;
+    }
+
+    .cinfo-panel #info-acc-guide .guide-card-body::-webkit-scrollbar {
+      width: 6px !important;
+    }
+
+    .cinfo-panel #info-acc-guide .guide-card-body::-webkit-scrollbar-thumb {
+      border-radius: var(--radius-pill) !important;
+      background: var(--color-border-strong) !important;
+    }
+
+    .cinfo-panel .cinfo-guide__progress {
+      display: none !important;
+    }
+
+    .cinfo-panel .cinfo-guide__list {
+      position: relative !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0 !important;
+      margin: 0 !important;
+      padding: 2px 0 !important;
+      list-style: none !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item {
+      position: relative !important;
+      display: grid !important;
+      grid-template-columns: 22px minmax(0, 1fr) auto !important;
+      align-items: center !important;
+      min-height: 38px !important;
+      height: auto !important;
+      padding: 0 !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      color: var(--color-text-muted) !important;
+      box-shadow: none !important;
+      text-align: left !important;
+      gap: var(--space-sm) !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item::before {
+      content: "" !important;
+      grid-column: 1 !important;
+      width: 10px !important;
+      height: 10px !important;
+      justify-self: center !important;
+      border-radius: var(--radius-pill) !important;
+      border: 2px solid var(--c-neutral-300) !important;
+      background: var(--color-surface-card) !important;
+      z-index: 1 !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item::after {
+      content: "" !important;
+      position: absolute !important;
+      left: 10px !important;
+      top: 24px !important;
+      bottom: -14px !important;
+      border-left: 1px dashed var(--color-border-default) !important;
+      pointer-events: none !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item:last-child::after {
+      content: none !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item-title {
+      grid-column: 2 !important;
+      min-width: 0 !important;
+      color: var(--color-text-secondary) !important;
+      font-size: var(--type-body-fs) !important;
+      font-weight: var(--fw-medium) !important;
+      line-height: var(--lh-snug) !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item-status {
+      grid-column: 3 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+      min-width: 34px !important;
+      color: var(--color-text-muted) !important;
+      background: transparent !important;
+      font-size: var(--type-caption-fs) !important;
+      font-weight: var(--fw-medium) !important;
+      line-height: var(--lh-tight) !important;
+      white-space: nowrap !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item-icon {
+      display: none !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item--done {
+      color: var(--color-status-success) !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item--done::before {
+      width: 12px !important;
+      height: 12px !important;
+      border-color: var(--color-status-success) !important;
+      background: var(--color-status-success) !important;
+      mask: none !important;
+      -webkit-mask: none !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item--done .cinfo-guide__item-title,
+    .cinfo-panel .cinfo-guide__item--done .cinfo-guide__item-status {
+      color: var(--color-status-success) !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item--current::before {
+      width: 14px !important;
+      height: 14px !important;
+      border-color: var(--color-text-secondary) !important;
+      background: var(--color-surface-card) !important;
+      box-shadow: inset 0 0 0 3px var(--color-text-secondary) !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item--current .cinfo-guide__item-title {
+      color: var(--color-text-strong) !important;
+      font-weight: var(--fw-bold) !important;
+    }
+
+    .cinfo-panel .cinfo-guide__item--current .cinfo-guide__item-status {
+      color: var(--color-text-secondary) !important;
+      font-weight: var(--fw-semibold) !important;
+    }
+
     /* ============================================================
        1920×1080 fixed program canvas overrides
        - iframe viewport is owned by app.html.
@@ -8768,7 +8975,6 @@
     }
 
     .live-outer--info .info-doc-guide__check-item.is-current,
-    .cinfo-panel .cinfo-guide__item--current,
     .cinfo-panel .cinfo-contract.is-selected,
     .live-outer--info .contract-acc-item.is-expanded,
     .live-outer--info .contract-acc-item.is-expanded > .contract-acc-trigger,
@@ -8789,16 +8995,10 @@
     }
 
     .live-outer--info .info-doc-guide__check-item.is-current,
-    .cinfo-panel .cinfo-guide__item--current,
-    .cinfo-panel .cinfo-guide__item--current .cinfo-guide__item-icon,
-    .cinfo-panel .cinfo-guide__item--current .cinfo-guide__item-status {
+    .live-outer--info .info-doc-guide__check-item.is-current .info-doc-guide__index,
+    .live-outer--info .info-doc-guide__check-item.is-current .info-doc-guide__state {
       border-color: var(--c-neutral-400) !important;
       color: var(--color-text-secondary) !important;
-    }
-
-    .cinfo-panel .cinfo-guide__item--current .cinfo-guide__item-icon,
-    .cinfo-panel .cinfo-guide__item--current .cinfo-guide__item-status {
-      background: var(--c-neutral-200) !important;
     }
 
     /* High-specificity neutral pass for late page-specific !important rules. */
@@ -9382,8 +9582,22 @@
                       </section>
 
                       <section class="card cinfo-section cinfo-section--guide" id="info-acc-guide">
-                        <header class="card__head cinfo-section__head">
-                          <h3 class="card__title cinfo-section__title" id="info-sect-guide-title">상담 안내 가이드</h3>
+                        <header class="card__head cinfo-section__head cinfo-guide__head guide-card-header">
+                          <div
+                            class="cinfo-guide__progress-ring"
+                            id="cinfo-guide-progress"
+                            role="progressbar"
+                            aria-label="필수 안내 진행률"
+                            aria-valuemin="0"
+                            aria-valuemax="5"
+                            aria-valuenow="1"
+                          >
+                            <span class="cinfo-guide__progress-percent">20%</span>
+                          </div>
+                          <div class="cinfo-guide__head-copy">
+                            <h3 class="card__title cinfo-section__title cinfo-guide__title" id="info-sect-guide-title">상담안내가이드</h3>
+                            <p class="cinfo-guide__progress-text" id="cinfo-guide-progress-text" aria-live="polite">필수 안내 5건 중 1건 완료</p>
+                          </div>
                           <button
                             type="button"
                             class="cinfo-section__chev"
@@ -9397,15 +9611,7 @@
                             </svg>
                           </button>
                         </header>
-                        <div class="cinfo-guide" id="info-acc-guide-body" aria-label="상담안내가이드 진행 상태">
-                          <p class="cinfo-guide__progress-text" id="cinfo-guide-progress-text" aria-live="polite">필수 안내 5건 중 1건 완료</p>
-                          <div class="cinfo-guide__progress" role="progressbar" aria-label="필수 안내 진행률" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1">
-                            <span class="cinfo-guide__seg" data-seg-index="1"></span>
-                            <span class="cinfo-guide__seg" data-seg-index="2"></span>
-                            <span class="cinfo-guide__seg" data-seg-index="3"></span>
-                            <span class="cinfo-guide__seg" data-seg-index="4"></span>
-                            <span class="cinfo-guide__seg" data-seg-index="5"></span>
-                          </div>
+                        <div class="cinfo-guide guide-card-body" id="info-acc-guide-body" aria-label="상담안내가이드 진행 상태">
                           <ul class="cinfo-guide__list" id="cinfo-guide-list" aria-label="필수 안내 5단계">
                             <li class="cinfo-guide__item cinfo-guide__item--done" data-guide-step="identity">
                               <span class="cinfo-guide__item-title">본인확인</span>
@@ -9928,7 +10134,7 @@
         var root = document.getElementById("info-acc-guide-body");
         var listEl = document.getElementById("cinfo-guide-list");
         var textEl = document.getElementById("cinfo-guide-progress-text");
-        var progressEl = root ? root.querySelector(".cinfo-guide__progress") : null;
+        var progressEl = document.getElementById("cinfo-guide-progress");
         if (!root || !listEl || !textEl || !progressEl) return;
 
         var GUIDE_STEPS = [
@@ -9982,11 +10188,15 @@
             return count + (map[step.id] === "done" ? 1 : 0);
           }, 0);
           var total = GUIDE_STEPS.length;
+          var percent = Math.round((doneCount / total) * 100);
 
           textEl.textContent = "필수 안내 " + total + "건 중 " + doneCount + "건 완료";
           progressEl.setAttribute("aria-valuenow", String(doneCount));
+          progressEl.style.setProperty("--guide-progress", percent + "%");
+          var percentEl = progressEl.querySelector(".cinfo-guide__progress-percent");
+          if (percentEl) percentEl.textContent = percent + "%";
 
-          /* 5-segment progress bar 업데이트 */
+          /* Legacy segment progress가 남아 있을 경우에도 상태만 동기화한다. */
           var segs = progressEl.querySelectorAll(".cinfo-guide__seg");
           segs.forEach(function (seg, idx) {
             if (idx < doneCount) {
@@ -10004,7 +10214,7 @@
             item.className = "cinfo-guide__item " + statusClass(status);
             item.setAttribute("data-status", status);
             var state = item.querySelector(".cinfo-guide__item-status");
-            if (state) state.textContent = "";
+            if (state) state.textContent = status === "done" ? "완료" : (status === "active" ? "진행" : "대기");
           });
         }
 

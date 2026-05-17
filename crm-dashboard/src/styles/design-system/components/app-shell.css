@@ -53,6 +53,6 @@
 .ds-app-footer {
   flex-shrink: 0;
   min-height: var(--layout-footer-height);
-  background: var(--color-surface-footer);
-  color: var(--color-text-inverse);
+  background: #DADFE4;
+  color: #475569;
 }

@@ -110,6 +110,29 @@
     }
     .col__scroll::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.52); }
 
+    /* 2페이지 1열: 외부카드 padding은 유지하고 실제 스크롤만 내부 body에 한정 */
+    .col--settings {
+      overflow: hidden;
+    }
+
+    .col--settings > .col__scroll {
+      gap: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 0;
+      margin-left: -12px;
+      margin-right: -12px;
+      scrollbar-gutter: stable;
+    }
+
+    .col--settings .col__content {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      padding: 0 12px;
+    }
+
     /* 중앙 컬럼: 카드 1개를 컬럼 전체 높이로 채움 (내부 본문에서 스크롤) */
     .col--stretch { gap: 0; }
     .col--stretch .col__scroll { padding-right: 0; margin-right: 0; }
@@ -240,6 +263,22 @@
     }
     .upload-drop__btn:hover { background: var(--c-neutral-100); }
 
+    .upload-card {
+      height: 352px;
+      min-height: 352px;
+      max-height: 352px;
+    }
+
+    .upload-card .card__body {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .upload-card .upload-drop {
+      flex: 0 0 auto;
+    }
+
     /* 파일 목록 */
     .file-list { display: flex; flex-direction: column; gap: var(--space-sm); }
     .file-list__head {
@@ -267,9 +306,36 @@
       border-color: var(--color-border-strong);
       color: var(--color-text-secondary);
     }
+    .upload-card .file-list {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .file-list__body {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 8px;
+      scrollbar-gutter: stable;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(156, 163, 175, 0.30) transparent;
+    }
+    .file-list__body::-webkit-scrollbar { width: 5px; }
+    .file-list__body::-webkit-scrollbar-track { background: transparent; }
+    .file-list__body::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.30);
+      border-radius: var(--radius-pill);
+    }
+    .file-list__body::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.52); }
     .file {
       display: flex; align-items: center; gap: var(--space-sm);
-      height: 44px; padding: 0 12px;
+      flex: 0 0 44px;
+      height: 44px;
+      min-height: 44px;
+      padding: 0 12px;
       background: var(--color-surface-soft);
       border: 1px solid var(--color-border-default);
       border-radius: var(--radius-control);
@@ -880,7 +946,7 @@
       <main class="ws" aria-label="문서 생성 워크스페이스">
 
         <!-- ============================ 1열 ============================ -->
-        <section class="col" aria-label="문서 생성 설정">
+        <section class="col col--settings" aria-label="문서 생성 설정">
           <header class="ds-col-head">
             <span class="ds-col-head__lead">
               <span class="ds-col-head__icon" aria-hidden="true">
@@ -894,9 +960,10 @@
             </span>
           </header>
           <div class="col__scroll">
+            <div class="col__content">
 
           <!-- 1) 문서 업로드 -->
-          <article class="card">
+          <article class="card upload-card">
             <header class="card__head">
               <span class="card__head-lead">
                 <h3 class="card__title card__title--step"><span class="card__title-step">1.</span> 문서 업로드</h3>
@@ -910,47 +977,75 @@
               </div>
               <div class="file-list">
                 <div class="file-list__head">
-                  <span id="upload-file-count">업로드 파일 (3)</span>
+                  <span id="upload-file-count">업로드 파일 (5)</span>
                   <button type="button" class="file-list__clear">전체 삭제</button>
                 </div>
-                <div class="file">
-                  <svg class="file__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
-                    <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6"/>
-                  </svg>
-                  <span class="file__name">실효처리_업무매뉴얼.pptx</span>
-                  <span class="file__status file__status--ok">성공</span>
-                  <button type="button" class="file__delete" aria-label="실효처리_업무매뉴얼.pptx 삭제">
-                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <div class="file-list__body">
+                  <div class="file">
+                    <svg class="file__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
+                      <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6"/>
                     </svg>
-                  </button>
-                </div>
-                <div class="file">
-                  <svg class="file__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
-                    <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6"/>
-                  </svg>
-                  <span class="file__name">FAQ_실효관련.docx</span>
-                  <span class="file__status file__status--fail">실패</span>
-                  <button type="button" class="file__delete" aria-label="FAQ_실효관련.docx 삭제">
-                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <span class="file__name">실효처리_업무매뉴얼.pptx</span>
+                    <span class="file__status file__status--ok">성공</span>
+                    <button type="button" class="file__delete" aria-label="실효처리_업무매뉴얼.pptx 삭제">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="file">
+                    <svg class="file__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
+                      <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6"/>
                     </svg>
-                  </button>
-                </div>
-                <div class="file">
-                  <svg class="file__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
-                    <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6"/>
-                  </svg>
-                  <span class="file__name">실효처리_보험금지급.pptx</span>
-                  <span class="file__status file__status--loading">진행중</span>
-                  <button type="button" class="file__delete" aria-label="실효처리_보험금지급.pptx 삭제">
-                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <span class="file__name">FAQ_실효관련.docx</span>
+                    <span class="file__status file__status--fail">실패</span>
+                    <button type="button" class="file__delete" aria-label="FAQ_실효관련.docx 삭제">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="file">
+                    <svg class="file__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
+                      <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6"/>
                     </svg>
-                  </button>
+                    <span class="file__name">실효처리_보험금지급.pptx</span>
+                    <span class="file__status file__status--loading">진행중</span>
+                    <button type="button" class="file__delete" aria-label="실효처리_보험금지급.pptx 삭제">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="file">
+                    <svg class="file__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
+                      <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6"/>
+                    </svg>
+                    <span class="file__name">고객상담_처리기준.pdf</span>
+                    <span class="file__status file__status--ok">성공</span>
+                    <button type="button" class="file__delete" aria-label="고객상담_처리기준.pdf 삭제">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="file">
+                    <svg class="file__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
+                      <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6"/>
+                    </svg>
+                    <span class="file__name">약관_보장기준.hwp</span>
+                    <span class="file__status file__status--loading">진행중</span>
+                    <button type="button" class="file__delete" aria-label="약관_보장기준.hwp 삭제">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1042,6 +1137,7 @@
             </div>
           </article>
 
+            </div>
           </div>
           
           <!-- CTA 영역: 좌측 컬럼 하단 고정 -->

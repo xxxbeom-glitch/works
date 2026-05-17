@@ -28,9 +28,9 @@
     .page1-content {
       /* 컬럼/그리드 변수 (구 .console.app-shell 에서 이식) */
       --lnb-width: 0px;
-      --col-1: 20%;
-      --col-2: 40%;
-      --col-3: 40%;
+      --col-1: 23.1%;
+      --col-2: 38.45%;
+      --col-3: 38.45%;
       --layout-scale: clamp(0.875, 0.78 + 0.12vw, 1);
       --grid-gap: clamp(10px, 0.72vw, 14px);
       --card-padding-y: clamp(14px, 0.94vw, 18px);
@@ -202,9 +202,9 @@
 
     .console.app-shell {
       --lnb-width: 56px;
-      --col-1: 20%;
-      --col-2: 40%;
-      --col-3: 40%;
+      --col-1: 23.1%;
+      --col-2: 38.45%;
+      --col-3: 38.45%;
       --grid-gap: var(--space-md);
       --card-padding: 18px 9px 9px;
       --inner-padding: 18px;
@@ -489,9 +489,9 @@
     @media (min-width: 1600px) {
       .console.app-shell {
         --lnb-width: 60px;
-        --col-1: 20%;
-        --col-2: 40%;
-        --col-3: 40%;
+        --col-1: 23.1%;
+        --col-2: 38.45%;
+        --col-3: 38.45%;
         --grid-gap: var(--space-md);
         --card-padding: 18px 9px 9px;
         --inner-padding: 18px;
@@ -501,9 +501,9 @@
     @media (min-width: 1280px) and (max-width: 1599px) {
       .console.app-shell {
         --lnb-width: 56px;
-        --col-1: 20%;
-        --col-2: 40%;
-        --col-3: 40%;
+        --col-1: 23.1%;
+        --col-2: 38.45%;
+        --col-3: 38.45%;
         --grid-gap: var(--space-md);
         --card-padding: 14px 8px 8px;
         --inner-padding: 16px;
@@ -513,9 +513,9 @@
     @media (min-width: 1024px) and (max-width: 1279px) {
       .console.app-shell {
         --lnb-width: 52px;
-        --col-1: 20%;
-        --col-2: 40%;
-        --col-3: 40%;
+        --col-1: 29.5%;
+        --col-2: 35.25%;
+        --col-3: 35.25%;
         --grid-gap: var(--space-md);
         --card-padding: 12px 8px 8px;
         --inner-padding: 14px;
@@ -5360,9 +5360,51 @@
     .cinfo-panel .cinfo-guide__item--wait .cinfo-guide__item-status,
     .cinfo-panel .cinfo-guide__item--wait .cinfo-guide__item-icon { color: var(--color-text-soft); }
 
-    /* 접힘 상태에서 폭만 줄어들고 같은 UI 유지 */
+    /* 접힘 상태: 1페이지 고객정보 패널은 슬림 외부카드만 유지 */
     .info-side:not(.is-side-expanded) .live-outer--info.cinfo-panel {
-      padding: 20px 18px 24px;
+      height: 100%;
+      padding: 8px 12px 12px 12px;
+      align-items: stretch;
+      justify-content: flex-start;
+      background: var(--color-surface-outer);
+      border-radius: var(--radius-outer);
+      overflow: hidden;
+    }
+
+    .info-side:not(.is-side-expanded) .live-outer--info.cinfo-panel .cinfo-panel__head {
+      width: 100%;
+      align-self: stretch;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      padding: 0;
+    }
+
+    .info-side:not(.is-side-expanded) .live-outer--info.cinfo-panel .cinfo-panel__head-lead {
+      gap: 0;
+      flex: 0 0 auto;
+    }
+
+    .info-side:not(.is-side-expanded) .live-outer--info.cinfo-panel .cinfo-panel__head-icon {
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      flex: 0 0 32px !important;
+    }
+
+    .info-side:not(.is-side-expanded) .live-outer--info.cinfo-panel .cinfo-panel__head-icon svg {
+      width: 24px !important;
+      height: 24px !important;
+      max-width: 24px !important;
+      max-height: 24px !important;
+    }
+
+    .info-side:not(.is-side-expanded) .live-outer--info.cinfo-panel .cinfo-panel__head-title,
+    .info-side:not(.is-side-expanded) .live-outer--info.cinfo-panel .info-panel-stack,
+    .info-side:not(.is-side-expanded) .live-outer--info.cinfo-panel .info-panel-card__body,
+    .info-side:not(.is-side-expanded) .live-outer--info.cinfo-panel #info-panel-main {
+      display: none !important;
     }
 
     /* ============================================================
@@ -8845,9 +8887,9 @@
     }
 
     .page1-content {
-      --col-1-w: 2fr;
-      --col-2-w: 4fr;
-      --col-3-w: 4fr;
+      --col-1-w: 425fr;
+      --col-2-w: 707.5fr;
+      --col-3-w: 707.5fr;
       --grid-gap: var(--space-md);
       --workspace-pad: 12px;
       --layout-scale: 1;
@@ -8877,19 +8919,21 @@
     }
 
     .workspace.workspace--info-collapsed {
-      grid-template-columns: var(--col-2-w) var(--col-3-w);
+      --info-collapsed-w: 112px;
+      grid-template-columns: var(--info-collapsed-w, 112px) var(--col-2-w) var(--col-3-w);
     }
 
     .workspace.workspace--info-collapsed .workspace__col--info {
-      display: none;
+      display: flex;
+      min-width: 0;
     }
 
     .workspace.workspace--info-collapsed .workspace__col--live-stack {
-      grid-column: 1;
+      grid-column: 2;
     }
 
     .workspace.workspace--info-collapsed .workspace__col--ai {
-      grid-column: 2;
+      grid-column: 3;
     }
 
     .workspace__col {
@@ -8898,31 +8942,12 @@
         transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
+    .workspace.workspace--info-collapsed .info-side {
+      --info-collapsed-w: 112px;
+    }
+
     .info-side-restore {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 20;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 32px;
-      padding: 0 12px;
-      border: 1px solid rgba(203, 213, 225, 0.82);
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.92);
-      color: var(--color-text-default);
-      font-family: inherit;
-      font-size: var(--type-small-fs);
-      font-weight: var(--fw-bold);
-      line-height: 1;
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
-      cursor: pointer;
-      transition:
-        background var(--motion-fast),
-        border-color var(--motion-fast),
-        color var(--motion-fast),
-        opacity var(--motion-fast);
+      display: none !important;
     }
 
     .info-side-restore:hover {
@@ -10048,9 +10073,7 @@
           </div>
     </main>
 
-    <button type="button" class="info-side-restore" id="info-side-panel-restore" aria-label="정보 패널 펼치기" hidden>
-      고객정보 펼치기
-    </button>
+    <button type="button" class="info-side-restore" id="info-side-panel-restore" aria-label="정보 패널 펼치기" hidden></button>
 
     <button type="button" class="know-drawer-backdrop" id="know-drawer-backdrop" aria-label="질의 및 에이전트 패널 닫기" hidden></button>
     <button type="button" class="know-drawer-fab" id="know-drawer-fab" aria-expanded="false" aria-controls="workspace-col-ai">질의 및 에이전트</button>
@@ -10517,8 +10540,8 @@
             toggle.setAttribute("title", on ? "정보 패널 접기" : "정보 패널 펼치기");
             toggle.setAttribute("aria-label", on ? "정보 패널 접기" : "정보 패널 펼치기");
           }
-          if (restore) restore.hidden = on;
-          if (drawer) drawer.setAttribute("aria-hidden", on ? "false" : "true");
+          if (restore) restore.hidden = true;
+          if (drawer) drawer.setAttribute("aria-hidden", "false");
           notifyShell(on);
         }
 
@@ -10536,7 +10559,7 @@
         }
 
         if (drawer) drawer.setAttribute("aria-hidden", "false");
-        if (restore) restore.hidden = root.classList.contains("is-side-expanded");
+        if (restore) restore.hidden = true;
         notifyShell(root.classList.contains("is-side-expanded"));
 
         document.addEventListener("keydown", function (e) {
@@ -11011,7 +11034,7 @@
             panelToggle.setAttribute("title", on ? "정보 패널 접기" : "정보 패널 펼치기");
             panelToggle.setAttribute("aria-label", on ? "정보 패널 접기" : "정보 패널 펼치기");
           }
-          if (panelRestore) panelRestore.hidden = on;
+          if (panelRestore) panelRestore.hidden = true;
           try {
             window.parent.postMessage({ type: "crm:page1-info-panel", expanded: on }, "*");
           } catch (_) {}

@@ -131,8 +131,8 @@
       height: var(--footer-h);
       min-height: var(--footer-h);
       padding: var(--space-sm) var(--space-xl);
-      background: var(--color-surface-footer);
-      color: var(--color-text-on-footer, rgba(255,255,255,0.92));
+      background: #DADFE4;
+      color: #475569;
       font-size: var(--type-small-fs);
       font-weight: var(--fw-semibold);
       line-height: var(--lh-tight);
@@ -147,7 +147,7 @@
     .statusbar__item {
       display: inline-flex; align-items: center; gap: 4px;
     }
-    .statusbar__item strong { color: var(--color-text-inverse); font-weight: var(--fw-semibold); }
+    .statusbar__item strong { color: #475569; font-weight: var(--fw-semibold); }
     .status-dot {
       width: 8px; height: 8px; border-radius: var(--radius-pill);
       background: var(--color-status-success);
@@ -158,7 +158,7 @@
       flex-shrink: 0;
       font-size: var(--type-small-fs); font-weight: var(--fw-medium);
       letter-spacing: 0.02em;
-      color: rgba(255, 255, 255, 0.72);
+      color: #475569;
     }
 
     /* ============================================================
@@ -462,10 +462,6 @@
         <!-- Footer (statusbar) : activePage 상태와 무관, 모든 페이지에서 동일 -->
         <footer class="statusbar" aria-label="상태 표시줄">
           <div class="statusbar__cluster">
-            <span class="statusbar__item">
-              <span class="status-dot" aria-hidden="true"></span>
-              <span><strong>통화 중</strong> · 14:25 (00:02:15)</span>
-            </span>
             <span class="statusbar__item">TTFT <strong>1.8s</strong></span>
             <span class="statusbar__item">Agent <strong>상담지원 · 요약 · 검수</strong> · 3 active</span>
             <span class="statusbar__item">LLM <strong>GPT-4o</strong> · Latency 1.2s · Token 1,240</span>

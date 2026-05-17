@@ -48,10 +48,18 @@
       height: 100vh; max-height: 100vh;
       width: 100%;
       overflow: hidden;
-      display: flex; flex-direction: column;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       background: var(--color-bg, #EBEFF3);
     }
-    .page1-content > .workspace { flex: 1 1 auto; min-height: 0; }
+    .page1-content > .workspace {
+      flex: 1 1 auto;
+      min-height: 0;
+      align-self: flex-start;
+      width: max-content;
+      max-width: 100%;
+    }
   </style>
   <style>
     /* 색·타이포·간격 토큰: docs/design-tokens.md, colors.md, typography.md, spacing.md · 소스: ../styles/tokens.css */
@@ -2980,7 +2988,7 @@
 
     .live-composite .know-assistant__empty {
       margin: 0;
-      padding: 12px 4px;
+      padding: 12px 16px;
       font-size: var(--type-small-fs);
       font-weight: var(--fw-medium);
       line-height: var(--lh-relaxed);
@@ -6438,6 +6446,15 @@
       box-shadow: none !important;
     }
 
+    /* 상담 어시스턴트: 본문 좌우 패딩은 스크롤 영역만 — 질문 추천 풋·구분선은 흰 카드 가로 풀폭 */
+    .live-composite .live-outer--know .live-inner.know-assistant-inner {
+      padding-inline: 0 !important;
+    }
+    .live-composite .live-outer--know .know-assistant-content {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+
     /* 내부 카드 박스/border 완전 제거 (1열 row 톤) */
     .live-composite .live-outer--know .know-card,
     .live-composite .live-outer--know .know-acc-card,
@@ -8961,32 +8978,41 @@
       --col-1-w: 425px;
       --collapsed-panel-width: 56px;
       --panel-gap: 12px;
-      --col-2-w: minmax(0, 1fr);
-      --col-3-w: var(--col-2-w);
+      --workspace-pad: 12px;
+      /* 2·3열은 1fr 로 늘리지 않음 — 접힘 시 캔버스가 줄어들고 2열 픽셀 폭은 유지 */
+      --page1-track-inner-w: calc(var(--page1-expanded-content-w) - 2 * var(--workspace-pad));
+      --col-flex-expanded: calc(
+        (var(--page1-track-inner-w) - var(--col-1-w) - 2 * var(--panel-gap)) / 2
+      );
+      --col-2-w: minmax(0, var(--col-flex-expanded));
+      --col-3-w: minmax(0, var(--col-flex-expanded));
       --col-info: var(--col-1-w);
       --col-live: var(--col-2-w);
       --col-ai: var(--col-3-w);
       --info-collapsed-w: var(--collapsed-panel-width);
       --grid-gap: var(--panel-gap);
-      --workspace-pad: 12px;
       --layout-scale: 1;
       --card-padding: 18px 9px 9px;
       --inner-padding: 18px;
       --workspace-height: 100vh;
       position: relative;
-      width: 100%;
+      width: min(100%, max-content);
       height: 100vh;
       min-width: 0;
       max-width: none;
       overflow: hidden;
+      align-items: flex-start;
     }
 
     .page1-content > .workspace,
     .workspace,
     .main-grid {
-      width: 100%;
+      box-sizing: border-box;
+      width: max-content;
+      max-width: 100%;
       height: 100vh;
       max-height: 100vh;
+      justify-content: start;
       grid-template-columns: var(--col-info) var(--col-live) var(--col-ai);
       gap: var(--grid-gap);
       padding: var(--workspace-pad);
@@ -9394,8 +9420,9 @@
       color: var(--color-text-muted) !important;
     }
 
-    /* 질문 추천 영역을 STT 관련 화면 quick-action row와 동일하게 고정 */
-    .live-composite .live-outer--know .ka-doc__recommend.quick-action-row {
+    /* 질문 추천 · 관련 화면: 동일 세로·배경. 어시스턴트 풋은 본문 좌우 패딩 없음(풀폭 라인·배경) */
+    .live-composite .live-outer--know .ka-doc__recommend.quick-action-row.know-assistant-recommend,
+    .live-composite .live-outer--stt .stt-related.quick-action-row {
       box-sizing: border-box !important;
       flex: 0 0 auto !important;
       display: flex !important;
@@ -9407,7 +9434,7 @@
       min-height: 52px !important;
       margin: 0 !important;
       padding: 12px 16px !important;
-      background: transparent !important;
+      background: var(--color-surface-soft) !important;
       border: 0 !important;
       border-top: 1px solid var(--color-border-default) !important;
       box-shadow: none !important;

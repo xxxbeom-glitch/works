@@ -37,9 +37,9 @@
       line-height: var(--lh-normal);
       -webkit-font-smoothing: antialiased;
     }
-    button, input, textarea { font: inherit; color: inherit; }
+    button, input, textarea, select { font: inherit; color: inherit; }
     button { cursor: pointer; background: none; border: 0; padding: 0; }
-    input:focus, textarea:focus { outline: none; }
+    input:focus, textarea:focus, select:focus { outline: none; }
 
     /* 얇고 연한 톤 공통 스크롤바 */
     .scroll-y { overflow-y: auto; overflow-x: hidden; }
@@ -548,7 +548,7 @@
       cursor: pointer;
     }
 
-    /* form row + segmented + number input */
+    /* form row (+ 문서 옵션 2×2 그리드) */
     .form-row {
       display: flex;
       flex-direction: column;
@@ -567,6 +567,7 @@
       font-weight: var(--fw-semibold);
       line-height: var(--lh-snug);
       color: var(--color-text-strong);
+      cursor: default;
     }
     .form-row__field {
       display: inline-flex;
@@ -578,57 +579,24 @@
       width: 100%;
       margin: 0;
     }
-    .seg {
-      display: inline-flex;
-      align-items: stretch;
+
+    /* 문서 생성 옵션: 2×2 + 스타일 가이드 select(.ds-select) */
+    .doc-option-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
       width: 100%;
-      height: 40px !important;
-      min-height: 40px !important;
-      border: 1px solid var(--color-border-strong);
-      border-radius: var(--radius-control);
-      overflow: hidden;
-      box-sizing: border-box;
     }
-    .seg__btn {
-      flex: 1 1 0 !important;
-      min-width: 0 !important;
-      height: 40px !important;
-      min-height: 40px !important;
-      padding: 0 var(--control-pad-x-md);
-      background: var(--color-surface-card);
-      color: var(--color-text-default);
-      font-size: var(--type-ui-label-fs);
-      font-weight: var(--fw-medium);
-      line-height: 1;
-      white-space: nowrap;
+    .doc-option-grid .form-row {
+      min-width: 0;
     }
-    .seg__btn + .seg__btn { border-left: 1px solid var(--color-border-strong); }
-    .seg__btn:hover { background: var(--color-surface-soft); color: var(--color-text-secondary); }
-    .seg__btn.is-active {
-      /* Selected = 정책 일치 (RAG/chip/pill과 동일) */
-      background: var(--sel-bg-on);
-      color: var(--sel-cl-on);
-      font-weight: var(--fw-semibold);
+    .doc-option-grid .form-row__field {
+      display: block;
+      width: 100%;
     }
-    .num-input {
-      width: 64px;
-      height: 40px;
-      min-height: 40px;
-      padding: 0 var(--control-pad-x-sm);
-      border: 1px solid var(--color-border-strong);
-      border-radius: var(--r-sm);
-      font-size: var(--type-body-fs); color: var(--color-text-strong);
-      line-height: 40px;
-      text-align: center;
-    }
-    .num-input:focus { border-color: var(--color-text-secondary); }
-    .form-row__suffix {
-      display: inline-flex;
-      align-items: center;
-      height: 40px;
-      font-size: var(--type-body-fs);
-      line-height: 1;
-      color: var(--color-text-muted);
+    .doc-option-grid .ds-select {
+      width: 100%;
+      max-width: 100%;
     }
 
     /* primary 버튼 */
@@ -1130,40 +1098,48 @@
               </span>
             </header>
             <div class="card__body">
-              <div class="form-row">
-                <span class="form-row__label">문서 형식</span>
-                <span class="form-row__field">
-                  <span class="seg seg--count-2">
-                    <button type="button" class="seg__btn is-active">공식형</button>
-                    <button type="button" class="seg__btn">자유형</button>
-                  </span>
-                </span>
-              </div>
-              <div class="form-row">
-                <span class="form-row__label">요약 수준</span>
-                <span class="form-row__field">
-                  <span class="seg seg--count-2">
-                    <button type="button" class="seg__btn is-active">간단히 요약</button>
-                    <button type="button" class="seg__btn">자세히 요약</button>
-                  </span>
-                </span>
-              </div>
-              <div class="form-row">
-                <span class="form-row__label">문서 길이</span>
-                <span class="form-row__field">
-                  <span class="seg seg--count-3">
-                    <button type="button" class="seg__btn">짧게</button>
-                    <button type="button" class="seg__btn is-active">중간</button>
-                    <button type="button" class="seg__btn">길게</button>
-                  </span>
-                </span>
-              </div>
-              <div class="form-row">
-                <span class="form-row__label">페이지 수</span>
-                <span class="form-row__field">
-                  <input type="number" class="num-input" value="10" min="1" />
-                  <span class="form-row__suffix">페이지</span>
-                </span>
+              <div class="doc-option-grid" role="group" aria-label="문서 생성 옵션">
+                <div class="form-row">
+                  <label class="form-row__label" for="doc-opt-format">문서 형식</label>
+                  <div class="form-row__field">
+                    <select class="ds-select" id="doc-opt-format" name="doc-format" aria-label="문서 형식">
+                      <option value="official" selected>공식형</option>
+                      <option value="free">자유형</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <label class="form-row__label" for="doc-opt-summary">요약 수준</label>
+                  <div class="form-row__field">
+                    <select class="ds-select" id="doc-opt-summary" name="doc-summary" aria-label="요약 수준">
+                      <option value="brief" selected>간단히 요약</option>
+                      <option value="detailed">자세히 요약</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <label class="form-row__label" for="doc-opt-length">문서 길이</label>
+                  <div class="form-row__field">
+                    <select class="ds-select" id="doc-opt-length" name="doc-length" aria-label="문서 길이">
+                      <option value="short">짧게</option>
+                      <option value="medium" selected>중간</option>
+                      <option value="long">길게</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <label class="form-row__label" for="doc-opt-pages">페이지 수</label>
+                  <div class="form-row__field">
+                    <select class="ds-select" id="doc-opt-pages" name="doc-pages" aria-label="페이지 수">
+                      <option value="5">5페이지</option>
+                      <option value="10" selected>10페이지</option>
+                      <option value="15">15페이지</option>
+                      <option value="20">20페이지</option>
+                      <option value="25">25페이지</option>
+                      <option value="30">30페이지</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
           </article>
@@ -1451,16 +1427,6 @@
         if (!t) return;
         var active = t.classList.toggle('is-active');
         t.setAttribute('aria-pressed', active ? 'true' : 'false');
-      });
-    });
-
-    /* segmented 단일 선택 */
-    document.querySelectorAll('.page2-content .seg').forEach(function (seg) {
-      seg.addEventListener('click', function (e) {
-        var t = e.target.closest('.seg__btn');
-        if (!t) return;
-        seg.querySelectorAll('.seg__btn').forEach(function (b) { b.classList.remove('is-active'); });
-        t.classList.add('is-active');
       });
     });
 

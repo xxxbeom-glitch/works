@@ -521,6 +521,18 @@
       padding: var(--layout-card-padding) !important;
       gap: var(--space-xs) !important;
     }
+    /* 좌측 열: 검수현황 4칸 카드 행 세로 +15% (검색 카드는 flex:1 이라 동일 픽셀만큼 자연 감소) */
+    .review-layout__side .stat-summary-card__body {
+      padding: calc(var(--layout-card-padding) * 1.15) var(--layout-card-padding) !important;
+    }
+    .review-layout__side .stat-row__main {
+      align-items: stretch !important;
+    }
+    .review-layout__side .stat-cell {
+      padding: calc(7px * 1.15) 14px;
+      gap: calc(3px * 1.15);
+      justify-content: center;
+    }
     .stat-summary-card__meta {
       color: var(--color-text-muted);
       font-size: var(--type-caption-fs);

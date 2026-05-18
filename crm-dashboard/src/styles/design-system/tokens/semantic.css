@@ -30,8 +30,8 @@
      · 내부 카드/표/폼: --layer-content-bg·--color-surface-soft 등 불투명
      · 텍스트·아이콘: 별도 opacity로 흐리게 하지 않음 */
   --layer-viewport-bg:       #D9DEE5;
-  /* 화이트 glass: LNB·앱면·헤더 톤 통일 (alpha 0.72~0.82 권장 구간) */
-  --layer-app-bg:            rgba(255, 255, 255, 0.76);
+  /* 화이트 glass: LNB·앱면·헤더 톤 통일 (배경 이미지가 비치도록 alpha 0.52) */
+  --layer-app-bg:            rgba(255, 255, 255, 0.52);
   --layer-lnb-bg:            var(--layer-app-bg);
   --layer-panel-bg:          rgba(255, 255, 255, 0.48);
   --layer-content-bg:        var(--c-neutral-0);
@@ -194,8 +194,8 @@
 
   /* ── Layout ── */
   --layout-scale:           1;
-  --layout-header-h:        64px;
-  --layout-lnb-w:           96px;
+  --layout-header-h:        68px;
+  --layout-lnb-w:           64px;
   --layout-footer-h:        40px;
   --layout-page-pad-x:      32px;
   --layout-content-max:     none;
@@ -204,8 +204,8 @@
   --layout-card-pad:        18px;
   --layout-section-gap:     20px;
   --panel-collapsed-icon-top: 16px;
-  --layout-lnb-button-size: 56px;
-  --layout-lnb-brand-size:  64px;
+  --layout-lnb-button-size: 54px;
+  --layout-lnb-brand-size:  54px;
 
   /* layout semantic aliases */
   --layout-header-height:   var(--layout-header-h);
@@ -215,7 +215,7 @@
   --layout-card-padding:    var(--layout-card-pad);
   --layout-shell-pad-x:     var(--layout-page-pad-x);
   /* LNB: 상단(브랜드)·하단(접기) 아이콘까지 동일 인셋 */
-  --layout-lnb-pad-y:       36px;
+  --layout-lnb-pad-y:       12px;
   --layout-lnb-pad-top:     var(--layout-lnb-pad-y);
   --layout-lnb-pad-bottom:  var(--layout-lnb-pad-y);
   --layout-lnb-nav-gap:     12px;

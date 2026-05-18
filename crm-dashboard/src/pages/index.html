@@ -9112,7 +9112,7 @@
     }
 
     .page1-content {
-      --page1-expanded-content-w: 1824px;
+      --page1-expanded-content-w: 1856px;
       --col-1-w: 425px;
       --collapsed-panel-width: 56px;
       --panel-gap: 12px;
@@ -9157,6 +9157,19 @@
       transition:
         grid-template-columns 240ms cubic-bezier(0.22, 1, 0.36, 1),
         gap 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .page1-content .workspace__col--info,
+    .page1-content .workspace__col--live-stack,
+    .page1-content .workspace__col--ai {
+      overflow: visible !important;
+    }
+
+    .page1-content .live-composite .live-outer--know .live-inner.workspace-inner-card,
+    .page1-content .live-composite .live-outer--product .live-inner.workspace-inner-card,
+    .page1-content .workspace__col--ai .live-outer--ai .live-inner.ai-agent-inner,
+    .page1-content .workspace__col--ai .live-outer--ai .ai-agent-panel__scroll {
+      background: transparent !important;
     }
 
     @media (max-width: 1280px) {
@@ -12061,7 +12074,7 @@
 
         function collapseWidthReduction(keys) {
           var collapsedW = readCssPx("--collapsed-panel-width", 56);
-          var expandedContentW = readCssPx("--page1-expanded-content-w", 1824);
+          var expandedContentW = readCssPx("--page1-expanded-content-w", 1856);
           var workspacePad = readCssPx("--workspace-pad", 12);
           var panelGap = readCssPx("--panel-gap", 12);
           var infoW = readCssPx("--col-1-w", 425);

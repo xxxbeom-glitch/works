@@ -8189,15 +8189,15 @@
     
     .col-collapse-btn .col-collapse-btn__chev {
       display: block !important;
-      width: 16px !important;
-      height: 16px !important;
+      width: 20px !important;
+      height: 20px !important;
       flex-shrink: 0 !important;
       color: var(--color-surface-footer) !important;
       pointer-events: none !important;
     }
 
     .col-collapse-btn .col-collapse-btn__chev path {
-      stroke-width: 2.5 !important;
+      stroke-width: 1.8 !important;
     }
 
     
@@ -9173,9 +9173,10 @@
     .page1-content .workspace__col--info.is-collapsed,
     .page1-content .workspace__col--live-stack.is-collapsed,
     .page1-content .workspace__col--ai.is-collapsed {
-      background: transparent !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
+      background: rgba(205, 216, 238, 0.68) !important;
+      backdrop-filter: blur(var(--glass-blur-outer-column, 14px)) saturate(var(--glass-saturate-outer-column, 1.02)) !important;
+      -webkit-backdrop-filter: blur(var(--glass-blur-outer-column, 14px)) saturate(var(--glass-saturate-outer-column, 1.02)) !important;
+      border-radius: var(--radius-outer) !important;
     }
 
     .page1-content .live-composite .live-outer--know .live-inner.workspace-inner-card,
@@ -9337,16 +9338,19 @@
       width: 32px !important;
       height: 32px !important;
       min-width: 32px !important;
+      min-height: 32px !important;
+      max-width: 32px !important;
+      max-height: 32px !important;
       flex: 0 0 32px !important;
     }
 
     .workspace__col--info.is-collapsed .cinfo-panel__head-icon svg,
     .workspace__col--live-stack.is-collapsed .ds-col-head__icon svg,
     .workspace__col--ai.is-collapsed .ds-col-head__icon svg {
-      width: 20px !important;
-      height: 20px !important;
-      max-width: 20px !important;
-      max-height: 20px !important;
+      width: 24px !important;
+      height: 24px !important;
+      max-width: 24px !important;
+      max-height: 24px !important;
     }
 
     .workspace__col--live-stack.is-collapsed > .ds-panel-head .ds-col-head__end,
@@ -9486,8 +9490,8 @@
     }
 
     .live-outer--info .cinfo-panel__head-icon {
-      background: #DADFE4 !important;
-      color: var(--color-surface-footer) !important;
+      background: linear-gradient(100deg, rgba(65, 208, 140, 0) 0%, rgba(65, 208, 140, 0.6) 100%), #5785FB !important;
+      color: var(--color-text-inverse) !important;
     }
 
     .ai-agent-composer__send:hover {
@@ -9810,13 +9814,13 @@
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      width: 28px !important;
-      height: 28px !important;
-      min-width: 28px !important;
-      flex: 0 0 28px !important;
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      flex: 0 0 32px !important;
       border-radius: var(--r-sm) !important;
-      background: #DADFE4 !important;
-      color: var(--color-surface-footer) !important;
+      background: linear-gradient(100deg, rgba(65, 208, 140, 0) 0%, rgba(65, 208, 140, 0.6) 100%), #5785FB !important;
+      color: var(--color-text-inverse) !important;
     }
 
     .ds-panel-head__icon svg,
@@ -9832,7 +9836,7 @@
 
     .ds-panel-head__title,
     .ds-col-head__title {
-      font-size: var(--type-subheading-fs) !important;
+      font-size: var(--fs-16) !important;
       font-weight: var(--fw-semibold) !important;
       line-height: var(--lh-snug) !important;
       letter-spacing: -0.01em !important;
@@ -9840,7 +9844,7 @@
     }
 
     .cinfo-panel__head-title {
-      font-size: var(--type-subheading-fs) !important;
+      font-size: var(--fs-16) !important;
       font-weight: var(--fw-semibold) !important;
       line-height: var(--lh-snug) !important;
       letter-spacing: -0.01em !important;
@@ -9863,29 +9867,42 @@
       min-height: 32px !important;
       padding: 0 !important;
       border-radius: var(--radius-pill) !important;
-      background: var(--color-surface-card) !important;
-      color: var(--color-surface-footer) !important;
+      background: rgba(0, 0, 0, 0.10) !important;
+      color: rgba(0, 0, 0, 0.72) !important;
       font-size: var(--type-subheading-fs) !important;
     }
 
     .cinfo-panel__head .col-collapse-btn__chev,
     .ds-col-head .col-collapse-btn__chev,
     .ds-col-head__toggle .col-collapse-btn__chev {
-      width: 16px !important;
-      height: 16px !important;
-      color: var(--color-surface-footer) !important;
+      width: 20px !important;
+      height: 20px !important;
+      color: #475569 !important;
     }
 
     .cinfo-panel__head .col-collapse-btn__chev path,
     .ds-col-head .col-collapse-btn__chev path,
     .ds-col-head__toggle .col-collapse-btn__chev path {
-      stroke-width: 2.5 !important;
+      stroke-width: 1.8 !important;
     }
 
     .cinfo-panel__head .col-collapse-btn__chev--2,
     .ds-col-head .col-collapse-btn__chev--2,
     .ds-col-head__toggle .col-collapse-btn__chev--2 {
-      margin-left: -9px !important;
+      margin-left: 0 !important;
+    }
+
+    .cinfo-panel__head .col-collapse-btn:hover,
+    .ds-col-head .col-collapse-btn:hover,
+    .ds-col-head__toggle:hover,
+    .live-outer--info .cinfo-panel__collapse:hover,
+    button.col-collapse-btn:hover {
+      background: rgba(0, 0, 0, 0.14) !important;
+      color: rgba(0, 0, 0, 0.78) !important;
+    }
+
+    .col-collapse-btn[aria-expanded="false"] .col-collapse-btn__chev {
+      transform: none !important;
     }
 
     
@@ -9918,10 +9935,10 @@
       justify-content: center !important;
       height: 30px !important;
       padding: 0 10px !important;
-      border: 1px solid var(--color-border-strong) !important;
+      border: 1px solid transparent !important;
       border-radius: var(--radius-control) !important;
-      background: transparent !important;
-      color: var(--color-text-muted) !important;
+      background: rgba(0, 0, 0, 0.10) !important;
+      color: #475569 !important;
       font-size: var(--type-small-fs) !important;
       font-weight: var(--fw-medium) !important;
       line-height: 1 !important;
@@ -9930,9 +9947,9 @@
       -webkit-tap-highlight-color: transparent !important;
     }
     .ds-col-head--ai .ds-col-head__action-btn:hover {
-      background: var(--c-neutral-100) !important;
-      border-color: var(--color-border-strong) !important;
-      color: var(--color-text-secondary) !important;
+      background: rgba(0, 0, 0, 0.14) !important;
+      border-color: transparent !important;
+      color: #475569 !important;
     }
     .ds-col-head--ai .ds-col-head__action-btn:focus-visible {
       outline: 2px solid var(--c-neutral-400) !important;
@@ -10066,12 +10083,12 @@
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
-      width: 28px !important;
-      height: 28px !important;
-      min-width: 28px !important;
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
       border-radius: var(--r-sm) !important;
-      background: #DADFE4 !important;
-      color: var(--color-surface-footer) !important;
+      background: linear-gradient(100deg, rgba(65, 208, 140, 0) 0%, rgba(65, 208, 140, 0.6) 100%), #5785FB !important;
+      color: var(--color-text-inverse) !important;
     }
 
     .page1-content .cinfo-panel__head-icon svg {
@@ -10082,7 +10099,7 @@
     .page1-content .cinfo-panel__head-title {
       margin: 0 !important;
       color: var(--color-surface-footer) !important;
-      font-size: var(--type-subheading-fs) !important;
+      font-size: var(--fs-16) !important;
       font-weight: var(--fw-semibold) !important;
       line-height: var(--lh-snug) !important;
       letter-spacing: -0.01em !important;
@@ -10098,8 +10115,8 @@
       padding: 0 !important;
       border: 0 !important;
       border-radius: var(--radius-pill) !important;
-      background: var(--color-surface-card) !important;
-      color: var(--color-surface-footer) !important;
+      background: rgba(0, 0, 0, 0.10) !important;
+      color: rgba(0, 0, 0, 0.72) !important;
       box-shadow: none !important;
     }
 
@@ -10329,6 +10346,7 @@
       background: var(--color-surface-card) !important;
       border-color: #658AF3 !important;
       color: #658AF3 !important;
+      font-weight: var(--fw-semibold) !important;
     }
 
     .live-composite .live-outer--know .ka-doc__step--current {
@@ -10379,7 +10397,7 @@
                         aria-controls="info-side-drawer"
                         title="정보 패널 접기"
                         aria-label="정보 패널 접기"
-                      ><svg class="col-collapse-btn__chev" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="col-collapse-btn__chev col-collapse-btn__chev--2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                      ><svg class="col-collapse-btn__chev" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15.5 7.5H5.5M5.5 7.5L9.5 3.5M5.5 7.5L9.5 11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 16.5H18.5M18.5 16.5L14.5 12.5M18.5 16.5L14.5 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </header>
                     <div class="info-panel-stack">
                     <div class="card__body--scroll info-panel-card__body scroll-area" id="info-panel-main">
@@ -10561,7 +10579,7 @@
             aria-expanded="true"
             aria-label="상담 진행 패널 접기"
             title="상담 진행 패널 접기"
-          ><svg class="col-collapse-btn__chev" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="col-collapse-btn__chev col-collapse-btn__chev--2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          ><svg class="col-collapse-btn__chev" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15.5 7.5H5.5M5.5 7.5L9.5 3.5M5.5 7.5L9.5 11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 16.5H18.5M18.5 16.5L14.5 12.5M18.5 16.5L14.5 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             </header>
         <div class="live-composite live-composite--stack live-workspace-stack" aria-label="상담 어시스턴트 · STT · 상품 및 업무정보">
           <div class="live-stack-row live-stack-row--know">
@@ -10840,7 +10858,7 @@
             aria-expanded="true"
               aria-label="ShinA 패널 접기"
               title="ShinA 패널 접기"
-            ><svg class="col-collapse-btn__chev" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="col-collapse-btn__chev col-collapse-btn__chev--2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            ><svg class="col-collapse-btn__chev" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15.5 7.5H5.5M5.5 7.5L9.5 3.5M5.5 7.5L9.5 11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 16.5H18.5M18.5 16.5L14.5 12.5M18.5 16.5L14.5 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           </span>
         </header>
         <section class="card live-outer live-outer--ai workspace-main-card" id="ai-agent-panel" aria-labelledby="live-sect-title-ai">

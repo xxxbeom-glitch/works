@@ -484,10 +484,10 @@
       flex-shrink: 0;
     }
     .topbar__user-group .topbar__avatar {
-      width: 28px;
-      height: 28px;
-      min-width: 28px;
-      min-height: 28px;
+      width: 30px;
+      height: 30px;
+      min-width: 30px;
+      min-height: 30px;
       border: 0;
       border-radius: var(--radius-pill);
       background: rgba(255, 255, 255, 0.94);
@@ -506,9 +506,13 @@
       margin-left: 0;
     }
     .topbar__icon {
-      width: 16px;
-      height: 16px;
+      width: 26px;
+      height: 26px;
       display: block;
+    }
+    .topbar__icon circle,
+    .topbar__icon path {
+      stroke-width: 1.8;
     }
     .topbar__user-name {
       margin-left: 2px;
@@ -524,6 +528,12 @@
       line-height: var(--lh-tight);
       color: rgba(255, 255, 255, 0.72);
       white-space: nowrap;
+    }
+    .topbar__icon-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     /* ============================================================
@@ -792,19 +802,21 @@
             <span class="topbar__user-name">김신한</span>
             <span class="topbar__user-role">상담사</span>
           </span>
-          <a href="style-guide.html" target="_blank" rel="noopener" class="topbar__icon-btn" aria-label="도움말 (스타일 가이드 열기)" title="스타일 가이드 열기">
-            <svg class="topbar__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.7"/>
-              <path d="M9.75 9.25A2.35 2.35 0 0 1 12.1 7c1.32 0 2.4.86 2.4 2.14 0 1.05-.57 1.62-1.45 2.22-.67.46-1.05.84-1.05 1.64v.35" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M12 16.5h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-            </svg>
-          </a>
-          <button type="button" class="topbar__icon-btn" aria-label="알림">
-            <svg class="topbar__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M7.75 10.45a4.25 4.25 0 0 1 8.5 0v2.52c0 .54.18 1.07.52 1.49l.65.81c.42.53.05 1.31-.62 1.31H7.2c-.67 0-1.04-.78-.62-1.31l.65-.81c.34-.42.52-.95.52-1.49v-2.52Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-              <path d="M10.1 18.25a2.1 2.1 0 0 0 3.8 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-            </svg>
-          </button>
+          <span class="topbar__icon-group" aria-label="헤더 빠른 메뉴">
+            <a href="style-guide.html" target="_blank" rel="noopener" class="topbar__icon-btn" aria-label="도움말 (스타일 가이드 열기)" title="스타일 가이드 열기">
+              <svg class="topbar__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M9.75 9.25A2.35 2.35 0 0 1 12.1 7c1.32 0 2.4.86 2.4 2.14 0 1.05-.57 1.62-1.45 2.22-.67.46-1.05.84-1.05 1.64v.35" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 16.5h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              </svg>
+            </a>
+            <button type="button" class="topbar__icon-btn" aria-label="알림">
+              <svg class="topbar__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7.75 10.45a4.25 4.25 0 0 1 8.5 0v2.52c0 .54.18 1.07.52 1.49l.65.81c.42.53.05 1.31-.62 1.31H7.2c-.67 0-1.04-.78-.62-1.31l.65-.81c.34-.42.52-.95.52-1.49v-2.52Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                <path d="M10.1 18.25a2.1 2.1 0 0 0 3.8 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </span>
         </div>
       </div>
     </header>

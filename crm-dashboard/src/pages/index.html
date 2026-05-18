@@ -9162,7 +9162,18 @@
     .page1-content .workspace__col--info,
     .page1-content .workspace__col--live-stack,
     .page1-content .workspace__col--ai {
+      background: rgba(205, 216, 238, 0.68) !important;
+      backdrop-filter: blur(var(--glass-blur-outer-column, 14px)) saturate(var(--glass-saturate-outer-column, 1.02));
+      -webkit-backdrop-filter: blur(var(--glass-blur-outer-column, 14px)) saturate(var(--glass-saturate-outer-column, 1.02));
       overflow: visible !important;
+    }
+
+    .page1-content .workspace__col--info.is-collapsed,
+    .page1-content .workspace__col--live-stack.is-collapsed,
+    .page1-content .workspace__col--ai.is-collapsed {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
     }
 
     .page1-content .live-composite .live-outer--know .live-inner.workspace-inner-card,

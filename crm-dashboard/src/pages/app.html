@@ -32,6 +32,7 @@
       --lnb-visual-center-offset: 0px;
       --col-border: var(--color-border-default);
       --col-primary: var(--color-brand-primary);
+      --desktop-bg-image: url("../assets/bg/01.jpg");
       --font-stack: Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont,
                     "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
     }
@@ -47,12 +48,18 @@
       min-width: 100%;
       min-height: 100vh;
       overflow: auto;
+      background-color: var(--layer-viewport-bg);
+      background-image: var(--desktop-bg-image, none);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 150% auto;
+      background-attachment: fixed;
     }
     body {
       position: relative;
       display: grid;
       place-items: center;
-      background: var(--layer-viewport-bg);
+      background: transparent;
       color: var(--color-text-strong);
       font-family: var(--font-stack);
       font-size: var(--type-body-fs);
@@ -61,23 +68,20 @@
       isolation: isolate;
     }
 
-    /* 1. 배경 이미지 레이어 (가장 뒤, 1920x1080 고정, 블러/opacity 미적용) */
+    /* 1. 브라우저 배경 이미지 레이어 (가장 뒤, 전체 viewport 기준) */
     .app-desktop-bg {
       position: fixed;
-      left: 50%;
-      top: 50%;
-      width: var(--app-stage-w);
-      height: var(--app-stage-h);
-      transform: translate(-50%, -50%);
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
       z-index: 0;
       pointer-events: none;
       background-color: var(--layer-viewport-bg);
       background-image: var(--desktop-bg-image, none);
       background-position: center;
       background-repeat: no-repeat;
-      background-size: 1920px 1080px;
-      border-radius: 16px;
-      transition: width 240ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-size: 150% auto;
+      border-radius: 0;
     }
 
     /* 2. 앱 배경 레이어 — 단일 화이트 glass (--layer-app-bg + 동일 blur/saturate 토큰).
@@ -931,7 +935,7 @@
       var lnbTabGroup = document.querySelector('.lnb__tab-group');
       var lnbCollapseBtn = document.getElementById('lnb-collapse-btn');
       var backgroundImages = [
-        '../assets/bg/desktop-blue-wave.png'
+        '../assets/bg/01.jpg'
       ];
       var bgIndex = 0;
       var bgSwitcher = document.getElementById('bg-switcher');

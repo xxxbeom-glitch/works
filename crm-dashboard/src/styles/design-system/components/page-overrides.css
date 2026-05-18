@@ -266,11 +266,11 @@ html body .ds-select {
   height: 48px !important;
   border-radius: var(--radius-control) !important;
   
-  background: linear-gradient(123deg, #0046f9 59.03%, #4059f4 102.77%) !important;
+  background: linear-gradient(100deg, rgba(65, 208, 140, 0) 0%, rgba(65, 208, 140, 0.6) 100%), #5785FB !important;
   border-color: transparent !important;
 }
 .col__cta .btn-primary:hover {
-  background: linear-gradient(123deg, #0046f9 59.03%, #4059f4 102.77%) !important;
+  background: linear-gradient(100deg, rgba(65, 208, 140, 0) 0%, rgba(65, 208, 140, 0.6) 100%), #5785FB !important;
   border-color: transparent !important;
   filter: brightness(0.93);
 }
@@ -301,12 +301,12 @@ html body .ds-select {
 .btn-secondary.btn-secondary--primary:hover { background: var(--c-neutral-900) !important; border-color: var(--c-neutral-900) !important; }
 
 .page2-content .btn-secondary.btn-secondary--primary {
-  background: linear-gradient(123deg, #0046f9 59.03%, #4059f4 102.77%) !important;
+  background: linear-gradient(100deg, rgba(65, 208, 140, 0) 0%, rgba(65, 208, 140, 0.6) 100%), #5785FB !important;
   border-color: transparent !important;
   color: var(--color-text-inverse) !important;
 }
 .page2-content .btn-secondary.btn-secondary--primary:hover {
-  background: linear-gradient(123deg, #0046f9 59.03%, #4059f4 102.77%) !important;
+  background: linear-gradient(100deg, rgba(65, 208, 140, 0) 0%, rgba(65, 208, 140, 0.6) 100%), #5785FB !important;
   border-color: transparent !important;
   filter: brightness(0.93);
 }

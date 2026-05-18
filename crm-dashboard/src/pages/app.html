@@ -432,6 +432,17 @@
       transform: translateY(-50%);
       justify-content: flex-start;
     }
+    :root.is-page1-wide-panel-collapsed .mode-segmented {
+      grid-template-columns: var(--mode-tab-w);
+    }
+    :root.is-page1-wide-panel-collapsed .mode-segmented::before,
+    :root.is-page1-wide-panel-collapsed .mode-segmented:has(.mode-segmented__btn:nth-child(2).is-active)::before {
+      width: var(--mode-tab-w);
+      transform: translateX(0);
+    }
+    :root.is-page1-wide-panel-collapsed .mode-segmented__btn:not(.is-active) {
+      display: none;
+    }
 
     /* 우측 사용자 영역 */
     .topbar__actions {
@@ -960,6 +971,7 @@
         activePage = page;
         document.documentElement.classList.remove('is-shell-compact');
         document.documentElement.classList.remove('is-page1-two-panels-collapsed');
+        document.documentElement.classList.remove('is-page1-wide-panel-collapsed');
         document.documentElement.style.setProperty('--page1-collapse-reduction', '0px');
         var activeIndex = 0;
         buttons.forEach(function (btn, index) {
@@ -1025,15 +1037,21 @@
         if (!data) return;
         if (data.type === 'crm:page1-collapse-state') {
           var reduction = Number(data.widthReduction || 0);
+          var collapsedKeys = Array.isArray(data.collapsedKeys) ? data.collapsedKeys : [];
           if (!isFinite(reduction) || reduction < 0) reduction = 0;
           document.documentElement.classList.remove('is-shell-compact');
           document.documentElement.classList.toggle('is-page1-two-panels-collapsed', Number(data.collapsedCount || 0) >= 2);
+          document.documentElement.classList.toggle(
+            'is-page1-wide-panel-collapsed',
+            collapsedKeys.indexOf('live') !== -1 || collapsedKeys.indexOf('ai') !== -1
+          );
           document.documentElement.style.setProperty('--page1-collapse-reduction', reduction.toFixed(1) + 'px');
           return;
         }
         if (data.type === 'crm:page1-info-panel') {
           document.documentElement.classList.remove('is-shell-compact');
           document.documentElement.classList.remove('is-page1-two-panels-collapsed');
+          document.documentElement.classList.remove('is-page1-wide-panel-collapsed');
           document.documentElement.style.setProperty('--page1-collapse-reduction', data.expanded === false ? '369px' : '0px');
         }
       });

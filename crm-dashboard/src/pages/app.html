@@ -427,10 +427,10 @@
     .mode-segmented__btn:not(.is-active):hover {
       color: rgba(255, 255, 255, 0.92);
     }
-    :root.is-page1-two-panels-collapsed .topbar {
+    :root.is-page1-panel-collapsed .topbar {
       padding-left: 0;
     }
-    :root.is-page1-two-panels-collapsed .topbar__modes {
+    :root.is-page1-panel-collapsed .topbar__modes {
       left: 0;
       transform: translateY(-50%);
       justify-content: flex-start;
@@ -962,6 +962,7 @@
         opts = opts || {};
         activePage = page;
         document.documentElement.classList.remove('is-shell-compact');
+        document.documentElement.classList.remove('is-page1-panel-collapsed');
         document.documentElement.classList.remove('is-page1-two-panels-collapsed');
         document.documentElement.style.setProperty('--page1-collapse-reduction', '0px');
         var activeIndex = 0;
@@ -1030,12 +1031,14 @@
           var reduction = Number(data.widthReduction || 0);
           if (!isFinite(reduction) || reduction < 0) reduction = 0;
           document.documentElement.classList.remove('is-shell-compact');
+          document.documentElement.classList.toggle('is-page1-panel-collapsed', Number(data.collapsedCount || 0) >= 1);
           document.documentElement.classList.toggle('is-page1-two-panels-collapsed', Number(data.collapsedCount || 0) >= 2);
           document.documentElement.style.setProperty('--page1-collapse-reduction', reduction.toFixed(1) + 'px');
           return;
         }
         if (data.type === 'crm:page1-info-panel') {
           document.documentElement.classList.remove('is-shell-compact');
+          document.documentElement.classList.toggle('is-page1-panel-collapsed', data.expanded === false);
           document.documentElement.classList.remove('is-page1-two-panels-collapsed');
           document.documentElement.style.setProperty('--page1-collapse-reduction', data.expanded === false ? '369px' : '0px');
         }

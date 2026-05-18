@@ -194,8 +194,8 @@
 
   /* ── Layout ── */
   --layout-scale:           1;
-  --layout-header-h:        66px;
-  --layout-lnb-w:           64px;
+  --layout-header-h:        62px;
+  --layout-lnb-w:           96px;
   --layout-footer-h:        40px;
   --layout-page-pad-x:      32px;
   --layout-content-max:     none;
@@ -204,8 +204,8 @@
   --layout-card-pad:        18px;
   --layout-section-gap:     20px;
   --panel-collapsed-icon-top: 16px;
-  --layout-lnb-button-size: 54px;
-  --layout-lnb-brand-size:  54px;
+  --layout-lnb-button-size: 64px;
+  --layout-lnb-brand-size:  72px;
 
   /* layout semantic aliases */
   --layout-header-height:   var(--layout-header-h);

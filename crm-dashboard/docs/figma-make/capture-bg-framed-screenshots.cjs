@@ -4,14 +4,17 @@ const { chromium } = require("playwright");
 
 const repoRoot = path.resolve(__dirname, "..", "..");
 const appPath = path.join(repoRoot, "src", "pages", "app.html");
+const bgPath = path.join(repoRoot, "src", "assets", "bg", "01.jpg");
 const outDir = path.join(repoRoot, "docs", "figma-make", "screenshots");
 
-/** 출력 캔버스: 1920×1080 고정 */
+/** 출력 캔버스 — 참고 시안과 동일 1920×1080 */
 const VIEWPORT = { width: 1920, height: 1080 };
+const BG_URL = 'url("file:///' + bgPath.replace(/\\/g, "/") + '")';
 
 /**
- * app.html 과 동일한 바탕화면(150% auto) — 캔버스 전체를 채우고 프레임 뒤·좌우에 보임.
- * contain/cover/프레임폭 리사이즈 사용하지 않음.
+ * 참고 시안:
+ * - 바탕화면: 1920×1080 전체를 가장자리까지 채움 (cover)
+ * - UI 프레임: 중앙에 떠 있고 상·하·좌·우에 배경이 보임 (zoom으로 축소)
  */
 const CAPTURE_CSS = `
   html,
@@ -30,13 +33,26 @@ const CAPTURE_CSS = `
     place-items: center !important;
   }
   .app-desktop-bg {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 0 !important;
+    background-image: ${BG_URL} !important;
     background-color: transparent !important;
-    background-size: 150% auto !important;
+    background-size: cover !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
   }
-  html {
-    background-image: none !important;
+  .app-stage {
+    position: relative !important;
+    z-index: 1 !important;
+    zoom: 0.86 !important;
+    border-radius: 16px !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.48) !important;
+    box-shadow: 0 24px 80px rgba(8, 20, 48, 0.28) !important;
   }
   .bg-switcher {
     display: none !important;
@@ -79,10 +95,21 @@ function fileUrl(pageNumber) {
 }
 
 async function clickPanel(frame, selector) {
-  const target = frame.locator(selector);
-  await target.waitFor({ state: "visible" });
-  await target.click();
-  await frame.page().waitForTimeout(700);
+  await frame.evaluate((sel) => {
+    const btn = document.querySelector(sel);
+    if (!btn) throw new Error("missing " + sel);
+    btn.click();
+  }, selector);
+  await frame.page().waitForTimeout(900);
+}
+
+async function waitForReady(page) {
+  await page.waitForSelector(".app-desktop-bg");
+  await page.waitForFunction(() => {
+    const bg = document.querySelector(".app-desktop-bg");
+    return bg && getComputedStyle(bg).backgroundImage !== "none";
+  });
+  await page.waitForTimeout(500);
 }
 
 async function captureScenario(browser, scenario) {
@@ -92,20 +119,21 @@ async function captureScenario(browser, scenario) {
   });
 
   try {
-    await page.goto(fileUrl(scenario.page), { waitUntil: "load" });
+    await page.goto(fileUrl(scenario.page), { waitUntil: "networkidle" });
     await page.addStyleTag({ content: CAPTURE_CSS });
     await page.waitForSelector("#page-frame");
-    await page.waitForTimeout(800);
+    await waitForReady(page);
 
     const frameHandle = await page.$("#page-frame");
     const frame = await frameHandle.contentFrame();
-    await frame.waitForLoadState("load");
-    await frame.waitForTimeout(500);
+    await frame.waitForLoadState("networkidle");
+    await frame.waitForTimeout(600);
 
     for (const selector of scenario.clicks) {
       await clickPanel(frame, selector);
     }
-    await page.waitForTimeout(900);
+    await page.waitForTimeout(1200);
+    await waitForReady(page);
 
     const outputPath = path.join(outDir, scenario.file);
     await page.screenshot({ path: outputPath, type: "png" });

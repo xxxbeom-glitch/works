@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>화면 캡처 갤러리</title>
+  <link rel="stylesheet" href="../styles/design-system/index.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-sans);
+      background: var(--color-surface-app);
+      color: var(--color-text-default);
+    }
+
+    .sc-page {
+      max-width: 100%;
+      padding: 32px 40px 80px;
+    }
+
+    .sc-header {
+      margin-bottom: 40px;
+    }
+
+    .sc-header h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: var(--fw-bold);
+      color: var(--color-text-strong);
+      letter-spacing: -0.02em;
+    }
+
+    .sc-header p {
+      margin: 0;
+      font-size: var(--type-body-fs);
+      color: var(--color-text-muted);
+      line-height: var(--lh-relaxed);
+    }
+
+    .sc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+    }
+
+    .sc-item {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sc-item__meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .sc-item__title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: var(--fw-semibold);
+      color: var(--color-text-strong);
+    }
+
+    .sc-item__file {
+      font-size: var(--type-caption-fs);
+      color: var(--color-text-soft);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .sc-item__frame {
+      overflow: auto;
+      border-radius: 12px;
+      border: 1px solid var(--color-border-default);
+      background: #0f172a;
+      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    .sc-item__img {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: none;
+    }
+  </style>
+</head>
+<body>
+  <main class="sc-page">
+    <header class="sc-header">
+      <h1>화면 캡처 갤러리</h1>
+      <p>풀 페이지 배경 포함 · 상·하 26px 여백 · 원본 해상도(1920×1132) PNG</p>
+    </header>
+
+    <div class="sc-list" id="sc-list"></div>
+  </main>
+
+  <script>
+    (function () {
+      var SHOT_DIR = "../../docs/figma-make/screenshots/";
+      var CAPTURES = [
+        { file: "page1-default-bg-framed.png", title: "1페이지 · 기본 전체화면" },
+        { file: "page1-panel1-collapsed-bg-framed.png", title: "1페이지 · 1번 패널만 접힘" },
+        { file: "page1-panel1-2-collapsed-bg-framed.png", title: "1페이지 · 1·2번 패널 접힘" },
+        { file: "page1-panel1-3-collapsed-bg-framed.png", title: "1페이지 · 1·3번 패널 접힘" },
+        { file: "page1-panel2-3-collapsed-bg-framed.png", title: "1페이지 · 2·3번 패널 접힘" },
+        { file: "page1-panel3-collapsed-bg-framed.png", title: "1페이지 · 3번 패널만 접힘" },
+        { file: "page2-default-bg-framed.png", title: "2페이지 · 기본 전체화면" },
+        { file: "page3-default-bg-framed.png", title: "3페이지 · 기본 전체화면" }
+      ];
+
+      var list = document.getElementById("sc-list");
+      CAPTURES.forEach(function (item, index) {
+        var article = document.createElement("article");
+        article.className = "sc-item";
+        article.id = "capture-" + (index + 1);
+
+        var meta = document.createElement("div");
+        meta.className = "sc-item__meta";
+        meta.innerHTML =
+          '<h2 class="sc-item__title">' + item.title + "</h2>" +
+          '<span class="sc-item__file">' + item.file + "</span>";
+
+        var frame = document.createElement("div");
+        frame.className = "sc-item__frame";
+
+        var img = document.createElement("img");
+        img.className = "sc-item__img";
+        img.src = SHOT_DIR + item.file;
+        img.alt = item.title;
+        img.width = 1920;
+        img.height = 1132;
+        img.loading = index === 0 ? "eager" : "lazy";
+
+        frame.appendChild(img);
+        article.appendChild(meta);
+        article.appendChild(frame);
+        list.appendChild(article);
+      });
+    })();
+  </script>
+</body>
+</html>

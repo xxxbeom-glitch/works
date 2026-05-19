@@ -6,10 +6,14 @@ const repoRoot = path.resolve(__dirname, "..", "..");
 const appPath = path.join(repoRoot, "src", "pages", "app.html");
 const outDir = path.join(repoRoot, "docs", "figma-make", "screenshots");
 
-/** 실제 바탕화면(1920×1080) — 앱 프레임 폭과 무관하게 고정 */
+/** 캡처 캔버스: 항상 1920×1080 */
 const VIEWPORT = { width: 1920, height: 1080 };
 
-/** app.html 과 동일: 바탕화면이 좌우까지 채워지고 뒤에 풀로 보이도록 */
+/**
+ * - 바탕화면: contain → 이미지 전체가 캔버스 안에 들어가 상·하·좌·우 어느 방향도 잘리지 않음
+ * - 프레임(.app-stage): body grid 로 중앙 정렬 (접힘 시 좌우 배경 노출)
+ * - 레터박스: 회색 대신 벽지 톤에 맞는 어두운 색
+ */
 const CAPTURE_CSS = `
   html,
   body {
@@ -27,8 +31,8 @@ const CAPTURE_CSS = `
     place-items: center !important;
   }
   .app-desktop-bg {
-    background-color: transparent !important;
-    background-size: 150% auto !important;
+    background-color: #0f1a2e !important;
+    background-size: contain !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
   }

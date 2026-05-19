@@ -6,21 +6,19 @@ const repoRoot = path.resolve(__dirname, "..", "..");
 const appPath = path.join(repoRoot, "src", "pages", "app.html");
 const outDir = path.join(repoRoot, "docs", "figma-make", "screenshots");
 
-const APP_W = 1920;
-const APP_H = 1080;
-const FRAME_GAP_Y = 26;
-const VIEWPORT = {
-  width: APP_W,
-  height: APP_H + FRAME_GAP_Y * 2,
-};
+/** 실제 바탕화면(1920×1080) — 앱 프레임 폭과 무관하게 고정 */
+const VIEWPORT = { width: 1920, height: 1080 };
 
+/** app.html 과 동일: 바탕화면이 좌우까지 채워지고 뒤에 풀로 보이도록 */
 const CAPTURE_CSS = `
   html,
   body {
     margin: 0 !important;
     padding: 0 !important;
-    min-height: ${VIEWPORT.height}px !important;
+    width: ${VIEWPORT.width}px !important;
+    min-width: ${VIEWPORT.width}px !important;
     height: ${VIEWPORT.height}px !important;
+    min-height: ${VIEWPORT.height}px !important;
     overflow: hidden !important;
     background: transparent !important;
   }
@@ -30,8 +28,9 @@ const CAPTURE_CSS = `
   }
   .app-desktop-bg {
     background-color: transparent !important;
-    background-size: cover !important;
+    background-size: 150% auto !important;
     background-position: center center !important;
+    background-repeat: no-repeat !important;
   }
   html {
     background-image: none !important;
@@ -104,22 +103,6 @@ async function captureScenario(browser, scenario) {
       await clickPanel(frame, selector);
     }
     await page.waitForTimeout(900);
-
-    const stage = page.locator(".app-stage");
-    await stage.waitFor({ state: "visible" });
-    const box = await stage.boundingBox();
-    if (!box) throw new Error("app-stage bounding box not found");
-
-    const viewportWidth = Math.max(1, Math.round(box.width));
-    const viewportHeight = Math.max(
-      1,
-      Math.round(box.height + FRAME_GAP_Y * 2)
-    );
-    await page.setViewportSize({
-      width: viewportWidth,
-      height: viewportHeight,
-    });
-    await page.waitForTimeout(400);
 
     const outputPath = path.join(outDir, scenario.file);
     await page.screenshot({ path: outputPath, type: "png" });

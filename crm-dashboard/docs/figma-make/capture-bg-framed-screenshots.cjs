@@ -13,7 +13,7 @@ const BG_URL = 'url("file:///' + bgPath.replace(/\\/g, "/") + '")';
 
 /**
  * 참고 시안:
- * - 바탕화면: 1920×1080 전체를 가장자리까지 채움 (cover)
+ * - 바탕화면: Windows 배율 150% 와 동일 (background-size: 150% auto)
  * - UI 프레임: 중앙에 떠 있고 상·하·좌·우에 배경이 보임 (zoom으로 축소)
  */
 const CAPTURE_CSS = `
@@ -40,7 +40,7 @@ const CAPTURE_CSS = `
     z-index: 0 !important;
     background-image: ${BG_URL} !important;
     background-color: transparent !important;
-    background-size: cover !important;
+    background-size: 150% auto !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
   }

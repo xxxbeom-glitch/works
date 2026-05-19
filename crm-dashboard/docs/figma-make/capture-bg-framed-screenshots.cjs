@@ -29,7 +29,8 @@ const CAPTURE_CSS = `
     place-items: center !important;
   }
   .app-desktop-bg {
-    background-size: contain !important;
+    background-color: transparent !important;
+    background-size: cover !important;
     background-position: center center !important;
   }
   html {
@@ -102,6 +103,23 @@ async function captureScenario(browser, scenario) {
     for (const selector of scenario.clicks) {
       await clickPanel(frame, selector);
     }
+    await page.waitForTimeout(900);
+
+    const stage = page.locator(".app-stage");
+    await stage.waitFor({ state: "visible" });
+    const box = await stage.boundingBox();
+    if (!box) throw new Error("app-stage bounding box not found");
+
+    const viewportWidth = Math.max(1, Math.round(box.width));
+    const viewportHeight = Math.max(
+      1,
+      Math.round(box.height + FRAME_GAP_Y * 2)
+    );
+    await page.setViewportSize({
+      width: viewportWidth,
+      height: viewportHeight,
+    });
+    await page.waitForTimeout(400);
 
     const outputPath = path.join(outDir, scenario.file);
     await page.screenshot({ path: outputPath, type: "png" });

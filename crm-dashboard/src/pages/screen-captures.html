@@ -76,7 +76,7 @@
       overflow: auto;
       border-radius: 12px;
       border: 1px solid var(--color-border-default);
-      background: #0f172a;
+      background: var(--color-surface-app);
       box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
     }
 
@@ -92,7 +92,7 @@
   <main class="sc-page">
     <header class="sc-header">
       <h1>화면 캡처 갤러리</h1>
-      <p>풀 페이지 배경 포함 · 상·하 26px 여백 · 원본 해상도(1920×1132) PNG</p>
+      <p>풀 페이지 배경 포함 · 상·하 26px 여백 · 패널 상태별 원본 PNG</p>
     </header>
 
     <div class="sc-list" id="sc-list"></div>
@@ -131,9 +131,8 @@
         img.className = "sc-item__img";
         img.src = SHOT_DIR + item.file;
         img.alt = item.title;
-        img.width = 1920;
-        img.height = 1132;
         img.loading = index === 0 ? "eager" : "lazy";
+        img.decoding = "async";
 
         frame.appendChild(img);
         article.appendChild(meta);
